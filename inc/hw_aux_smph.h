@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_aux_smph.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_aux_smph_h
+*  Revised:        2015-02-10 21:34:21 +0100 (ti, 10 feb 2015)
+*  Revision:       42642
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -36,7 +36,6 @@
 
 #ifndef __HW_AUX_SMPH_H__
 #define __HW_AUX_SMPH_H__
-
 
 //*****************************************************************************
 //
@@ -76,7 +75,7 @@
 // Register: AUX_SMPH_O_SMPH0
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -86,16 +85,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH0_STAT                                         0x00000001
-#define AUX_SMPH_SMPH0_STAT_BITN                                    0
+#define AUX_SMPH_SMPH0_STAT_BITN                                             0
 #define AUX_SMPH_SMPH0_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH0_STAT_S                                       0
+#define AUX_SMPH_SMPH0_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_SMPH1
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -105,16 +104,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH1_STAT                                         0x00000001
-#define AUX_SMPH_SMPH1_STAT_BITN                                    0
+#define AUX_SMPH_SMPH1_STAT_BITN                                             0
 #define AUX_SMPH_SMPH1_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH1_STAT_S                                       0
+#define AUX_SMPH_SMPH1_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_SMPH2
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -124,16 +123,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH2_STAT                                         0x00000001
-#define AUX_SMPH_SMPH2_STAT_BITN                                    0
+#define AUX_SMPH_SMPH2_STAT_BITN                                             0
 #define AUX_SMPH_SMPH2_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH2_STAT_S                                       0
+#define AUX_SMPH_SMPH2_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_SMPH3
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -143,16 +142,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH3_STAT                                         0x00000001
-#define AUX_SMPH_SMPH3_STAT_BITN                                    0
+#define AUX_SMPH_SMPH3_STAT_BITN                                             0
 #define AUX_SMPH_SMPH3_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH3_STAT_S                                       0
+#define AUX_SMPH_SMPH3_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_SMPH4
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -162,16 +161,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH4_STAT                                         0x00000001
-#define AUX_SMPH_SMPH4_STAT_BITN                                    0
+#define AUX_SMPH_SMPH4_STAT_BITN                                             0
 #define AUX_SMPH_SMPH4_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH4_STAT_S                                       0
+#define AUX_SMPH_SMPH4_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_SMPH5
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -181,16 +180,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH5_STAT                                         0x00000001
-#define AUX_SMPH_SMPH5_STAT_BITN                                    0
+#define AUX_SMPH_SMPH5_STAT_BITN                                             0
 #define AUX_SMPH_SMPH5_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH5_STAT_S                                       0
+#define AUX_SMPH_SMPH5_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_SMPH6
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -200,16 +199,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH6_STAT                                         0x00000001
-#define AUX_SMPH_SMPH6_STAT_BITN                                    0
+#define AUX_SMPH_SMPH6_STAT_BITN                                             0
 #define AUX_SMPH_SMPH6_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH6_STAT_S                                       0
+#define AUX_SMPH_SMPH6_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_SMPH7
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -219,27 +218,28 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1
 #define AUX_SMPH_SMPH7_STAT                                         0x00000001
-#define AUX_SMPH_SMPH7_STAT_BITN                                    0
+#define AUX_SMPH_SMPH7_STAT_BITN                                             0
 #define AUX_SMPH_SMPH7_STAT_M                                       0x00000001
-#define AUX_SMPH_SMPH7_STAT_S                                       0
+#define AUX_SMPH_SMPH7_STAT_S                                                0
 
 //*****************************************************************************
 //
 // Register: AUX_SMPH_O_AUTOTAKE
 //
 //*****************************************************************************
-// Field: [2:0] SMPH_ID
+// Field:   [2:0] SMPH_ID
 //
-// Requesting a certain semaphore is done by writing the corresponding semaphore
-// ID, 0x0-0x7, to SMPH_ID. The request is sticky and once the semaphore becomes
-// available it will be taken. At the same time, SMPH_AUTOTAKE_DONE event is
-// asserted. This event is deasserted when SW releases the semaphore or a new ID is
-// written to SMPH_ID.
+// Requesting a certain semaphore is done by writing the corresponding
+// semaphore ID, 0x0-0x7, to SMPH_ID. The request is sticky and once the
+// semaphore becomes available it will be taken. At the same time,
+// SMPH_AUTOTAKE_DONE event is asserted. This event is deasserted when SW
+// releases the semaphore or a new ID is written to SMPH_ID.
 //
-// Note: SW must wait until SMPH_AUTOTAKE_DONE event is triggered before writing
-// a new ID to SMPH_ID . Failing to do so might lead to permanently lost
-// semaphores as the owners may be unknown
+// Note: SW must wait until SMPH_AUTOTAKE_DONE event is triggered before
+// writing a new ID to SMPH_ID . Failing to do so might lead to permanently
+// lost semaphores as the owners may be unknown
 #define AUX_SMPH_AUTOTAKE_SMPH_ID_M                                 0x00000007
-#define AUX_SMPH_AUTOTAKE_SMPH_ID_S                                 0
+#define AUX_SMPH_AUTOTAKE_SMPH_ID_S                                          0
 
-#endif // __HW_AUX_SMPH_H__
+
+#endif // __AUX_SMPH__

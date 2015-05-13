@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       prcm.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-02-13 13:30:59 +0100 (fr, 13 feb 2015)
+*  Revision:       42716
 *
 *  Description:    Driver for the PRCM.
 *
@@ -49,10 +49,6 @@
     #define PRCMInfClockConfigureSet        NOROM_PRCMInfClockConfigureSet
     #undef  PRCMInfClockConfigureGet
     #define PRCMInfClockConfigureGet        NOROM_PRCMInfClockConfigureGet
-    #undef  PRCMClockConfigureSet
-    #define PRCMClockConfigureSet           NOROM_PRCMClockConfigureSet
-    #undef  PRCMClockConfigureGet
-    #define PRCMClockConfigureGet           NOROM_PRCMClockConfigureGet
     #undef  PRCMAudioClockConfigSet
     #define PRCMAudioClockConfigSet         NOROM_PRCMAudioClockConfigSet
     #undef  PRCMAudioClockConfigSetOverride
@@ -77,10 +73,6 @@
     #define PRCMPowerDomainStatus           NOROM_PRCMPowerDomainStatus
     #undef  PRCMDeepSleep
     #define PRCMDeepSleep                   NOROM_PRCMDeepSleep
-    #undef  PRCMRetentionEnable
-    #define PRCMRetentionEnable             NOROM_PRCMRetentionEnable
-    #undef  PRCMRetentionDisable
-    #define PRCMRetentionDisable            NOROM_PRCMRetentionDisable
 #endif
 
 
@@ -266,116 +258,6 @@ PRCMInfClockConfigureGet(uint32_t ui32PowerMode)
     return ui32Divisor;
 }
 
-//*****************************************************************************
-//
-//! Setup the clock division factor for a subsystem in the MCU voltage
-//! domain.
-//
-//*****************************************************************************
-void
-PRCMClockConfigureSet(uint32_t ui32Domains, uint32_t ui32ClkDiv)
-{
-    uint32_t ui32Reg;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32Domains & PRCM_DOMAIN_SYSBUS) ||
-           (ui32Domains & PRCM_DOMAIN_CPU) ||
-           (ui32Domains & PRCM_DOMAIN_PERIPH) ||
-           (ui32Domains & PRCM_DOMAIN_TIMER) ||
-           (ui32Domains & PRCM_DOMAIN_SERIAL));
-    ASSERT((ui32ClkDiv == PRCM_CLOCK_DIV_1) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_2) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_4) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_8) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_16) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_32) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_64) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_128) ||
-           (ui32ClkDiv == PRCM_CLOCK_DIV_256));
-
-    //
-    // Configure the selected clock dividers.
-    //
-    if(ui32Domains & PRCM_DOMAIN_SYSBUS)
-    {
-        ui32Reg = PRCM_O_SYSBUSCLKDIV;
-        HWREG(PRCM_BASE + ui32Reg) = ui32ClkDiv;
-    }
-    if(ui32Domains & PRCM_DOMAIN_CPU)
-    {
-        ui32Reg = PRCM_O_CPUCLKDIV;
-        HWREG(PRCM_BASE + ui32Reg) = ui32ClkDiv;
-    }
-    if(ui32Domains & PRCM_DOMAIN_PERIPH)
-    {
-        ui32Reg = PRCM_O_PERBUSCPUCLKDIV;
-        HWREG(PRCM_BASE + ui32Reg) = ui32ClkDiv;
-    }
-    if(ui32Domains & PRCM_DOMAIN_SERIAL)
-    {
-        ui32Reg = PRCM_O_PERDMACLKDIV;
-        HWREG(PRCM_BASE + ui32Reg) = ui32ClkDiv;
-    }
-    if(ui32Domains & PRCM_DOMAIN_TIMER)
-    {
-        ui32Reg = PRCM_O_GPTCLKDIV;
-        HWREG(PRCM_BASE + ui32Reg) = ui32ClkDiv;
-    }
-}
-
-//*****************************************************************************
-//
-//! Get the clock configuration for a specific sub system in the MCU Voltage
-//! Domain.
-//
-//*****************************************************************************
-uint32_t
-PRCMClockConfigureGet(uint32_t ui32Domain)
-{
-    uint32_t ui32ClkDiv;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32Domain == PRCM_DOMAIN_SYSBUS) ||
-           (ui32Domain == PRCM_DOMAIN_CPU) ||
-           (ui32Domain == PRCM_DOMAIN_PERIPH) ||
-           (ui32Domain == PRCM_DOMAIN_TIMER) ||
-           (ui32Domain == PRCM_DOMAIN_SERIAL));
-
-    ui32ClkDiv = 0;
-
-    //
-    // Find the correct sub system.
-    //
-    if(ui32Domain == PRCM_DOMAIN_SYSBUS)
-    {
-        ui32ClkDiv = HWREG(PRCM_BASE + PRCM_O_SYSBUSCLKDIV);
-    }
-    else if(ui32Domain == PRCM_DOMAIN_CPU)
-    {
-        ui32ClkDiv = HWREG(PRCM_BASE + PRCM_O_CPUCLKDIV);
-    }
-    else if(ui32Domain == PRCM_DOMAIN_PERIPH)
-    {
-        ui32ClkDiv = HWREG(PRCM_BASE + PRCM_O_PERBUSCPUCLKDIV);
-    }
-    else if(ui32Domain == PRCM_DOMAIN_SERIAL)
-    {
-        ui32ClkDiv = HWREG(PRCM_BASE + PRCM_O_PERDMACLKDIV);
-    }
-    else if(ui32Domain == PRCM_DOMAIN_TIMER)
-    {
-        ui32ClkDiv = HWREG(PRCM_BASE + PRCM_O_GPTCLKDIV);
-    }
-
-    //
-    // Return the clock configuration.
-    //
-    return(ui32ClkDiv);
-}
 
 //*****************************************************************************
 //
@@ -788,134 +670,4 @@ PRCMDeepSleep(void)
     // Disable deep-sleep so that a future sleep will work correctly.
     //
     HWREG(NVIC_SYS_CTRL) &= ~(NVIC_SYS_CTRL_SLEEPDEEP);
-}
-
-//*****************************************************************************
-//
-//! Enable retention on specific power domains
-//
-//*****************************************************************************
-void
-PRCMRetentionEnable(uint32_t ui32PowerDomain)
-{
-    uint32_t ui32Retention;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((PRCM_DOMAIN_PERIPH & ui32PowerDomain) ||
-           (PRCM_DOMAIN_CPU & ui32PowerDomain));
-
-    //
-    // Get the current register.
-    //
-    ui32Retention = HWREG(PRCM_BASE + PRCM_O_PDRETEN);
-
-    //
-    // Set the bits.
-    //
-    if(PRCM_DOMAIN_PERIPH & ui32PowerDomain)
-    {
-        ui32Retention |= PRCM_PDRETEN_PERIPH;
-    }
-    if(PRCM_DOMAIN_CPU & ui32PowerDomain)
-    {
-        ui32Retention |= PRCM_PDRETEN_CPU;
-    }
-
-    //
-    // Reconfigure retention.
-    //
-    HWREG(PRCM_BASE + PRCM_O_PDRETEN) = ui32Retention;
-
-    //
-    // Get the current register values.
-    //
-    ui32Retention = HWREG(PRCM_BASE + PRCM_O_RAMRETEN);
-
-    //
-    // Enable retention on RF core SRAM.
-    //
-    if(PRCM_DOMAIN_RFCORE & ui32PowerDomain)
-    {
-        ui32Retention |= PRCM_RAMRETEN_RFC_M;
-    }
-
-    //
-    // Enable retention on VIMS cache.
-    //
-    if(PRCM_DOMAIN_VIMS & ui32PowerDomain)
-    {
-        ui32Retention |= PRCM_RAMRETEN_VIMS_M;
-    }
-
-    //
-    // Reconfigure retention.
-    //
-    HWREG(PRCM_BASE + PRCM_O_RAMRETEN) = ui32Retention;
-}
-
-//*****************************************************************************
-//
-//! Disable retention on power domains
-//
-//*****************************************************************************
-void
-PRCMRetentionDisable(uint32_t ui32PowerDomain)
-{
-    uint32_t ui32Retention;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((PRCM_DOMAIN_PERIPH & ui32PowerDomain) ||
-           (PRCM_DOMAIN_CPU & ui32PowerDomain));
-
-    //
-    // Get the current register.
-    //
-    ui32Retention = HWREG(PRCM_BASE + PRCM_O_PDRETEN);
-
-    //
-    // Clear the bits.
-    //
-    if(PRCM_DOMAIN_PERIPH & ui32PowerDomain)
-    {
-        ui32Retention &= ~PRCM_PDRETEN_PERIPH;
-    }
-    if(PRCM_DOMAIN_CPU & ui32PowerDomain)
-    {
-        ui32Retention &= ~PRCM_PDRETEN_CPU;
-    }
-
-    //
-    // Reconfigure retention.
-    //
-    HWREG(PRCM_BASE + PRCM_O_PDRETEN) = ui32Retention;
-
-    //
-    // Get the current register values
-    //
-    ui32Retention = HWREG(PRCM_BASE + PRCM_O_RAMRETEN);
-
-    //
-    // Disable retention on RF core SRAM
-    //
-    if(PRCM_DOMAIN_RFCORE & ui32PowerDomain)
-    {
-        ui32Retention &= ~PRCM_RAMRETEN_RFC_M;
-    }
-
-    //
-    // Disable retention on VIMS cache
-    //
-    if(PRCM_DOMAIN_VIMS & ui32PowerDomain)
-    {
-        ui32Retention &= ~PRCM_RAMRETEN_VIMS_M;
-    }
-
-    //
-    // Reconfigure retention.
-    //
-    HWREG(PRCM_BASE + PRCM_O_RAMRETEN) = ui32Retention;
 }

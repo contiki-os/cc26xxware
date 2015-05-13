@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_aon_ioc.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_aon_ioc_h
+*  Revised:        2015-02-12 20:48:43 +0100 (to, 12 feb 2015)
+*  Revision:       42710
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -37,20 +37,19 @@
 #ifndef __HW_AON_IOC_H__
 #define __HW_AON_IOC_H__
 
-
 //*****************************************************************************
 //
 // This section defines the register offsets of
 // AON_IOC component
 //
 //*****************************************************************************
-// Internal register
+// IO Drive Strength Minimum
 #define AON_IOC_O_IOSTRMIN                                          0x00000000
 
-// Internal register
+// IO Drive Strength Medium
 #define AON_IOC_O_IOSTRMED                                          0x00000004
 
-// Internal register
+// IO Drive Strength Maximum
 #define AON_IOC_O_IOSTRMAX                                          0x00000008
 
 // IO Latch Control
@@ -64,40 +63,40 @@
 // Register: AON_IOC_O_IOSTRMIN
 //
 //*****************************************************************************
-// Field: [2:0] GRAY_CODE
+// Field:   [2:0] GRAY_CODE
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AON_IOC_IOSTRMIN_GRAY_CODE_M                                0x00000007
-#define AON_IOC_IOSTRMIN_GRAY_CODE_S                                0
+#define AON_IOC_IOSTRMIN_GRAY_CODE_S                                         0
 
 //*****************************************************************************
 //
 // Register: AON_IOC_O_IOSTRMED
 //
 //*****************************************************************************
-// Field: [2:0] GRAY_CODE
+// Field:   [2:0] GRAY_CODE
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AON_IOC_IOSTRMED_GRAY_CODE_M                                0x00000007
-#define AON_IOC_IOSTRMED_GRAY_CODE_S                                0
+#define AON_IOC_IOSTRMED_GRAY_CODE_S                                         0
 
 //*****************************************************************************
 //
 // Register: AON_IOC_O_IOSTRMAX
 //
 //*****************************************************************************
-// Field: [2:0] GRAY_CODE
+// Field:   [2:0] GRAY_CODE
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AON_IOC_IOSTRMAX_GRAY_CODE_M                                0x00000007
-#define AON_IOC_IOSTRMAX_GRAY_CODE_S                                0
+#define AON_IOC_IOSTRMAX_GRAY_CODE_S                                         0
 
 //*****************************************************************************
 //
 // Register: AON_IOC_O_IOCLATCH
 //
 //*****************************************************************************
-// Field: [0]    EN
+// Field:     [0] EN
 //
 // Controls latches between MCU IOC and AON_IOC.
 //
@@ -105,36 +104,33 @@
 //
 // They must be closed prior to power off the domain(s) controlling the IOs in
 // order to preserve IO values on external pins.
-//
 // ENUMs:
-// STATIC               Latches are static, meaning the current value on the IO
-// pin is frozen by latches and kept even if GPIO module or a peripheral module is
-// turned off
-// TRANSP               Latches are transparent, meaning the value of the IO is
-// directly controlled by the GPIO or peripheral value
-//
+// TRANSP                   Latches are transparent, meaning the value of the
+// IO is directly controlled by the GPIO or peripheral value
+// STATIC                   Latches are static, meaning the current value on
+// the IO pin is frozen by latches and kept even if GPIO module or a peripheral
+// module is turned off
 #define AON_IOC_IOCLATCH_EN                                         0x00000001
-#define AON_IOC_IOCLATCH_EN_BITN                                    0
+#define AON_IOC_IOCLATCH_EN_BITN                                             0
 #define AON_IOC_IOCLATCH_EN_M                                       0x00000001
-#define AON_IOC_IOCLATCH_EN_S                                       0
-#define AON_IOC_IOCLATCH_EN_STATIC                                  0x00000000
+#define AON_IOC_IOCLATCH_EN_S                                                0
 #define AON_IOC_IOCLATCH_EN_TRANSP                                  0x00000001
+#define AON_IOC_IOCLATCH_EN_STATIC                                  0x00000000
 
 //*****************************************************************************
 //
 // Register: AON_IOC_O_CLK32KCTL
 //
 //*****************************************************************************
-// Field: [0]    OE_N
+// Field:     [0] OE_N
 //
 // 0: Output enable active. SCLK_LF output on IO pin that has PORT_ID (e.g.
 // IOC:IOCFG0.PORT_ID) set to AON_CLK32K.
 // 1: Output enable not active
-//
-//
 #define AON_IOC_CLK32KCTL_OE_N                                      0x00000001
-#define AON_IOC_CLK32KCTL_OE_N_BITN                                 0
+#define AON_IOC_CLK32KCTL_OE_N_BITN                                          0
 #define AON_IOC_CLK32KCTL_OE_N_M                                    0x00000001
-#define AON_IOC_CLK32KCTL_OE_N_S                                    0
+#define AON_IOC_CLK32KCTL_OE_N_S                                             0
 
-#endif // __HW_AON_IOC_H__
+
+#endif // __AON_IOC__

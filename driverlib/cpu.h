@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       cpu.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-02-09 17:18:47 +0100 (ma, 09 feb 2015)
+*  Revision:       42616
 *
 *  Description:    Defines and prototypes for the CPU instruction wrapper
 *                  functions.
@@ -146,7 +146,7 @@ CPUwfi(void)
     //
     // Wait for the next interrupt.
     //
-	__asm("    wfi\n");
+    __asm("    wfi\n");
 }
 #endif
 #if defined(__IAR_SYSTEMS_ICC__) || defined(DOXYGEN)

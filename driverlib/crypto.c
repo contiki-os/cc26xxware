@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       crypto.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-02-09 18:38:31 +0100 (ma, 09 feb 2015)
+*  Revision:       42620
 *
 *  Description:    Driver for the Crypto module
 *
@@ -450,7 +450,9 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
     // Configure AES engine.
     //
     ui32CtrlVal = ((ui32FieldLength - 1) << CRYPTO_AESCTL_CCM_L_S);
-    ui32CtrlVal |= (((ui32AuthLength - 2) >> 1) << CRYPTO_AESCTL_CCM_M_S);
+    if ( ui32AuthLength >= 2 ) {
+        ui32CtrlVal |= ((( ui32AuthLength - 2 ) >> 1 ) << CRYPTO_AESCTL_CCM_M_S );
+    }
     ui32CtrlVal |= CRYPTO_AESCTL_CCM;
     ui32CtrlVal |= CRYPTO_AESCTL_CTR;
     ui32CtrlVal |= CRYPTO_AESCTL_SAVE_CONTEXT;
@@ -767,9 +769,10 @@ CRYPTOCcmInvAuthDecrypt(bool bDecrypt, uint32_t ui32AuthLength,
     // Configure AES engine
     //
     ui32CryptoBlockLength = ui32CipherTextLength - ui32AuthLength;
-    ui32AuthLength = ui32AuthLength < 2  ? 0 : ((ui32AuthLength - 2) >> 1);
     ui32CtrlVal = ((ui32FieldLength - 1) << CRYPTO_AESCTL_CCM_L_S);
-    ui32CtrlVal |= (ui32AuthLength << CRYPTO_AESCTL_CCM_M_S);
+    if ( ui32AuthLength >= 2 ) {
+        ui32CtrlVal |= ((( ui32AuthLength - 2 ) >> 1 ) << CRYPTO_AESCTL_CCM_M_S );
+    }
     ui32CtrlVal |= CRYPTO_AESCTL_CCM;
     ui32CtrlVal |= CRYPTO_AESCTL_CTR;
     ui32CtrlVal |= CRYPTO_AESCTL_SAVE_CONTEXT;

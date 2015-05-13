@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       pwr_ctrl.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Description:    Defines and prototypes for the System Power Control.
 *
@@ -158,6 +158,8 @@ extern "C"
 //! interrupt that will enable the device to wakeup before configuring the
 //! power mode. If not properly implemented the behaviour is undefined.
 //!
+//! \note This function will be deprecated in future releases.
+//!
 //! \param ui32Powerstate defines the next power state for the system.
 //! - \ref PWRCTRL_ACTIVE (default)
 //! - \ref PWRCTRL_STANDBY
@@ -228,36 +230,6 @@ PowerCtrlSourceGet(void)
     }
 }
 
-//*****************************************************************************
-//
-//! \brief Configure the IO ring.
-//!
-//! \param ui32IoConfig is a bitmask indicating the IO configuration.
-//! It must be a bitwise OR of the values:
-//! - \ref PWRCTRL_IOSEG3_ENABLE
-//! - \ref PWRCTRL_IOSEG2_ENABLE
-//! - \ref PWRCTRL_IOSEG3_DISABLE
-//! - \ref PWRCTRL_IOSEG2_DISABLE
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-PowerCtrlIoConfigSet(uint32_t ui32IoConfig)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(((ui32IoConfig & PWRCTRL_IOSEG2_ENABLE) ^
-            (ui32IoConfig & PWRCTRL_IOSEG2_DISABLE)) ||
-           ((ui32IoConfig & PWRCTRL_IOSEG3_ENABLE) ^
-            (ui32IoConfig & PWRCTRL_IOSEG3_DISABLE)));
-
-    //
-    // Configure the IO ring.
-    //
-    HWREG(AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL) = ui32IoConfig;
-}
 
 //*****************************************************************************
 //

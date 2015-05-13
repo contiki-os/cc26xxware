@@ -1,9 +1,10 @@
 /******************************************************************************
-*  Filename:       driverlib_ver.c
-*  Revised:        $Date: 2014-04-24 16:43:24 +0200 (Thu, 24 Apr 2014) $
-*  Revision:       $Revision: 40660 $
+*  Filename:       driverlib_release.c
+*  Revised:        $Date: 2015-03-11 11:25:46 +0100 (on, 11 mar 2015) $
+*  Revision:       $Revision: 42932 $
 *
-*  Description:    Provides functions and macros for checking DriverLib version
+*  Description:    Provides macros for ensuring that a specfic release of
+*                  DriverLib is used.
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -35,10 +36,10 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *
 ******************************************************************************/
-#include <driverlib/driverlib_ver.h>
+#include <driverlib/driverlib_release.h>
 
 
 
 
-/// Declare the current DriverLib version
-DRIVERLIB_DECLARE_VERSION(2, 00, 06, 42416);
+/// Declare the current DriverLib release
+DRIVERLIB_DECLARE_RELEASE(0, 43243);

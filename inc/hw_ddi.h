@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ddi.h
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-04 17:53:59 +0100 (on, 04 mar 2015)
+*  Revision:       42892
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -52,13 +52,13 @@
 // The macros that that provide DDI Master register offsets and
 // define bits and bitfields for those registers are the typical
 // macros that appear in most hw_<module>.h header files.  In
-// the following example DDI_O_SLAVECONF is a macro for a
-// register offset and DDI_SLAVECONF_WAITFORACK is a macro for
+// the following example DDI_O_CFG is a macro for a
+// register offset and DDI_CFG_WAITFORACK is a macro for
 // a bit in that register. This example code will set the WAITFORACK
-// bit in register DDI_O_SLAVECONF of the DDI Master. (Note: this
+// bit in register DDI_O_CFG of the DDI Master. (Note: this
 // access the Master not the Slave).
 //
-//    HWREG(AUX_OSCDDI_BASE + DDI_O_SLAVECONF) |= DDI_SLAVECONF_WAITFORACK;
+//    HWREG(AUX_OSCDDI_BASE + DDI_O_CFG) |= DDI_CFG_WAITFORACK;
 //
 //
 // The "instruction offset" macros are used to pass an instruction to
@@ -197,52 +197,49 @@
 // The following are defines for the DDI register offsets.
 //
 //*****************************************************************************
-#define DDI_O_SLAVESTAT         0x000000C0  // DDI Slave status register
-#define DDI_O_SLAVECONF         0x000000C8  // DDI Slave configuration
+#define DDI_O_SYNC              0x000000C0  // DDI Slave status register
+#define DDI_O_CFG               0x000000C8  // DDI Slave configuration
                                             // register
 
 //*****************************************************************************
 //
 // The following are defines for the bit fields in the
-// DDI_O_SLAVESTAT register.
+// DDI_O_SYNC register.
 //
 //*****************************************************************************
-#define DDI_SLAVESTAT_DI_REQ    0x00000002  // Read current value of DI_REQ
+#define DDI_SYNC_DI_REQ         0x00000002  // Read current value of DI_REQ
                                             // signal. Writing 0 to this bit
                                             // forces a sync with slave,
                                             // ensuring that req will be 0. It
                                             // is recommended to write 0 to
                                             // this register before power down
                                             // of the master.
-#define DDI_SLAVESTAT_DI_REQ_M  0x00000002
-#define DDI_SLAVESTAT_DI_REQ_S  1
-#define DDI_SLAVESTAT_DI_ACK    0x00000001  // Read current value of DI_ACK
+#define DDI_SYNC_DI_REQ_M       0x00000002
+#define DDI_SYNC_DI_REQ_S       1
+#define DDI_SYNC_DI_ACK         0x00000001  // Read current value of DI_ACK
                                             // signal
-#define DDI_SLAVESTAT_DI_ACK_M  0x00000001
-#define DDI_SLAVESTAT_DI_ACK_S  0
+#define DDI_SYNC_DI_ACK_M       0x00000001
+#define DDI_SYNC_DI_ACK_S       0
+
 //*****************************************************************************
 //
 // The following are defines for the bit fields in the
-// DDI_O_SLAVECONF register.
+// DDI_O_CFG register.
 //
 //*****************************************************************************
-#define DDI_SLAVECONF_CONFLOCK  0x00000080  // This register is no longer
+#define DDI_CFG_CONFLOCK        0x00000080  // This register is no longer
                                             // accessible when this bit is set.
                                             // (unless sticky_bit_overwrite is
                                             // asserted on top module)
-#define DDI_SLAVECONF_CONFLOCK_M \
-                                0x00000080
-#define DDI_SLAVECONF_CONFLOCK_S 7
-#define DDI_SLAVECONF_WAITFORACK \
-                                0x00000004  // A transaction does not end
+#define DDI_CFG_CONFLOCK_M      0x00000080
+#define DDI_CFG_CONFLOCK_S      7
+#define DDI_CFG_WAITFORACK      0x00000004  // A transaction does not end
                                             // until ack has been received when
                                             // this bit is set.
 
-#define DDI_SLAVECONF_WAITFORACK_M \
-                                0x00000004
-#define DDI_SLAVECONF_WAITFORACK_S 2
-#define DDI_SLAVECONF_DDICLKSPEED_M \
-                                0x00000003  // Sets the period of an DDI
+#define DDI_CFG_WAITFORACK_M    0x00000004
+#define DDI_CFG_WAITFORACK_S    2
+#define DDI_CFG_DDICLKSPEED_M   0x00000003  // Sets the period of an DDI
                                             // transactions. All transactions
                                             // takes an even number of clock
                                             // cycles,- DDI clock rising edge
@@ -259,8 +256,7 @@
                                             // transaction takes 16 master
                                             // clock cycles
 
-#define DDI_SLAVECONF_DDICLKSPEED_S 0
-
+#define DDI_CFG_DDICLKSPEED_S   0
 
 //*****************************************************************************
 //

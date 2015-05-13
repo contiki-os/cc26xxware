@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       osc.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Description:    Driver for setting up the system Oscillators
 *
@@ -107,17 +107,6 @@ OSCClockSourceSet(uint32_t ui32SrcClk, uint32_t ui32Osc)
                            DDI_0_OSC_CTL0_SCLK_HF_SRC_SEL_M,
                            DDI_0_OSC_CTL0_SCLK_HF_SRC_SEL_S,
                            ui32Osc);
-
-        // TBD-EIE: Setting 24 MHz Xtal should not be needed here since it's
-        // done in trimDevice(), but keep it for now since we cant be sure that
-        // it's not turned off again.
-        //
-        // Using 24 MHz Xtal...
-        //
-        DDI16BitfieldWrite(AUX_DDI0_OSC_BASE, DDI_0_OSC_O_CTL0,
-                           DDI_0_OSC_CTL0_XTAL_IS_24M_M,
-                           DDI_0_OSC_CTL0_XTAL_IS_24M_S,
-                           0x1);
     }
 
     //
@@ -192,7 +181,7 @@ OSCInterfaceEnable(void)
     // Force power on AUX to ensure CPU has access
     //
     AONWUCAuxWakeupEvent(AONWUC_AUX_WAKEUP);
-    while(!(AONWUCPowerStatus() & AONWUC_AUX_POWER_ON))
+    while(!(AONWUCPowerStatusGet() & AONWUC_AUX_POWER_ON))
     { }
 
     //
@@ -217,7 +206,7 @@ OSCHF_GetStartupTime( uint32_t timeUntilWakeupInMs )
    uint32_t newStartupTimeInUs         ;
 
    deltaTimeSinceXoscOnInMs = RTC_CV_TO_MS( AONRTCCurrentCompareValueGet() - oscHfGlobals.timeXoscOff_CV );
-   deltaTempSinceXoscOn     = AON_BatmonTempGetDegC() - oscHfGlobals.tempXoscOff;
+   deltaTempSinceXoscOn     = AONBatMonTemperatureGetDegC() - oscHfGlobals.tempXoscOff;
 
    if ( deltaTempSinceXoscOn < 0 ) {
       deltaTempSinceXoscOn = -deltaTempSinceXoscOn;
@@ -323,5 +312,5 @@ OSCHF_SwitchToRcOscTurnOffXosc( void )
    }
 
    oscHfGlobals.timeXoscOff_CV  = AONRTCCurrentCompareValueGet();
-   oscHfGlobals.tempXoscOff     = AON_BatmonTempGetDegC();
+   oscHfGlobals.tempXoscOff     = AONBatMonTemperatureGetDegC();
 }

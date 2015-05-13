@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       sys_ctrl.h
-*  Revised:        2015-01-15 14:12:37 +0100 (to, 15 jan 2015)
-*  Revision:       42392
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Description:    Defines and prototypes for the System Controller.
 *
@@ -107,8 +107,6 @@ extern "C"
     #define SysCtrlStandby                  NOROM_SysCtrlStandby
     #define SysCtrlPowerdown                NOROM_SysCtrlPowerdown
     #define SysCtrlShutdown                 NOROM_SysCtrlShutdown
-    #define SysCtrlClockGet                 NOROM_SysCtrlClockGet
-    #define SysCtrlPeripheralClockGet       NOROM_SysCtrlPeripheralClockGet
     #define SysCtrlResetSourceGet           NOROM_SysCtrlResetSourceGet
 #endif
 
@@ -143,6 +141,8 @@ extern "C"
 //! want to sequence active mode in a real application. There might be
 //! application specific prerequisites or hardware restrictions you would want
 //! to consider which deviate from this specific implementation.
+//!
+//! \note This function might be deprecated in future releases
 //!
 //! \return None
 //
@@ -208,31 +208,15 @@ extern void SysCtrlShutdown(void);
 //! \return Returns the current CPU core clock frequency.
 //
 //*****************************************************************************
-extern uint32_t SysCtrlClockGet(void);
+__STATIC_INLINE uint32_t
+SysCtrlClockGet( void )
+{
+    //
+    // Return fixed clock speed
+    //
+    return( GET_MCU_CLOCK );
+}
 
-//*****************************************************************************
-//
-//! \brief Get the clock for a peripheral.
-//!
-//! Use this function for retrieving the current clock frequency for a specific
-//! MCU domain peripheral. The clock source for many of the peripheral changes
-//! if the System Bus is gated. The \c ui32Mode parameter specifies for which
-//! state of the System Bus the peripheral clock should be calculated.
-//!
-//! \note No checks are made for peripheral clock gating. It is left to the
-//! programmer to ensure that the clock for a peripheral is not gated.
-//!
-//! \param ui32Peripheral identifies the peripheral for which to return the clock
-//! frequency.
-//! \param ui32BusMode is the mode of the System Bus.
-//! - \ref SYSCTRL_SYSBUS_OFF
-//! - \ref SYSCTRL_SYSBUS_ON
-//!
-//! \return Returns the clock speed of the selected peripheral.
-//
-//*****************************************************************************
-extern uint32_t SysCtrlPeripheralClockGet(uint32_t ui32Peripheral,
-                                          uint32_t ui32BusMode);
 
 //*****************************************************************************
 //
@@ -348,12 +332,14 @@ SysCtrlAdjustRechargeAfterPowerDown( void );
 
 //*****************************************************************************
 //
-//! \brief Turns DCDC on or off depending of what’s considered to be optimal usage.
+//! \brief Turns DCDC on or off depending of what is considered to be optimal usage.
 //!
-//! This function controls the DCDC only if both the following CCFG settings are TRUE:
-//! 1) DCDC is configured to be used
-//! 2) Alternative DCDC settings are defined and enabled.
+//! This function controls the DCDC only if both the following CCFG settings are \c true:
+//! - DCDC is configured to be used.
+//! - Alternative DCDC settings are defined and enabled.
+//!
 //! The DCDC is configured in accordance to the CCFG settings when turned on.
+//!
 //! This function should be called periodically.
 //!
 //! \return None
@@ -380,12 +366,32 @@ SysCtrl_DCDC_VoltageConditionalControl( void );
 
 //*****************************************************************************
 //
-//! \brief Returns last reset source (including "wakeup from shutdown")
+//! \brief Returns last reset source (including "wakeup from shutdown").
 //!
-//! \return Returns on of the RSTSRC_.. defines
+//! \return Returns one of the RSTSRC_ defines.
 //
 //*****************************************************************************
 extern uint32_t SysCtrlResetSourceGet( void );
+
+//*****************************************************************************
+//
+//! \brief Perform a full system reset
+//!
+//! \return The chip will reset and hence never return from this call.
+//
+//*****************************************************************************
+__STATIC_INLINE void
+SysCtrlSystemReset( void )
+{
+   // Disable CPU interrupts
+   CPUcpsid();
+   // Write reset register
+   HWREGBITW( AON_SYSCTL_BASE + AON_SYSCTL_O_RESETCTL, AON_SYSCTL_RESETCTL_SYSRESET_BITN ) = 1;
+   // Finally, wait until the above write propagates
+   while ( 1 ) {
+      // Do nothing, just wait for the reset (and never return from here)
+   }
+}
 
 
 //*****************************************************************************
@@ -411,14 +417,6 @@ extern uint32_t SysCtrlResetSourceGet( void );
     #ifdef ROM_SysCtrlShutdown
         #undef  SysCtrlShutdown
         #define SysCtrlShutdown                 ROM_SysCtrlShutdown
-    #endif
-    #ifdef ROM_SysCtrlClockGet
-        #undef  SysCtrlClockGet
-        #define SysCtrlClockGet                 ROM_SysCtrlClockGet
-    #endif
-    #ifdef ROM_SysCtrlPeripheralClockGet
-        #undef  SysCtrlPeripheralClockGet
-        #define SysCtrlPeripheralClockGet       ROM_SysCtrlPeripheralClockGet
     #endif
     #ifdef ROM_SysCtrlResetSourceGet
         #undef  SysCtrlResetSourceGet

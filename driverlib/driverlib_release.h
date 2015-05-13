@@ -1,9 +1,10 @@
 /******************************************************************************
-*  Filename:       driverlib_ver.h
-*  Revised:        $Date: 2014-04-24 16:43:24 +0200 (Thu, 24 Apr 2014) $
-*  Revision:       $Revision: 40660 $
+*  Filename:       driverlib_release.h
+*  Revised:        $Date: 2015-03-11 11:25:46 +0100 (on, 11 mar 2015) $
+*  Revision:       $Revision: 42932 $
 *
-*  Description:    Provides functions and macros for checking DriverLib version
+*  Description:    Provides macros for ensuring that a specfic release of
+*                  DriverLib is used.
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -38,13 +39,13 @@
 
 //*****************************************************************************
 //
-//! \addtogroup driverlib_ver_api
+//! \addtogroup driverlib_release_api
 //! @{
 //
 //*****************************************************************************
 
-#ifndef __DRIVERLIB_VER_H__
-#define __DRIVERLIB_VER_H__
+#ifndef __DRIVERLIB_RELEASE_H__
+#define __DRIVERLIB_RELEASE_H__
 
 
 #ifdef __cplusplus
@@ -57,14 +58,10 @@ extern "C"
 
 
 
-/// DriverLib major revision (incompatible with other major versions)
-#define DRIVERLIB_MAJOR_VER 2
-/// DriverLib minor revision (may affect software use of DriverLib)
-#define DRIVERLIB_MINOR_VER 00
-/// DriverLib patch revision (patches and bug fixes)
-#define DRIVERLIB_PATCH_VER 06
-/// DriverLib build identification number (source code base version)
-#define DRIVERLIB_BUILD_ID  42416
+/// DriverLib release group number
+#define DRIVERLIB_RELEASE_GROUP   0
+/// DriverLib release build number
+#define DRIVERLIB_RELEASE_BUILD   43243
 
 
 
@@ -72,50 +69,19 @@ extern "C"
 //*****************************************************************************
 //
 //! This macro is called internally from within DriverLib to declare the
-//! DriverLib version locking object:
-//! \param major is the DriverLib major revision.
-//! \param minor is the DriverLib minor revision.
-//! \param patch is the DriverLib patch revision.
-//! \param build is the DriverLib build identification number.
+//! DriverLib release locking object:
+//! \param group is the DriverLib release group number.
+//! \param build is the DriverLib release build number.
 //!
 //! This macro shall not be called in the application unless the intention is
-//! to bypass the version locking (at own risk).
+//! to bypass the release locking (at own risk).
 //
 //*****************************************************************************
-#define DRIVERLIB_DECLARE_VERSION(major, minor, patch, build) \
-    const volatile uint8_t driverlib_version_##major##_##minor##_##patch##_##build
+#define DRIVERLIB_DECLARE_RELEASE(group, build) \
+    const volatile uint8_t driverlib_release_##group##_##build
 
-/// External declaration of the DriverLib version locking object
-extern DRIVERLIB_DECLARE_VERSION(2, 00, 06, 42416);
-
-
-
-
-//*****************************************************************************
-//
-//! This macro shall be called once from within a function of a precompiled
-//! software deliverable to lock the deliverable to a specific DriverLib
-//! version. It is essential that the call is made from code that is not
-//! optimized away.
-//!
-//! This macro locks to a specific DriverLib version:
-//! \param major is the DriverLib major revision.
-//! \param minor is the DriverLib minor revision.
-//! \param patch is the DriverLib patch revision.
-//! \param build is the DriverLib build identification number.
-//!
-//! If attempting to use the precompiled deliverable with a different version
-//! of DriverLib, a linker error will be produced, stating that
-//! "driverlib_version_xx_yy_zz_bbbbb is undefined" or similar.
-//!
-//! To override the check, for example when upgrading DriverLib but not the
-//! precompiled deliverables, or when mixing precompiled deliverables,
-//! application developers may (at own risk) declare the missing DriverLib
-//! version using the \ref DRIVERLIB_DECLARE_VERSION() macro.
-//
-//*****************************************************************************
-#define DRIVERLIB_ASSERT_VERSION(major, minor, patch, build) \
-    (driverlib_version_##major##_##minor##_##patch##_##build)
+/// External declaration of the DriverLib release locking object
+extern DRIVERLIB_DECLARE_RELEASE(0, 43243);
 
 
 
@@ -124,23 +90,50 @@ extern DRIVERLIB_DECLARE_VERSION(2, 00, 06, 42416);
 //
 //! This macro shall be called once from within a function of a precompiled
 //! software deliverable to lock the deliverable to a specific DriverLib
-//! version. It is essential that the call is made from code that is not
+//! release. It is essential that the call is made from code that is not
 //! optimized away.
 //!
-//! This macro locks to the current DriverLib version used at compile-time.
+//! This macro locks to a specific DriverLib release:
+//! \param group is the DriverLib release group number.
+//! \param build is the DriverLib release build number.
 //!
-//! If attempting to use the precompiled deliverable with a different version
+//! If attempting to use the precompiled deliverable with a different release
 //! of DriverLib, a linker error will be produced, stating that
-//! "driverlib_version_xx_yy_zz_bbbbb is undefined" or similar.
+//! "driverlib_release_xx_yyyyy is undefined" or similar.
 //!
 //! To override the check, for example when upgrading DriverLib but not the
 //! precompiled deliverables, or when mixing precompiled deliverables,
 //! application developers may (at own risk) declare the missing DriverLib
-//! version using the \ref DRIVERLIB_DECLARE_VERSION() macro.
+//! release using the \ref DRIVERLIB_DECLARE_RELEASE() macro.
 //
 //*****************************************************************************
-#define DRIVERLIB_ASSERT_CURR_VERSION() \
-    DRIVERLIB_ASSERT_VERSION(2, 00, 06, 42416)
+#define DRIVERLIB_ASSERT_RELEASE(group, build) \
+    (driverlib_release_##group##_##build)
+
+
+
+
+//*****************************************************************************
+//
+//! This macro shall be called once from within a function of a precompiled
+//! software deliverable to lock the deliverable to a specific DriverLib
+//! release. It is essential that the call is made from code that is not
+//! optimized away.
+//!
+//! This macro locks to the current DriverLib release used at compile-time.
+//!
+//! If attempting to use the precompiled deliverable with a different release
+//! of DriverLib, a linker error will be produced, stating that
+//! "driverlib_release_xx_yyyyy is undefined" or similar.
+//!
+//! To override the check, for example when upgrading DriverLib but not the
+//! precompiled deliverables, or when mixing precompiled deliverables,
+//! application developers may (at own risk) declare the missing DriverLib
+//! release using the \ref DRIVERLIB_DECLARE_RELEASE() macro.
+//
+//*****************************************************************************
+#define DRIVERLIB_ASSERT_CURR_RELEASE() \
+    DRIVERLIB_ASSERT_RELEASE(0, 43243)
 
 
 
@@ -149,7 +142,7 @@ extern DRIVERLIB_DECLARE_VERSION(2, 00, 06, 42416);
 }
 #endif
 
-#endif // __DRIVERLIB_VER_H__
+#endif // __DRIVERLIB_RELEASE_H__
 
 
 //*****************************************************************************

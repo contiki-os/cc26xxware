@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ints.h
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-01-28 16:21:36 +0100 (on, 28 jan 2015)
+*  Revision:       42503
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -96,7 +96,7 @@
 //*****************************************************************************
 //
 // The following are defines for the total number of interrupts.
-// TBD: The specific number of interrupts is still changing
+//
 //*****************************************************************************
 #define NUM_INTERRUPTS          50
 

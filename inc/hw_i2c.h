@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_i2c.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_i2c_h
+*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
+*  Revision:       43111
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -37,65 +37,64 @@
 #ifndef __HW_I2C_H__
 #define __HW_I2C_H__
 
-
 //*****************************************************************************
 //
 // This section defines the register offsets of
 // I2C component
 //
 //*****************************************************************************
-// I2C Slave Own Address
+// Slave Own Address
 #define I2C_O_SOAR                                                  0x00000000
 
-// I2C Slave Status
+// Slave Status
 #define I2C_O_SSTAT                                                 0x00000004
 
-// I2C Slave Control
+// Slave Control
 #define I2C_O_SCTL                                                  0x00000004
 
-// I2C Slave Data
+// Slave Data
 #define I2C_O_SDR                                                   0x00000008
 
-// I2C Slave Interrupt Mask
+// Slave Interrupt Mask
 #define I2C_O_SIMR                                                  0x0000000C
 
-// I2C Slave Raw Interrupt Status
+// Slave Raw Interrupt Status
 #define I2C_O_SRIS                                                  0x00000010
 
-// I2C Slave Masked Interrupt Status
+// Slave Masked Interrupt Status
 #define I2C_O_SMIS                                                  0x00000014
 
-// I2C Slave Interrupt Clear
+// Slave Interrupt Clear
 #define I2C_O_SICR                                                  0x00000018
 
-// I2C Master Salve Address
+// Master Salve Address
 #define I2C_O_MSA                                                   0x00000800
 
-// I2C Master Status
+// Master Status
 #define I2C_O_MSTAT                                                 0x00000804
 
-// I2C Master Control
+// Master Control
 #define I2C_O_MCTRL                                                 0x00000804
 
-// I2C Master Data
+// Master Data
 #define I2C_O_MDR                                                   0x00000808
 
 // I2C Master Timer Period
 #define I2C_O_MTPR                                                  0x0000080C
 
-// I2C Master Interrupt Mask
+// Master Interrupt Mask
 #define I2C_O_MIMR                                                  0x00000810
 
-// I2C Master Raw Interrupt Status
+// Master Raw Interrupt Status
 #define I2C_O_MRIS                                                  0x00000814
 
-// I2C Master Masked Interrupt Status
+// Master Masked Interrupt Status
 #define I2C_O_MMIS                                                  0x00000818
 
-// I2C Master Interrupt Clear
+// Master Interrupt Clear
 #define I2C_O_MICR                                                  0x0000081C
 
-// I2C Master Configuration
+// Master Configuration
 #define I2C_O_MCR                                                   0x00000820
 
 //*****************************************************************************
@@ -103,34 +102,34 @@
 // Register: I2C_O_SOAR
 //
 //*****************************************************************************
-// Field: [6:0] OAR
+// Field:   [6:0] OAR
 //
 // I2C slave own address
 // This field specifies bits a6 through a0 of the slave address.
 #define I2C_SOAR_OAR_M                                              0x0000007F
-#define I2C_SOAR_OAR_S                                              0
+#define I2C_SOAR_OAR_S                                                       0
 
 //*****************************************************************************
 //
 // Register: I2C_O_SSTAT
 //
 //*****************************************************************************
-// Field: [2]    FBR
+// Field:     [2] FBR
 //
 // First byte received
 //
 // 0: The first byte has not been received.
-// 1: The first byte following the slave's own address has been received.
+// 1: The first byte following the slave&#39;s own address has been received.
 //
-// This bit is only valid when the RREQ bit is set and is automatically
-// cleared when data has been read from the SDR register.
+// This bit is only valid when the RREQ bit is set and is automatically cleared
+// when data has been read from the SDR register.
 // Note: This bit is not used for slave transmit operations.
 #define I2C_SSTAT_FBR                                               0x00000004
-#define I2C_SSTAT_FBR_BITN                                          2
+#define I2C_SSTAT_FBR_BITN                                                   2
 #define I2C_SSTAT_FBR_M                                             0x00000004
-#define I2C_SSTAT_FBR_S                                             2
+#define I2C_SSTAT_FBR_S                                                      2
 
-// Field: [1]    TREQ
+// Field:     [1] TREQ
 //
 // Transmit request
 //
@@ -139,62 +138,61 @@
 // clock stretching to delay the master until data has been written to the SDR
 // register.
 #define I2C_SSTAT_TREQ                                              0x00000002
-#define I2C_SSTAT_TREQ_BITN                                         1
+#define I2C_SSTAT_TREQ_BITN                                                  1
 #define I2C_SSTAT_TREQ_M                                            0x00000002
-#define I2C_SSTAT_TREQ_S                                            1
+#define I2C_SSTAT_TREQ_S                                                     1
 
-// Field: [0]    RREQ
+// Field:     [0] RREQ
 //
 // Receive request
 //
 // 0: No outstanding receive data
-// 1: The I2C controller has outstanding receive data from the I2C master and is
-// using clock stretching to delay the master until data has been read from the
-// SDR register.
-//
+// 1: The I2C controller has outstanding receive data from the I2C master and
+// is using clock stretching to delay the master until data has been read from
+// the SDR register.
 #define I2C_SSTAT_RREQ                                              0x00000001
-#define I2C_SSTAT_RREQ_BITN                                         0
+#define I2C_SSTAT_RREQ_BITN                                                  0
 #define I2C_SSTAT_RREQ_M                                            0x00000001
-#define I2C_SSTAT_RREQ_S                                            0
+#define I2C_SSTAT_RREQ_S                                                     0
 
 //*****************************************************************************
 //
 // Register: I2C_O_SCTL
 //
 //*****************************************************************************
-// Field: [0]    DA
+// Field:     [0] DA
 //
 // Device active
 //
 // 0: Disables the I2C slave operation
 // 1: Enables the I2C slave operation
 #define I2C_SCTL_DA                                                 0x00000001
-#define I2C_SCTL_DA_BITN                                            0
+#define I2C_SCTL_DA_BITN                                                     0
 #define I2C_SCTL_DA_M                                               0x00000001
-#define I2C_SCTL_DA_S                                               0
+#define I2C_SCTL_DA_S                                                        0
 
 //*****************************************************************************
 //
 // Register: I2C_O_SDR
 //
 //*****************************************************************************
-// Field: [7:0] DATA
+// Field:   [7:0] DATA
 //
 // Data for transfer
 // This field contains the data for transfer during a slave receive or transmit
-// operation.  When written the register data is used as transmit data.  When read,
-// this register returns the last data received.
-// Data is stored until next update, either by a system write for transmit or by
-// an external master for receive.
+// operation.  When written the register data is used as transmit data.  When
+// read, this register returns the last data received.
+// Data is stored until next update, either by a system write for transmit or
+// by an external master for receive.
 #define I2C_SDR_DATA_M                                              0x000000FF
-#define I2C_SDR_DATA_S                                              0
+#define I2C_SDR_DATA_S                                                       0
 
 //*****************************************************************************
 //
 // Register: I2C_O_SIMR
 //
 //*****************************************************************************
-// Field: [2]    STOPIM
+// Field:     [2] STOPIM
 //
 // Stop condition interrupt mask
 //
@@ -202,19 +200,17 @@
 // controller.
 // 1: The SRIS.STOPRIS interrupt is enabled and sent to the interrupt
 // controller.
-//
 // ENUMs:
-// DIS                  Disable Interrupt
-// EN                   Enable Interrupt
-//
+// EN                       Enable Interrupt
+// DIS                      Disable Interrupt
 #define I2C_SIMR_STOPIM                                             0x00000004
-#define I2C_SIMR_STOPIM_BITN                                        2
+#define I2C_SIMR_STOPIM_BITN                                                 2
 #define I2C_SIMR_STOPIM_M                                           0x00000004
-#define I2C_SIMR_STOPIM_S                                           2
-#define I2C_SIMR_STOPIM_DIS                                         0x00000000
+#define I2C_SIMR_STOPIM_S                                                    2
 #define I2C_SIMR_STOPIM_EN                                          0x00000004
+#define I2C_SIMR_STOPIM_DIS                                         0x00000000
 
-// Field: [1]    STARTIM
+// Field:     [1] STARTIM
 //
 // Start condition interrupt mask
 //
@@ -222,19 +218,17 @@
 // controller.
 // 1: The SRIS.STARTRIS interrupt is enabled and sent to the interrupt
 // controller.
-//
 // ENUMs:
-// DIS                  Disable Interrupt
-// EN                   Enable Interrupt
-//
+// EN                       Enable Interrupt
+// DIS                      Disable Interrupt
 #define I2C_SIMR_STARTIM                                            0x00000002
-#define I2C_SIMR_STARTIM_BITN                                       1
+#define I2C_SIMR_STARTIM_BITN                                                1
 #define I2C_SIMR_STARTIM_M                                          0x00000002
-#define I2C_SIMR_STARTIM_S                                          1
-#define I2C_SIMR_STARTIM_DIS                                        0x00000000
+#define I2C_SIMR_STARTIM_S                                                   1
 #define I2C_SIMR_STARTIM_EN                                         0x00000002
+#define I2C_SIMR_STARTIM_DIS                                        0x00000000
 
-// Field: [0]    DATAIM
+// Field:     [0] DATAIM
 //
 // Data interrupt mask
 //
@@ -243,16 +237,16 @@
 // 1: The SRIS.DATARIS interrupt is enabled and sent to the interrupt
 // controller.
 #define I2C_SIMR_DATAIM                                             0x00000001
-#define I2C_SIMR_DATAIM_BITN                                        0
+#define I2C_SIMR_DATAIM_BITN                                                 0
 #define I2C_SIMR_DATAIM_M                                           0x00000001
-#define I2C_SIMR_DATAIM_S                                           0
+#define I2C_SIMR_DATAIM_S                                                    0
 
 //*****************************************************************************
 //
 // Register: I2C_O_SRIS
 //
 //*****************************************************************************
-// Field: [2]    STOPRIS
+// Field:     [2] STOPRIS
 //
 // Stop condition raw interrupt status
 //
@@ -261,11 +255,11 @@
 //
 // This bit is cleared by writing a 1 to SICR.STOPIC.
 #define I2C_SRIS_STOPRIS                                            0x00000004
-#define I2C_SRIS_STOPRIS_BITN                                       2
+#define I2C_SRIS_STOPRIS_BITN                                                2
 #define I2C_SRIS_STOPRIS_M                                          0x00000004
-#define I2C_SRIS_STOPRIS_S                                          2
+#define I2C_SRIS_STOPRIS_S                                                   2
 
-// Field: [1]    STARTRIS
+// Field:     [1] STARTRIS
 //
 // Start condition raw interrupt status
 //
@@ -274,11 +268,11 @@
 //
 // This bit is cleared by writing a 1 to SICR.STARTIC.
 #define I2C_SRIS_STARTRIS                                           0x00000002
-#define I2C_SRIS_STARTRIS_BITN                                      1
+#define I2C_SRIS_STARTRIS_BITN                                               1
 #define I2C_SRIS_STARTRIS_M                                         0x00000002
-#define I2C_SRIS_STARTRIS_S                                         1
+#define I2C_SRIS_STARTRIS_S                                                  1
 
-// Field: [0]    DATARIS
+// Field:     [0] DATARIS
 //
 // Data raw interrupt status
 //
@@ -287,16 +281,16 @@
 //
 // This bit is cleared by writing a 1 to the SICR.DATAIC.
 #define I2C_SRIS_DATARIS                                            0x00000001
-#define I2C_SRIS_DATARIS_BITN                                       0
+#define I2C_SRIS_DATARIS_BITN                                                0
 #define I2C_SRIS_DATARIS_M                                          0x00000001
-#define I2C_SRIS_DATARIS_S                                          0
+#define I2C_SRIS_DATARIS_S                                                   0
 
 //*****************************************************************************
 //
 // Register: I2C_O_SMIS
 //
 //*****************************************************************************
-// Field: [2]    STOPMIS
+// Field:     [2] STOPMIS
 //
 // Stop condition masked interrupt status
 //
@@ -305,11 +299,11 @@
 //
 // This bit is cleared by writing a 1 to the SICR.STOPIC.
 #define I2C_SMIS_STOPMIS                                            0x00000004
-#define I2C_SMIS_STOPMIS_BITN                                       2
+#define I2C_SMIS_STOPMIS_BITN                                                2
 #define I2C_SMIS_STOPMIS_M                                          0x00000004
-#define I2C_SMIS_STOPMIS_S                                          2
+#define I2C_SMIS_STOPMIS_S                                                   2
 
-// Field: [1]    STARTMIS
+// Field:     [1] STARTMIS
 //
 // Start condition masked interrupt status
 //
@@ -318,11 +312,11 @@
 //
 // This bit is cleared by writing a 1 to the SICR.STARTIC.
 #define I2C_SMIS_STARTMIS                                           0x00000002
-#define I2C_SMIS_STARTMIS_BITN                                      1
+#define I2C_SMIS_STARTMIS_BITN                                               1
 #define I2C_SMIS_STARTMIS_M                                         0x00000002
-#define I2C_SMIS_STARTMIS_S                                         1
+#define I2C_SMIS_STARTMIS_S                                                  1
 
-// Field: [0]    DATAMIS
+// Field:     [0] DATAMIS
 //
 // Data masked interrupt status
 //
@@ -331,79 +325,78 @@
 //
 // This bit is cleared by writing a 1 to the SICR.DATAIC.
 #define I2C_SMIS_DATAMIS                                            0x00000001
-#define I2C_SMIS_DATAMIS_BITN                                       0
+#define I2C_SMIS_DATAMIS_BITN                                                0
 #define I2C_SMIS_DATAMIS_M                                          0x00000001
-#define I2C_SMIS_DATAMIS_S                                          0
+#define I2C_SMIS_DATAMIS_S                                                   0
 
 //*****************************************************************************
 //
 // Register: I2C_O_SICR
 //
 //*****************************************************************************
-// Field: [2]    STOPIC
+// Field:     [2] STOPIC
 //
 // Stop condition interrupt clear
 //
 // Writing 1 to this bit clears SRIS.STOPRIS and SMIS.STOPMIS.
 #define I2C_SICR_STOPIC                                             0x00000004
-#define I2C_SICR_STOPIC_BITN                                        2
+#define I2C_SICR_STOPIC_BITN                                                 2
 #define I2C_SICR_STOPIC_M                                           0x00000004
-#define I2C_SICR_STOPIC_S                                           2
+#define I2C_SICR_STOPIC_S                                                    2
 
-// Field: [1]    STARTIC
+// Field:     [1] STARTIC
 //
 // Start condition interrupt clear
 //
 // Writing 1 to this bit clears SRIS.STARTRIS SMIS.STARTMIS.
 #define I2C_SICR_STARTIC                                            0x00000002
-#define I2C_SICR_STARTIC_BITN                                       1
+#define I2C_SICR_STARTIC_BITN                                                1
 #define I2C_SICR_STARTIC_M                                          0x00000002
-#define I2C_SICR_STARTIC_S                                          1
+#define I2C_SICR_STARTIC_S                                                   1
 
-// Field: [0]    DATAIC
+// Field:     [0] DATAIC
 //
 // Data interrupt clear
 //
 // Writing 1 to this bit clears SRIS.DATARIS SMIS.DATAMIS.
 #define I2C_SICR_DATAIC                                             0x00000001
-#define I2C_SICR_DATAIC_BITN                                        0
+#define I2C_SICR_DATAIC_BITN                                                 0
 #define I2C_SICR_DATAIC_M                                           0x00000001
-#define I2C_SICR_DATAIC_S                                           0
+#define I2C_SICR_DATAIC_S                                                    0
 
 //*****************************************************************************
 //
 // Register: I2C_O_MSA
 //
 //*****************************************************************************
-// Field: [7:1] SA
+// Field:   [7:1] SA
 //
 // I2C master slave address
 // Defines which slave is addressed for the transaction in master mode
 #define I2C_MSA_SA_M                                                0x000000FE
-#define I2C_MSA_SA_S                                                1
+#define I2C_MSA_SA_S                                                         1
 
-// Field: [0]    RS
+// Field:     [0] RS
 //
 // Receive or Send
 // This bit-field specifies if the next operation is a receive (high) or a
 // transmit/send (low) from the addressed slave SA.
 // ENUMs:
-// TX                   Transmit/send data to slave
-// RX                   Receive data from slave
-//
+// RX                       Receive data from slave
+// TX                       Transmit/send data to slave
 #define I2C_MSA_RS                                                  0x00000001
-#define I2C_MSA_RS_BITN                                             0
+#define I2C_MSA_RS_BITN                                                      0
 #define I2C_MSA_RS_M                                                0x00000001
-#define I2C_MSA_RS_S                                                0
-#define I2C_MSA_RS_TX                                               0x00000000
+#define I2C_MSA_RS_S                                                         0
 #define I2C_MSA_RS_RX                                               0x00000001
+#define I2C_MSA_RS_TX                                               0x00000000
 
 //*****************************************************************************
 //
 // Register: I2C_O_MSTAT
 //
 //*****************************************************************************
-// Field: [6]    BUSBSY
+// Field:     [6] BUSBSY
 //
 // Bus busy
 //
@@ -412,66 +405,66 @@
 //
 // The bit changes based on the MCTRL.START and MCTRL.STOP conditions.
 #define I2C_MSTAT_BUSBSY                                            0x00000040
-#define I2C_MSTAT_BUSBSY_BITN                                       6
+#define I2C_MSTAT_BUSBSY_BITN                                                6
 #define I2C_MSTAT_BUSBSY_M                                          0x00000040
-#define I2C_MSTAT_BUSBSY_S                                          6
+#define I2C_MSTAT_BUSBSY_S                                                   6
 
-// Field: [5]    IDLE
+// Field:     [5] IDLE
 //
 // I2C idle
 //
 // 0: The I2C controller is not idle.
 // 1: The I2C controller is idle.
 #define I2C_MSTAT_IDLE                                              0x00000020
-#define I2C_MSTAT_IDLE_BITN                                         5
+#define I2C_MSTAT_IDLE_BITN                                                  5
 #define I2C_MSTAT_IDLE_M                                            0x00000020
-#define I2C_MSTAT_IDLE_S                                            5
+#define I2C_MSTAT_IDLE_S                                                     5
 
-// Field: [4]    ARBLST
+// Field:     [4] ARBLST
 //
 // Arbitration lost
 //
 // 0: The I2C controller won arbitration.
 // 1: The I2C controller lost arbitration.
 #define I2C_MSTAT_ARBLST                                            0x00000010
-#define I2C_MSTAT_ARBLST_BITN                                       4
+#define I2C_MSTAT_ARBLST_BITN                                                4
 #define I2C_MSTAT_ARBLST_M                                          0x00000010
-#define I2C_MSTAT_ARBLST_S                                          4
+#define I2C_MSTAT_ARBLST_S                                                   4
 
-// Field: [3]    DATACK_N
+// Field:     [3] DATACK_N
 //
 // Data Was Not Acknowledge
 //
 // 0: The transmitted data was acknowledged.
 // 1: The transmitted data was not acknowledged.
 #define I2C_MSTAT_DATACK_N                                          0x00000008
-#define I2C_MSTAT_DATACK_N_BITN                                     3
+#define I2C_MSTAT_DATACK_N_BITN                                              3
 #define I2C_MSTAT_DATACK_N_M                                        0x00000008
-#define I2C_MSTAT_DATACK_N_S                                        3
+#define I2C_MSTAT_DATACK_N_S                                                 3
 
-// Field: [2]    ADRACK_N
+// Field:     [2] ADRACK_N
 //
 // Address Was Not Acknowledge
 //
 // 0: The transmitted address was acknowledged.
 // 1: The transmitted address was not acknowledged.
 #define I2C_MSTAT_ADRACK_N                                          0x00000004
-#define I2C_MSTAT_ADRACK_N_BITN                                     2
+#define I2C_MSTAT_ADRACK_N_BITN                                              2
 #define I2C_MSTAT_ADRACK_N_M                                        0x00000004
-#define I2C_MSTAT_ADRACK_N_S                                        2
+#define I2C_MSTAT_ADRACK_N_S                                                 2
 
-// Field: [1]    ERR
+// Field:     [1] ERR
 //
 // Error
 //
 // 0: No error was detected on the last operation.
 // 1: An error occurred on the last operation.
 #define I2C_MSTAT_ERR                                               0x00000002
-#define I2C_MSTAT_ERR_BITN                                          1
+#define I2C_MSTAT_ERR_BITN                                                   1
 #define I2C_MSTAT_ERR_M                                             0x00000002
-#define I2C_MSTAT_ERR_S                                             1
+#define I2C_MSTAT_ERR_S                                                      1
 
-// Field: [0]    BUSY
+// Field:     [0] BUSY
 //
 // I2C busy
 //
@@ -479,17 +472,25 @@
 // 1: The controller is busy.
 //
 // When this bit-field is set, the other status bits are not valid.
+//
+// Note: The I2C controller requires four SYSBUS clock cycles to assert the
+// BUSY status after I2C master operation has been initiated through MCTRL
+// register.
+// Hence after programming MCTRL register, application is requested to wait for
+// four SYSBUS clock cycles before issuing a controller status inquiry through
+// MSTAT register.
+// Any prior inquiry would result in wrong status being reported.
 #define I2C_MSTAT_BUSY                                              0x00000001
-#define I2C_MSTAT_BUSY_BITN                                         0
+#define I2C_MSTAT_BUSY_BITN                                                  0
 #define I2C_MSTAT_BUSY_M                                            0x00000001
-#define I2C_MSTAT_BUSY_S                                            0
+#define I2C_MSTAT_BUSY_S                                                     0
 
 //*****************************************************************************
 //
 // Register: I2C_O_MCTRL
 //
 //*****************************************************************************
-// Field: [3]    ACK
+// Field:     [3] ACK
 //
 // Data acknowledge enable
 //
@@ -499,17 +500,16 @@
 // This bit-field must be cleared when the I2C bus controller requires no
 // further data to be transmitted from the slave transmitter.
 // ENUMs:
-// DIS                  Disable acknowledge
-// EN                   Enable acknowledge
-//
+// EN                       Enable acknowledge
+// DIS                      Disable acknowledge
 #define I2C_MCTRL_ACK                                               0x00000008
-#define I2C_MCTRL_ACK_BITN                                          3
+#define I2C_MCTRL_ACK_BITN                                                   3
 #define I2C_MCTRL_ACK_M                                             0x00000008
-#define I2C_MCTRL_ACK_S                                             3
-#define I2C_MCTRL_ACK_DIS                                           0x00000000
+#define I2C_MCTRL_ACK_S                                                      3
 #define I2C_MCTRL_ACK_EN                                            0x00000008
+#define I2C_MCTRL_ACK_DIS                                           0x00000000
 
-// Field: [2]    STOP
+// Field:     [2] STOP
 //
 // This bit-field determines if the cycle stops at the end of the data cycle or
 // continues on to a repeated START condition.
@@ -517,77 +517,73 @@
 // 0: The controller does not generate the Stop condition.
 // 1: The controller generates the Stop condition.
 // ENUMs:
-// DIS                  Disable STOP
-// EN                   Enable STOP
-//
+// EN                       Enable STOP
+// DIS                      Disable STOP
 #define I2C_MCTRL_STOP                                              0x00000004
-#define I2C_MCTRL_STOP_BITN                                         2
+#define I2C_MCTRL_STOP_BITN                                                  2
 #define I2C_MCTRL_STOP_M                                            0x00000004
-#define I2C_MCTRL_STOP_S                                            2
-#define I2C_MCTRL_STOP_DIS                                          0x00000000
+#define I2C_MCTRL_STOP_S                                                     2
 #define I2C_MCTRL_STOP_EN                                           0x00000004
+#define I2C_MCTRL_STOP_DIS                                          0x00000000
 
-// Field: [1]    START
+// Field:     [1] START
 //
 // This bit-field generates the Start or Repeated Start condition.
 //
 // 0: The controller does not generate the Start condition.
 // 1: The controller generates the Start condition.
 // ENUMs:
-// DIS                  Disable START
-// EN                   Enable START
-//
+// EN                       Enable START
+// DIS                      Disable START
 #define I2C_MCTRL_START                                             0x00000002
-#define I2C_MCTRL_START_BITN                                        1
+#define I2C_MCTRL_START_BITN                                                 1
 #define I2C_MCTRL_START_M                                           0x00000002
-#define I2C_MCTRL_START_S                                           1
-#define I2C_MCTRL_START_DIS                                         0x00000000
+#define I2C_MCTRL_START_S                                                    1
 #define I2C_MCTRL_START_EN                                          0x00000002
+#define I2C_MCTRL_START_DIS                                         0x00000000
 
-// Field: [0]    RUN
+// Field:     [0] RUN
 //
 // I2C master enable
 //
 // 0: The master is disabled.
 // 1: The master is enabled to transmit or receive data.
-//
 // ENUMs:
-// DIS                  Disable Master
-// EN                   Enable Master
-//
+// EN                       Enable Master
+// DIS                      Disable Master
 #define I2C_MCTRL_RUN                                               0x00000001
-#define I2C_MCTRL_RUN_BITN                                          0
+#define I2C_MCTRL_RUN_BITN                                                   0
 #define I2C_MCTRL_RUN_M                                             0x00000001
-#define I2C_MCTRL_RUN_S                                             0
-#define I2C_MCTRL_RUN_DIS                                           0x00000000
+#define I2C_MCTRL_RUN_S                                                      0
 #define I2C_MCTRL_RUN_EN                                            0x00000001
+#define I2C_MCTRL_RUN_DIS                                           0x00000000
 
 //*****************************************************************************
 //
 // Register: I2C_O_MDR
 //
 //*****************************************************************************
-// Field: [7:0] DATA
+// Field:   [7:0] DATA
 //
 // When Read: Last RX Data is returned
 // When Written: Data is transferred during TX  transaction
 #define I2C_MDR_DATA_M                                              0x000000FF
-#define I2C_MDR_DATA_S                                              0
+#define I2C_MDR_DATA_S                                                       0
 
 //*****************************************************************************
 //
 // Register: I2C_O_MTPR
 //
 //*****************************************************************************
-// Field: [7]    TPR_7
+// Field:     [7] TPR_7
 //
 // Must be set to 0 to set TPR. If set to 1, a write to TPR will be ignored.
 #define I2C_MTPR_TPR_7                                              0x00000080
-#define I2C_MTPR_TPR_7_BITN                                         7
+#define I2C_MTPR_TPR_7_BITN                                                  7
 #define I2C_MTPR_TPR_7_M                                            0x00000080
-#define I2C_MTPR_TPR_7_S                                            7
+#define I2C_MTPR_TPR_7_S                                                     7
 
-// Field: [6:0] TPR
+// Field:   [6:0] TPR
 //
 // SCL clock period
 // This field specifies the period of the SCL clock.
@@ -599,14 +595,14 @@
 // SCL_HP is the SCL high period (fixed at 4).
 // CLK_PRD is the system clock period in ns.
 #define I2C_MTPR_TPR_M                                              0x0000007F
-#define I2C_MTPR_TPR_S                                              0
+#define I2C_MTPR_TPR_S                                                       0
 
 //*****************************************************************************
 //
 // Register: I2C_O_MIMR
 //
 //*****************************************************************************
-// Field: [0]    IM
+// Field:     [0] IM
 //
 // Interrupt mask
 //
@@ -614,24 +610,22 @@
 // controller.
 // 1: The master interrupt is sent to the interrupt controller when the
 // MRIS.RIS is set.
-//
 // ENUMs:
-// DIS                  Disable Interrupt
-// EN                   Enable Interrupt
-//
+// EN                       Enable Interrupt
+// DIS                      Disable Interrupt
 #define I2C_MIMR_IM                                                 0x00000001
-#define I2C_MIMR_IM_BITN                                            0
+#define I2C_MIMR_IM_BITN                                                     0
 #define I2C_MIMR_IM_M                                               0x00000001
-#define I2C_MIMR_IM_S                                               0
-#define I2C_MIMR_IM_DIS                                             0x00000000
+#define I2C_MIMR_IM_S                                                        0
 #define I2C_MIMR_IM_EN                                              0x00000001
+#define I2C_MIMR_IM_DIS                                             0x00000000
 
 //*****************************************************************************
 //
 // Register: I2C_O_MRIS
 //
 //*****************************************************************************
-// Field: [0]    RIS
+// Field:     [0] RIS
 //
 // Raw interrupt status
 //
@@ -640,16 +634,16 @@
 //
 // This bit is cleared by writing 1 to the MICR.IC bit .
 #define I2C_MRIS_RIS                                                0x00000001
-#define I2C_MRIS_RIS_BITN                                           0
+#define I2C_MRIS_RIS_BITN                                                    0
 #define I2C_MRIS_RIS_M                                              0x00000001
-#define I2C_MRIS_RIS_S                                              0
+#define I2C_MRIS_RIS_S                                                       0
 
 //*****************************************************************************
 //
 // Register: I2C_O_MMIS
 //
 //*****************************************************************************
-// Field: [0]    MIS
+// Field:     [0] MIS
 //
 // Masked interrupt status
 //
@@ -658,76 +652,72 @@
 //
 // This bit is cleared by writing 1 to the MICR.IC bit .
 #define I2C_MMIS_MIS                                                0x00000001
-#define I2C_MMIS_MIS_BITN                                           0
+#define I2C_MMIS_MIS_BITN                                                    0
 #define I2C_MMIS_MIS_M                                              0x00000001
-#define I2C_MMIS_MIS_S                                              0
+#define I2C_MMIS_MIS_S                                                       0
 
 //*****************************************************************************
 //
 // Register: I2C_O_MICR
 //
 //*****************************************************************************
-// Field: [0]    IC
+// Field:     [0] IC
 //
 // Interrupt clear
 // Writing 1 to this bit clears MRIS.RIS and  MMIS.MIS .
 //
 // Reading this register returns no meaningful data.
 #define I2C_MICR_IC                                                 0x00000001
-#define I2C_MICR_IC_BITN                                            0
+#define I2C_MICR_IC_BITN                                                     0
 #define I2C_MICR_IC_M                                               0x00000001
-#define I2C_MICR_IC_S                                               0
+#define I2C_MICR_IC_S                                                        0
 
 //*****************************************************************************
 //
 // Register: I2C_O_MCR
 //
 //*****************************************************************************
-// Field: [5]    SFE
+// Field:     [5] SFE
 //
 // I2C slave function enable
-//
 // ENUMs:
-// DIS                  Slave mode is disabled.
-// EN                   Slave mode is enabled.
-//
+// EN                       Slave mode is enabled.
+// DIS                      Slave mode is disabled.
 #define I2C_MCR_SFE                                                 0x00000020
-#define I2C_MCR_SFE_BITN                                            5
+#define I2C_MCR_SFE_BITN                                                     5
 #define I2C_MCR_SFE_M                                               0x00000020
-#define I2C_MCR_SFE_S                                               5
-#define I2C_MCR_SFE_DIS                                             0x00000000
+#define I2C_MCR_SFE_S                                                        5
 #define I2C_MCR_SFE_EN                                              0x00000020
+#define I2C_MCR_SFE_DIS                                             0x00000000
 
-// Field: [4]    MFE
+// Field:     [4] MFE
 //
 // I2C master function enable
-//
 // ENUMs:
-// DIS                  Master mode is disabled.
-// EN                   Master mode is enabled.
-//
+// EN                       Master mode is enabled.
+// DIS                      Master mode is disabled.
 #define I2C_MCR_MFE                                                 0x00000010
-#define I2C_MCR_MFE_BITN                                            4
+#define I2C_MCR_MFE_BITN                                                     4
 #define I2C_MCR_MFE_M                                               0x00000010
-#define I2C_MCR_MFE_S                                               4
-#define I2C_MCR_MFE_DIS                                             0x00000000
+#define I2C_MCR_MFE_S                                                        4
 #define I2C_MCR_MFE_EN                                              0x00000010
+#define I2C_MCR_MFE_DIS                                             0x00000000
 
-// Field: [0]    LPBK
+// Field:     [0] LPBK
 //
 // I2C loopback
 //
 // 0: Normal operation
 // 1: Loopback operation (test mode)
 // ENUMs:
-// DIS                  Disable Test Mode
-// EN                   Enable Test Mode
-//
+// EN                       Enable Test Mode
+// DIS                      Disable Test Mode
 #define I2C_MCR_LPBK                                                0x00000001
-#define I2C_MCR_LPBK_BITN                                           0
+#define I2C_MCR_LPBK_BITN                                                    0
 #define I2C_MCR_LPBK_M                                              0x00000001
-#define I2C_MCR_LPBK_S                                              0
-#define I2C_MCR_LPBK_DIS                                            0x00000000
+#define I2C_MCR_LPBK_S                                                       0
 #define I2C_MCR_LPBK_EN                                             0x00000001
+#define I2C_MCR_LPBK_DIS                                            0x00000000
 
-#endif // __HW_I2C_H__
+
+#endif // __I2C__

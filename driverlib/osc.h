@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       osc.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-02-10 16:20:36 +0100 (ti, 10 feb 2015)
+*  Revision:       42636
 *
 *  Description:    Defines and prototypes for the system oscillator control.
 *
@@ -164,14 +164,12 @@ OSCXHfPowerModeSet(uint32_t ui32Mode)
 //! system source clocks.
 //!
 //! When selecting the high frequency clock source, this function will not do
-//! the actual switch. Enabling the high frequency XTAL can take as much as
-//! 500us (TBD), so the actual switch is split into a seperate function,
+//! the actual switch. Enabling the high frequency XTAL can take several hundred
+//! micro seconds, so the actual switch is split into a seperate function,
 //! leaving CM3 free to perform other tasks as the XTAL starts up.
 //!
-//! TBD: How long does it take to start the XTAL?
-//!
 //! \note The High Frequency (\ref OSC_SRC_CLK_HF) and Medium Frequency
-//! (\ref OSC_SRC_CLK_MF) can only be derived from the the high frequency
+//! (\ref OSC_SRC_CLK_MF) can only be derived from the high frequency
 //! oscillator. The Low Frequency source clock (\ref OSC_SRC_CLK_LF) can be
 //! derived from all 4 oscillators.
 //!
@@ -185,8 +183,8 @@ OSCXHfPowerModeSet(uint32_t ui32Mode)
 //! \param ui32Osc is the oscillator that drives the source clock.
 //! - \ref OSC_RCOSC_HF
 //! - \ref OSC_XOSC_HF
-//! - \ref OSC_RCOSC_LF
-//! - \ref OSC_XOSC_LF
+//! - \ref OSC_RCOSC_LF (only when ui32SrcClk is \ref OSC_SRC_CLK_LF)
+//! - \ref OSC_XOSC_LF (only when ui32SrcClk is \ref OSC_SRC_CLK_LF)
 //!
 //! \return None
 //

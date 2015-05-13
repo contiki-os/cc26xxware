@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       prcm.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-16 16:39:58 +0100 (ma, 16 mar 2015)
+*  Revision:       42996
 *
 *  Description:    Defines and prototypes for the PRCM
 *
@@ -87,8 +87,6 @@ extern "C"
 #ifndef DRIVERLIB_GENERATE_ROM
     #define PRCMInfClockConfigureSet        NOROM_PRCMInfClockConfigureSet
     #define PRCMInfClockConfigureGet        NOROM_PRCMInfClockConfigureGet
-    #define PRCMClockConfigureSet           NOROM_PRCMClockConfigureSet
-    #define PRCMClockConfigureGet           NOROM_PRCMClockConfigureGet
     #define PRCMAudioClockConfigSet         NOROM_PRCMAudioClockConfigSet
     #define PRCMAudioClockConfigSetOverride NOROM_PRCMAudioClockConfigSetOverride
     #define PRCMPowerDomainOn               NOROM_PRCMPowerDomainOn
@@ -101,8 +99,6 @@ extern "C"
     #define PRCMPeripheralDeepSleepDisable  NOROM_PRCMPeripheralDeepSleepDisable
     #define PRCMPowerDomainStatus           NOROM_PRCMPowerDomainStatus
     #define PRCMDeepSleep                   NOROM_PRCMDeepSleep
-    #define PRCMRetentionEnable             NOROM_PRCMRetentionEnable
-    #define PRCMRetentionDisable            NOROM_PRCMRetentionDisable
 #endif
 
 //*****************************************************************************
@@ -116,18 +112,18 @@ extern "C"
 
 //*****************************************************************************
 //
-// Defines used for setting the clock divison factors
+// Defines used for setting the clock division factors
 //
 //*****************************************************************************
-#define PRCM_CLOCK_DIV_1        0x0000000
-#define PRCM_CLOCK_DIV_2        0x0000001
-#define PRCM_CLOCK_DIV_4        0x0000002
-#define PRCM_CLOCK_DIV_8        0x0000003
-#define PRCM_CLOCK_DIV_16       0x0000004
-#define PRCM_CLOCK_DIV_32       0x0000005
-#define PRCM_CLOCK_DIV_64       0x0000006
-#define PRCM_CLOCK_DIV_128      0x0000007
-#define PRCM_CLOCK_DIV_256      0x0000008
+#define PRCM_CLOCK_DIV_1        PRCM_GPTCLKDIV_RATIO_DIV1
+#define PRCM_CLOCK_DIV_2        PRCM_GPTCLKDIV_RATIO_DIV2
+#define PRCM_CLOCK_DIV_4        PRCM_GPTCLKDIV_RATIO_DIV4
+#define PRCM_CLOCK_DIV_8        PRCM_GPTCLKDIV_RATIO_DIV8
+#define PRCM_CLOCK_DIV_16       PRCM_GPTCLKDIV_RATIO_DIV16
+#define PRCM_CLOCK_DIV_32       PRCM_GPTCLKDIV_RATIO_DIV32
+#define PRCM_CLOCK_DIV_64       PRCM_GPTCLKDIV_RATIO_DIV64
+#define PRCM_CLOCK_DIV_128      PRCM_GPTCLKDIV_RATIO_DIV128
+#define PRCM_CLOCK_DIV_256      PRCM_GPTCLKDIV_RATIO_DIV256
 
 //*****************************************************************************
 //
@@ -242,7 +238,7 @@ PRCMPeripheralValid(uint32_t ui32Peripheral)
 //
 //! \brief Configure the infrastructure clock.
 //!
-//! Each CM3 power mode has its own infrastructure clock divison factor. This
+//! Each CM3 power mode has its own infrastructure clock division factor. This
 //! function can be used for setting up the division factor for the
 //! infrastructure clock in the available power modes for the CM3. The
 //! infrastructure clock is used for all internal logic in the PRCM, and is
@@ -259,7 +255,7 @@ PRCMPeripheralValid(uint32_t ui32Peripheral)
 //! - \ref PRCM_CLOCK_DIV_8
 //! - \ref PRCM_CLOCK_DIV_32
 //! \param ui32PowerMode determines the Cortex M3 operation mode for which to
-//! modify the clock divison factor.
+//! modify the clock division factor.
 //! The three allowed power modes are:
 //! - \ref PRCM_RUN_MODE
 //! - \ref PRCM_SLEEP_MODE
@@ -276,13 +272,13 @@ extern void PRCMInfClockConfigureSet(uint32_t ui32ClkDiv,
 //! \brief Use this function to retreive the set infrastructure clock configuration.
 //!
 //! \param ui32PowerMode determines which Cortex M3 power mode to return the
-//! infrastructure clock divison ratio for.
+//! infrastructure clock division ratio for.
 //! The three allowed power modes are:
 //! - \ref PRCM_RUN_MODE
 //! - \ref PRCM_SLEEP_MODE
 //! - \ref PRCM_DEEP_SLEEP_MODE
 //!
-//! \return Returns the infrastructure clock divison factor for the specified
+//! \return Returns the infrastructure clock division factor for the specified
 //! power mode.
 //! - \ref PRCM_CLOCK_DIV_1
 //! - \ref PRCM_CLOCK_DIV_2
@@ -378,49 +374,19 @@ PRCMMcuUldoConfigure(uint32_t ui32Enable)
 
 //*****************************************************************************
 //
-//! \brief Setup the clock division factor for a subsystem in the MCU voltage
-//! domain.
+//! \brief Setup the clock division factor for the GP-Timer domain.
 //!
-//! Use this function to set up the clock division factor on a specific clock
-//! domain inside the MCU voltage domain.
+//! Use this function to set up the clock division factor on the GP-Timer.
 //!
-//! The \ref PRCM_DOMAIN_TIMER division rate will be constant and ungated for Run
-//! / Sleep / DeepSleep mode when it is slower than the \ref PRCM_DOMAIN_PERIPH
-//! setting. When set faster than \ref PRCM_DOMAIN_PERIPH setting the
-//! \ref PRCM_DOMAIN_PERIPH will be used.
+//! The division rate will be constant and ungated for Run / Sleep / DeepSleep mode when
+//! it is slower than PRCM_GPTCLKDIV_RATIO setting.
+//! When set faster than PRCM_GPTCLKDIV_RATIO setting PRCM_GPTCLKDIV_RATIO will be used.
+//! Note that the register will contain the written content even though the setting is
+//! faster than PRCM_GPTCLKDIV_RATIO setting.
 //!
-//! The \ref PRCM_DOMAIN_CPU can only run with 48 or 24 MHz. The only two valid
-//! clock division factors are therefore 1 and 2 and it is always sourced from
-//! the HF source.
+//! \note For change to take effect, \ref PRCMLoadSet() needs to be called
 //!
-//! The \ref PRCM_DOMAIN_SERIAL clock can run independently of the
-//! \ref PRCM_DOMAIN_SYSBUS clock. This function can be used to setup the clock
-//! divison factor but this is only valid when the \ref PRCM_DOMAIN_SYSBUS clock
-//! is disabled. When the \ref PRCM_DOMAIN_SYSBUS clock is enabled, the clock
-//! division ratio for this clock will follow the \ref PRCM_DOMAIN_SYSBUS clock.
-//!
-//! The \ref PRCM_DOMAIN_SERIAL clock sets the serial interface clock for SSI
-//! and UART. The clock source is the MCU domain root clock.
-//! The \ref PRCM_DOMAIN_SERIAL clock is the only asynchronous clock in the MCU
-//! Voltage domain and is configured independently from all other clocks.
-//! It is the programmers responsibility to ensure that the
-//! \ref PRCM_DOMAIN_SERIAL clock frequency setting is slower than 5/3 of the
-//! \ref PRCM_DOMAIN_SYSBUS clock for UART operation and less than or equal to
-//! the \ref PRCM_DOMAIN_SYSBUS clock for SSI operation. If both modules are
-//! active the lowest value of the two must be selected.
-//!
-//! \note Not all sub-systems support all division factors. Please ensure
-//! that a given clock domain will support the chosen division factor before
-//! trying to configure it.
-//!
-//! \param ui32Domains defines the clock domains to configure the clock on.
-//! The 5 clock domains are:
-//! - \ref PRCM_DOMAIN_SYSBUS
-//! - \ref PRCM_DOMAIN_CPU
-//! - \ref PRCM_DOMAIN_PERIPH
-//! - \ref PRCM_DOMAIN_SERIAL
-//! - \ref PRCM_DOMAIN_TIMER
-//! \param ui32ClkDiv is the division factor to configure.
+//! \param clkDiv is the division factor to set.
 //! The argument must be only one of the following values:
 //! - \ref PRCM_CLOCK_DIV_1
 //! - \ref PRCM_CLOCK_DIV_2
@@ -433,31 +399,44 @@ PRCMMcuUldoConfigure(uint32_t ui32Enable)
 //! - \ref PRCM_CLOCK_DIV_256
 //!
 //! \return None
+//!
+//! \sa \ref PRCMGPTimerClockDivisionGet()
 //
 //*****************************************************************************
-extern void PRCMClockConfigureSet(uint32_t ui32Domains, uint32_t ui32ClkDiv);
+__STATIC_INLINE void
+PRCMGPTimerClockDivisionSet( uint32_t clkDiv )
+{
+    ASSERT( clkDiv <= PRCM_GPTCLKDIV_RATIO_DIV256 );
+
+    HWREG( PRCM_BASE + PRCM_O_GPTCLKDIV ) = clkDiv;
+}
 
 //*****************************************************************************
 //
-//! \brief Get the clock configuration for a specific sub system in the MCU Voltage
-//! Domain.
+//! \brief Get the clock division factor for the GP-Timer domain.
 //!
-//! Use this function to retrieve the clock division factor on a specific clock
-//! domain inside the MCU voltage domain.
+//! Use this function to get the clock division factor set for the GP-Timer.
 //!
-//! \param ui32Domain defines the sub system for which to return the clock
-//! configuration.
-//! The 5 clock domains are:
-//! - \ref PRCM_DOMAIN_SYSBUS
-//! - \ref PRCM_DOMAIN_CPU
-//! - \ref PRCM_DOMAIN_PERIPH
-//! - \ref PRCM_DOMAIN_SERIAL
-//! - \ref PRCM_DOMAIN_TIMER
+//! \return Returns one of the following values:
+//! - \ref PRCM_CLOCK_DIV_1
+//! - \ref PRCM_CLOCK_DIV_2
+//! - \ref PRCM_CLOCK_DIV_4
+//! - \ref PRCM_CLOCK_DIV_8
+//! - \ref PRCM_CLOCK_DIV_16
+//! - \ref PRCM_CLOCK_DIV_32
+//! - \ref PRCM_CLOCK_DIV_64
+//! - \ref PRCM_CLOCK_DIV_128
+//! - \ref PRCM_CLOCK_DIV_256
 //!
-//! \return Returns the sub system clock configuration
+//! \sa \ref PRCMGPTimerClockDivisionSet()
 //
 //*****************************************************************************
-extern uint32_t PRCMClockConfigureGet(uint32_t ui32Domain);
+__STATIC_INLINE uint32_t
+PRCMGPTimerClockDivisionGet( void )
+{
+    return ( HWREG( PRCM_BASE + PRCM_O_GPTCLKDIV ));
+}
+
 
 //*****************************************************************************
 //
@@ -504,7 +483,7 @@ PRCMAudioClockDisable(void)
 //!
 //! \note While other clocks are possible, the stability of the four sample
 //! rates defined here are only guaranteed if the clock input to the I2S module
-//! is 48MHz. This can be configured using \ref PRCMClockConfigureSet().
+//! is 48MHz.
 //!
 //! \param ui32ClkConfig is the audio clock configuration.
 //! The parameter is a bitwise OR'ed value consisting of:
@@ -569,9 +548,7 @@ extern void PRCMAudioClockConfigSetOverride(uint32_t ui32ClkConfig, uint32_t ui3
 //! The functions that require a synchronization of the clock settings are:
 //! - \ref PRCMAudioClockConfigSet()
 //! - \ref PRCMAudioClockConfigSetOverride()
-//! - \ref PRCMAudioClockEnable()
 //! - \ref PRCMAudioClockDisable()
-//! - \ref PRCMClockConfigureSet()
 //! - \ref PRCMDomainEnable()
 //! - \ref PRCMDomainDisable()
 //! - \ref PRCMPeripheralRunEnable()
@@ -582,6 +559,8 @@ extern void PRCMAudioClockConfigSetOverride(uint32_t ui32ClkConfig, uint32_t ui3
 //! - \ref PRCMPeripheralDeepSleepEnable()
 //!
 //! \return None
+//!
+//! \sa \ref PRCMLoadGet()
 //
 //*****************************************************************************
 __STATIC_INLINE void
@@ -1158,39 +1137,34 @@ extern void PRCMDeepSleep(void);
 
 //*****************************************************************************
 //
-//! \brief Enable retention on specific power domains.
+//! \brief Enable CACHE RAM retention
 //!
-//! Determines if power domain should have retention enabled.
-//!
-//! \param ui32PowerDomain is a bit mask of the domains in question.
-//! The parameter must be a bitwise OR'ed value of:
-//! - \ref PRCM_DOMAIN_PERIPH
-//! - \ref PRCM_DOMAIN_CPU
-//! - \ref PRCM_DOMAIN_VIMS
-//! - \ref PRCM_DOMAIN_RFCORE
+//! Enables CACHE RAM retention on both VIMS_TRAM and VIMS_CRAM
 //!
 //! \return None
 //
 //*****************************************************************************
-extern void PRCMRetentionEnable(uint32_t ui32PowerDomain);
+__STATIC_INLINE void
+PRCMCacheRetentionEnable( void )
+{
+   HWREG( PRCM_BASE + PRCM_O_RAMRETEN ) |= PRCM_RAMRETEN_VIMS_M;
+}
 
 //*****************************************************************************
 //
-//! \brief Disable retention on power domains.
+//! \brief Disable CACHE RAM retention
 //!
-//! Determines if a power domain should have retention disabled.
-//!
-//! \param ui32PowerDomain is a bit maks of the domains in question.
-//! The parameter must be a bitwise OR'ed value of:
-//! - \ref PRCM_DOMAIN_PERIPH
-//! - \ref PRCM_DOMAIN_CPU
-//! - \ref PRCM_DOMAIN_VIMS
-//! - \ref PRCM_DOMAIN_RFCORE
+//! Disables CACHE RAM retention on both VIMS_TRAM and VIMS_CRAM
 //!
 //! \return None
 //
 //*****************************************************************************
-extern void PRCMRetentionDisable(uint32_t ui32PowerDomain);
+__STATIC_INLINE void
+PRCMCacheRetentionDisable( void )
+{
+   HWREG( PRCM_BASE + PRCM_O_RAMRETEN ) &= ~PRCM_RAMRETEN_VIMS_M;
+}
+
 
 //*****************************************************************************
 //
@@ -1207,14 +1181,6 @@ extern void PRCMRetentionDisable(uint32_t ui32PowerDomain);
     #ifdef ROM_PRCMInfClockConfigureGet
         #undef  PRCMInfClockConfigureGet
         #define PRCMInfClockConfigureGet        ROM_PRCMInfClockConfigureGet
-    #endif
-    #ifdef ROM_PRCMClockConfigureSet
-        #undef  PRCMClockConfigureSet
-        #define PRCMClockConfigureSet           ROM_PRCMClockConfigureSet
-    #endif
-    #ifdef ROM_PRCMClockConfigureGet
-        #undef  PRCMClockConfigureGet
-        #define PRCMClockConfigureGet           ROM_PRCMClockConfigureGet
     #endif
     #ifdef ROM_PRCMAudioClockConfigSet
         #undef  PRCMAudioClockConfigSet
@@ -1263,14 +1229,6 @@ extern void PRCMRetentionDisable(uint32_t ui32PowerDomain);
     #ifdef ROM_PRCMDeepSleep
         #undef  PRCMDeepSleep
         #define PRCMDeepSleep                   ROM_PRCMDeepSleep
-    #endif
-    #ifdef ROM_PRCMRetentionEnable
-        #undef  PRCMRetentionEnable
-        #define PRCMRetentionEnable             ROM_PRCMRetentionEnable
-    #endif
-    #ifdef ROM_PRCMRetentionDisable
-        #undef  PRCMRetentionDisable
-        #define PRCMRetentionDisable            ROM_PRCMRetentionDisable
     #endif
 #endif
 

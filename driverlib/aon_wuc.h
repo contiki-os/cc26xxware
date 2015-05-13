@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_wuc.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-04-13 12:35:02 +0200 (ma, 13 apr 2015)
+*  Revision:       43212
 *
 *  Description:    Defines and prototypes for the AON Wake-Up Controller
 *
@@ -83,7 +83,6 @@ extern "C"
 //
 //*****************************************************************************
 #ifndef DRIVERLIB_GENERATE_ROM
-    #define AONWUCAuxClockConfigSet         NOROM_AONWUCAuxClockConfigSet
     #define AONWUCAuxSRamConfig             NOROM_AONWUCAuxSRamConfig
     #define AONWUCAuxWakeupEvent            NOROM_AONWUCAuxWakeupEvent
     #define AONWUCAuxReset                  NOROM_AONWUCAuxReset
@@ -98,8 +97,6 @@ extern "C"
 //*****************************************************************************
 #define AONWUC_CLOCK_SRC_HF     0x00000003  // System clock high frequency -
                                             // 48 MHz.
-#define AONWUC_CLOCK_SRC_MF     0x00000002  // System clock medium frequency -
-                                            // 512 kHz.
 #define AONWUC_CLOCK_SRC_LF     0x00000001  // System clock low frequency -
                                             // 32 kHz.
 #define AONWUC_NO_CLOCK         0x00000000  // System clock low frequency -
@@ -154,7 +151,6 @@ extern "C"
 // AONWUCAuxWakeUpEvent() .
 //
 //*****************************************************************************
-#define AONWUC_AUX_WAKEUP_SWEVT 0x00000002
 #define AONWUC_AUX_WAKEUP       0x00000001
 #define AONWUC_AUX_ALLOW_SLEEP  0x00000000
 
@@ -179,22 +175,6 @@ extern "C"
 #define AONWUC_MCU_POWER_ON     0x00000010  // MCU is powered on
 #define AONWUC_SPLY_POWER_DOWN  0x00000001  // Power supply is in power down
 
-//*****************************************************************************
-//
-// Defines for the different configuration options for the JTAG domain that can
-// be passed to AONWUCJTagConfig() .
-//
-//*****************************************************************************
-#define AONWUC_JTAG_FORCE_ON   0x00000100
-#define AONWUC_JTAG_ICE        0x00000000
-#define AONWUC_JTAG_PBIST2TAP  0x00000040
-#define AONWUC_JTAG_PBIST1TAP  0x00000020
-#define AONWUC_JTAG_EFUSETAP   0x00000010
-#define AONWUC_JTAG_TESTTAP    0x00000008
-#define AONWUC_JTAG_WUCTAP     0x00000004
-#define AONWUC_JTAG_PRCMTAP    0x00000002
-#define AONWUC_JTAG_CPUDAP     0x00000001
-#define AONWUC_JTAG_MASK       0x0000007F
 
 //*****************************************************************************
 //
@@ -213,14 +193,9 @@ extern "C"
                                             // recharge controller.
 
 //*****************************************************************************
-#define AONWUC_TOTAL_FLASH_ERASE                                              \
-                                0x00000200  // A total flash erase includes the
-                                            // Customer Configuration Area
-#define AONWUC_FULL_FLASH_ERASE 0x00000100  // A full flash erase excludes the
-                                            // the customer configuration area
 #define AONWUC_MCU_RESET_SRC    0x00000002  // MCU reset source can be SW or
                                             // JTAG
-#define AONWUC_MCU_RESET_TYPE   0x00000001  // MCU reset type and can be warm
+#define AONWUC_MCU_WARM_RESET   0x00000001  // MCU reset type and can be warm
                                             // or not warm.
 
 //*****************************************************************************
@@ -244,7 +219,6 @@ extern "C"
 //! \param ui32ClkSrc is the clock source for the MCU domain when in power
 //! down. Three values are available as clock source:
 //! - \ref AONWUC_NO_CLOCK
-//! - \ref AONWUC_CLOCK_SRC_MF
 //! - \ref AONWUC_CLOCK_SRC_LF
 //!
 //! \return None
@@ -259,7 +233,6 @@ AONWUCMcuPowerDownConfig(uint32_t ui32ClkSrc)
     // Check the arguments.
     //
     ASSERT((ui32ClkSrc == AONWUC_NO_CLOCK) ||
-           (ui32ClkSrc == AONWUC_CLOCK_SRC_MF) ||
            (ui32ClkSrc == AONWUC_CLOCK_SRC_LF));
 
     //
@@ -315,7 +288,7 @@ AONWUCMcuPowerOffConfig(uint32_t ui32Mode)
 //!
 //! The MCU domain can wake up using two different procedures. Either it wakes
 //! up immediately following the triggering event or wake-up is forced to
-//! happen a fixed number (TBD) of 32 KHz clocks following the triggering
+//! happen a fixed number of 32 KHz clocks following the triggering
 //! event. The last can be used to compensate for any variable delays caused
 //! by other activities going on at the time of wakeup (such as a recharge
 //! event, etc.).
@@ -391,39 +364,6 @@ AONWUCMcuSRamConfig(uint32_t ui32Retention)
     HWREG(AON_WUC_BASE + AON_WUC_O_MCUCFG) = ui32Reg;
 }
 
-//*****************************************************************************
-//
-//! \brief Set the clock source for the AUX domain.
-//!
-//! This function is used to control which one of the system clocks that
-//! is fed into the AUX domain and what the value of the AUX clock divider is.
-//! Since the AUX domain has no internal clock divider, the AON WUC contains
-//! a dedicated clock divider for the AUX domain.
-//!
-//! \note It is not allowed to change the AUX clock divider while it is sourced
-//! from the HF clock. So always make sure that the AUX is either powered off
-//! or not running from the HF clock when changing the division factor.
-//!
-//! \param ui32ClkSrc is the clock source for the AUX domain.
-//! - \ref AONWUC_CLOCK_SRC_HF
-//! - \ref AONWUC_CLOCK_SRC_MF
-//! - \ref AONWUC_CLOCK_SRC_LF
-//! \param ui32ClkDiv is the setting of the AUX clock divider.
-//! - \ref AUX_CLOCK_DIV_2
-//! - \ref AUX_CLOCK_DIV_4
-//! - \ref AUX_CLOCK_DIV_8
-//! - \ref AUX_CLOCK_DIV_16
-//! - \ref AUX_CLOCK_DIV_32
-//! - \ref AUX_CLOCK_DIV_64
-//! - \ref AUX_CLOCK_DIV_128
-//! - \ref AUX_CLOCK_DIV_256
-//!
-//! \return None
-//!
-//! \sa AONWUCAuxClockConfigGet()
-//
-//*****************************************************************************
-extern void AONWUCAuxClockConfigSet(uint32_t ui32ClkSrc, uint32_t ui32ClkDiv);
 
 //*****************************************************************************
 //
@@ -443,7 +383,6 @@ extern void AONWUCAuxClockConfigSet(uint32_t ui32ClkSrc, uint32_t ui32ClkDiv);
 //! - \ref AUX_CLOCK_DIV_128
 //! - \ref AUX_CLOCK_DIV_256
 //!
-//! \sa AONWUCAuxClockConfigSet()
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
@@ -471,7 +410,6 @@ AONWUCAuxClockConfigGet(void)
 //!
 //! \param ui32ClkSrc is the clock source for the AUX domain when in power down.
 //! - \ref AONWUC_NO_CLOCK
-//! - \ref AONWUC_CLOCK_SRC_MF
 //! - \ref AONWUC_CLOCK_SRC_LF
 //! \return None
 //
@@ -485,7 +423,6 @@ AONWUCAuxPowerDownConfig(uint32_t ui32ClkSrc)
     // Check the arguments.
     //
     ASSERT((ui32ClkSrc == AONWUC_NO_CLOCK) ||
-           (ui32ClkSrc == AONWUC_CLOCK_SRC_MF) ||
            (ui32ClkSrc == AONWUC_CLOCK_SRC_LF));
 
     //
@@ -498,77 +435,6 @@ AONWUCAuxPowerDownConfig(uint32_t ui32ClkSrc)
                                               AON_WUC_AUXCLK_PWR_DWN_SRC_S);
 }
 
-//*****************************************************************************
-//
-//! \brief Configure the power off mode for the AUX domain.
-//!
-//! The parameter \c ui32Mode determines the power down mode of the AUX Voltage
-//! Domain. When the AON WUC receives a request to power off the AUX domain it
-//! can choose to power off completely or use a virtual power-off. In a virtual
-//! power-off, reset is asserted and the clock is stopped but the power to the
-//! domain is kept on.
-//!
-//! \param ui32Mode defines the power down mode of the AUX domain.
-//! - \ref AUX_VIRT_PWOFF_DISABLE
-//! - \ref AUX_VIRT_PWOFF_ENABLE
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-AONWUCAuxPowerOffConfig(uint32_t ui32Mode)
-{
-    uint32_t ui32Reg;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32Mode == AUX_VIRT_PWOFF_ENABLE) ||
-           (ui32Mode == AUX_VIRT_PWOFF_DISABLE));
-
-    //
-    // Set the poweroff mode.
-    //
-    ui32Reg = HWREG(AON_WUC_BASE + AON_WUC_O_AUXCFG);
-    ui32Reg &= ~AON_WUC_AUXCFG_VIRT_OFF;
-    HWREG(AON_WUC_BASE + AON_WUC_O_AUXCFG) = ui32Mode | ui32Reg;
-}
-
-//*****************************************************************************
-//
-//! \brief Configure the wake-up procedure for the AUX domain.
-//!
-//! The AUX domain can wake up using two different procedures. Either it wakes
-//! up immediately following the triggering event or wake-up is forced to
-//! happen a fixed number (TBD) of 32 KHz clocks following the triggering
-//! event. The last can be used to compensate for any variable delays caused
-//! by other activities going on at the time of wakeup (such as a recharge
-//! event, etc.).
-//!
-//! \param ui32WakeUp determines the timing of the AUX wake up procedure.
-//! - \ref AUX_IMM_WAKE_UP
-//! - \ref AUX_FIXED_WAKE_UP
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-AONWUCAuxWakeUpConfig(uint32_t ui32WakeUp)
-{
-    uint32_t ui32Reg;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32WakeUp == AUX_IMM_WAKE_UP) || (ui32WakeUp == AUX_FIXED_WAKE_UP));
-
-    //
-    // Configure the wake up procedure.
-    //
-    ui32Reg = HWREG(AON_WUC_BASE + AON_WUC_O_AUXCFG);
-    ui32Reg &= ~AON_WUC_AUXCFG_FIXED_WU_EN_M;
-    HWREG(AON_WUC_BASE + AON_WUC_O_AUXCFG) = ui32Reg | ui32WakeUp;
-}
 
 //*****************************************************************************
 //
@@ -578,11 +444,13 @@ AONWUCAuxWakeUpConfig(uint32_t ui32WakeUp)
 //! on the SRAM can be turned on and off. Use this function to enable/disable
 //! the retention on the entire RAM.
 //!
+//! \param ui32Retention either enables or disables AUX SRAM retention.
+//! - 0             : Disable retention.
+//! - Anything else : Enable retention.
+//!
 //! \note Retention on the SRAM is not enabled by default. If retention is
 //! turned off then the SRAM is powered off when it would otherwise be put in
 //! retention mode.
-//!
-//! TBD : Is this done in the bootcode?
 //!
 //! \return None
 //
@@ -612,7 +480,6 @@ extern void AONWUCAuxSRamConfig(uint32_t ui32Retention);
 //!
 //! \param ui32Mode is the wake up mode for the AUX domain.
 //! - \ref AONWUC_AUX_WAKEUP
-//! - \ref AONWUC_AUX_WAKEUP_SWEVT
 //! - \ref AONWUC_AUX_ALLOW_SLEEP
 //!
 //! \return None
@@ -687,24 +554,14 @@ AONWUCAuxImageInvalid(void)
 //!
 //! \return Returns the current power status of the device as a bitwise OR'ed
 //! combination of these values:
-//! - \ref AONWUC_OSC_GBIAS_REQ
-//! - \ref AONWUC_AUX_GBIAS_REQ
-//! - \ref AONWUC_MCU_GBIAS_REQ
-//! - \ref AONWUC_OSC_BGAP_REQ
-//! - \ref AONWUC_AUX_BGAP_REQ
-//! - \ref AONWUC_MCU_BGAP_REQ
-//! - \ref AONWUC_GBIAS_ON
-//! - \ref AONWUC_BGAP_ON
 //! - \ref AONWUC_AUX_POWER_DOWN
-//! - \ref AONWUC_MCU_POWER_DOWN
-//! - \ref AONWUC_JTAG_POWER_ON
 //! - \ref AONWUC_AUX_POWER_ON
+//! - \ref AONWUC_JTAG_POWER_ON
 //! - \ref AONWUC_MCU_POWER_ON
-//! - \ref AONWUC_SPLY_POWER_DOWN
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
-AONWUCPowerStatus(void)
+AONWUCPowerStatusGet(void)
 {
     //
     // Return the power status.
@@ -800,17 +657,15 @@ AONWUCDomainPowerDownDisable(void)
 //!
 //! AON Wake Up Controller TAP can request a total/full Flash erase. If so,
 //! the corresponding status bits will be set in the status register and can
-//! be read using AONWUCMcuResetStatus() or cleared using this function. The reset
+//! be read using \ref AONWUCMcuResetStatusGet() or cleared using this function. The reset
 //! source and type give information about what and how the latest reset
 //! was performed. Access to these bits are indentical to the flash erase
 //! bits.
 //!
 //! \param ui32Status defines in a one-hot encoding which bits to clear in the
 //! status register. Use OR'ed combinations of the following:
-//! - \ref AONWUC_TOTAL_FLASH_ERASE
-//! - \ref AONWUC_FULL_FLASH_ERASE
 //! - \ref AONWUC_MCU_RESET_SRC
-//! - \ref AONWUC_MCU_RESET_TYPE
+//! - \ref AONWUC_MCU_WARM_RESET
 //!
 //! \return None
 //
@@ -821,10 +676,8 @@ AONWUCMcuResetClear(uint32_t ui32Status)
     //
     // Check the arguments.
     //
-    ASSERT((ui32Status & AONWUC_TOTAL_FLASH_ERASE) ||
-           (ui32Status & AONWUC_FULL_FLASH_ERASE) ||
-           (ui32Status & AONWUC_MCU_RESET_SRC) ||
-           (ui32Status & AONWUC_MCU_RESET_TYPE));
+    ASSERT((ui32Status & AONWUC_MCU_RESET_SRC) ||
+           (ui32Status & AONWUC_MCU_WARM_RESET));
 
     //
     // Clear the status bits.
@@ -842,7 +695,7 @@ AONWUCMcuResetClear(uint32_t ui32Status)
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
-AONWUCMcuResetStatus(void)
+AONWUCMcuResetStatusGet(void)
 {
     //
     // Return the current status.
@@ -995,10 +848,6 @@ AONWUCJtagPowerOff(void)
 //*****************************************************************************
 #ifndef DRIVERLIB_NOROM
     #include <driverlib/rom.h>
-    #ifdef ROM_AONWUCAuxClockConfigSet
-        #undef  AONWUCAuxClockConfigSet
-        #define AONWUCAuxClockConfigSet         ROM_AONWUCAuxClockConfigSet
-    #endif
     #ifdef ROM_AONWUCAuxSRamConfig
         #undef  AONWUCAuxSRamConfig
         #define AONWUCAuxSRamConfig             ROM_AONWUCAuxSRamConfig

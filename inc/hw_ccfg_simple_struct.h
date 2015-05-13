@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_ccfg_simple_struct.h
-*  Revised:        $Date$
-*  Revision:       $Revision$
+*  Filename:       hw_ccfg_simple_struct_h
+*  Revised:        2015-03-03 09:29:52 +0100 (ti, 03 mar 2015)
+*  Revision:       42862
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -46,6 +46,7 @@
 //*****************************************************************************
 typedef struct
 {                                              //  Mapped to address
+    uint32_t   CCFG_EXT_LF_CLK               ; // 0x50003FA8
     uint32_t   CCFG_MODE_CONF_1              ; // 0x50003FAC
     uint32_t   CCFG_SIZE_AND_DIS_FLAGS       ; // 0x50003FB0
     uint32_t   CCFG_MODE_CONF                ; // 0x50003FB4
@@ -77,4 +78,4 @@ typedef struct
 extern const ccfg_t __ccfg;
 
 
-#endif // __HW_CCFG_SIMPLE_STRUCT_H__
+#endif // __HW_CCFG_SIMPLE_STRUCT__

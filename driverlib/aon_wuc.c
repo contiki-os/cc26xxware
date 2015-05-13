@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_wuc.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Description:    Driver for the AON Wake-Up Controller.
 *
@@ -45,8 +45,6 @@
 //
 //*****************************************************************************
 #ifndef DRIVERLIB_GENERATE_ROM
-    #undef  AONWUCAuxClockConfigSet
-    #define AONWUCAuxClockConfigSet         NOROM_AONWUCAuxClockConfigSet
     #undef  AONWUCAuxSRamConfig
     #define AONWUCAuxSRamConfig             NOROM_AONWUCAuxSRamConfig
     #undef  AONWUCAuxWakeupEvent
@@ -59,73 +57,6 @@
     #define AONWUCOscConfig                 NOROM_AONWUCOscConfig
 #endif
 
-//*****************************************************************************
-//
-//! Set the clock source for the AUX domain
-//
-//*****************************************************************************
-void
-AONWUCAuxClockConfigSet(uint32_t ui32ClkSrc, uint32_t ui32ClkDiv)
-{
-    uint32_t ui32Reg;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32ClkSrc == AONWUC_CLOCK_SRC_HF) ||
-           (ui32ClkSrc == AONWUC_CLOCK_SRC_MF) ||
-           (ui32ClkSrc == AONWUC_CLOCK_SRC_LF));
-    ASSERT((ui32ClkDiv == AUX_CLOCK_DIV_2)   ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_4)   ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_8)   ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_16)  ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_32)  ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_64)  ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_128) ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_256) ||
-           (ui32ClkDiv == AUX_CLOCK_DIV_UNUSED));
-
-    //
-    // Configure the clock for the AUX domain.
-    //
-    ui32Reg = HWREG(AON_WUC_BASE + AON_WUC_O_AUXCLK);
-
-    //
-    // Check if we need to update the clock division factor
-    //
-    if(ui32ClkDiv != AUX_CLOCK_DIV_UNUSED)
-    {
-        ui32Reg = (ui32Reg & ~AON_WUC_AUXCLK_SCLK_HF_DIV_M) | ui32ClkDiv;
-        HWREG(AON_WUC_BASE + AON_WUC_O_AUXCLK) = ui32Reg;
-
-        // If switching to a HF clocks source for AUX it is necessary to
-        // synchronize the write on the AON RTC to ensure the clock division is
-        // updated before requesting the clock source
-        //
-        if(ui32ClkSrc == AONWUC_CLOCK_SRC_HF)
-        {
-            HWREG(AON_RTC_BASE + AON_RTC_O_SYNC);
-        }
-    }
-
-    //
-    // Configure the clock for the AUX domain.
-    //
-    ui32Reg &= ~AON_WUC_AUXCLK_SRC_M;
-    if(ui32ClkSrc == AONWUC_CLOCK_SRC_HF)
-    {
-        ui32Reg |= AON_WUC_AUXCLK_SRC_SCLK_HF;
-    }
-    else if(ui32ClkSrc == AONWUC_CLOCK_SRC_MF)
-    {
-        ui32Reg |= AON_WUC_AUXCLK_SRC_SCLK_MF;
-    }
-    else if(ui32ClkSrc == AONWUC_CLOCK_SRC_LF)
-    {
-        ui32Reg |= AON_WUC_AUXCLK_SRC_SCLK_LF;
-    }
-    HWREG(AON_WUC_BASE + AON_WUC_O_AUXCLK) = ui32Reg;
-}
 
 //*****************************************************************************
 //

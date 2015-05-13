@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       sys_ctrl.c
-*  Revised:        2015-01-15 14:12:37 +0100 (to, 15 jan 2015)
-*  Revision:       42392
+*  Revised:        2015-04-10 10:07:11 +0200 (fr, 10 apr 2015)
+*  Revision:       43196
 *
 *  Description:    Driver for the System Control.
 *
@@ -58,10 +58,6 @@
     #define SysCtrlPowerdown                NOROM_SysCtrlPowerdown
     #undef  SysCtrlShutdown
     #define SysCtrlShutdown                 NOROM_SysCtrlShutdown
-    #undef  SysCtrlClockGet
-    #define SysCtrlClockGet                 NOROM_SysCtrlClockGet
-    #undef  SysCtrlPeripheralClockGet
-    #define SysCtrlPeripheralClockGet       NOROM_SysCtrlPeripheralClockGet
     #undef  SysCtrlResetSourceGet
     #define SysCtrlResetSourceGet           NOROM_SysCtrlResetSourceGet
 #endif
@@ -75,6 +71,7 @@
 #define  PD_STATE_CACHE_RET      1
 #define  PD_STATE_RFMEM_RET      2
 #define  PD_STATE_XOSC_LPM       4
+#define  PD_STATE_EXT_REG_MODE   8
 
 typedef struct {
    uint32_t    pdTime               ;
@@ -114,7 +111,7 @@ static const uint32_t g_pui32ModuleCG[] =
 
 //*****************************************************************************
 //
-//! Power up everything
+// Power up everything
 //
 //*****************************************************************************
 void
@@ -127,7 +124,7 @@ SysCtrlPowerEverything(void)
     // Force power on AUX
     //
     AONWUCAuxWakeupEvent(AONWUC_AUX_WAKEUP);
-    while(!(AONWUCPowerStatus() & AONWUC_AUX_POWER_ON))
+    while(!(AONWUCPowerStatusGet() & AONWUC_AUX_POWER_ON))
     { }
 
     //
@@ -174,13 +171,6 @@ SysCtrlPowerEverything(void)
     while(PRCMPowerDomainStatus(PRCM_DOMAIN_RFCORE | PRCM_DOMAIN_SERIAL |
                                 PRCM_DOMAIN_PERIPH) != PRCM_DOMAIN_POWER_ON);
 
-    //
-    // Minimize all domain clock dividers and wait for the clock settings to
-    // take effect
-    //
-    PRCMClockConfigureSet(PRCM_DOMAIN_SYSBUS | PRCM_DOMAIN_CPU |
-                          PRCM_DOMAIN_PERIPH | PRCM_DOMAIN_SERIAL |
-                          PRCM_DOMAIN_TIMER, PRCM_CLOCK_DIV_1);
     PRCMLoadSet();
     while(!PRCMLoadGet());
 
@@ -195,7 +185,6 @@ SysCtrlPowerEverything(void)
 
     //
     // Enable all the RF Core clocks
-    // TBD Encapsulate in an API
     //
     // Do not read back to check, for two reasons:
     // 1. CPE will update the PWMCLKENABLE register right after boot
@@ -303,7 +292,6 @@ SysCtrlShutdown(void)
     //
     // Source the LF clock from the low frequency RC_OSC.
     // HF and MF are sourced from the high frequency RC_OSC.
-    // TBD - Modify to source LF clock from XTAL
     //
     OSCClockSourceSet(OSC_SRC_CLK_LF, OSC_RCOSC_LF);
     OSCClockSourceSet(OSC_SRC_CLK_MF | OSC_SRC_CLK_HF, OSC_RCOSC_HF);
@@ -329,119 +317,13 @@ SysCtrlShutdown(void)
     PowerCtrlStateSet(PWRCTRL_SHUTDOWN);
 }
 
-//*****************************************************************************
-//
-//! Get the CPU core clock frequency.
-//
-//*****************************************************************************
-uint32_t
-SysCtrlClockGet(void)
-{
-    uint32_t ui32Div;
-
-    //
-    // Get the current clock divider for the CPU.
-    //
-    ui32Div = HWREG(PRCM_BASE + PRCM_O_CPUCLKDIV) ? 2 : 1;
-
-    //
-    // Get the current clock divider for the SYSBUS.
-    //
-    ui32Div <<= HWREG(PRCM_BASE + PRCM_O_SYSBUSCLKDIV);
-
-    //
-    // Return the current value of the divided clock.
-    //
-    return (GET_MCU_CLOCK / ui32Div);
-}
 
 //*****************************************************************************
-//
-//! Get the clock for a peripheral
-//
+// Need to know the CCFG:MODE_CONF.VDDR_TRIM_SLEEP_DELTA fild width in order
+// to sign extend correctly but this is however not defined in the hardware
+// description fields and are therefore defined separately here.
 //*****************************************************************************
-uint32_t
-SysCtrlPeripheralClockGet(uint32_t ui32Peripheral, uint32_t ui32BusMode)
-{
-    uint32_t ui32SysBusDiv;
-    uint32_t ui32PerDiv;
-    uint32_t ui32Div;
-    uint32_t ui32ClkFreq;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32BusMode == SYSCTRL_SYSBUS_ON) ||
-           (ui32BusMode == SYSCTRL_SYSBUS_OFF));
-
-    //
-    // Get the system bus clock divider.
-    //
-    ui32SysBusDiv = PRCMClockConfigureGet(PRCM_DOMAIN_SYSBUS);
-
-    //
-    // Get the Peripheral clock divider.
-    //
-    ui32PerDiv = PRCMClockConfigureGet(PRCM_DOMAIN_PERIPH);
-
-    //
-    // Check clock mode.
-    //
-    ui32PerDiv = (ui32BusMode == SYSCTRL_SYSBUS_ON) ? ui32SysBusDiv : ui32PerDiv;
-
-    //
-    // Check type of peripheral and return correct clock frequency.
-    //
-    switch(ui32Peripheral)
-    {
-    case PRCM_PERIPH_TIMER0 :
-    case PRCM_PERIPH_TIMER1 :
-    case PRCM_PERIPH_TIMER2 :
-    case PRCM_PERIPH_TIMER3 :
-        //
-        // Get the Timer clock divider and calculate the frequency.
-        //
-        ui32Div = PRCMClockConfigureGet(PRCM_DOMAIN_TIMER);
-
-        if(ui32PerDiv < ui32Div)
-        {
-            ui32ClkFreq = GET_MCU_CLOCK >> ui32Div;
-        }
-        else
-        {
-            ui32ClkFreq = GET_MCU_CLOCK >> ui32PerDiv;
-        }
-        break;
-    case PRCM_PERIPH_SSI0 :
-    case PRCM_PERIPH_SSI1 :
-    case PRCM_PERIPH_UART0 :
-    case PRCM_PERIPH_UART1 :
-        //
-        // Get the Serial clock divider and calculate the frequency.
-        //
-        ui32Div = PRCMClockConfigureGet(PRCM_DOMAIN_SERIAL);
-        ui32ClkFreq = GET_MCU_CLOCK >> ui32Div;
-        break;
-    case PRCM_PERIPH_I2C0 :
-    case PRCM_PERIPH_I2C1 :
-    case PRCM_PERIPH_UDMA :
-    case PRCM_PERIPH_TRNG :
-    case PRCM_PERIPH_CRYPTO :
-    case PRCM_PERIPH_GPIO :
-    case PRCM_PERIPH_I2S :
-        ui32ClkFreq = GET_MCU_CLOCK >> ui32PerDiv;
-        break;
-    default :
-        ui32ClkFreq = 0;
-        break;
-    }
-
-    //
-    // Return the clock frequency.
-    //
-    return (ui32ClkFreq);
-}
-
+#define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_WIDTH    4
 
 //*****************************************************************************
 //
@@ -453,6 +335,7 @@ SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
 {
    int32_t           curTemp           ;
    int32_t           shiftedTemp       ;
+   int32_t           deltaV            ;
    uint32_t          curState          ;
    uint32_t          prcmRamRetention  ;
    uint32_t          di                ;
@@ -468,8 +351,20 @@ SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
    uint32_t          perM              ;
    const uint32_t  * pLookupTable      ;
 
+   //
+   // If external regulator mode we shall:
+   // - Disable adaptive recharge (bit[31]=0) in AON_WUC_O_RECHARGECFG
+   // - Set recharge period to approximately 500 mS (perM=31, perE=5 => 0xFD)
+   // - Make sure you get a recalculation if leaving external regulator mode by setting powerQualGlobals.pdState accordingly
+   //
+   if ( HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL ) & AON_SYSCTL_PWRCTL_EXT_REG_MODE ) {
+      powerQualGlobals.pdState = PD_STATE_EXT_REG_MODE;
+      HWREG( AON_WUC_BASE + AON_WUC_O_RECHARGECFG  ) = 0x00A4FDFD;
+      return;
+   }
+
    //--- Spec. point 1 ---
-   curTemp  = AON_BatmonTempGetDegC();
+   curTemp  = AONBatMonTemperatureGetDegC();
    curState = 0;
    prcmRamRetention = HWREG( PRCM_BASE + PRCM_O_RAMRETEN );
    if ( prcmRamRetention & PRCM_RAMRETEN_VIMS_M ) {
@@ -490,7 +385,7 @@ SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
       shiftedTemp = curTemp - 15;
 
       //--- Spec point 4 ---
-      //4.	Check for external VDDR load option (may not be supported): ext_load = (VDDR_EXT_LOAD=0 in CCFG)
+      //4. Check for external VDDR load option (may not be supported): ext_load = (VDDR_EXT_LOAD=0 in CCFG)
       // Currently not implementing external load handling
       // if ( __ccfg.ulModeConfig & MODE_CONF_VDDR_EXT_LOAD ) {
       // }
@@ -553,12 +448,17 @@ SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
       //--- Spec. point 9 ---
       load += ((( di * ( shiftedTemp - ( ti << 8 ))) + 128 ) > 8 );
 
+      //--- Find deltaV (in range -8 to +7) ---
+      deltaV = ((((int32_t)HWREG( CCFG_BASE + CCFG_O_MODE_CONF ))
+         << ( 32 - CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_WIDTH - CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_S ))
+         >> ( 32 - CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_WIDTH ));
+
       // Currently not implementing external load handling
       // if ( __ccfg.ulModeConfig & MODE_CONF_VDDR_EXT_LOAD ) {
          //--- Spec. point 10 ---
       // } else {
          //--- Spec. point 11 ---
-         k = 468;
+         k = ( 52 * ( 8 - deltaV ));
       // }
 
       //--- Spec. point 12 ---
@@ -569,17 +469,19 @@ SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
          newRechargePeriod = 0xFFFF;
       }
       powerQualGlobals.pdRechargePeriod = newRechargePeriod;
+
+      //--- Spec. point 13 ---
+      if ( curTemp >  127 ) curTemp =  127;
+      if ( curTemp < -128 ) curTemp = -128;
+      powerQualGlobals.pdTemp    = curTemp;
+      powerQualGlobals.pdState   = curState;
    }
 
-   //--- Spec. point 13 ---
-   if ( curTemp >  127 ) curTemp =  127;
-   if ( curTemp < -128 ) curTemp = -128;
-   powerQualGlobals.pdTemp    = curTemp;
-   powerQualGlobals.pdState   = curState;
    powerQualGlobals.pdTime    = HWREG( AON_RTC_BASE + AON_RTC_O_SEC );
 
    // Calculate PER_E and PER_M (based on powerQualGlobals.pdRechargePeriod)
    // Round downwards but make sure PER_E=0 and PER_M=1 is the minimum possible setting.
+   // (assuming that powerQualGlobals.pdRechargePeriod always are <= 0xFFFF)
    perE = 0;
    perM = powerQualGlobals.pdRechargePeriod;
    if ( perM < 31 ) {
@@ -610,36 +512,34 @@ SysCtrlAdjustRechargeAfterPowerDown( void )
 {
    int32_t     curTemp                 ;
    uint32_t    longestRechargePeriod   ;
+   uint32_t    deltaTime               ;
    uint32_t    newRechargePeriod       ;
-
-   //--- Spec. point 1 ---
-   curTemp = AON_BatmonTempGetDegC();
-   if ( curTemp < powerQualGlobals.pdTemp ) {
-      if ( curTemp < -128 ) {
-         curTemp = -128;
-      }
-      powerQualGlobals.pdTemp = curTemp;
-   }
 
    //--- Spec. point 2 ---
    longestRechargePeriod = ( HWREG( AON_WUC_BASE + AON_WUC_O_RECHARGESTAT ) &
       AON_WUC_RECHARGESTAT_MAX_USED_PER_M ) >>
       AON_WUC_RECHARGESTAT_MAX_USED_PER_S ;
 
-   if ( longestRechargePeriod == 0 ) {
-      //--- Spec. point 3 ---
-      powerQualGlobals.pdRechargePeriod >>= 1;
-   } else {
+   if ( longestRechargePeriod != 0 ) {
+      //--- Spec. changed (originaly point 1) ---
+      curTemp = AONBatMonTemperatureGetDegC();
+      if ( curTemp < powerQualGlobals.pdTemp ) {
+         if ( curTemp < -128 ) {
+            curTemp = -128;
+         }
+         powerQualGlobals.pdTemp = curTemp;
+      }
+
       //--- Spec. point 4 ---
       if ( longestRechargePeriod < powerQualGlobals.pdRechargePeriod ) {
          powerQualGlobals.pdRechargePeriod = longestRechargePeriod;
       } else {
          //--- Spec. point 5 ---
-         uint32_t deltaTime = HWREG( AON_RTC_BASE + AON_RTC_O_SEC ) - powerQualGlobals.pdTime + 1;
+         deltaTime = HWREG( AON_RTC_BASE + AON_RTC_O_SEC ) - powerQualGlobals.pdTime + 2;
          if ( deltaTime > 31 ) {
             deltaTime = 31;
          }
-         newRechargePeriod = powerQualGlobals.pdRechargePeriod + (( longestRechargePeriod - powerQualGlobals.pdRechargePeriod ) >> deltaTime );
+         newRechargePeriod = powerQualGlobals.pdRechargePeriod + (( longestRechargePeriod - powerQualGlobals.pdRechargePeriod ) >> (deltaTime>>1));
          if ( newRechargePeriod > 0xFFFF ) {
             newRechargePeriod = 0xFFFF;
          }
@@ -657,45 +557,55 @@ SysCtrlAdjustRechargeAfterPowerDown( void )
 void
 SysCtrl_DCDC_VoltageConditionalControl( void )
 {
-   uint32_t batThreshold     ;
-   uint32_t aonBatmonBat     ;
-   uint32_t aonSysctlPwrctl  ;
-   uint32_t ccfg_ModeConfReg = HWREG( CCFG_BASE + CCFG_O_MODE_CONF );
+   uint32_t batThreshold     ;  // Fractional format with 8 fractional bits.
+   uint32_t aonBatmonBat     ;  // Fractional format with 8 fractional bits.
+   uint32_t ccfg_ModeConfReg ;  // Holds a copy of the CCFG_O_MODE_CONF register.
+   uint32_t aonSysctlPwrctl  ;  // Reflect whats read/written to the AON_SYSCTL_O_PWRCTL register.
 
    //
-   // Check if Voltage Conditional Control is enabled
-   // It is enabled if both:
-   // - DCDC in use (either in active or recharge mode), (in use if one of the corresponding CCFG bits are zero).
-   // - Alternative DCDC settings are enabled ( DIS_ALT_DCDC_SETTING == 0 )
+   // We could potentially call this function before any battery voltage measurement
+   // is made/available. In that case we must make sure that we do not turn off the DCDC.
+   // This can be done by doing nothing as long as the battery voltage is 0 (Since the
+   // reset value of the battery voltage register is 0).
    //
-   if (((( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_RECHARGE_M ) == 0                                            ) ||
-        (( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_ACTIVE_M   ) == 0                                            )    ) &&
-       (( HWREG( CCFG_BASE + CCFG_O_SIZE_AND_DIS_FLAGS ) & CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING ) == 0      )    )
-   {
-      aonSysctlPwrctl = HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL );
-      aonBatmonBat    = HWREG( AON_BATMON_BASE + AON_BATMON_O_BAT    );
-      batThreshold    = (((( HWREG( CCFG_BASE + CCFG_O_MODE_CONF_1 ) &
-         CCFG_MODE_CONF_1_ALT_DCDC_VMIN_M ) >>
-         CCFG_MODE_CONF_1_ALT_DCDC_VMIN_S ) + 28 ) << 4 );
+   aonBatmonBat = HWREG( AON_BATMON_BASE + AON_BATMON_O_BAT );
+   if ( aonBatmonBat != 0 ) {
+      //
+      // Check if Voltage Conditional Control is enabled
+      // It is enabled if both:
+      // - DCDC in use (either in active or recharge mode), (in use if one of the corresponding CCFG bits are zero).
+      // - Alternative DCDC settings are enabled ( DIS_ALT_DCDC_SETTING == 0 )
+      //
+      ccfg_ModeConfReg = HWREG( CCFG_BASE + CCFG_O_MODE_CONF );
 
-      if ( aonSysctlPwrctl & ( AON_SYSCTL_PWRCTL_DCDC_EN_M | AON_SYSCTL_PWRCTL_DCDC_ACTIVE_M )) {
-         //
-         // DCDC is ON, check if it should be switched off
-         //
-         if ( aonBatmonBat < batThreshold ) {
-            aonSysctlPwrctl &= ~( AON_SYSCTL_PWRCTL_DCDC_EN_M | AON_SYSCTL_PWRCTL_DCDC_ACTIVE_M );
+      if (((( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_RECHARGE_M ) == 0                                            ) ||
+           (( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_ACTIVE_M   ) == 0                                            )    ) &&
+          (( HWREG( CCFG_BASE + CCFG_O_SIZE_AND_DIS_FLAGS ) & CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING ) == 0      )    )
+      {
+         aonSysctlPwrctl = HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL );
+         batThreshold    = (((( HWREG( CCFG_BASE + CCFG_O_MODE_CONF_1 ) &
+            CCFG_MODE_CONF_1_ALT_DCDC_VMIN_M ) >>
+            CCFG_MODE_CONF_1_ALT_DCDC_VMIN_S ) + 28 ) << 4 );
 
-            HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL ) = aonSysctlPwrctl;
-         }
-      } else {
-         //
-         // DCDC is OFF, check if it should be switched on
-         //
-         if ( aonBatmonBat > batThreshold ) {
-            if (( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_RECHARGE_M ) == 0 ) aonSysctlPwrctl |= AON_SYSCTL_PWRCTL_DCDC_EN_M     ;
-            if (( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_ACTIVE_M   ) == 0 ) aonSysctlPwrctl |= AON_SYSCTL_PWRCTL_DCDC_ACTIVE_M ;
+         if ( aonSysctlPwrctl & ( AON_SYSCTL_PWRCTL_DCDC_EN_M | AON_SYSCTL_PWRCTL_DCDC_ACTIVE_M )) {
+            //
+            // DCDC is ON, check if it should be switched off
+            //
+            if ( aonBatmonBat < batThreshold ) {
+               aonSysctlPwrctl &= ~( AON_SYSCTL_PWRCTL_DCDC_EN_M | AON_SYSCTL_PWRCTL_DCDC_ACTIVE_M );
 
-            HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL ) = aonSysctlPwrctl;
+               HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL ) = aonSysctlPwrctl;
+            }
+         } else {
+            //
+            // DCDC is OFF, check if it should be switched on
+            //
+            if ( aonBatmonBat > batThreshold ) {
+               if (( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_RECHARGE_M ) == 0 ) aonSysctlPwrctl |= AON_SYSCTL_PWRCTL_DCDC_EN_M     ;
+               if (( ccfg_ModeConfReg & CCFG_MODE_CONF_DCDC_ACTIVE_M   ) == 0 ) aonSysctlPwrctl |= AON_SYSCTL_PWRCTL_DCDC_ACTIVE_M ;
+
+               HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_PWRCTL ) = aonSysctlPwrctl;
+            }
          }
       }
    }

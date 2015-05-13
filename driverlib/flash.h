@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       flash.h
-*  Revised:        2015-01-05 16:57:31 +0100 (ma, 05 jan 2015)
-*  Revision:       42287
+*  Revised:        2015-02-03 14:18:59 +0100 (ti, 03 feb 2015)
+*  Revision:       42551
 *
 *  Description:    Defines and prototypes for the Flash driver.
 *

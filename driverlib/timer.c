@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       timer.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-04-14 14:41:18 +0200 (ti, 14 apr 2015)
+*  Revision:       43221
 *
 *  Description:    Driver for the General Purpose Timer
 *
@@ -59,6 +59,10 @@
     #define TimerIntRegister                NOROM_TimerIntRegister
     #undef  TimerIntUnregister
     #define TimerIntUnregister              NOROM_TimerIntUnregister
+    #undef  TimerMatchUpdateMode
+    #define TimerMatchUpdateMode            NOROM_TimerMatchUpdateMode
+    #undef  TimerIntervalLoadMode
+    #define TimerIntervalLoadMode           NOROM_TimerIntervalLoadMode
 #endif
 
 //*****************************************************************************
@@ -410,5 +414,57 @@ TimerIntUnregister(uint32_t ui32Base, uint32_t ui32Timer)
         // Unregister the interrupt handler.
         //
         IntUnregister(ui32Int + 1);
+    }
+}
+
+//*****************************************************************************
+//
+// Sets the Match Register Update mode
+//
+//*****************************************************************************
+void
+TimerMatchUpdateMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_t ui32Mode)
+{
+    // Check the arguments
+    ASSERT(TimerBaseValid(ui32Base));
+    ASSERT((ui32Timer == TIMER_A) || (ui32Timer == TIMER_B) || (ui32Timer == TIMER_BOTH));
+    ASSERT((ui32Mode == TIMER_MATCHUPDATE_NEXTCYCLE) || (ui32Mode == TIMER_MATCHUPDATE_TIMEOUT));
+
+    // Set mode for timer A
+    if(ui32Timer & TIMER_A)
+    {
+        HWREGBITW(ui32Base + GPT_O_TAMR, GPT_TAMR_TAMRSU_BITN) = ui32Mode;
+    }
+
+    // Set mode for timer B
+    if(ui32Timer & TIMER_B)
+    {
+        HWREGBITW(ui32Base + GPT_O_TBMR, GPT_TBMR_TBMRSU_BITN) = ui32Mode;
+    }
+}
+
+//*****************************************************************************
+//
+// Sets the Interval Load mode
+//
+//*****************************************************************************
+void
+TimerIntervalLoadMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_t ui32Mode)
+{
+    // Check the arguments
+    ASSERT(TimerBaseValid(ui32Base));
+    ASSERT((ui32Timer == TIMER_A) || (ui32Timer == TIMER_B) || (ui32Timer == TIMER_BOTH));
+    ASSERT((ui32Mode == TIMER_INTERVALLOAD_NEXTCYCLE) || (ui32Mode == TIMER_INTERVALLOAD_TIMEOUT));
+
+    // Set mode for timer A
+    if(ui32Timer & TIMER_A)
+    {
+        HWREGBITW(ui32Base + GPT_O_TAMR, GPT_TAMR_TAILD_BITN) = ui32Mode;
+    }
+
+    // Set mode for timer B
+    if(ui32Timer & TIMER_B)
+    {
+        HWREGBITW(ui32Base + GPT_O_TBMR, GPT_TBMR_TBILD_BITN) = ui32Mode;
     }
 }

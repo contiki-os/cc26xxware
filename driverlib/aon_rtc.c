@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_rtc.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-06 16:03:05 +0100 (fr, 06 mar 2015)
+*  Revision:       42910
 *
 *  Description:    Driver for the AON RTC.
 *
@@ -37,6 +37,7 @@
 ******************************************************************************/
 
 #include <driverlib/aon_rtc.h>
+#include <driverlib/cpu.h>
 
 //*****************************************************************************
 //
@@ -67,6 +68,10 @@
     #define AONRTCCompareValueSet           NOROM_AONRTCCompareValueSet
     #undef  AONRTCCompareValueGet
     #define AONRTCCompareValueGet           NOROM_AONRTCCompareValueGet
+    #undef  AONRTCCurrentCompareValueGet
+    #define AONRTCCurrentCompareValueGet    NOROM_AONRTCCurrentCompareValueGet
+    #undef  AONRTCCurrentCompareValueGet
+    #define AONRTCCurrentCompareValueGet    NOROM_AONRTCCurrentCompareValueGet
 #endif
 
 //*****************************************************************************
@@ -364,4 +369,40 @@ AONRTCCompareValueGet(uint32_t ui32Channel)
     // Should never return from here!
     //
     return(0);
+}
+
+//*****************************************************************************
+//
+// Get the current value of the RTC counter in a format compatible to the compare registers.
+//
+//*****************************************************************************
+extern uint32_t AONRTCCurrentCompareValueGet( void )
+{
+    uint32_t   ui32CurrentSec    ;
+    uint32_t   ui32CurrentSubSec ;
+    bool       bIrqEnabled       ;
+
+    //
+    // Disable interrupts and store if interrupts was already disabled
+    // Must disable interrupt in order to guarantee that you don't get
+    // an interrupt reading AON_RTC_O_SEC once more in between.
+    //
+    bIrqEnabled = ( ! CPUcpsid() );
+
+    //
+    // Make sure that SEC is read before SUBSEC since SUBSEC will be
+    // latched by hardware when SEC is read and hence guarantee that
+    // the two registers represents the same timestamp.
+    //
+    ui32CurrentSec    = HWREG( AON_RTC_BASE + AON_RTC_O_SEC    );
+    ui32CurrentSubSec = HWREG( AON_RTC_BASE + AON_RTC_O_SUBSEC );
+
+    //
+    // Reenable interrupt if it was enabled initially
+    //
+    if ( bIrqEnabled ) {
+        CPUcpsie();
+    }
+
+    return (( ui32CurrentSec << 16 ) | ( ui32CurrentSubSec >> 16 ));
 }

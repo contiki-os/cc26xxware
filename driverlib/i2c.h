@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       i2c.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-02-14 09:52:28 +0100 (lø, 14 feb 2015)
+*  Revision:       42727
 *
 *  Description:    Defines and prototypes for the I2C.
 *
@@ -185,10 +185,6 @@ I2CBaseValid(uint32_t ui32Base)
 //! to transfer data at 400 kbps; otherwise, it will be set up to transfer data
 //! at 100 kbps.
 //!
-//! The peripheral clock will be the same as the domain clock. This will be the
-//! value returned by the \ref SysCtrlPeripheralClockGet() or it can be explicitly
-//! hard coded if it is constant and known (to save the code/execution
-//! overhead of a call to \ref SysCtrlPeripheralClockGet() ).
 //!
 //! \param ui32Base is the base address of the I2C module.
 //! \param ui32I2CClk is the rate of the clock supplied to the I2C module.

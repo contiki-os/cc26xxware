@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       vims.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-04 13:37:39 +0100 (on, 04 mar 2015)
+*  Revision:       42883
 *
 *  Description:    Driver for the VIMS.
 *
@@ -102,8 +102,7 @@ VIMSModeSet(uint32_t ui32Base, uint32_t ui32Mode)
     //
     ASSERT(VIMSBaseValid(ui32Base));
 
-    ASSERT((ui32Mode == VIMS_MODE_INVALIDATE) ||
-           (ui32Mode == VIMS_MODE_DISABLED)   ||
+    ASSERT((ui32Mode == VIMS_MODE_DISABLED)   ||
            (ui32Mode == VIMS_MODE_ENABLED)    ||
            (ui32Mode == VIMS_MODE_OFF)        ||
            (ui32Mode == VIMS_MODE_SPLIT));
@@ -134,9 +133,9 @@ VIMSModeGet(uint32_t ui32Base)
     ASSERT(VIMSBaseValid(ui32Base));
 
     ui32Reg = HWREG(ui32Base + VIMS_O_STAT);
-    if(ui32Reg & VIMS_STAT_INV)
+    if(ui32Reg & VIMS_STAT_MODE_CHANGING)
     {
-        return (VIMS_MODE_INVALIDATE);
+        return (VIMS_MODE_CHANGING);
     }
     else
     {

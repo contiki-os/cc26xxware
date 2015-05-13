@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       vims.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-04 13:37:39 +0100 (on, 04 mar 2015)
+*  Revision:       42883
 *
 *  Description:    Defines and prototypes for the VIMS.
 *
@@ -92,9 +92,8 @@ extern "C"
 // and returned from VIMSModeGet().
 //
 //*****************************************************************************
-#define VIMS_MODE_INVALIDATE    0x4  // Cache RAM is being invalidated, will
-                                     // transition to DISABLED when cache RAM
-                                     // is all zeros.
+#define VIMS_MODE_CHANGING      0x4  // VIMS mode is changing now and VIMS_MODE
+                                     // can not be changed at moment.
 #define VIMS_MODE_DISABLED      0x0  // Disabled mode.
 #define VIMS_MODE_ENABLED       0x1  // Enabled mode, only USERCODE is cached.
 #define VIMS_MODE_SPLIT         0x2  // Split mode, both USERCODE and SYSCODE
@@ -159,7 +158,7 @@ extern void VIMSConfigure(uint32_t ui32Base, bool bRoundRobin,
 //!
 //! This function sets the operational mode of the VIMS.
 //!
-//! Upon reset the VIMS will be in \ref VIMS_MODE_INVALIDATE mode.
+//! Upon reset the VIMS will be in \ref VIMS_MODE_CHANGING mode.
 //!   In this mode the VIMS will initialize the cache (GP) RAM (to all zeros).
 //!   The GP RAM will not be operational (read/write will result in bus fault).
 //!   The Cache will not be operational.
@@ -196,13 +195,12 @@ extern void VIMSConfigure(uint32_t ui32Base, bool bRoundRobin,
 //! \b writing to flash, since the cache will not be updated nor invalidated
 //! by flash writes. The linebuffers should also be disabled when updating the
 //! flash. Once \ref VIMSModeSet() is used to set the VIMS in
-//! \ref VIMS_MODE_INVALIDATE mode, the user should check using
+//! \ref VIMS_MODE_CHANGING mode, the user should check using
 //! \ref VIMSModeGet() when the mode switches to \ref VIMS_MODE_DISABLED. Only when
 //! the mode has changed the cache has been completely invalidated.
 //!
 //! \param ui32Base is the base address of the VIMS.
 //! \param ui32Mode is the operational mode.
-//! - \ref VIMS_MODE_INVALIDATE
 //! - \ref VIMS_MODE_DISABLED
 //! - \ref VIMS_MODE_ENABLED
 //! - \ref VIMS_MODE_SPLIT
@@ -224,7 +222,7 @@ extern void VIMSModeSet(uint32_t ui32Base, uint32_t ui32Mode);
 //! \param ui32Base is the base address of the VIMS.
 //!
 //! \return Returns one of:
-//! - \ref VIMS_MODE_INVALIDATE
+//! - \ref VIMS_MODE_CHANGING
 //! - \ref VIMS_MODE_DISABLED
 //! - \ref VIMS_MODE_ENABLED
 //! - \ref VIMS_MODE_SPLIT
@@ -241,7 +239,7 @@ extern uint32_t VIMSModeGet(uint32_t ui32Base);
 //!
 //! This function sets the operational mode of the VIMS in a safe sequence
 //!
-//! Upon reset the VIMS will be in \ref VIMS_MODE_INVALIDATE mode.
+//! Upon reset the VIMS will be in \ref VIMS_MODE_CHANGING mode.
 //!   In this mode the VIMS will initialize the cache (GP) RAM (to all zeros).
 //!   The GP RAM will not be operational (read/write will result in bus fault).
 //!   The Cache will not be operational.
@@ -278,12 +276,11 @@ extern uint32_t VIMSModeGet(uint32_t ui32Base);
 //! \b writing to flash, since the cache will not be updated nor invalidated
 //! by flash writes. The linebuffers should also be disabled when updating the
 //! flash. Once \ref VIMSModeSet() is used to set the VIMS in
-//! \ref VIMS_MODE_INVALIDATE mode, the user should check using
+//! \ref VIMS_MODE_CHANGING mode, the user should check using
 //! \ref VIMSModeGet() when the mode switches to \ref VIMS_MODE_DISABLED. Only when
 //! the mode has changed the cache has been completely invalidated.
 //!
 //! \param ui32Mode is the operational mode.
-//! - \ref VIMS_MODE_INVALIDATE
 //! - \ref VIMS_MODE_DISABLED
 //! - \ref VIMS_MODE_ENABLED
 //! - \ref VIMS_MODE_SPLIT

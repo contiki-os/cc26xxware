@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       chipinfo.h
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-04-15 13:12:25 +0200 (on, 15 apr 2015)
+*  Revision:       43227
 *
 *  Description:    Collection of functions returning chip information.
 *
@@ -139,10 +139,10 @@ ChipInfo_SupportsPROPRIETARY( void )
 //
 //*****************************************************************************
 typedef enum {
-   PACKAGE_Unknown   = -1, //!< Current chip type is unknown.
-   PACKAGE_4x4       =  0, //!< This is a 4x4mm chip.
-   PACKAGE_5x5       =  1, //!< This is a 5x5mm chip.
-   PACKAGE_7x7       =  2  //!< This is a 7x7mm chip.
+   PACKAGE_Unknown   = -1, //!< -1 means that current chip type is unknown.
+   PACKAGE_4x4       =  0, //!<  0 means that this is a 4x4mm chip.
+   PACKAGE_5x5       =  1, //!<  1 means that this is a 5x5mm chip.
+   PACKAGE_7x7       =  2  //!<  2 means that this is a 7x7mm chip.
 } PackageType_t;
 
 //*****************************************************************************
@@ -212,6 +212,31 @@ ChipInfo_GetDeviceIdHwRevCode( void )
    return ( HWREG( FCFG1_BASE + FCFG1_O_ICEPICK_DEVICE_ID ) >> 28 );
 }
 
+//*****************************************************************************
+//
+//! \brief Returns minor hardware revision number
+//!
+//! The minor revision number is set to 0 for the first market released chip
+//! and thereafter incremented by 1 for each minor hardware change.
+//!
+//! \return
+//! Returns the minor hardware revision number (in range 0-127)
+//
+//*****************************************************************************
+__STATIC_INLINE uint32_t
+ChipInfo_GetMinorHwRev( void )
+{
+   uint32_t minorRev = (( HWREG( FCFG1_BASE + FCFG1_O_MISC_CONF_1 ) &
+                             FCFG1_MISC_CONF_1_DEVICE_MINOR_REV_M ) >>
+                             FCFG1_MISC_CONF_1_DEVICE_MINOR_REV_S ) ;
+
+   if ( minorRev >= 0x80 ) {
+      minorRev = 0;
+   }
+
+   return( minorRev );
+}
+
 
 //*****************************************************************************
 //
@@ -219,9 +244,10 @@ ChipInfo_GetDeviceIdHwRevCode( void )
 //
 //*****************************************************************************
 typedef enum {
-   FAMILY_Unknown    = -1, //!< Chip family member is unknown.
-   FAMILY_CC26xx     =  0, //!< This chip is a CC26xx family member.
-   FAMILY_CC13xx     =  1  //!< This chip is a CC13xx family member.
+   FAMILY_Unknown       = -1, //!< -1 means that the chip's family member is unknown.
+   FAMILY_CC26xx        =  0, //!<  0 means that the chip is a CC26xx family member.
+   FAMILY_CC13xx        =  1, //!<  1 means that the chip is a CC13xx family member.
+   FAMILY_CC26xxLizard  =  2  //!<  2 means that the chip is a CC26xxLizard family member.
 } ChipFamily_t;
 
 //*****************************************************************************
@@ -264,15 +290,30 @@ ChipInfo_ChipFamilyIsCC13xx( void )
 
 //*****************************************************************************
 //
+//! \brief Returns true if this chip is member of the CC26xxLizard family.
+//!
+//! \return
+//! Returns \c true if this chip is member of the CC26xxLizard family, \c false otherwise.
+//
+//*****************************************************************************
+__STATIC_INLINE bool
+ChipInfo_ChipFamilyIsCC26xxLizard( void )
+{
+   return ( ChipInfo_GetChipFamily() == FAMILY_CC26xxLizard );
+}
+
+//*****************************************************************************
+//
 //! \brief HW revision enumeration.
 //
 //*****************************************************************************
 typedef enum {
-   HWREV_Unknown     = -1, //!< Chip HW revision is unknown.
-   HWREV_1_0         =  0, //!< This chip's HW revision is 1.0.
-   HWREV_2_0         =  1, //!< This chip's HW revision is 2.0.
-   HWREV_2_1         =  2, //!< This chip's HW revision is 2.1.
-   HWREV_2_2         =  3  //!< This chip's HW revision is 2.2.
+   HWREV_Unknown     = -1, //!< -1 means that the chip's HW revision is unknown.
+   HWREV_1_0         = 10, //!< 10 means that the chip's HW revision is 1.0
+   HWREV_2_0         = 20, //!< 20 means that the chip's HW revision is 2.0
+   HWREV_2_1         = 21, //!< 21 means that the chip's HW revision is 2.1
+   HWREV_2_2         = 22, //!< 22 means that the chip's HW revision is 2.2
+   HWREV_2_3         = 23  //!< 23 means that the chip's HW revision is 2.3
 } HwRevision_t;
 
 //*****************************************************************************
@@ -369,17 +410,6 @@ ChipInfo_HwRevisionIs_GTEQ_2_2( void )
    return ( ChipInfo_GetHwRevision() >= HWREV_2_2 );
 }
 
-#if defined( CHECK_AT_STARTUP_FOR_CORRECT_FAMILY_ONLY )
-//*****************************************************************************
-//
-//! \brief Verifies that curent chip is built for CC26xx HwRev 2.0 or later and never returns if violated.
-//!
-//! \return None
-//
-//*****************************************************************************
-extern void ThisCodeIsBuiltForCC26xxHwRev20AndLater_HaltIfViolated( void );
-
-#else
 
 //*****************************************************************************
 //
@@ -389,8 +419,6 @@ extern void ThisCodeIsBuiltForCC26xxHwRev20AndLater_HaltIfViolated( void );
 //
 //*****************************************************************************
 extern void ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated( void );
-
-#endif
 
 //*****************************************************************************
 //

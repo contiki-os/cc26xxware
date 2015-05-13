@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       event.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-02-10 16:20:36 +0100 (ti, 10 feb 2015)
+*  Revision:       42636
 *
 *  Description:    Defines and prototypes for the Event Handler.
 *
@@ -66,7 +66,7 @@ extern "C"
 
 //*****************************************************************************
 //
-// Common input event list for the event module (TBD : Remember to update list)
+// Common input event list for the event module
 //
 //*****************************************************************************
 #define EVENT_ALWAYS_0                   0  // Unused - always '0'
@@ -238,18 +238,14 @@ extern "C"
 //
 //! \brief Register a dynamic Event in the event fabric and connect a subscriber.
 //!
-//! Not all events can be routed to all programmable output lines. The
-//! following lists the available events for each programmable line (TBD).
+//! \note Not all events can be routed to all programmable output lines.
 //!
 //! \note Switching the event source is not glitch free, so it is imperative
 //! that the subscriber is disabled for interrupts when switching the event
 //! source. The behaviour is undefined if not disabled.
 //!
-//! TBD - Should we add logic to make sure the subscriber is disabled when
-//! switching the source.
-//!
 //! \param ui32ProgOut is the programmable output line to the subcriber which too
-//!        connect to the event.
+//!        connects to the event.
 //! \param ui32EventId is the specific event that must be acted upon.
 //!
 //! \return None

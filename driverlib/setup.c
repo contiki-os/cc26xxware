@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       setup.c
-*  Revised:        2015-01-16 10:44:49 +0100 (fr, 16 jan 2015)
-*  Revision:       42411
+*  Revised:        2015-04-08 09:23:19 +0200 (on, 08 apr 2015)
+*  Revision:       43168
 *
 *  Description:    Setup file for CC26xx PG2 device family.
 *
@@ -67,6 +67,7 @@
 #include <driverlib/cpu.h>
 #include <driverlib/chipinfo.h>
 #include <driverlib/ddi.h>
+#include <driverlib/ioc.h>
 #include <driverlib/prcm.h>
 #include <driverlib/sys_ctrl.h>
 #include <driverlib/aon_batmon.h>
@@ -75,17 +76,6 @@
 #ifdef __IAR_SYSTEMS_ICC__
 #include <intrinsics.h>
 #endif
-
-// Due to a misunderstanding when probing the first wafer this VDDR trim
-// was not written to the EFUSE registers (only in the EFUSE shadow in FCFG1)
-// The VDDR trim is therefore not done by the boot code and must be done here.
-// This code can be removed when chips from the first wafer is no longer supported.
-#define INCLUDE_VDDR_TEMPORARILY    1
-
-// Bit defines for CUSTOMER_CFG_O_MODE_CONF:SCLK_LF_OPTION
-#define CLK_LF_RCOSC_LF 0xC00000
-#define CLK_LF_XOSC_LF  0x800000
-#define CLK_LF_XOSC_HF  0x000000
 
 //*****************************************************************************
 //
@@ -108,9 +98,7 @@ static uint32_t GetTrimForXoscHfFastStart( uint32_t ui32Fcfg1Revision );
 static uint32_t GetTrimForXoscHfIbiastherm( uint32_t ui32Fcfg1Revision );
 static uint32_t GetTrimForXoscLfRegulatorAndCmirrwrRatio( uint32_t ui32Fcfg1Revision );
 
-#if ( INCLUDE_VDDR_TEMPORARILY )
 static int32_t  SignExtendVddrTrimValue( uint32_t ui32VddrTrimVal );
-#endif
 static void     HapiTrimDeviceColdReset( uint32_t ui32Fcfg1Revision );
 static void     HapiTrimDeviceShutDown( uint32_t ui32Fcfg1Revision );
 static void     HapiTrimDevicePowerDown( uint32_t ui32Fcfg1Revision );
@@ -138,6 +126,14 @@ static void     HapiTrimDevicePowerDown( uint32_t ui32Fcfg1Revision );
 
 
 //*****************************************************************************
+// Need to know the CCFG:MODE_CONF.VDDR_TRIM_SLEEP_DELTA fild width in order
+// to sign extend correctly but this is however not defined in the hardware
+// description fields and are therefore defined separately here.
+//*****************************************************************************
+#define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_WIDTH    4
+
+
+//*****************************************************************************
 //
 //! Perform the necessary trim of the device which is not done in boot code
 //!
@@ -161,14 +157,6 @@ trimDevice(void)
         ui32Fcfg1Revision = 0;
     }
 
-#if defined( CHECK_AT_STARTUP_FOR_CORRECT_FAMILY_ONLY )
-    //
-    // This driverlib version and setup file is for CC26xx PG2.0 and later
-    // (Keeping this check at HwRev2.0 independent of "#else" check)
-    // Halt if violated
-    //
-    ThisCodeIsBuiltForCC26xxHwRev20AndLater_HaltIfViolated();
-#else
 
     //
     // This driverlib version and setup file is for CC26xx PG2.2 and later
@@ -176,17 +164,24 @@ trimDevice(void)
     //
     ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated();
 
-#endif
-
     //
     // Enable standby in flash bank
     //
-    HWREGBITW(FLASH_BASE + FLASH_O_CFG, FLASH_CFG_DIS_STANDBY_BITN ) = 0;
+    HWREGBITW( FLASH_BASE + FLASH_O_CFG, FLASH_CFG_DIS_STANDBY_BITN ) = 0;
 
     //
     // Clock must always be enabled for the semaphore module (due to ADI/DDI HW workaround)
     //
     HWREG( AUX_WUC_BASE + AUX_WUC_O_MODCLKEN1 ) = AUX_WUC_MODCLKEN1_SMPH;
+
+    //
+    // Warm resets on CC26XX complicates software design as much of our software
+    // expect that initialization is done from a full system reset.
+    // This includes RTC setup, oscillator configuration and AUX setup.
+    // To ensure a full reset of the device is done when customers get e.g. a Watchdog
+    // reset, the following is set here:
+    //
+    HWREGBITW( PRCM_BASE + PRCM_O_WARMRESET, PRCM_WARMRESET_WR_TO_PINRESET_BITN ) = 1;
 
     // 1. Check for powerdown
     // 2. Check for shutdown
@@ -197,8 +192,7 @@ trimDevice(void)
     //
     // NB. If this bit is not cleared before proceeding to powerdown, the IOs
     //     will all default to the reset configuration when restarting.
-    if(((HWREG(AON_IOC_BASE + AON_IOC_O_IOCLATCH) &
-         AON_IOC_IOCLATCH_EN_M) == AON_IOC_IOCLATCH_EN_STATIC))
+    if( ! ( HWREGBITW( AON_IOC_BASE + AON_IOC_O_IOCLATCH, AON_IOC_IOCLATCH_EN_BITN )))
     {
         //
         // NB. This should be calling a ROM implementation of required trim and
@@ -212,8 +206,7 @@ trimDevice(void)
     // the SLEEPDIS bit in the SLEEP register in the AON_SYSCTRL12 module.
     // It is left for the application to assert this bit when waking back up,
     // but not before the desired IO configuration has been re-established.
-    else if(!(HWREG(AON_SYSCTL_BASE + AON_SYSCTL_O_SLEEPCTL) &
-            AON_SYSCTL_SLEEPCTL_IO_PAD_SLEEP_DIS))
+    else if( ! ( HWREGBITW( AON_SYSCTL_BASE + AON_SYSCTL_O_SLEEPCTL, AON_SYSCTL_SLEEPCTL_IO_PAD_SLEEP_DIS_BITN )))
     {
         //
         // NB. This should be calling a ROM implementation of required trim and
@@ -240,10 +233,16 @@ trimDevice(void)
     }
 
     //
-    // Make sure to enable agressive VIMS clock gating for power optimization
-    // Only for PG2 devices.
+    // - Make sure to enable agressive VIMS clock gating for power optimization
+    //   Only for PG2 devices.
+    // - Enable cache prefetch enable as default setting
+    //   (Slightly higer power consumption, but higher CPU performance)
+    // - Enable cache (set cache mode = 1), even if set by ROM boot code
+    //   (This is done because it's not set by boot code when running inside
+    //   a debugger supporting the Halt In Boot (HIB) functionality).
     //
-    HWREG(VIMS_BASE + VIMS_O_CTL) |= VIMS_CTL_DYN_CG_EN;
+    HWREG( VIMS_BASE + VIMS_O_CTL ) = (( HWREG( VIMS_BASE + VIMS_O_CTL ) & ~VIMS_CTL_MODE_M ) |
+        VIMS_CTL_DYN_CG_EN | VIMS_CTL_PREF_EN | VIMS_CTL_MODE_CACHE );
 
 #if ( CC_GET_CHIP_OPTION != CC_CHIP_OPTION_OTP )
     //
@@ -281,11 +280,33 @@ HapiTrimDevicePowerDown(uint32_t ui32Fcfg1Revision)
 }
 
 static void
+SetAonRtcSubSecInc( uint32_t subSecInc )
+{
+   //
+   // Loading a new RTCSUBSECINC value is done in 5 steps:
+   // 1. Write bit[15:0] of new SUBSECINC value to AUX_WUC_O_RTCSUBSECINC0
+   // 2. Write bit[23:16] of new SUBSECINC value to AUX_WUC_O_RTCSUBSECINC1
+   // 3. Set AUX_WUC_RTCSUBSECINCCTL_UPD_REQ
+   // 4. Wait for AUX_WUC_RTCSUBSECINCCTL_UPD_ACK
+   // 5. Clear AUX_WUC_RTCSUBSECINCCTL_UPD_REQ
+   //
+   HWREG( AUX_WUC_BASE + AUX_WUC_O_RTCSUBSECINC0 ) = (( subSecInc       ) & AUX_WUC_RTCSUBSECINC0_INC15_0_M  );
+   HWREG( AUX_WUC_BASE + AUX_WUC_O_RTCSUBSECINC1 ) = (( subSecInc >> 16 ) & AUX_WUC_RTCSUBSECINC1_INC23_16_M );
+
+   HWREG( AUX_WUC_BASE + AUX_WUC_O_RTCSUBSECINCCTL ) = AUX_WUC_RTCSUBSECINCCTL_UPD_REQ;
+   while( ! ( HWREGBITW( AUX_WUC_BASE + AUX_WUC_O_RTCSUBSECINCCTL, AUX_WUC_RTCSUBSECINCCTL_UPD_ACK_BITN )));
+   HWREG( AUX_WUC_BASE + AUX_WUC_O_RTCSUBSECINCCTL ) = 0;
+}
+
+static void
 HapiTrimDeviceShutDown(uint32_t ui32Fcfg1Revision)
 {
-    uint32_t ui32Trim         ;
-    uint32_t ccfg_ModeConfReg ;
-    uint32_t sclk_lf          ;
+    uint32_t   ui32Trim          ;
+    uint32_t   ccfg_ModeConfReg  ;
+    uint32_t   currentHfClock    ;
+    uint32_t   ccfgExtLfClk      ;
+    int32_t    i32VddrSleepTrim  ;
+    int32_t    i32VddrSleepDelta ;
 
     //
     // Force AUX on and enable clocks
@@ -298,8 +319,7 @@ HapiTrimDeviceShutDown(uint32_t ui32Fcfg1Revision)
     //
     // Wait for power on on the AUX domain
     //
-    while(!(HWREG(AON_WUC_BASE + AON_WUC_O_PWRSTAT) & AON_WUC_PWRSTAT_AUX_PD_ON))
-    { }
+    while( ! ( HWREGBITW( AON_WUC_BASE + AON_WUC_O_PWRSTAT, AON_WUC_PWRSTAT_AUX_PD_ON_BITN )));
 
     //
     // Enable the clock
@@ -313,23 +333,14 @@ HapiTrimDeviceShutDown(uint32_t ui32Fcfg1Revision)
     ccfg_ModeConfReg = HWREG( CCFG_BASE + CCFG_O_MODE_CONF );
 
     //
-    // setup the LF clock based upon CCFG:MODE_CONF:SCLK_LF_OPTION
-    //
-    sclk_lf = ccfg_ModeConfReg & CCFG_MODE_CONF_SCLK_LF_OPTION_M;
-
-    if (      sclk_lf == CLK_LF_XOSC_LF  ) OSCClockSourceSet( OSC_SRC_CLK_LF, OSC_XOSC_LF  );
-    else if ( sclk_lf == CLK_LF_XOSC_HF  ) OSCClockSourceSet( OSC_SRC_CLK_LF, OSC_XOSC_HF  );
-    else                                   OSCClockSourceSet( OSC_SRC_CLK_LF, OSC_RCOSC_LF );
-
-    //
     // It's found to be optimal to override the FCFG1..DCDC_IPEAK setting as follows:
     // if ( alternative DCDC setting in CCFG is enabled )  ADI3..IPEAK = CCFG..DCDC_IPEAK
     // else                                                ADI3..IPEAK = 2
     //
     if (( HWREG( CCFG_BASE + CCFG_O_SIZE_AND_DIS_FLAGS ) & CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING ) == 0 ) {
         //
-        // ADI_3_REFSYS:DCDCCTL5[3]  (=DITHER_EN) = CCFG_MODE_CONF_1[19]   (=DCDC_DITHER_EN)
-        // ADI_3_REFSYS:DCDCCTL5[2:0](=IPEAK    ) = CCFG_MODE_CONF_1[18:16](=DCDC_IPEAK    )
+        // ADI_3_REFSYS:DCDCCTL5[3]  (=DITHER_EN) = CCFG_MODE_CONF_1[19]   (=ALT_DCDC_DITHER_EN)
+        // ADI_3_REFSYS:DCDCCTL5[2:0](=IPEAK    ) = CCFG_MODE_CONF_1[18:16](=ALT_DCDC_IPEAK    )
         // Using a single 4-bit masked write since layout is equal for both source and destination
         //
         HWREGB( ADI3_BASE + ADI_O_MASK4B + ( ADI_3_REFSYS_O_DCDCCTL5 * 2 )) = ( 0xF0 |
@@ -337,6 +348,24 @@ HapiTrimDeviceShutDown(uint32_t ui32Fcfg1Revision)
     } else {
         HWREGB( ADI3_BASE + ADI_O_MASK4B + ( ADI_3_REFSYS_O_DCDCCTL5 * 2 )) = 0x72;
     }
+
+    //
+    // Adjust the VDDR_TRIM_SLEEP value with value adjustable by customer (CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA)
+    //
+    i32VddrSleepTrim = SignExtendVddrTrimValue(( HWREG( FCFG1_BASE + FCFG1_O_LDO_TRIM ) &
+        FCFG1_LDO_TRIM_VDDR_TRIM_SLEEP_M ) >> FCFG1_LDO_TRIM_VDDR_TRIM_SLEEP_S );
+    // Read and sign extend VddrSleepDelta (in range -8 to +7)
+    i32VddrSleepDelta = ((((int32_t)HWREG( CCFG_BASE + CCFG_O_MODE_CONF ))
+        << ( 32 - CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_WIDTH - CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_S ))
+        >> ( 32 - CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_WIDTH ));
+    // Calculate new VDDR sleep trim
+    i32VddrSleepTrim = ( i32VddrSleepTrim + i32VddrSleepDelta + 1 );
+    if ( i32VddrSleepTrim < -10 ) {
+        i32VddrSleepTrim = -10;
+    }
+    // Write adjusted value using MASKED write (MASK8)
+    HWREGH( ADI3_BASE + ADI_O_MASK8B + ( ADI_3_REFSYS_O_DCDCCTL1 * 2 )) = (( ADI_3_REFSYS_DCDCCTL1_VDDR_TRIM_SLEEP_M << 8 ) |
+        (( i32VddrSleepTrim << ADI_3_REFSYS_DCDCCTL1_VDDR_TRIM_SLEEP_S ) & ADI_3_REFSYS_DCDCCTL1_VDDR_TRIM_SLEEP_M ));
 
     //
     // set the RECHARGE source based upon CCFG:MODE_CONF:DCDC_RECHARGE
@@ -465,9 +494,41 @@ HapiTrimDeviceShutDown(uint32_t ui32Fcfg1Revision)
     HWREGB( AUX_DDI0_OSC_BASE + DDI_O_MASK4B + ( 0x00000004 * 2 )) = ( 0x30 | ui32Trim );
 
     //
+    // setup the LF clock based upon CCFG:MODE_CONF:SCLK_LF_OPTION
+    //
+    switch (( ccfg_ModeConfReg & CCFG_MODE_CONF_SCLK_LF_OPTION_M ) >> CCFG_MODE_CONF_SCLK_LF_OPTION_S ) {
+    case 0 : // XOSC_HF_DLF (XOSCHF/1536) -> SCLK_LF (=31250Hz)
+        OSCClockSourceSet( OSC_SRC_CLK_LF, OSC_XOSC_HF );
+        SetAonRtcSubSecInc( 0x8637BD );
+        break;
+    case 1 : // EXTERNAL signal -> SCLK_LF (frequency=2^38/CCFG_EXT_LF_CLK_RTC_INCREMENT)
+        // Set SCLK_LF to use the same source as SCLK_HF
+        // Can be simplified a bit since possible return values for HF matches LF settings
+        currentHfClock = OSCClockSourceGet( OSC_SRC_CLK_HF );
+        OSCClockSourceSet( OSC_SRC_CLK_LF, currentHfClock );
+        while( OSCClockSourceGet( OSC_SRC_CLK_LF ) != currentHfClock ) {
+            // Wait until switched
+        }
+        ccfgExtLfClk = HWREG( CCFG_BASE + CCFG_O_EXT_LF_CLK );
+        SetAonRtcSubSecInc(( ccfgExtLfClk & CCFG_EXT_LF_CLK_RTC_INCREMENT_M ) >> CCFG_EXT_LF_CLK_RTC_INCREMENT_S );
+        IOCPortConfigureSet(( ccfgExtLfClk & CCFG_EXT_LF_CLK_DIO_M ) >> CCFG_EXT_LF_CLK_DIO_S,
+                              IOC_PORT_AON_CLK32K,
+                              IOC_STD_INPUT | IOC_HYST_ENABLE );   // Route external clock to AON IOC w/hysteresis
+                                                                   // Set XOSC_LF in bypass mode to allow external 32k clock
+        HWREG( AUX_DDI0_OSC_BASE + DDI_O_SET + DDI_0_OSC_O_CTL0 ) = DDI_0_OSC_CTL0_XOSC_LF_DIG_BYPASS;
+        // Fall through to set XOSC_LF as SCLK_LF source
+    case 2 : // XOSC_LF -> SLCK_LF (32768 Hz)
+        OSCClockSourceSet( OSC_SRC_CLK_LF, OSC_XOSC_LF );
+        break;
+    default : // (=3) RCOSC_LF
+        OSCClockSourceSet( OSC_SRC_CLK_LF, OSC_RCOSC_LF );
+        break;
+    }
+
+    //
     // Update ADI_4_AUX_ADCREF1_VTRIM with value from FCFG1
     //
-    HWREGB( AUX_ADI4_BASE + ADI_4_AUX_O_ADCREF1  ) =
+    HWREGB( AUX_ADI4_BASE + ADI_4_AUX_O_ADCREF1 ) =
       ((( HWREG( FCFG1_BASE + FCFG1_O_SOC_ADC_REF_TRIM_AND_OFFSET_EXT ) >>
       FCFG1_SOC_ADC_REF_TRIM_AND_OFFSET_EXT_SOC_ADC_REF_VOLTAGE_TRIM_TEMP1_S ) <<
       ADI_4_AUX_ADCREF1_VTRIM_S ) &
@@ -505,7 +566,6 @@ HapiTrimDeviceShutDown(uint32_t ui32Fcfg1Revision)
 #endif
 }
 
-#if ( INCLUDE_VDDR_TEMPORARILY )
 static int32_t
 SignExtendVddrTrimValue( uint32_t ui32VddrTrimVal )
 {
@@ -519,81 +579,13 @@ SignExtendVddrTrimValue( uint32_t ui32VddrTrimVal )
     }
     return ( i32SignedVddrVal );
 }
-#endif
 
 static void
 HapiTrimDeviceColdReset(uint32_t ui32Fcfg1Revision)
 {
-#if ( INCLUDE_VDDR_TEMPORARILY )
-    int32_t i32TargetTrim   ; // Target trim sign extended
-    int32_t i32CurrentTrim  ; // Current trim sign extended
-    int32_t i32DeltaVal     ; // Delta Value for each 1/64 loop
-
     //
-    // Check if trim of Global LDO is required. Only required on PG1 devices
+    // Currently no specific trim for Cold Reset
     //
-    //
-    // PG1 device. Trim the Global LDO in staircase steps to avoid
-    // system reset while all the BOD reset sources are disabled
-    //
-    i32TargetTrim = SignExtendVddrTrimValue((
-      HWREG( FCFG1_BASE + FCFG1_O_SHDW_ANA_TRIM ) &
-         FCFG1_SHDW_ANA_TRIM_VDDR_TRIM_M ) >>
-         FCFG1_SHDW_ANA_TRIM_VDDR_TRIM_S );
-
-    i32CurrentTrim = SignExtendVddrTrimValue((
-        HWREGB( ADI3_BASE + ADI_3_REFSYS_O_DCDCCTL0 ) &
-        ADI_3_REFSYS_DCDCCTL0_VDDR_TRIM_M ) >>
-        ADI_3_REFSYS_DCDCCTL0_VDDR_TRIM_S );
-
-    if ( i32TargetTrim != i32CurrentTrim ) {
-        int32_t i32Cnt; // Counter for trim loop
-        //
-        // Disbale all BOD reset sources
-        //
-        HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_RESETCTL ) = 0x00;
-
-        i32DeltaVal = i32TargetTrim - i32CurrentTrim;
-        if ( i32DeltaVal > 0 ) {
-            i32DeltaVal -= 1;
-            i32CurrentTrim  = ( i32CurrentTrim + 1 ) << 6;
-        } else { // ( i32DeltaVal < 0 ) (will never become == 0)
-            i32DeltaVal += 1;
-            i32CurrentTrim  = ( i32CurrentTrim << 6 ) - 1;
-        }
-
-        for ( i32Cnt = 0 ; i32Cnt < 64 ; i32Cnt++ ) {
-            i32CurrentTrim += i32DeltaVal;
-
-            HWREGB( ADI3_BASE + ADI_O_DIR + ADI_3_REFSYS_O_DCDCCTL0 ) =
-                (( i32CurrentTrim >> 6 ) <<
-                ADI_3_REFSYS_DCDCCTL0_VDDR_TRIM_S ) &
-                ADI_3_REFSYS_DCDCCTL0_VDDR_TRIM_M;
-
-            //
-            // Delay a total of approx. 300 uS for all 64 rounds in the loop
-            //
-            CPU_DELAY_MICRO_SECONDS( 300.0 / 64.0 );
-        }
-
-        //
-        // Delay additionally 700 uS if going more than 1 step down
-        // (i32DeltaVal is less than 0 only when going more than one step down)
-        //
-        if ( i32DeltaVal < 0 ) {
-            CPU_DELAY_MICRO_SECONDS( 700.0 );
-        }
-
-        //
-        // Enable all BOD reset sources
-        //
-        HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_RESETCTL ) = (
-            AON_SYSCTL_RESETCTL_CLK_LOSS_EN  |
-            AON_SYSCTL_RESETCTL_VDD_LOSS_EN  |
-            AON_SYSCTL_RESETCTL_VDDR_LOSS_EN |
-            AON_SYSCTL_RESETCTL_VDDS_LOSS_EN   );
-    }
-#endif
 }
 
 //*****************************************************************************

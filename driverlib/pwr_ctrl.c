@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       pwr_ctrl.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Description:    Power Control driver.
 *
@@ -53,7 +53,7 @@
 
 //*****************************************************************************
 //
-//! Force the system in to low power modes.
+// Force the system in to low power modes.
 //
 //*****************************************************************************
 void
@@ -105,7 +105,7 @@ PowerCtrlStateSet(uint32_t ui32Powerstate)
         // controller.
         //
         AUXWUCPowerCtrl(AUX_WUC_POWER_DOWN);
-        while(AONWUCPowerStatus() & AONWUC_AUX_POWER_ON);
+        while(AONWUCPowerStatusGet() & AONWUC_AUX_POWER_ON);
 
         //
         // Request the uLDO for standby power consumption.
@@ -178,7 +178,7 @@ PowerCtrlStateSet(uint32_t ui32Powerstate)
         AONWUCAuxPowerDownConfig(AONWUC_CLOCK_SRC_LF);
         AUXWUCPowerCtrl(AUX_WUC_POWER_DOWN);
         AONWUCDomainPowerDownEnable();
-        while(AONWUCPowerStatus() & AONWUC_AUX_POWER_ON);
+        while(AONWUCPowerStatusGet() & AONWUC_AUX_POWER_ON);
 
         //
         // Sync the AON interface to ensure all writes have gone through
@@ -224,7 +224,7 @@ PowerCtrlStateSet(uint32_t ui32Powerstate)
         // Is this required for shutdown mode? or will AUX automatically
         // power off.
         AUXWUCPowerCtrl(AUX_WUC_POWER_OFF);
-        while(AONWUCPowerStatus() & AONWUC_AUX_POWER_ON)
+        while(AONWUCPowerStatusGet() & AONWUC_AUX_POWER_ON)
         { }
 
         //

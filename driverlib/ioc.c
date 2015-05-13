@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       ioc.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Description:    Driver for the IOC.
 *
@@ -51,8 +51,6 @@
     #define IOCPortConfigureGet             NOROM_IOCPortConfigureGet
     #undef  IOCIOShutdownSet
     #define IOCIOShutdownSet                NOROM_IOCIOShutdownSet
-    #undef  IOCIOJTagSet
-    #define IOCIOJTagSet                    NOROM_IOCIOJTagSet
     #undef  IOCIOModeSet
     #define IOCIOModeSet                    NOROM_IOCIOModeSet
     #undef  IOCIOIntSet
@@ -123,7 +121,7 @@ IOCPortConfigureSet(uint32_t ui32IOId, uint32_t ui32PortId,
     // Check the arguments.
     //
     ASSERT(ui32IOId <= IOID_31);
-    ASSERT(ui32PortId <= IOC_PORT_RFC_SMI_CL_IN);
+    ASSERT(ui32PortId <= IOC_PORT_RFC_GPI1);
 
     //
     // Get the register address.
@@ -443,7 +441,7 @@ IOCIOPortIdSet(uint32_t ui32IOId, uint32_t ui32PortId)
     // Check the arguments.
     //
     ASSERT(ui32IOId <= IOID_31);
-    ASSERT(ui32PortId <= IOC_PORT_RFC_SMI_CL_IN);
+    ASSERT(ui32PortId <= IOC_PORT_RFC_GPI1);
 
     //
     // Get the register address.

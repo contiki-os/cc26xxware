@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       ddi.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-24 14:53:26 +0100 (ti, 24 mar 2015)
+*  Revision:       43115
 *
 *  Description:    Defines and prototypes for the DDI master interface.
 *
@@ -95,18 +95,6 @@ extern "C"
 //*****************************************************************************
 #define DDI_SLAVE_REGS          64
 
-//*****************************************************************************
-//
-// Defines that can be passed to the DDIConfigSet()
-//
-//*****************************************************************************
-#define DDI_NO_WAIT         0x00000000
-#define DDI_WAIT_FOR_ACK    0x00000004
-#define DDI_SPEED_2         0x00000000
-#define DDI_SPEED_4         0x00000001
-#define DDI_SPEED_8         0x00000002
-#define DDI_SPEED_16        0x00000003
-#define DDI_CONFIG_MASK     0x00000007
 
 //*****************************************************************************
 //
@@ -132,8 +120,6 @@ extern "C"
 
 //*****************************************************************************
 //
-//! \internal
-//!
 //! \brief Safely write to AUX ADI/DDI interfaces using a semaphore.
 //!
 //! \note Both the AUX module and the clock for the AUX SMPH module must be
@@ -142,10 +128,8 @@ extern "C"
 //! \param nAddr is the register address.
 //! \param nData is the data to write to the register.
 //! \param nSize is the register access size in bytes.
-//! \return Returns \c true if the base address is valid and \c false
-//! otherwise.
 //!
-//! \endinternal
+//! \return None
 //
 //*****************************************************************************
 __STATIC_INLINE void
@@ -169,8 +153,6 @@ AuxAdiDdiSafeWrite(uint32_t nAddr, uint32_t nData, uint32_t nSize)
 
 //*****************************************************************************
 //
-//! \internal
-//!
 //! \brief Safely read from AUX ADI/DDI interfaces using a semaphore.
 //!
 //! \note Both the AUX module and the clock for the AUX SMPH module must be
@@ -178,9 +160,8 @@ AuxAdiDdiSafeWrite(uint32_t nAddr, uint32_t nData, uint32_t nSize)
 //!
 //! \param nAddr is the register address.
 //! \param nSize is the register access size in bytes.
-//! \return Returns the data read.
 //!
-//! \endinternal
+//! \return Returns the data read.
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
@@ -228,170 +209,6 @@ DDIBaseValid(uint32_t ui32Base)
 }
 #endif
 
-//*****************************************************************************
-//
-//! \brief Get the status of the DDI.
-//!
-//! This function will get the value of the status register. Value that can
-//! be passed to this function are DDI.
-//!
-//! \note Both the AUX module and the clock for the AUX SMPH module must be
-//! enabled before calling this function.
-//!
-//! \param ui32Base is DDI base address.
-//!
-//! \return Returns the current value of the status register.
-//
-//*****************************************************************************
-__STATIC_INLINE uint32_t
-DDIStatusGet(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(DDIBaseValid(ui32Base));
-
-    //
-    // Return the status value for the correct DDI Slave.
-    //
-    return AuxAdiDdiSafeRead(ui32Base + DDI_O_SLAVESTAT, 4);
-}
-
-//*****************************************************************************
-//
-//! \brief Configure the DDI Slave.
-//!
-//! Use this function to configure the interface between the DDI master and the
-//! DDI slave. The configuration values for the DDI slave are used to set the
-//! speed of the DDI interface and define if the master should wait for
-//! acknowledge from the slave.
-//!
-//! The speed is set using:
-//! - \ref DDI_SPEED_2
-//! - \ref DDI_SPEED_4
-//! - \ref DDI_SPEED_8
-//! - \ref DDI_SPEED_16
-//!
-//! The acknowledge is set using:
-//! - \ref DDI_NO_WAIT
-//! - \ref DDI_WAIT_FOR_ACK
-//!
-//! The configuration value must be a bitwised OR'ed combination of these two features.
-//!
-//! If the \c bProtect parameter is set the configuration register in the ADI slave is
-//! locked for write.
-//!
-//! \note Once the lock bit has been set, it is no longer
-//! possible to write the configuration register.
-//!
-//! \note Both the AUX module and the clock for the AUX SMPH module must be
-//! enabled before calling this function.
-//!
-//! \param ui32Base is DDI base address.
-//! \param ui32Config is the configuration of the DDI slave.
-//! Must be an OR'ed combination of 'speed' and 'acknowledge config'.
-//! \param bProtect decides if the register access should be protected.
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-DDIConfigSet(uint32_t ui32Base, uint32_t ui32Config, bool bProtect)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(DDIBaseValid(ui32Base));
-    ASSERT(((ui32Config & 0x4) == DDI_NO_WAIT) ||
-           ((ui32Config & 0x4) == DDI_WAIT_FOR_ACK));
-    ASSERT(((ui32Config & 0x3) == DDI_SPEED_2) ||
-           ((ui32Config & 0x3) == DDI_SPEED_4) ||
-           ((ui32Config & 0x3) == DDI_SPEED_8) ||
-           ((ui32Config & 0x3) == DDI_SPEED_16));
-
-    //
-    // Configure the DDI slave.
-    //
-    AuxAdiDdiSafeWrite(
-        ui32Base + DDI_O_SLAVECONF,
-        (ui32Config & 0x7) | (bProtect ? DDI_PROTECT : 0),
-         4
-    );
-}
-
-//*****************************************************************************
-//
-//! \brief Synchronize a DDI slave.
-//!
-//! This function will perform a sync on the DDI slave by issuing a NOP
-//! DDI/DDI command to the master with REQ=0. In other words, the master
-//! performs a dummy write request to ensure the master and slave are
-//! synchronized.
-//!
-//! \note It is recommended to sync with all the DDI slaves before a power down
-//! of a DDI master.
-//!
-//! \note Both the AUX module and the clock for the AUX SMPH module must be
-//! enabled before calling this function.
-//!
-//! \param ui32Base is DDI base address.
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-DDISync(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(DDIBaseValid(ui32Base));
-
-    //
-    // Synchronize the DDI slave to guarantee future write operations.
-    //
-    AuxAdiDdiSafeWrite(ui32Base + DDI_O_SLAVESTAT, DDI_SYNC, 1);
-}
-
-//*****************************************************************************
-//
-//! \brief Protect a DDI slave by locking the register access.
-//!
-//! This function will lock the register interface to the DDI.
-//!
-//! \note Once locked it is no longer possible to change the configuration
-//! register in the DDI slave.
-//!
-//! \note This function uses read-modify-write to guarantee the integrity of
-//! the configuration. This might take exceedingly long time, so if the
-//! configuration is known it is advised to use the \ref DDIConfigSet() for
-//! protecting the DDI slave configuration.
-//!
-//! \note Both the AUX module and the clock for the AUX SMPH module must be
-//! enabled before calling this function.
-//!
-//! \param ui32Base is DDI base address.
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-DDIProtect(uint32_t ui32Base)
-{
-    uint32_t ui32Val;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT(DDIBaseValid(ui32Base));
-
-    //
-    // Lock the register interface on the DDI slave.
-    //
-    ui32Val = AuxAdiDdiSafeRead(ui32Base + DDI_O_SLAVECONF, 4);
-    ui32Val |= DDI_PROTECT;
-    AuxAdiDdiSafeWrite(ui32Base + DDI_O_SLAVECONF, ui32Val, 4);
-}
 
 //*****************************************************************************
 //
@@ -701,9 +518,7 @@ extern void DDI16BitfieldWrite(uint32_t ui32Base, uint32_t ui32Reg,
 
 //*****************************************************************************
 //
-//! \brief Read a bit via the DDI using 16-bit READ.
-//!
-//! Return a zero if bit selected by mask is '0'. Else returns the mask.
+//! \brief Read a bit via the DDI using 16-bit read.
 //!
 //! \note Both the AUX module and the clock for the AUX SMPH module must be
 //! enabled before calling this function.
@@ -712,7 +527,7 @@ extern void DDI16BitfieldWrite(uint32_t ui32Base, uint32_t ui32Reg,
 //! \param ui32Reg is the register to read.
 //! \param ui32Mask defines the bit which should be read.
 //!
-//! \return None
+//! \return Returns a zero if bit selected by mask is '0'. Else returns the mask.
 //
 //*****************************************************************************
 extern uint16_t DDI16BitRead(uint32_t ui32Base, uint32_t ui32Reg,
@@ -720,10 +535,9 @@ extern uint16_t DDI16BitRead(uint32_t ui32Base, uint32_t ui32Reg,
 
 //*****************************************************************************
 //
-//! \brief Read a bitfield via the DDI using 16-bit READ.
+//! \brief Read a bitfield via the DDI using 16-bit read.
 //!
-//! Requires that bit fields not space the low/high word boundary.
-//! Return data aligned to bit 0.
+//! Requires that bit fields do not space the low/high word boundary.
 //!
 //! \note Both the AUX module and the clock for the AUX SMPH module must be
 //! enabled before calling this function.
@@ -734,7 +548,7 @@ extern uint16_t DDI16BitRead(uint32_t ui32Base, uint32_t ui32Reg,
 //! overwritten. The mask must be defined in the lower half of the 32 bits.
 //! \param ui32Shift defines the required shift of the data to align with bit 0.
 //!
-//! \return None
+//! \return Returns data aligned to bit 0.
 //
 //*****************************************************************************
 extern uint16_t DDI16BitfieldRead(uint32_t ui32Base, uint32_t ui32Reg,

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       udma.c
-*  Revised:        2015-01-14 09:09:03 +0100 (on, 14 jan 2015)
-*  Revision:       42368
+*  Revised:        2015-04-07 14:16:28 +0200 (ti, 07 apr 2015)
+*  Revision:       43160
 *
 *  Description:    Driver for the uDMA controller
 *
@@ -449,7 +449,7 @@ uDMAChannelScatterGatherSet(uint32_t ui32Base, uint32_t ui32ChannelNum,
     // alt bit here to ensure that it is always cleared before a new SG
     // transfer is started.
     //
-    HWREG(ui32Base + UDMA_O_CLEARCHNLPRIORITY) = 1 << ui32ChannelNum;
+    HWREG(ui32Base + UDMA_O_CLEARCHNLPRIALT) = 1 << ui32ChannelNum;
 
 }
 

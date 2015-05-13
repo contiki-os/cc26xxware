@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aux_wuc.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-02-13 15:47:13 +0100 (fr, 13 feb 2015)
+*  Revision:       42724
 *
 *  Description:    Driver for the AUX Wakeup Controller.
 *
@@ -210,7 +210,7 @@ AUXWUCClockStatus(uint32_t ui32Clocks)
     if(ui32Clocks & AUX_WUC_SOC_CLOCK)
     {
         bClockStatus = bClockStatus && (ui32ClockRegister &
-                                              AUX_WUC_MODCLKEN0_SOC ?
+                                              AUX_WUC_MODCLKEN0_ANAIF ?
                                               true : false);
     }
     if(ui32Clocks & AUX_WUC_TIMER_CLOCK)

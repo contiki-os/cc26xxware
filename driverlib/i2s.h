@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       i2s.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-02-10 16:20:36 +0100 (ti, 10 feb 2015)
+*  Revision:       42636
 *
 *  Description:    Defines and prototypes for the I2S.
 *
@@ -431,9 +431,6 @@ I2SClockConfigure(uint32_t ui32Base, uint32_t ui32ClkConfig)
 //
 //! \brief Set the input buffer pointers.
 //!
-//! TBD - Consider using a fifth argument which is the channel delay size,
-//!       and then calculate the address of the next pointer.
-//!
 //! The next pointer should always be written while the DMA is using the
 //! previous written pointer. If not written in time an \ref I2S_INT_PTR_ERR will
 //! occure and all outputs will be disabled.
@@ -793,9 +790,6 @@ I2SSampleStampDisable(uint32_t ui32Base)
 //! \brief Configure the sample stamp generator.
 //!
 //! Use this function to configure the sample stamp generator.
-//!
-//! TBD - Expand function, not quite sure how this audio interface should be
-//!       implemented.
 //!
 //! \param ui32Base is the base address of the I2S module.
 //! \param bInput enables triggering of the sample stamp generator on input.

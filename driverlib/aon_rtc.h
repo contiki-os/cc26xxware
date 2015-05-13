@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_rtc.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-23 14:13:09 +0100 (ma, 23 mar 2015)
+*  Revision:       43091
 *
 *  Description:    Defines and prototypes for the AON RTC
 *
@@ -91,6 +91,7 @@ extern "C"
     #define AONRTCChannelDisable            NOROM_AONRTCChannelDisable
     #define AONRTCCompareValueSet           NOROM_AONRTCCompareValueSet
     #define AONRTCCompareValueGet           NOROM_AONRTCCompareValueGet
+    #define AONRTCCurrentCompareValueGet    NOROM_AONRTCCurrentCompareValueGet
 #endif
 
 //*****************************************************************************
@@ -368,13 +369,17 @@ extern bool AONRTCEventGet(uint32_t ui32Channel);
 //! Get the value in seconds of RTC free-running timer, i.e. the integer part.
 //! The fractional part is returned from a call to AONRTCFractionGet().
 //!
-//! \note To read a consistent pair of integer and fractional part, the
-//! AONRTCSecGet() call must be done first. Since reading the integer part
-//! latches the fractional part as a side effect.
+//! \note It is recommended to use \ref AONRTCCurrentCompareValueGet() instead
+//! of this function if the <16.16> format is sufficient.
+//!
+//! \note To read a consistent pair of integer and fractional parts,
+//! \ref AONRTCSecGet() must be called first to trigger latching of the
+//! fractional part, which is then read by \ref AONRTCFractionGet(). Interrupts
+//! must be disabled to ensure that these operations are performed atomically.
 //!
 //! \return Returns the integer part of RTC free running timer.
 //!
-//! \sa AONRTCFractionGet().
+//! \sa \ref AONRTCFractionGet() \ref AONRTCCurrentCompareValueGet()
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
@@ -394,21 +399,29 @@ AONRTCSecGet(void)
 //! Get the value of the fractional part of RTC free-running timer, i.e. the
 //! sub-second part.
 //!
-//! \note To read a consistent pair of integer and fractional part, the
-//! AONRTCSecGet() call must be done before this call. Since reading the
-//! integer part latches the fractional part as a side effect.
+//! \note It is recommended to use \ref AONRTCCurrentCompareValueGet() instead
+//! of this function if the <16.16> format is sufficient.
+//!
+//! \note To read a consistent pair of integer and fractional parts,
+//! \ref AONRTCSecGet() must be called first to trigger latching of the
+//! fractional part, which is then read by \ref AONRTCFractionGet(). Interrupts
+//! must be disabled to ensure that these operations are performed atomically.
 //!
 //! \return Returns the fractional part of RTC free running timer.
 //!
-//! \sa AONRTCSecGet()
+//! \sa \ref AONRTCSecGet() \ref AONRTCCurrentCompareValueGet()
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
 AONRTCFractionGet(void)
 {
     //
-    // Note: AONRTCSecGet() must be called before this function to get a
-    //       consistent reading.
+    // Note1: It is recommended to use \ref AONRTCCurrentCompareValueGet() instead
+    //        of this function if the <16.16> format is sufficient.
+    // Note2: AONRTCSecGet() must be called before this function to get a
+    //        consistent reading.
+    // Note3: Interrupts must be disabled between the call to AONRTCSecGet() and this
+    //        call since there are interrupt functions that reads AON_RTC_O_SEC
     //
     return(HWREG(AON_RTC_BASE + AON_RTC_O_SUBSEC));
 }
@@ -434,10 +447,6 @@ AONRTCFractionGet(void)
 __STATIC_INLINE uint32_t
 AONRTCSubSecIncrGet(void)
 {
-    //
-    // Note: AONRTCSecGet() must be called before this function to get a
-    //       consistent reading.
-    //
     return(HWREG(AON_RTC_BASE + AON_RTC_O_SUBSECINC));
 }
 
@@ -614,35 +623,23 @@ extern uint32_t AONRTCCompareValueGet(uint32_t ui32Channel);
 
 //*****************************************************************************
 //
-//! \brief Get the current value of the RTC counter in a format compatible to the
-//! compare registers.
+//! \brief Get the current value of the RTC counter in a format that matches
+//! RTC compare values.
 //!
-//! The compare value registers contains the 16 integer and 16 fractional bits.
+//! The compare value registers contains 16 integer and 16 fractional bits.
 //! This function will return the current value of the RTC counter in an
 //! identical format.
 //!
-//! \return Returns the current value of the RTC counter in a <16.16>
-//! fractional format.
+//! \note This function reads the SEC and SUBSEC registers with interrupts
+//! disabled to ensure that these operations are performed atomically.
 //!
-//! \sa AONRTCCompareValueSet()
+//! \return Returns the current value of the RTC counter in a <16.16> format
+//! (SEC[15:0].SUBSEC[31:16]).
+//!
+//! \sa \ref AONRTCCompareValueSet()
 //
 //*****************************************************************************
-__STATIC_INLINE uint32_t
-AONRTCCurrentCompareValueGet(void)
-{
-    uint32_t ui32CurrentSec    ;
-    uint32_t ui32CurrentSubSec ;
-
-    //
-    // Make sure that SEC is read before SUBSEC since SUBSEC will be
-    // latched by hardware when SEC is read and hence guarantee that
-    // the two registers represents the same timestamp.
-    //
-    ui32CurrentSec    = HWREG( AON_RTC_BASE + AON_RTC_O_SEC    );
-    ui32CurrentSubSec = HWREG( AON_RTC_BASE + AON_RTC_O_SUBSEC );
-
-    return (( ui32CurrentSec << 16 ) | ( ui32CurrentSubSec >> 16 ));
-}
+extern uint32_t AONRTCCurrentCompareValueGet( void );
 
 //*****************************************************************************
 //
@@ -757,6 +754,10 @@ AONRTCCaptureValueCh1Get(void)
     #ifdef ROM_AONRTCCompareValueGet
         #undef  AONRTCCompareValueGet
         #define AONRTCCompareValueGet           ROM_AONRTCCompareValueGet
+    #endif
+    #ifdef ROM_AONRTCCurrentCompareValueGet
+        #undef  AONRTCCurrentCompareValueGet
+        #define AONRTCCurrentCompareValueGet    ROM_AONRTCCurrentCompareValueGet
     #endif
 #endif
 

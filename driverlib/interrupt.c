@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       interrupt.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-02-10 16:20:36 +0100 (ti, 10 feb 2015)
+*  Revision:       42636
 *
 *  Description:    Driver for the NVIC Interrupt Controller.
 *
@@ -129,7 +129,6 @@ IntDefaultHandler(void)
 // address given in the corresponding location in this list.
 //
 // TBD : FIX Remember to remove "zero_init" from interrupt vector declaration
-// TBD : How big must the interrupt table be?
 //
 //*****************************************************************************
 #if defined(__IAR_SYSTEMS_ICC__)

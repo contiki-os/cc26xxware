@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_batmon.c
-*  Revised:        2015-01-15 11:07:05 +0100 (to, 15 jan 2015)
-*  Revision:       42389
+*  Revised:        2015-02-18 11:12:55 +0100 (on, 18 feb 2015)
+*  Revision:       42790
 *
 *  Description:    Driver for the AON Battery and Temperature Monitor
 *
@@ -40,19 +40,19 @@
 #include <inc/hw_fcfg1.h>
 
 //*****************************************************************************
-// Need to know the AON_BATMON:TEMP.INT fild width in order to sign extend correctly
+// Need to know the AON_BATMON:TEMP.INT field width in order to sign extend correctly
 // (This is not given in the hw_aon_batmon.h file and therefore hard coded here)
 //*****************************************************************************
 #define AON_BATMON_TEMP_INT_FIELD_WIDTH   9
 
 //*****************************************************************************
 //
-// AON_BatmonTempGetDegC()
+// AONBatMonTemperatureGetDegC()
 // Returns sign exteded temperature in Deg C (-256 .. +255)
 //
 //*****************************************************************************
 int32_t
-AON_BatmonTempGetDegC( void )
+AONBatMonTemperatureGetDegC( void )
 {
    int32_t  signedTemp        ; // Signed extended temperature with 8 fractional bits
    int32_t  tempCorrection    ; // Voltage dependent temp correction with 8 fractional bits

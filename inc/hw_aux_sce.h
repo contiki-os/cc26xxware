@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_aux_sce.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_aux_sce_h
+*  Revised:        2015-02-12 20:48:43 +0100 (to, 12 feb 2015)
+*  Revision:       42710
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -37,41 +37,40 @@
 #ifndef __HW_AUX_SCE_H__
 #define __HW_AUX_SCE_H__
 
-
 //*****************************************************************************
 //
 // This section defines the register offsets of
 // AUX_SCE component
 //
 //*****************************************************************************
-// Internal register
+// Control
 #define AUX_SCE_O_CTL                                               0x00000000
 
-// Internal register
+// Fetch Status
 #define AUX_SCE_O_FETCHSTAT                                         0x00000004
 
-// Internal register
+// CPU Status
 #define AUX_SCE_O_CPUSTAT                                           0x00000008
 
-// Internal register
+// Wake-up Status
 #define AUX_SCE_O_WUSTAT                                            0x0000000C
 
-// Internal register
+// Registers 1 and 0
 #define AUX_SCE_O_REG1_0                                            0x00000010
 
-// Internal register
+// Registers 3 and 2
 #define AUX_SCE_O_REG3_2                                            0x00000014
 
-// Internal register
+// Registers 5 and 4
 #define AUX_SCE_O_REG5_4                                            0x00000018
 
-// Internal register
+// Registers 7 and 6
 #define AUX_SCE_O_REG7_6                                            0x0000001C
 
-// Internal register
+// Loop Address
 #define AUX_SCE_O_LOOPADDR                                          0x00000020
 
-// Internal register
+// Loop Counter
 #define AUX_SCE_O_LOOPCNT                                           0x00000024
 
 //*****************************************************************************
@@ -81,77 +80,77 @@
 //*****************************************************************************
 // Field: [31:24] FORCE_EV_LOW
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_FORCE_EV_LOW_M                                  0xFF000000
-#define AUX_SCE_CTL_FORCE_EV_LOW_S                                  24
+#define AUX_SCE_CTL_FORCE_EV_LOW_S                                          24
 
 // Field: [23:16] FORCE_EV_HIGH
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_FORCE_EV_HIGH_M                                 0x00FF0000
-#define AUX_SCE_CTL_FORCE_EV_HIGH_S                                 16
+#define AUX_SCE_CTL_FORCE_EV_HIGH_S                                         16
 
-// Field: [11:8] RESET_VECTOR
+// Field:  [11:8] RESET_VECTOR
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_RESET_VECTOR_M                                  0x00000F00
-#define AUX_SCE_CTL_RESET_VECTOR_S                                  8
+#define AUX_SCE_CTL_RESET_VECTOR_S                                           8
 
-// Field: [6]    DBG_FREEZE_EN
+// Field:     [6] DBG_FREEZE_EN
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_DBG_FREEZE_EN                                   0x00000040
-#define AUX_SCE_CTL_DBG_FREEZE_EN_BITN                              6
+#define AUX_SCE_CTL_DBG_FREEZE_EN_BITN                                       6
 #define AUX_SCE_CTL_DBG_FREEZE_EN_M                                 0x00000040
-#define AUX_SCE_CTL_DBG_FREEZE_EN_S                                 6
+#define AUX_SCE_CTL_DBG_FREEZE_EN_S                                          6
 
-// Field: [5]    FORCE_WU_LOW
+// Field:     [5] FORCE_WU_LOW
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_FORCE_WU_LOW                                    0x00000020
-#define AUX_SCE_CTL_FORCE_WU_LOW_BITN                               5
+#define AUX_SCE_CTL_FORCE_WU_LOW_BITN                                        5
 #define AUX_SCE_CTL_FORCE_WU_LOW_M                                  0x00000020
-#define AUX_SCE_CTL_FORCE_WU_LOW_S                                  5
+#define AUX_SCE_CTL_FORCE_WU_LOW_S                                           5
 
-// Field: [4]    FORCE_WU_HIGH
+// Field:     [4] FORCE_WU_HIGH
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_FORCE_WU_HIGH                                   0x00000010
-#define AUX_SCE_CTL_FORCE_WU_HIGH_BITN                              4
+#define AUX_SCE_CTL_FORCE_WU_HIGH_BITN                                       4
 #define AUX_SCE_CTL_FORCE_WU_HIGH_M                                 0x00000010
-#define AUX_SCE_CTL_FORCE_WU_HIGH_S                                 4
+#define AUX_SCE_CTL_FORCE_WU_HIGH_S                                          4
 
-// Field: [3]    RESTART
+// Field:     [3] RESTART
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_RESTART                                         0x00000008
-#define AUX_SCE_CTL_RESTART_BITN                                    3
+#define AUX_SCE_CTL_RESTART_BITN                                             3
 #define AUX_SCE_CTL_RESTART_M                                       0x00000008
-#define AUX_SCE_CTL_RESTART_S                                       3
+#define AUX_SCE_CTL_RESTART_S                                                3
 
-// Field: [2]    SINGLE_STEP
+// Field:     [2] SINGLE_STEP
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_SINGLE_STEP                                     0x00000004
-#define AUX_SCE_CTL_SINGLE_STEP_BITN                                2
+#define AUX_SCE_CTL_SINGLE_STEP_BITN                                         2
 #define AUX_SCE_CTL_SINGLE_STEP_M                                   0x00000004
-#define AUX_SCE_CTL_SINGLE_STEP_S                                   2
+#define AUX_SCE_CTL_SINGLE_STEP_S                                            2
 
-// Field: [1]    SUSPEND
+// Field:     [1] SUSPEND
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_SUSPEND                                         0x00000002
-#define AUX_SCE_CTL_SUSPEND_BITN                                    1
+#define AUX_SCE_CTL_SUSPEND_BITN                                             1
 #define AUX_SCE_CTL_SUSPEND_M                                       0x00000002
-#define AUX_SCE_CTL_SUSPEND_S                                       1
+#define AUX_SCE_CTL_SUSPEND_S                                                1
 
-// Field: [0]    CLK_EN
+// Field:     [0] CLK_EN
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CTL_CLK_EN                                          0x00000001
-#define AUX_SCE_CTL_CLK_EN_BITN                                     0
+#define AUX_SCE_CTL_CLK_EN_BITN                                              0
 #define AUX_SCE_CTL_CLK_EN_M                                        0x00000001
-#define AUX_SCE_CTL_CLK_EN_S                                        0
+#define AUX_SCE_CTL_CLK_EN_S                                                 0
 
 //*****************************************************************************
 //
@@ -160,84 +159,84 @@
 //*****************************************************************************
 // Field: [31:16] OPCODE
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_FETCHSTAT_OPCODE_M                                  0xFFFF0000
-#define AUX_SCE_FETCHSTAT_OPCODE_S                                  16
+#define AUX_SCE_FETCHSTAT_OPCODE_S                                          16
 
-// Field: [15:0] PC
+// Field:  [15:0] PC
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_FETCHSTAT_PC_M                                      0x0000FFFF
-#define AUX_SCE_FETCHSTAT_PC_S                                      0
+#define AUX_SCE_FETCHSTAT_PC_S                                               0
 
 //*****************************************************************************
 //
 // Register: AUX_SCE_O_CPUSTAT
 //
 //*****************************************************************************
-// Field: [11]    BUS_ERROR
+// Field:    [11] BUS_ERROR
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_BUS_ERROR                                   0x00000800
-#define AUX_SCE_CPUSTAT_BUS_ERROR_BITN                              11
+#define AUX_SCE_CPUSTAT_BUS_ERROR_BITN                                      11
 #define AUX_SCE_CPUSTAT_BUS_ERROR_M                                 0x00000800
-#define AUX_SCE_CPUSTAT_BUS_ERROR_S                                 11
+#define AUX_SCE_CPUSTAT_BUS_ERROR_S                                         11
 
-// Field: [10]    SLEEP
+// Field:    [10] SLEEP
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_SLEEP                                       0x00000400
-#define AUX_SCE_CPUSTAT_SLEEP_BITN                                  10
+#define AUX_SCE_CPUSTAT_SLEEP_BITN                                          10
 #define AUX_SCE_CPUSTAT_SLEEP_M                                     0x00000400
-#define AUX_SCE_CPUSTAT_SLEEP_S                                     10
+#define AUX_SCE_CPUSTAT_SLEEP_S                                             10
 
-// Field: [9]    WEV
+// Field:     [9] WEV
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_WEV                                         0x00000200
-#define AUX_SCE_CPUSTAT_WEV_BITN                                    9
+#define AUX_SCE_CPUSTAT_WEV_BITN                                             9
 #define AUX_SCE_CPUSTAT_WEV_M                                       0x00000200
-#define AUX_SCE_CPUSTAT_WEV_S                                       9
+#define AUX_SCE_CPUSTAT_WEV_S                                                9
 
-// Field: [8]    SELF_STOP
+// Field:     [8] SELF_STOP
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_SELF_STOP                                   0x00000100
-#define AUX_SCE_CPUSTAT_SELF_STOP_BITN                              8
+#define AUX_SCE_CPUSTAT_SELF_STOP_BITN                                       8
 #define AUX_SCE_CPUSTAT_SELF_STOP_M                                 0x00000100
-#define AUX_SCE_CPUSTAT_SELF_STOP_S                                 8
+#define AUX_SCE_CPUSTAT_SELF_STOP_S                                          8
 
-// Field: [3]    V_FLAG
+// Field:     [3] V_FLAG
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_V_FLAG                                      0x00000008
-#define AUX_SCE_CPUSTAT_V_FLAG_BITN                                 3
+#define AUX_SCE_CPUSTAT_V_FLAG_BITN                                          3
 #define AUX_SCE_CPUSTAT_V_FLAG_M                                    0x00000008
-#define AUX_SCE_CPUSTAT_V_FLAG_S                                    3
+#define AUX_SCE_CPUSTAT_V_FLAG_S                                             3
 
-// Field: [2]    C_FLAG
+// Field:     [2] C_FLAG
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_C_FLAG                                      0x00000004
-#define AUX_SCE_CPUSTAT_C_FLAG_BITN                                 2
+#define AUX_SCE_CPUSTAT_C_FLAG_BITN                                          2
 #define AUX_SCE_CPUSTAT_C_FLAG_M                                    0x00000004
-#define AUX_SCE_CPUSTAT_C_FLAG_S                                    2
+#define AUX_SCE_CPUSTAT_C_FLAG_S                                             2
 
-// Field: [1]    N_FLAG
+// Field:     [1] N_FLAG
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_N_FLAG                                      0x00000002
-#define AUX_SCE_CPUSTAT_N_FLAG_BITN                                 1
+#define AUX_SCE_CPUSTAT_N_FLAG_BITN                                          1
 #define AUX_SCE_CPUSTAT_N_FLAG_M                                    0x00000002
-#define AUX_SCE_CPUSTAT_N_FLAG_S                                    1
+#define AUX_SCE_CPUSTAT_N_FLAG_S                                             1
 
-// Field: [0]    Z_FLAG
+// Field:     [0] Z_FLAG
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_CPUSTAT_Z_FLAG                                      0x00000001
-#define AUX_SCE_CPUSTAT_Z_FLAG_BITN                                 0
+#define AUX_SCE_CPUSTAT_Z_FLAG_BITN                                          0
 #define AUX_SCE_CPUSTAT_Z_FLAG_M                                    0x00000001
-#define AUX_SCE_CPUSTAT_Z_FLAG_S                                    0
+#define AUX_SCE_CPUSTAT_Z_FLAG_S                                             0
 
 //*****************************************************************************
 //
@@ -246,23 +245,23 @@
 //*****************************************************************************
 // Field: [17:16] EXC_VECTOR
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_WUSTAT_EXC_VECTOR_M                                 0x00030000
-#define AUX_SCE_WUSTAT_EXC_VECTOR_S                                 16
+#define AUX_SCE_WUSTAT_EXC_VECTOR_S                                         16
 
-// Field: [8]    WU_SIGNAL
+// Field:     [8] WU_SIGNAL
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_WUSTAT_WU_SIGNAL                                    0x00000100
-#define AUX_SCE_WUSTAT_WU_SIGNAL_BITN                               8
+#define AUX_SCE_WUSTAT_WU_SIGNAL_BITN                                        8
 #define AUX_SCE_WUSTAT_WU_SIGNAL_M                                  0x00000100
-#define AUX_SCE_WUSTAT_WU_SIGNAL_S                                  8
+#define AUX_SCE_WUSTAT_WU_SIGNAL_S                                           8
 
-// Field: [7:0] EV_SIGNALS
+// Field:   [7:0] EV_SIGNALS
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_WUSTAT_EV_SIGNALS_M                                 0x000000FF
-#define AUX_SCE_WUSTAT_EV_SIGNALS_S                                 0
+#define AUX_SCE_WUSTAT_EV_SIGNALS_S                                          0
 
 //*****************************************************************************
 //
@@ -271,15 +270,15 @@
 //*****************************************************************************
 // Field: [31:16] REG1
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG1_0_REG1_M                                       0xFFFF0000
-#define AUX_SCE_REG1_0_REG1_S                                       16
+#define AUX_SCE_REG1_0_REG1_S                                               16
 
-// Field: [15:0] REG0
+// Field:  [15:0] REG0
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG1_0_REG0_M                                       0x0000FFFF
-#define AUX_SCE_REG1_0_REG0_S                                       0
+#define AUX_SCE_REG1_0_REG0_S                                                0
 
 //*****************************************************************************
 //
@@ -288,15 +287,15 @@
 //*****************************************************************************
 // Field: [31:16] REG3
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG3_2_REG3_M                                       0xFFFF0000
-#define AUX_SCE_REG3_2_REG3_S                                       16
+#define AUX_SCE_REG3_2_REG3_S                                               16
 
-// Field: [15:0] REG2
+// Field:  [15:0] REG2
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG3_2_REG2_M                                       0x0000FFFF
-#define AUX_SCE_REG3_2_REG2_S                                       0
+#define AUX_SCE_REG3_2_REG2_S                                                0
 
 //*****************************************************************************
 //
@@ -305,15 +304,15 @@
 //*****************************************************************************
 // Field: [31:16] REG5
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG5_4_REG5_M                                       0xFFFF0000
-#define AUX_SCE_REG5_4_REG5_S                                       16
+#define AUX_SCE_REG5_4_REG5_S                                               16
 
-// Field: [15:0] REG4
+// Field:  [15:0] REG4
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG5_4_REG4_M                                       0x0000FFFF
-#define AUX_SCE_REG5_4_REG4_S                                       0
+#define AUX_SCE_REG5_4_REG4_S                                                0
 
 //*****************************************************************************
 //
@@ -322,15 +321,15 @@
 //*****************************************************************************
 // Field: [31:16] REG7
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG7_6_REG7_M                                       0xFFFF0000
-#define AUX_SCE_REG7_6_REG7_S                                       16
+#define AUX_SCE_REG7_6_REG7_S                                               16
 
-// Field: [15:0] REG6
+// Field:  [15:0] REG6
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_REG7_6_REG6_M                                       0x0000FFFF
-#define AUX_SCE_REG7_6_REG6_S                                       0
+#define AUX_SCE_REG7_6_REG6_S                                                0
 
 //*****************************************************************************
 //
@@ -339,25 +338,26 @@
 //*****************************************************************************
 // Field: [31:16] STOP
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_LOOPADDR_STOP_M                                     0xFFFF0000
-#define AUX_SCE_LOOPADDR_STOP_S                                     16
+#define AUX_SCE_LOOPADDR_STOP_S                                             16
 
-// Field: [15:0] START
+// Field:  [15:0] START
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_LOOPADDR_START_M                                    0x0000FFFF
-#define AUX_SCE_LOOPADDR_START_S                                    0
+#define AUX_SCE_LOOPADDR_START_S                                             0
 
 //*****************************************************************************
 //
 // Register: AUX_SCE_O_LOOPCNT
 //
 //*****************************************************************************
-// Field: [7:0] ITER_LEFT
+// Field:   [7:0] ITER_LEFT
 //
-// Internal Register. Customers can control this through TI provided API
+// Internal. Only to be used through TI provided API.
 #define AUX_SCE_LOOPCNT_ITER_LEFT_M                                 0x000000FF
-#define AUX_SCE_LOOPCNT_ITER_LEFT_S                                 0
+#define AUX_SCE_LOOPCNT_ITER_LEFT_S                                          0
 
-#endif // __HW_AUX_SCE_H__
+
+#endif // __AUX_SCE__

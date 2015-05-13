@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       timer.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-04-14 14:41:18 +0200 (ti, 14 apr 2015)
+*  Revision:       43221
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -87,6 +87,8 @@ extern "C"
     #define TimerWaitOnTriggerControl       NOROM_TimerWaitOnTriggerControl
     #define TimerIntRegister                NOROM_TimerIntRegister
     #define TimerIntUnregister              NOROM_TimerIntUnregister
+    #define TimerMatchUpdateMode            NOROM_TimerMatchUpdateMode
+    #define TimerIntervalLoadMode           NOROM_TimerIntervalLoadMode
 #endif
 
 //*****************************************************************************
@@ -170,6 +172,22 @@ extern "C"
 #define TIMER_2B_SYNC             0x00000020  // Synchronize Timer 2B
 #define TIMER_3A_SYNC             0x00000040  // Synchronize Timer 3A
 #define TIMER_3B_SYNC             0x00000080  // Synchronize Timer 3B
+
+//*****************************************************************************
+//
+// Values that can be passed to TimerMatchUpdateMode
+//
+//*****************************************************************************
+#define TIMER_MATCHUPDATE_NEXTCYCLE  0x00000000 // Apply match register on next cycle
+#define TIMER_MATCHUPDATE_TIMEOUT    0x00000001 // Apply match register on next timeout
+
+//*****************************************************************************
+//
+// Values that can be passed to TimerIntervalLoad
+//
+//*****************************************************************************
+#define TIMER_INTERVALLOAD_NEXTCYCLE  0x00000000 // Load TxR register with the value in the TxILR register on the next clock cycle
+#define TIMER_INTERVALLOAD_TIMEOUT    0x00000001 // Load TxR register with the value in the TxILR register on next timeout
 
 //*****************************************************************************
 //
@@ -1154,6 +1172,97 @@ TimerSynchronize(uint32_t ui32Base, uint32_t ui32Timers)
 
 //*****************************************************************************
 //
+//! \brief Enables AND'ing of the CCP outputs from Timer A and Timer B.
+//!
+//! \param ui32Base is the base address of the timer module.
+//!
+//! \return None
+//
+//*****************************************************************************
+__STATIC_INLINE void
+TimerCcpCombineEnable(uint32_t ui32Base)
+{
+    // Check the arguments
+    ASSERT(TimerBaseValid(ui32Base));
+
+    // Set the bit using bit banding
+    HWREGBITW(ui32Base + GPT_O_ANDCCP, GPT_ANDCCP_CCP_AND_EN_BITN) = 1;
+}
+
+//*****************************************************************************
+//
+//! \brief Disables AND'ing of the CCP outputs from Timer A and Timer B.
+//!
+//! \param ui32Base is the base address of the timer module.
+//!
+//! \return None
+//
+//*****************************************************************************
+__STATIC_INLINE void
+TimerCcpCombineDisable(uint32_t ui32Base)
+{
+    // Check the arguments
+    ASSERT(TimerBaseValid(ui32Base));
+
+    // Clear the bit using bit banding
+    HWREGBITW(ui32Base + GPT_O_ANDCCP, GPT_ANDCCP_CCP_AND_EN_BITN) = 0;
+}
+
+//*****************************************************************************
+//
+//! \brief Sets the Match Register Update mode.
+//!
+//! This function controls when the Match Register value and Prescale Register value
+//! are applied after writing these registers while a timer is enabled.
+//!
+//! \note If the timer is disabled when setting the update mode the Match Register
+//! and Prescale Register values are applied immediately when enabling the timer.
+//!
+//! \param ui32Base is the base address of the timer module.
+//! \param ui32Timer specifies the timer(s) to configure; must be one of:
+//! - \ref TIMER_A
+//! - \ref TIMER_B
+//! - \ref TIMER_BOTH
+//! \param ui32Mode sets the mode:
+//! - \ref TIMER_MATCHUPDATE_NEXTCYCLE : Apply Match Register and Prescale Register on next clock
+//!        cycle after writing any of these registers.
+//! - \ref TIMER_MATCHUPDATE_TIMEOUT   : Apply Match Register and Prescale Register on next timeout
+//!        after writing any of these registers.
+//!
+//! \return None
+//
+//*****************************************************************************
+extern void TimerMatchUpdateMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_t ui32Mode);
+
+//*****************************************************************************
+//
+//! \brief Sets the Interval Load mode.
+//!
+//! This function controls when the Timer Register and Prescale Snap-shot (if used)
+//! are updated.
+//!
+//! Timer Register (TAR/TBR) is updated when Interval Load Register (TAILR/TBILR) is written
+//! and the Prescale Snap-shot (TAPS/TBPS) is updated when Prescale Register (TAPR/TBPR) is
+//! written depending on the mode of operation.
+//!
+//! \param ui32Base is the base address of the timer module.
+//! \param ui32Timer specifies the timer(s) to configure; must be one of:
+//! - \ref TIMER_A
+//! - \ref TIMER_B
+//! - \ref TIMER_BOTH
+//! \param ui32Mode sets the mode:
+//! - \ref TIMER_INTERVALLOAD_NEXTCYCLE : Update Timer Register and Prescale Snap-shot on next clock
+//!        cycle after writing Interval Load Register or Prescale Register, respectively.
+//! - \ref TIMER_INTERVALLOAD_TIMEOUT   : Update Timer Register and Prescale Snap-shot on next timeout
+//!        after writing Interval Load Register or Prescale Register, respectively.
+//!
+//! \return None
+//
+//*****************************************************************************
+extern void TimerIntervalLoadMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_t ui32Mode);
+
+//*****************************************************************************
+//
 // Support for DriverLib in ROM:
 // Redirect to implementation in ROM when available.
 //
@@ -1187,6 +1296,14 @@ TimerSynchronize(uint32_t ui32Base, uint32_t ui32Timers)
     #ifdef ROM_TimerIntUnregister
         #undef  TimerIntUnregister
         #define TimerIntUnregister              ROM_TimerIntUnregister
+    #endif
+    #ifdef ROM_TimerMatchUpdateMode
+        #undef  TimerMatchUpdateMode
+        #define TimerMatchUpdateMode            ROM_TimerMatchUpdateMode
+    #endif
+    #ifdef ROM_TimerIntervalLoadMode
+        #undef  TimerIntervalLoadMode
+        #define TimerIntervalLoadMode           ROM_TimerIntervalLoadMode
     #endif
 #endif
 

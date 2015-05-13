@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       ioc.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Description:    Defines and prototypes for the IO Controller.
 *
@@ -86,7 +86,6 @@ extern "C"
     #define IOCPortConfigureSet             NOROM_IOCPortConfigureSet
     #define IOCPortConfigureGet             NOROM_IOCPortConfigureGet
     #define IOCIOShutdownSet                NOROM_IOCIOShutdownSet
-    #define IOCIOJTagSet                    NOROM_IOCIOJTagSet
     #define IOCIOModeSet                    NOROM_IOCIOModeSet
     #define IOCIOIntSet                     NOROM_IOCIOIntSet
     #define IOCIOPortPullSet                NOROM_IOCIOPortPullSet
@@ -221,9 +220,6 @@ extern "C"
 #define IOC_INPUT_DISABLE       0x00000000
 #define IOC_HYST_ENABLE         0x40000000
 #define IOC_HYST_DISABLE        0x00000000
-#define IOC_JTAG_TDO_ENABLE     0x00080000
-#define IOC_JTAG_TDI_ENABLE     0x00100000
-#define IOC_JTAG_DISABLE        0x00000000
 
 //*****************************************************************************
 //
@@ -302,15 +298,13 @@ extern "C"
 #define IOC_STD_INPUT           (IOC_CURRENT_2MA | IOC_STRENGTH_AUTO |      \
                                  IOC_NO_IOPULL | IOC_SLEW_DISABLE |         \
                                  IOC_HYST_DISABLE | IOC_NO_EDGE |           \
-                                 IOC_INT_DISABLE | IOC_IOMODE_NORMAL | \
-                                 IOC_NO_WAKE_UP | IOC_INPUT_ENABLE |        \
-                                 IOC_JTAG_DISABLE)
+                                 IOC_INT_DISABLE | IOC_IOMODE_NORMAL |      \
+                                 IOC_NO_WAKE_UP | IOC_INPUT_ENABLE )
 #define IOC_STD_OUTPUT          (IOC_CURRENT_2MA | IOC_STRENGTH_AUTO |      \
                                  IOC_NO_IOPULL | IOC_SLEW_DISABLE |         \
                                  IOC_HYST_DISABLE | IOC_NO_EDGE |           \
-                                 IOC_INT_DISABLE | IOC_IOMODE_NORMAL | \
-                                 IOC_NO_WAKE_UP | IOC_INPUT_DISABLE |       \
-                                 IOC_JTAG_DISABLE)
+                                 IOC_INT_DISABLE | IOC_IOMODE_NORMAL |      \
+                                 IOC_NO_WAKE_UP | IOC_INPUT_DISABLE )
 
 //*****************************************************************************
 //
@@ -398,10 +392,6 @@ extern "C"
 //!   - \ref IOC_NO_WAKE_UP
 //!   - \ref IOC_WAKE_ON_LOW
 //!   - \ref IOC_WAKE_ON_HIGH
-//! - JTAG configuration modes:
-//!   - \ref IOC_JTAG_TDO_ENABLE
-//!   - \ref IOC_JTAG_TDI_ENABLE
-//!   - \ref IOC_JTAG_DISABLE
 //! - Edge detection mode:
 //!   - \ref IOC_NO_EDGE
 //!   - \ref IOC_FALLING_EDGE
@@ -480,25 +470,6 @@ extern uint32_t IOCPortConfigureGet(uint32_t ui32IOId);
 //*****************************************************************************
 extern void IOCIOShutdownSet(uint32_t ui32IOId, uint32_t ui32IOShutdown);
 
-//*****************************************************************************
-//
-//! \brief Set wake-up on an IO port.
-//!
-//! This function is used to set the wake-up mode of an IO.
-//!
-//! \param ui32IOId defines the IO to configure.
-//! - \ref IOID_0
-//! - ...
-//! - \ref IOID_31
-//! \param ui32IOJTag enables the IO for JTAG operation.
-//! - \ref IOC_JTAG_TDO_ENABLE
-//! - \ref IOC_JTAG_TDI_ENABLE
-//! - \ref IOC_JTAG_DISABLE
-//!
-//! \return None
-//
-//*****************************************************************************
-extern void IOCIOJTagSet(uint32_t ui32IOId, uint32_t ui32IOJTag);
 
 //*****************************************************************************
 //
@@ -847,10 +818,6 @@ IOCIntClear(uint32_t ui32IOId)
 //
 //! \brief Returns the status of the IO interrupts.
 //!
-//! TBD : Please check with designer if IOC configuration bit
-//! (IOC_IOCFG0_EDGE_IRQ_EN) works as a masking bit for the interrupt generation.
-//! In other words will GPIO events always appear in the EVENT register in the GPIO module.
-//!
 //! \param ui32IOId is the IO to get the status for.
 //! - \ref IOID_0
 //! - ...
@@ -868,7 +835,7 @@ IOCIntStatus(uint32_t ui32IOId)
     ASSERT(ui32IOId <= IOID_31);
 
     //
-    // Clear the requested interrupt source by clearing the event.
+    // Get the event status.
     //
     return (GPIOEventGet(1 << ui32IOId));
 }
@@ -892,7 +859,6 @@ IOCIntStatus(uint32_t ui32IOId)
 //!   - \ref IOC_IOMODE_NORMAL
 //!   - \ref IOC_NO_WAKE_UP
 //!   - \ref IOC_INPUT_ENABLE
-//!   - \ref IOC_JTAG_DISABLE
 //!
 //! \param ui32IOId is the IO to setup for GPIO input
 //! - \ref IOID_0
@@ -922,7 +888,6 @@ extern void IOCPinTypeGpioInput(uint32_t ui32IOId);
 //!   - \ref IOC_IOMODE_NORMAL
 //!   - \ref IOC_NO_WAKE_UP
 //!   - \ref IOC_INPUT_DISABLE
-//!   - \ref IOC_JTAG_DISABLE
 //!
 //! \param ui32IOId is the IO to setup for GPIO output
 //! - \ref IOID_0
@@ -1131,10 +1096,6 @@ extern void IOCPinTypeAux(uint32_t ui32IOId);
     #ifdef ROM_IOCIOShutdownSet
         #undef  IOCIOShutdownSet
         #define IOCIOShutdownSet                ROM_IOCIOShutdownSet
-    #endif
-    #ifdef ROM_IOCIOJTagSet
-        #undef  IOCIOJTagSet
-        #define IOCIOJTagSet                    ROM_IOCIOJTagSet
     #endif
     #ifdef ROM_IOCIOModeSet
         #undef  IOCIOModeSet

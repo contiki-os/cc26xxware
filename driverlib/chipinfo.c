@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       chipinfo.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-04-15 13:12:25 +0200 (on, 15 apr 2015)
+*  Revision:       43227
 *
 *  Description:    Collection of functions returning chip information.
 *
@@ -58,6 +58,7 @@ ChipInfo_GetSupportedProtocol_BV( void )
    return ((ProtocolBitVector_t)( HWREG( PRCM_BASE + 0x1D4 ) & 0x0E ));
 }
 
+
 //*****************************************************************************
 //
 // ChipInfo_GetPackageType()
@@ -69,7 +70,7 @@ ChipInfo_GetPackageType( void )
    PackageType_t packType = (PackageType_t)((
       HWREG( FCFG1_BASE + FCFG1_O_USER_ID     ) &
                           FCFG1_USER_ID_PKG_M ) >>
-                          FCFG1_USER_ID_PKG_S );
+                          FCFG1_USER_ID_PKG_S ) ;
 
    if (( packType < PACKAGE_4x4 ) ||
        ( packType > PACKAGE_7x7 )    )
@@ -89,14 +90,16 @@ ChipInfo_GetPackageType( void )
 ChipFamily_t
 ChipInfo_GetChipFamily( void )
 {
-   ChipFamily_t   chipFam  = FAMILY_Unknown;
-   uint32_t       pgRevBV  = BV( ChipInfo_GetDeviceIdHwRevCode() );
+   ChipFamily_t   chipFam  = FAMILY_Unknown  ;
+   uint32_t       waferId                    ;
 
-   if ( pgRevBV & ( BV( 1 ) | BV( 3 ) | BV( 7 ) | BV( 8 ))) {
-      chipFam  = FAMILY_CC26xx;
-   } else if ( pgRevBV & ( BV( 0 ) | BV( 2 ))) {
-      chipFam  = FAMILY_CC13xx;
-   }
+   waferId = (( HWREG( FCFG1_BASE + FCFG1_O_ICEPICK_DEVICE_ID ) &
+                           FCFG1_ICEPICK_DEVICE_ID_WAFER_ID_M ) >>
+                           FCFG1_ICEPICK_DEVICE_ID_WAFER_ID_S ) ;
+
+   if (      waferId == 0xB99A )  chipFam = FAMILY_CC26xx       ;
+   else if ( waferId == 0xB9BE )  chipFam = FAMILY_CC13xx       ;
+   else if ( waferId == 0xBB20 )  chipFam = FAMILY_CC26xxLizard ;
 
    return ( chipFam );
 }
@@ -110,49 +113,50 @@ ChipInfo_GetChipFamily( void )
 HwRevision_t
 ChipInfo_GetHwRevision( void )
 {
-   HwRevision_t   hwRev = HWREV_Unknown;
+   HwRevision_t   hwRev       = HWREV_Unknown                     ;
+   uint32_t       fcfg1Rev    = ChipInfo_GetDeviceIdHwRevCode()   ;
+   uint32_t       minorHwRev  = ChipInfo_GetMinorHwRev()          ;
 
-   switch ( ChipInfo_GetDeviceIdHwRevCode() ) {
-   case 0 : // CC13xx PG1.0
-   case 1 : // CC26xx PG1.0
-      hwRev = HWREV_1_0;
+   switch( ChipInfo_GetChipFamily() ) {
+   case FAMILY_CC26xx :
+      switch ( fcfg1Rev ) {
+      case 1 : // CC26xx PG1.0
+         hwRev = HWREV_1_0;
+         break;
+      case 3 : // CC26xx PG2.0
+         hwRev = HWREV_2_0;
+         break;
+      case 7 : // CC26xx PG2.1
+         hwRev = HWREV_2_1;
+         break;
+      case 8 : // CC26xx PG2.2 (or later)
+         hwRev = (HwRevision_t)(((uint32_t)HWREV_2_2 ) + minorHwRev );
+         break;
+      }
       break;
-   case 2 : // CC13xx PG2.0
-   case 3 : // CC26xx PG1.0
-      hwRev = HWREV_2_0;
+   case FAMILY_CC13xx :
+      switch ( fcfg1Rev ) {
+      case 0 : // CC13xx PG1.0
+         hwRev = HWREV_1_0;
+         break;
+      case 2 : // CC13xx PG2.0 (or later)
+         hwRev = (HwRevision_t)(((uint32_t)HWREV_2_0 ) + minorHwRev );
+         break;
+      }
       break;
-   case 7 : // CC26xx PG2.1
-      hwRev = HWREV_2_1;
-      break;
-   case 8 : // CC26xx PG2.2
-      hwRev = HWREV_2_2;
+   case FAMILY_CC26xxLizard :
+      switch ( fcfg1Rev ) {
+      case 0 : // CC26xxLizard PG1.0 (or later)
+         hwRev = (HwRevision_t)(((uint32_t)HWREV_1_0 ) + minorHwRev );
+         break;
+      }
       break;
    }
 
    return ( hwRev );
 }
 
-#if defined( CHECK_AT_STARTUP_FOR_CORRECT_FAMILY_ONLY )
-//*****************************************************************************
-// ThisCodeIsBuiltForCC26xxHwRev20AndLater_HaltIfViolated()
-// (Keeping this check at HwRev2.0 independent of "#else" check)
-//*****************************************************************************
-void
-ThisCodeIsBuiltForCC26xxHwRev20AndLater_HaltIfViolated( void )
-{
-   if (( ! ChipInfo_ChipFamilyIsCC26xx()    ) ||
-       ( ! ChipInfo_HwRevisionIs_GTEQ_2_0() )    )
-   {
-      while(1)
-      {
-         //
-         // This driverlib version is for CC26xx PG2.0 and later
-         // Do nothing - stay here forever
-         //
-      }
-   }
-}
-#else
+
 
 //*****************************************************************************
 // ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated()
@@ -172,4 +176,3 @@ ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated( void )
       }
    }
 }
-#endif

@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_smph.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_smph_h
+*  Revised:        2015-02-10 21:34:21 +0100 (ti, 10 feb 2015)
+*  Revision:       42642
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -36,7 +36,6 @@
 
 #ifndef __HW_SMPH_H__
 #define __HW_SMPH_H__
-
 
 //*****************************************************************************
 //
@@ -241,7 +240,7 @@
 // Register: SMPH_O_SMPH0
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -251,16 +250,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH0_STAT                                             0x00000001
-#define SMPH_SMPH0_STAT_BITN                                        0
+#define SMPH_SMPH0_STAT_BITN                                                 0
 #define SMPH_SMPH0_STAT_M                                           0x00000001
-#define SMPH_SMPH0_STAT_S                                           0
+#define SMPH_SMPH0_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH1
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -270,16 +269,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH1_STAT                                             0x00000001
-#define SMPH_SMPH1_STAT_BITN                                        0
+#define SMPH_SMPH1_STAT_BITN                                                 0
 #define SMPH_SMPH1_STAT_M                                           0x00000001
-#define SMPH_SMPH1_STAT_S                                           0
+#define SMPH_SMPH1_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH2
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -289,16 +288,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH2_STAT                                             0x00000001
-#define SMPH_SMPH2_STAT_BITN                                        0
+#define SMPH_SMPH2_STAT_BITN                                                 0
 #define SMPH_SMPH2_STAT_M                                           0x00000001
-#define SMPH_SMPH2_STAT_S                                           0
+#define SMPH_SMPH2_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH3
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -308,16 +307,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH3_STAT                                             0x00000001
-#define SMPH_SMPH3_STAT_BITN                                        0
+#define SMPH_SMPH3_STAT_BITN                                                 0
 #define SMPH_SMPH3_STAT_M                                           0x00000001
-#define SMPH_SMPH3_STAT_S                                           0
+#define SMPH_SMPH3_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH4
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -327,16 +326,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH4_STAT                                             0x00000001
-#define SMPH_SMPH4_STAT_BITN                                        0
+#define SMPH_SMPH4_STAT_BITN                                                 0
 #define SMPH_SMPH4_STAT_M                                           0x00000001
-#define SMPH_SMPH4_STAT_S                                           0
+#define SMPH_SMPH4_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH5
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -346,16 +345,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH5_STAT                                             0x00000001
-#define SMPH_SMPH5_STAT_BITN                                        0
+#define SMPH_SMPH5_STAT_BITN                                                 0
 #define SMPH_SMPH5_STAT_M                                           0x00000001
-#define SMPH_SMPH5_STAT_S                                           0
+#define SMPH_SMPH5_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH6
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -365,16 +364,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH6_STAT                                             0x00000001
-#define SMPH_SMPH6_STAT_BITN                                        0
+#define SMPH_SMPH6_STAT_BITN                                                 0
 #define SMPH_SMPH6_STAT_M                                           0x00000001
-#define SMPH_SMPH6_STAT_S                                           0
+#define SMPH_SMPH6_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH7
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -384,16 +383,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH7_STAT                                             0x00000001
-#define SMPH_SMPH7_STAT_BITN                                        0
+#define SMPH_SMPH7_STAT_BITN                                                 0
 #define SMPH_SMPH7_STAT_M                                           0x00000001
-#define SMPH_SMPH7_STAT_S                                           0
+#define SMPH_SMPH7_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH8
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -403,16 +402,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH8_STAT                                             0x00000001
-#define SMPH_SMPH8_STAT_BITN                                        0
+#define SMPH_SMPH8_STAT_BITN                                                 0
 #define SMPH_SMPH8_STAT_M                                           0x00000001
-#define SMPH_SMPH8_STAT_S                                           0
+#define SMPH_SMPH8_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH9
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -422,16 +421,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH9_STAT                                             0x00000001
-#define SMPH_SMPH9_STAT_BITN                                        0
+#define SMPH_SMPH9_STAT_BITN                                                 0
 #define SMPH_SMPH9_STAT_M                                           0x00000001
-#define SMPH_SMPH9_STAT_S                                           0
+#define SMPH_SMPH9_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH10
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -441,16 +440,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH10_STAT                                            0x00000001
-#define SMPH_SMPH10_STAT_BITN                                       0
+#define SMPH_SMPH10_STAT_BITN                                                0
 #define SMPH_SMPH10_STAT_M                                          0x00000001
-#define SMPH_SMPH10_STAT_S                                          0
+#define SMPH_SMPH10_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH11
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -460,16 +459,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH11_STAT                                            0x00000001
-#define SMPH_SMPH11_STAT_BITN                                       0
+#define SMPH_SMPH11_STAT_BITN                                                0
 #define SMPH_SMPH11_STAT_M                                          0x00000001
-#define SMPH_SMPH11_STAT_S                                          0
+#define SMPH_SMPH11_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH12
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -479,16 +478,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH12_STAT                                            0x00000001
-#define SMPH_SMPH12_STAT_BITN                                       0
+#define SMPH_SMPH12_STAT_BITN                                                0
 #define SMPH_SMPH12_STAT_M                                          0x00000001
-#define SMPH_SMPH12_STAT_S                                          0
+#define SMPH_SMPH12_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH13
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -498,16 +497,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH13_STAT                                            0x00000001
-#define SMPH_SMPH13_STAT_BITN                                       0
+#define SMPH_SMPH13_STAT_BITN                                                0
 #define SMPH_SMPH13_STAT_M                                          0x00000001
-#define SMPH_SMPH13_STAT_S                                          0
+#define SMPH_SMPH13_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH14
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -517,16 +516,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH14_STAT                                            0x00000001
-#define SMPH_SMPH14_STAT_BITN                                       0
+#define SMPH_SMPH14_STAT_BITN                                                0
 #define SMPH_SMPH14_STAT_M                                          0x00000001
-#define SMPH_SMPH14_STAT_S                                          0
+#define SMPH_SMPH14_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH15
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -536,16 +535,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH15_STAT                                            0x00000001
-#define SMPH_SMPH15_STAT_BITN                                       0
+#define SMPH_SMPH15_STAT_BITN                                                0
 #define SMPH_SMPH15_STAT_M                                          0x00000001
-#define SMPH_SMPH15_STAT_S                                          0
+#define SMPH_SMPH15_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH16
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -555,16 +554,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH16_STAT                                            0x00000001
-#define SMPH_SMPH16_STAT_BITN                                       0
+#define SMPH_SMPH16_STAT_BITN                                                0
 #define SMPH_SMPH16_STAT_M                                          0x00000001
-#define SMPH_SMPH16_STAT_S                                          0
+#define SMPH_SMPH16_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH17
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -574,16 +573,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH17_STAT                                            0x00000001
-#define SMPH_SMPH17_STAT_BITN                                       0
+#define SMPH_SMPH17_STAT_BITN                                                0
 #define SMPH_SMPH17_STAT_M                                          0x00000001
-#define SMPH_SMPH17_STAT_S                                          0
+#define SMPH_SMPH17_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH18
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -593,16 +592,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH18_STAT                                            0x00000001
-#define SMPH_SMPH18_STAT_BITN                                       0
+#define SMPH_SMPH18_STAT_BITN                                                0
 #define SMPH_SMPH18_STAT_M                                          0x00000001
-#define SMPH_SMPH18_STAT_S                                          0
+#define SMPH_SMPH18_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH19
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -612,16 +611,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH19_STAT                                            0x00000001
-#define SMPH_SMPH19_STAT_BITN                                       0
+#define SMPH_SMPH19_STAT_BITN                                                0
 #define SMPH_SMPH19_STAT_M                                          0x00000001
-#define SMPH_SMPH19_STAT_S                                          0
+#define SMPH_SMPH19_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH20
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -631,16 +630,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH20_STAT                                            0x00000001
-#define SMPH_SMPH20_STAT_BITN                                       0
+#define SMPH_SMPH20_STAT_BITN                                                0
 #define SMPH_SMPH20_STAT_M                                          0x00000001
-#define SMPH_SMPH20_STAT_S                                          0
+#define SMPH_SMPH20_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH21
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -650,16 +649,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH21_STAT                                            0x00000001
-#define SMPH_SMPH21_STAT_BITN                                       0
+#define SMPH_SMPH21_STAT_BITN                                                0
 #define SMPH_SMPH21_STAT_M                                          0x00000001
-#define SMPH_SMPH21_STAT_S                                          0
+#define SMPH_SMPH21_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH22
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -669,16 +668,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH22_STAT                                            0x00000001
-#define SMPH_SMPH22_STAT_BITN                                       0
+#define SMPH_SMPH22_STAT_BITN                                                0
 #define SMPH_SMPH22_STAT_M                                          0x00000001
-#define SMPH_SMPH22_STAT_S                                          0
+#define SMPH_SMPH22_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH23
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -688,16 +687,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH23_STAT                                            0x00000001
-#define SMPH_SMPH23_STAT_BITN                                       0
+#define SMPH_SMPH23_STAT_BITN                                                0
 #define SMPH_SMPH23_STAT_M                                          0x00000001
-#define SMPH_SMPH23_STAT_S                                          0
+#define SMPH_SMPH23_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH24
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -707,16 +706,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH24_STAT                                            0x00000001
-#define SMPH_SMPH24_STAT_BITN                                       0
+#define SMPH_SMPH24_STAT_BITN                                                0
 #define SMPH_SMPH24_STAT_M                                          0x00000001
-#define SMPH_SMPH24_STAT_S                                          0
+#define SMPH_SMPH24_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH25
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -726,16 +725,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH25_STAT                                            0x00000001
-#define SMPH_SMPH25_STAT_BITN                                       0
+#define SMPH_SMPH25_STAT_BITN                                                0
 #define SMPH_SMPH25_STAT_M                                          0x00000001
-#define SMPH_SMPH25_STAT_S                                          0
+#define SMPH_SMPH25_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH26
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -745,16 +744,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH26_STAT                                            0x00000001
-#define SMPH_SMPH26_STAT_BITN                                       0
+#define SMPH_SMPH26_STAT_BITN                                                0
 #define SMPH_SMPH26_STAT_M                                          0x00000001
-#define SMPH_SMPH26_STAT_S                                          0
+#define SMPH_SMPH26_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH27
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -764,16 +763,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH27_STAT                                            0x00000001
-#define SMPH_SMPH27_STAT_BITN                                       0
+#define SMPH_SMPH27_STAT_BITN                                                0
 #define SMPH_SMPH27_STAT_M                                          0x00000001
-#define SMPH_SMPH27_STAT_S                                          0
+#define SMPH_SMPH27_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH28
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -783,16 +782,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH28_STAT                                            0x00000001
-#define SMPH_SMPH28_STAT_BITN                                       0
+#define SMPH_SMPH28_STAT_BITN                                                0
 #define SMPH_SMPH28_STAT_M                                          0x00000001
-#define SMPH_SMPH28_STAT_S                                          0
+#define SMPH_SMPH28_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH29
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -802,16 +801,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH29_STAT                                            0x00000001
-#define SMPH_SMPH29_STAT_BITN                                       0
+#define SMPH_SMPH29_STAT_BITN                                                0
 #define SMPH_SMPH29_STAT_M                                          0x00000001
-#define SMPH_SMPH29_STAT_S                                          0
+#define SMPH_SMPH29_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH30
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -821,16 +820,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH30_STAT                                            0x00000001
-#define SMPH_SMPH30_STAT_BITN                                       0
+#define SMPH_SMPH30_STAT_BITN                                                0
 #define SMPH_SMPH30_STAT_M                                          0x00000001
-#define SMPH_SMPH30_STAT_S                                          0
+#define SMPH_SMPH30_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_SMPH31
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -840,16 +839,16 @@
 // Reading the register causes it to change value to 0. Releasing the semaphore
 // is done by writing 1.
 #define SMPH_SMPH31_STAT                                            0x00000001
-#define SMPH_SMPH31_STAT_BITN                                       0
+#define SMPH_SMPH31_STAT_BITN                                                0
 #define SMPH_SMPH31_STAT_M                                          0x00000001
-#define SMPH_SMPH31_STAT_S                                          0
+#define SMPH_SMPH31_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK0
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -859,16 +858,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK0_STAT                                             0x00000001
-#define SMPH_PEEK0_STAT_BITN                                        0
+#define SMPH_PEEK0_STAT_BITN                                                 0
 #define SMPH_PEEK0_STAT_M                                           0x00000001
-#define SMPH_PEEK0_STAT_S                                           0
+#define SMPH_PEEK0_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK1
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -878,16 +877,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK1_STAT                                             0x00000001
-#define SMPH_PEEK1_STAT_BITN                                        0
+#define SMPH_PEEK1_STAT_BITN                                                 0
 #define SMPH_PEEK1_STAT_M                                           0x00000001
-#define SMPH_PEEK1_STAT_S                                           0
+#define SMPH_PEEK1_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK2
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -897,16 +896,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK2_STAT                                             0x00000001
-#define SMPH_PEEK2_STAT_BITN                                        0
+#define SMPH_PEEK2_STAT_BITN                                                 0
 #define SMPH_PEEK2_STAT_M                                           0x00000001
-#define SMPH_PEEK2_STAT_S                                           0
+#define SMPH_PEEK2_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK3
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -916,16 +915,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK3_STAT                                             0x00000001
-#define SMPH_PEEK3_STAT_BITN                                        0
+#define SMPH_PEEK3_STAT_BITN                                                 0
 #define SMPH_PEEK3_STAT_M                                           0x00000001
-#define SMPH_PEEK3_STAT_S                                           0
+#define SMPH_PEEK3_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK4
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -935,16 +934,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK4_STAT                                             0x00000001
-#define SMPH_PEEK4_STAT_BITN                                        0
+#define SMPH_PEEK4_STAT_BITN                                                 0
 #define SMPH_PEEK4_STAT_M                                           0x00000001
-#define SMPH_PEEK4_STAT_S                                           0
+#define SMPH_PEEK4_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK5
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -954,16 +953,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK5_STAT                                             0x00000001
-#define SMPH_PEEK5_STAT_BITN                                        0
+#define SMPH_PEEK5_STAT_BITN                                                 0
 #define SMPH_PEEK5_STAT_M                                           0x00000001
-#define SMPH_PEEK5_STAT_S                                           0
+#define SMPH_PEEK5_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK6
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -973,16 +972,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK6_STAT                                             0x00000001
-#define SMPH_PEEK6_STAT_BITN                                        0
+#define SMPH_PEEK6_STAT_BITN                                                 0
 #define SMPH_PEEK6_STAT_M                                           0x00000001
-#define SMPH_PEEK6_STAT_S                                           0
+#define SMPH_PEEK6_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK7
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -992,16 +991,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK7_STAT                                             0x00000001
-#define SMPH_PEEK7_STAT_BITN                                        0
+#define SMPH_PEEK7_STAT_BITN                                                 0
 #define SMPH_PEEK7_STAT_M                                           0x00000001
-#define SMPH_PEEK7_STAT_S                                           0
+#define SMPH_PEEK7_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK8
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1011,16 +1010,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK8_STAT                                             0x00000001
-#define SMPH_PEEK8_STAT_BITN                                        0
+#define SMPH_PEEK8_STAT_BITN                                                 0
 #define SMPH_PEEK8_STAT_M                                           0x00000001
-#define SMPH_PEEK8_STAT_S                                           0
+#define SMPH_PEEK8_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK9
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1030,16 +1029,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK9_STAT                                             0x00000001
-#define SMPH_PEEK9_STAT_BITN                                        0
+#define SMPH_PEEK9_STAT_BITN                                                 0
 #define SMPH_PEEK9_STAT_M                                           0x00000001
-#define SMPH_PEEK9_STAT_S                                           0
+#define SMPH_PEEK9_STAT_S                                                    0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK10
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1049,16 +1048,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK10_STAT                                            0x00000001
-#define SMPH_PEEK10_STAT_BITN                                       0
+#define SMPH_PEEK10_STAT_BITN                                                0
 #define SMPH_PEEK10_STAT_M                                          0x00000001
-#define SMPH_PEEK10_STAT_S                                          0
+#define SMPH_PEEK10_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK11
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1068,16 +1067,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK11_STAT                                            0x00000001
-#define SMPH_PEEK11_STAT_BITN                                       0
+#define SMPH_PEEK11_STAT_BITN                                                0
 #define SMPH_PEEK11_STAT_M                                          0x00000001
-#define SMPH_PEEK11_STAT_S                                          0
+#define SMPH_PEEK11_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK12
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1087,16 +1086,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK12_STAT                                            0x00000001
-#define SMPH_PEEK12_STAT_BITN                                       0
+#define SMPH_PEEK12_STAT_BITN                                                0
 #define SMPH_PEEK12_STAT_M                                          0x00000001
-#define SMPH_PEEK12_STAT_S                                          0
+#define SMPH_PEEK12_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK13
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1106,16 +1105,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK13_STAT                                            0x00000001
-#define SMPH_PEEK13_STAT_BITN                                       0
+#define SMPH_PEEK13_STAT_BITN                                                0
 #define SMPH_PEEK13_STAT_M                                          0x00000001
-#define SMPH_PEEK13_STAT_S                                          0
+#define SMPH_PEEK13_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK14
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1125,16 +1124,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK14_STAT                                            0x00000001
-#define SMPH_PEEK14_STAT_BITN                                       0
+#define SMPH_PEEK14_STAT_BITN                                                0
 #define SMPH_PEEK14_STAT_M                                          0x00000001
-#define SMPH_PEEK14_STAT_S                                          0
+#define SMPH_PEEK14_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK15
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1144,16 +1143,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK15_STAT                                            0x00000001
-#define SMPH_PEEK15_STAT_BITN                                       0
+#define SMPH_PEEK15_STAT_BITN                                                0
 #define SMPH_PEEK15_STAT_M                                          0x00000001
-#define SMPH_PEEK15_STAT_S                                          0
+#define SMPH_PEEK15_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK16
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1163,16 +1162,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK16_STAT                                            0x00000001
-#define SMPH_PEEK16_STAT_BITN                                       0
+#define SMPH_PEEK16_STAT_BITN                                                0
 #define SMPH_PEEK16_STAT_M                                          0x00000001
-#define SMPH_PEEK16_STAT_S                                          0
+#define SMPH_PEEK16_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK17
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1182,16 +1181,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK17_STAT                                            0x00000001
-#define SMPH_PEEK17_STAT_BITN                                       0
+#define SMPH_PEEK17_STAT_BITN                                                0
 #define SMPH_PEEK17_STAT_M                                          0x00000001
-#define SMPH_PEEK17_STAT_S                                          0
+#define SMPH_PEEK17_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK18
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1201,16 +1200,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK18_STAT                                            0x00000001
-#define SMPH_PEEK18_STAT_BITN                                       0
+#define SMPH_PEEK18_STAT_BITN                                                0
 #define SMPH_PEEK18_STAT_M                                          0x00000001
-#define SMPH_PEEK18_STAT_S                                          0
+#define SMPH_PEEK18_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK19
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1220,16 +1219,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK19_STAT                                            0x00000001
-#define SMPH_PEEK19_STAT_BITN                                       0
+#define SMPH_PEEK19_STAT_BITN                                                0
 #define SMPH_PEEK19_STAT_M                                          0x00000001
-#define SMPH_PEEK19_STAT_S                                          0
+#define SMPH_PEEK19_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK20
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1239,16 +1238,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK20_STAT                                            0x00000001
-#define SMPH_PEEK20_STAT_BITN                                       0
+#define SMPH_PEEK20_STAT_BITN                                                0
 #define SMPH_PEEK20_STAT_M                                          0x00000001
-#define SMPH_PEEK20_STAT_S                                          0
+#define SMPH_PEEK20_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK21
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1258,16 +1257,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK21_STAT                                            0x00000001
-#define SMPH_PEEK21_STAT_BITN                                       0
+#define SMPH_PEEK21_STAT_BITN                                                0
 #define SMPH_PEEK21_STAT_M                                          0x00000001
-#define SMPH_PEEK21_STAT_S                                          0
+#define SMPH_PEEK21_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK22
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1277,16 +1276,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK22_STAT                                            0x00000001
-#define SMPH_PEEK22_STAT_BITN                                       0
+#define SMPH_PEEK22_STAT_BITN                                                0
 #define SMPH_PEEK22_STAT_M                                          0x00000001
-#define SMPH_PEEK22_STAT_S                                          0
+#define SMPH_PEEK22_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK23
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1296,16 +1295,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK23_STAT                                            0x00000001
-#define SMPH_PEEK23_STAT_BITN                                       0
+#define SMPH_PEEK23_STAT_BITN                                                0
 #define SMPH_PEEK23_STAT_M                                          0x00000001
-#define SMPH_PEEK23_STAT_S                                          0
+#define SMPH_PEEK23_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK24
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1315,16 +1314,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK24_STAT                                            0x00000001
-#define SMPH_PEEK24_STAT_BITN                                       0
+#define SMPH_PEEK24_STAT_BITN                                                0
 #define SMPH_PEEK24_STAT_M                                          0x00000001
-#define SMPH_PEEK24_STAT_S                                          0
+#define SMPH_PEEK24_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK25
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1334,16 +1333,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK25_STAT                                            0x00000001
-#define SMPH_PEEK25_STAT_BITN                                       0
+#define SMPH_PEEK25_STAT_BITN                                                0
 #define SMPH_PEEK25_STAT_M                                          0x00000001
-#define SMPH_PEEK25_STAT_S                                          0
+#define SMPH_PEEK25_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK26
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1353,16 +1352,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK26_STAT                                            0x00000001
-#define SMPH_PEEK26_STAT_BITN                                       0
+#define SMPH_PEEK26_STAT_BITN                                                0
 #define SMPH_PEEK26_STAT_M                                          0x00000001
-#define SMPH_PEEK26_STAT_S                                          0
+#define SMPH_PEEK26_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK27
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1372,16 +1371,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK27_STAT                                            0x00000001
-#define SMPH_PEEK27_STAT_BITN                                       0
+#define SMPH_PEEK27_STAT_BITN                                                0
 #define SMPH_PEEK27_STAT_M                                          0x00000001
-#define SMPH_PEEK27_STAT_S                                          0
+#define SMPH_PEEK27_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK28
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1391,16 +1390,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK28_STAT                                            0x00000001
-#define SMPH_PEEK28_STAT_BITN                                       0
+#define SMPH_PEEK28_STAT_BITN                                                0
 #define SMPH_PEEK28_STAT_M                                          0x00000001
-#define SMPH_PEEK28_STAT_S                                          0
+#define SMPH_PEEK28_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK29
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1410,16 +1409,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK29_STAT                                            0x00000001
-#define SMPH_PEEK29_STAT_BITN                                       0
+#define SMPH_PEEK29_STAT_BITN                                                0
 #define SMPH_PEEK29_STAT_M                                          0x00000001
-#define SMPH_PEEK29_STAT_S                                          0
+#define SMPH_PEEK29_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK30
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1429,16 +1428,16 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK30_STAT                                            0x00000001
-#define SMPH_PEEK30_STAT_BITN                                       0
+#define SMPH_PEEK30_STAT_BITN                                                0
 #define SMPH_PEEK30_STAT_M                                          0x00000001
-#define SMPH_PEEK30_STAT_S                                          0
+#define SMPH_PEEK30_STAT_S                                                   0
 
 //*****************************************************************************
 //
 // Register: SMPH_O_PEEK31
 //
 //*****************************************************************************
-// Field: [0]    STAT
+// Field:     [0] STAT
 //
 // Status when reading:
 //
@@ -1448,8 +1447,9 @@
 // Used for semaphore debugging. A read operation will not change register
 // value. Register writing is not possible.
 #define SMPH_PEEK31_STAT                                            0x00000001
-#define SMPH_PEEK31_STAT_BITN                                       0
+#define SMPH_PEEK31_STAT_BITN                                                0
 #define SMPH_PEEK31_STAT_M                                          0x00000001
-#define SMPH_PEEK31_STAT_S                                          0
+#define SMPH_PEEK31_STAT_S                                                   0
 
-#endif // __HW_SMPH_H__
+
+#endif // __SMPH__

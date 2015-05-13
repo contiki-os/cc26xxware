@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_event.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-02-10 16:20:36 +0100 (ti, 10 feb 2015)
+*  Revision:       42636
 *
 *  Description:    Defines and prototypes for the AON Event fabric.
 *
@@ -95,38 +95,9 @@ extern "C"
 // Note: Events are level-triggered active high
 //
 //*****************************************************************************
-#define AON_EVENT_IO0          AON_EVENT_DIO_0 // Edge detect on DIO0
-#define AON_EVENT_IO1          AON_EVENT_DIO_1 // Edge detect on DIO1
-#define AON_EVENT_IO2          AON_EVENT_DIO_2 // Edge detect on DIO2
-#define AON_EVENT_IO3          AON_EVENT_DIO_3 // Edge detect on DIO3
-#define AON_EVENT_IO4          AON_EVENT_DIO_4 // Edge detect on DIO4
-#define AON_EVENT_IO5          AON_EVENT_DIO_5 // Edge detect on DIO5
-#define AON_EVENT_IO6          AON_EVENT_DIO_6 // Edge detect on DIO6
-#define AON_EVENT_IO7          AON_EVENT_DIO_7 // Edge detect on DIO7
-#define AON_EVENT_IO8          AON_EVENT_DIO_8 // Edge detect on DIO8
-#define AON_EVENT_IO9          AON_EVENT_DIO_9 // Edge detect on DIO9
-#define AON_EVENT_IO10         AON_EVENT_DIO_10 // Edge detect on DIO10
-#define AON_EVENT_IO11         AON_EVENT_DIO_11 // Edge detect on DIO11
-#define AON_EVENT_IO12         AON_EVENT_DIO_12 // Edge detect on DIO12
-#define AON_EVENT_IO13         AON_EVENT_DIO_13 // Edge detect on DIO13
-#define AON_EVENT_IO14         AON_EVENT_DIO_14 // Edge detect on DIO14
-#define AON_EVENT_IO15         AON_EVENT_DIO_15 // Edge detect on DIO15
-#define AON_EVENT_IO16         AON_EVENT_DIO_16 // Edge detect on DIO16
-#define AON_EVENT_IO17         AON_EVENT_DIO_17 // Edge detect on DIO17
-#define AON_EVENT_IO18         AON_EVENT_DIO_18 // Edge detect on DIO18
-#define AON_EVENT_IO19         AON_EVENT_DIO_19 // Edge detect on DIO19
-#define AON_EVENT_IO20         AON_EVENT_DIO_20 // Edge detect on DIO20
-#define AON_EVENT_IO21         AON_EVENT_DIO_21 // Edge detect on DIO21
-#define AON_EVENT_IO22         AON_EVENT_DIO_22 // Edge detect on DIO22
-#define AON_EVENT_IO23         AON_EVENT_DIO_23 // Edge detect on DIO23
-#define AON_EVENT_IO24         AON_EVENT_DIO_24 // Edge detect on DIO24
-#define AON_EVENT_IO25         AON_EVENT_DIO_25 // Edge detect on DIO25
-#define AON_EVENT_IO26         AON_EVENT_DIO_26 // Edge detect on DIO26
-#define AON_EVENT_IO27         AON_EVENT_DIO_27 // Edge detect on DIO27
-#define AON_EVENT_IO28         AON_EVENT_DIO_28 // Edge detect on DIO28
-#define AON_EVENT_IO29         AON_EVENT_DIO_29 // Edge detect on DIO29
-#define AON_EVENT_IO30         AON_EVENT_DIO_30 // Edge detect on DIO30
-#define AON_EVENT_IO31         AON_EVENT_DIO_31 // Edge detect on DIO31
+// AON_EVENT_DIO0                 // Edge detect on DIO0. See hw_device.h
+// ...                            // ...
+// AON_EVENT_DIO31                // Edge detect on DIO31. See hw_device.h
 #define AON_EVENT_IO           32 // Edge detect on any DIO
 #define AON_EVENT_SPISRTX      33 // SPIS byte transmitted
 #define AON_EVENT_SPISCS       34 // SPIS CS_N asserted
@@ -154,7 +125,7 @@ extern "C"
 
 #define AON_EVENT_BATMON_TEMP  53 //
 #define AON_EVENT_BATMON_VOLT  54 //
-								  // Event ID 55-62 is reserved for future use
+                                  // Event ID 55-62 is reserved for future use
 #define AON_EVENT_NULL         63 // No event
 
 //*****************************************************************************
@@ -170,7 +141,7 @@ extern "C"
 
 //*****************************************************************************
 //
-// Values that can be passed to TBD
+// Values that can be passed to AONEventAuxWakeUpSet() and AONEventAuxWakeUpGet()
 //
 //*****************************************************************************
 #define AON_EVENT_AUX_WU0 0     // Programmable AUX wakeup event 0
@@ -179,7 +150,7 @@ extern "C"
 
 //*****************************************************************************
 //
-// Values that can be passed to TBD
+// Values that can be passed to AONEventMcuSet() and AONEventMcuGet()
 //
 //*****************************************************************************
 #define AON_EVENT_MCU_EVENT0 0  // Programmable event source fed to

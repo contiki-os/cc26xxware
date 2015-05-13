@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_sysctl.h
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
+*  Revision:       42989
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -41,14 +41,9 @@
 //*****************************************************************************
 //
 // The following are initial defines for the MCU clock
-// TBD : The FPGA only runs at 12 MHz
+//
 //*****************************************************************************
-#ifdef FPGA_INCLUDED
-#define MCU_CLK            12000000
-#else
-#define MCU_CLK            48000000
-#endif
+#define GET_MCU_CLOCK         48000000
 
-#define GET_MCU_CLOCK      MCU_CLK
 
 #endif // __HW_SYSCTL_H__

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       uart.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-23 14:28:15 +0100 (ma, 23 mar 2015)
+*  Revision:       43093
 *
 *  Description:    Defines and prototypes for the UART.
 *
@@ -175,15 +175,6 @@ extern "C"
 #define UART_RXERROR_BREAK      0x00000004
 #define UART_RXERROR_PARITY     0x00000002
 #define UART_RXERROR_FRAMING    0x00000001
-
-//*****************************************************************************
-//
-// Values that can be passed to UARTTxIntModeSet() or returned from
-// UARTTxIntModeGet().
-//
-//*****************************************************************************
-#define UART_TXINT_MODE_FIFO    0x00000000
-#define UART_TXINT_MODE_EOT     0x00000010
 
 //*****************************************************************************
 //
@@ -527,76 +518,6 @@ UARTFIFODisable(uint32_t ui32Base)
     // Disable the FIFO.
     //
     HWREG(ui32Base + UART_O_LCRH) &= ~(UART_LCRH_FEN);
-}
-
-//*****************************************************************************
-//
-//! \brief Sets the operating mode for the UART transmit interrupt.
-//!
-//! This function allows the mode of the UART transmit interrupt to be set. By
-//! default, the transmit interrupt is asserted when the FIFO level falls past
-//! a threshold set via a call to \ref UARTFIFOLevelSet(). Alternatively, if this
-//! function is called with \c ui32Mode set to \ref UART_TXINT_MODE_EOT, the
-//! transmit interrupt is asserted once the transmitter is completely idle -
-//! the transmit FIFO is empty and all bits, including any stop bits, have
-//! cleared the transmitter.
-//!
-//! \param ui32Base is the base address of the UART port.
-//! \param ui32Mode is the operating mode for the transmit interrupt.
-//! - \ref UART_TXINT_MODE_EOT  : Trigger interrupts when the transmitter is idle.
-//! - \ref UART_TXINT_MODE_FIFO : Trigger based on the current transmit FIFO level.
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-UARTTxIntModeSet(uint32_t ui32Base, uint32_t ui32Mode)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(UARTBaseValid(ui32Base));
-    ASSERT((ui32Mode == UART_TXINT_MODE_EOT) ||
-           (ui32Mode == UART_TXINT_MODE_FIFO));
-
-    //
-    // Set or clear the EOT bit of the UART control register as appropriate.
-    //
-    HWREG(ui32Base + UART_O_CTL) = ((HWREG(ui32Base + UART_O_CTL) &
-                                     ~(UART_TXINT_MODE_EOT |
-                                       UART_TXINT_MODE_FIFO)) | ui32Mode);
-}
-
-//*****************************************************************************
-//
-//! \brief Returns the current operating mode for the UART transmit interrupt.
-//!
-//! This function returns the current operating mode for the UART transmit
-//! interrupt.
-//!
-//! \param ui32Base is the base address of the UART port.
-//!
-//! \return Returns operating mode of UART transmit interrupt.
-//! - \ref UART_TXINT_MODE_FIFO : Interrupt is set to be asserted based upon
-//! the level of the transmit FIFO.
-//! - \ref UART_TXINT_MODE_EOT  : transmit interrupt is set to be
-//! asserted once the transmitter is completely idle - the transmit FIFO is
-//! empty and all bits, including any stop bits, have cleared the transmitter.
-//
-//*****************************************************************************
-__STATIC_INLINE uint32_t
-UARTTxIntModeGet(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(UARTBaseValid(ui32Base));
-
-    //
-    // Return the current transmit interrupt mode.
-    //
-    return(HWREG(ui32Base + UART_O_CTL) & (UART_TXINT_MODE_EOT |
-                                           UART_TXINT_MODE_FIFO));
 }
 
 //*****************************************************************************
@@ -1121,6 +1042,51 @@ UARTRxErrorClear(uint32_t ui32Base)
     //
     HWREG(ui32Base + UART_O_ECR) = 0;
 }
+
+//*****************************************************************************
+//
+//! \brief Enables hardware flow control for both CTS and RTS
+//!
+//! Hardware flow control is disabled by default.
+//!
+//! \param ui32Base is the base address of the UART port.
+//!
+//! \return None
+//
+//*****************************************************************************
+__STATIC_INLINE void
+UARTHwFlowControlEnable( uint32_t ui32Base )
+{
+    //
+    // Check the arguments.
+    //
+    ASSERT( UARTBaseValid( ui32Base ));
+
+    HWREG( ui32Base + UART_O_CTL ) |= ( UART_CTL_CTSEN | UART_CTL_RTSEN );
+}
+
+//*****************************************************************************
+//
+//! \brief Disbales hardware flow control for both CTS and RTS
+//!
+//! Hardware flow control is disabled by default.
+//!
+//! \param ui32Base is the base address of the UART port.
+//!
+//! \return None
+//
+//*****************************************************************************
+__STATIC_INLINE void
+UARTHwFlowControlDisable( uint32_t ui32Base )
+{
+    //
+    // Check the arguments.
+    //
+    ASSERT( UARTBaseValid( ui32Base ));
+
+    HWREG( ui32Base + UART_O_CTL ) &= ~( UART_CTL_CTSEN | UART_CTL_RTSEN );
+}
+
 
 //*****************************************************************************
 //

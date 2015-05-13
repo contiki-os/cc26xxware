@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       interrupt.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-03-04 13:37:39 +0100 (on, 04 mar 2015)
+*  Revision:       42883
 *
 *  Description:    Defines and prototypes for the NVIC Interrupt Controller
 *
@@ -129,8 +129,8 @@ extern "C"
 //! single interrupt from the controller to the processor.
 //!
 //! \return Returns:
-//! - \c true  : Interrupts were disabled when the function was called.
-//! - \c false : Interrupts were initially enabled.
+//! - \c true  : Interrupts were disabled and are now enabled.
+//! - \c false : Interrupts were already enabled when the function was called.
 //
 //*****************************************************************************
 __STATIC_INLINE bool
@@ -152,7 +152,7 @@ IntMasterEnable(void)
 //!
 //! \return Returns:
 //! - \c true  : Interrupts were already disabled when the function was called.
-//! - \c false : Interrupts were initially enabled.
+//! - \c false : Interrupts were enabled and are now disabled.
 //
 //*****************************************************************************
 __STATIC_INLINE bool

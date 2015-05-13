@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_rfc_pwr.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_rfc_pwr_h
+*  Revised:        2015-02-10 21:34:21 +0100 (ti, 10 feb 2015)
+*  Revision:       42642
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -37,7 +37,6 @@
 #ifndef __HW_RFC_PWR_H__
 #define __HW_RFC_PWR_H__
 
-
 //*****************************************************************************
 //
 // This section defines the register offsets of
@@ -52,100 +51,103 @@
 // Register: RFC_PWR_O_PWMCLKEN
 //
 //*****************************************************************************
-// Field: [10]    RFCTRC
+// Field:    [10] RFCTRC
 //
 // Enable clock to the RF Core Tracer (RFCTRC) module.
 #define RFC_PWR_PWMCLKEN_RFCTRC                                     0x00000400
-#define RFC_PWR_PWMCLKEN_RFCTRC_BITN                                10
+#define RFC_PWR_PWMCLKEN_RFCTRC_BITN                                        10
 #define RFC_PWR_PWMCLKEN_RFCTRC_M                                   0x00000400
-#define RFC_PWR_PWMCLKEN_RFCTRC_S                                   10
+#define RFC_PWR_PWMCLKEN_RFCTRC_S                                           10
 
-// Field: [9]    FSCA
+// Field:     [9] FSCA
 //
-// Enable clock to the Frequency Synthesizer Calibration Accelerator (FSCA) module.
+// Enable clock to the Frequency Synthesizer Calibration Accelerator (FSCA)
+// module.
 #define RFC_PWR_PWMCLKEN_FSCA                                       0x00000200
-#define RFC_PWR_PWMCLKEN_FSCA_BITN                                  9
+#define RFC_PWR_PWMCLKEN_FSCA_BITN                                           9
 #define RFC_PWR_PWMCLKEN_FSCA_M                                     0x00000200
-#define RFC_PWR_PWMCLKEN_FSCA_S                                     9
+#define RFC_PWR_PWMCLKEN_FSCA_S                                              9
 
-// Field: [8]    PHA
+// Field:     [8] PHA
 //
 // Enable clock to the Packet Handling Accelerator (PHA) module.
 #define RFC_PWR_PWMCLKEN_PHA                                        0x00000100
-#define RFC_PWR_PWMCLKEN_PHA_BITN                                   8
+#define RFC_PWR_PWMCLKEN_PHA_BITN                                            8
 #define RFC_PWR_PWMCLKEN_PHA_M                                      0x00000100
-#define RFC_PWR_PWMCLKEN_PHA_S                                      8
+#define RFC_PWR_PWMCLKEN_PHA_S                                               8
 
-// Field: [7]    RAT
+// Field:     [7] RAT
 //
 // Enable clock to the Radio Timer (RAT) module.
 #define RFC_PWR_PWMCLKEN_RAT                                        0x00000080
-#define RFC_PWR_PWMCLKEN_RAT_BITN                                   7
+#define RFC_PWR_PWMCLKEN_RAT_BITN                                            7
 #define RFC_PWR_PWMCLKEN_RAT_M                                      0x00000080
-#define RFC_PWR_PWMCLKEN_RAT_S                                      7
+#define RFC_PWR_PWMCLKEN_RAT_S                                               7
 
-// Field: [6]    RFERAM
+// Field:     [6] RFERAM
 //
 // Enable clock to the RF Engine RAM module.
 #define RFC_PWR_PWMCLKEN_RFERAM                                     0x00000040
-#define RFC_PWR_PWMCLKEN_RFERAM_BITN                                6
+#define RFC_PWR_PWMCLKEN_RFERAM_BITN                                         6
 #define RFC_PWR_PWMCLKEN_RFERAM_M                                   0x00000040
-#define RFC_PWR_PWMCLKEN_RFERAM_S                                   6
+#define RFC_PWR_PWMCLKEN_RFERAM_S                                            6
 
-// Field: [5]    RFE
+// Field:     [5] RFE
 //
 // Enable clock to the RF Engine (RFE) module.
 #define RFC_PWR_PWMCLKEN_RFE                                        0x00000020
-#define RFC_PWR_PWMCLKEN_RFE_BITN                                   5
+#define RFC_PWR_PWMCLKEN_RFE_BITN                                            5
 #define RFC_PWR_PWMCLKEN_RFE_M                                      0x00000020
-#define RFC_PWR_PWMCLKEN_RFE_S                                      5
+#define RFC_PWR_PWMCLKEN_RFE_S                                               5
 
-// Field: [4]    MDMRAM
+// Field:     [4] MDMRAM
 //
 // Enable clock to the Modem RAM module.
 #define RFC_PWR_PWMCLKEN_MDMRAM                                     0x00000010
-#define RFC_PWR_PWMCLKEN_MDMRAM_BITN                                4
+#define RFC_PWR_PWMCLKEN_MDMRAM_BITN                                         4
 #define RFC_PWR_PWMCLKEN_MDMRAM_M                                   0x00000010
-#define RFC_PWR_PWMCLKEN_MDMRAM_S                                   4
+#define RFC_PWR_PWMCLKEN_MDMRAM_S                                            4
 
-// Field: [3]    MDM
+// Field:     [3] MDM
 //
 // Enable clock to the Modem (MDM) module.
 #define RFC_PWR_PWMCLKEN_MDM                                        0x00000008
-#define RFC_PWR_PWMCLKEN_MDM_BITN                                   3
+#define RFC_PWR_PWMCLKEN_MDM_BITN                                            3
 #define RFC_PWR_PWMCLKEN_MDM_M                                      0x00000008
-#define RFC_PWR_PWMCLKEN_MDM_S                                      3
+#define RFC_PWR_PWMCLKEN_MDM_S                                               3
 
-// Field: [2]    CPERAM
+// Field:     [2] CPERAM
 //
-// Enable clock to the Command and Packet Engine (CPE) RAM module. As part of RF
-// Core initialization, set this bit together with CPE bit to enable CPE to boot.
-#define RFC_PWR_PWMCLKEN_CPERAM                                     0x00000004
-#define RFC_PWR_PWMCLKEN_CPERAM_BITN                                2
-#define RFC_PWR_PWMCLKEN_CPERAM_M                                   0x00000004
-#define RFC_PWR_PWMCLKEN_CPERAM_S                                   2
-
-// Field: [1]    CPE
-//
-// Enable processor clock (hclk) to the Command and Packet Engine (CPE). As part of
-// RF Core initialization, set this bit together with CPERAM bit to enable CPE to
+// Enable clock to the Command and Packet Engine (CPE) RAM module. As part of
+// RF Core initialization, set this bit together with CPE bit to enable CPE to
 // boot.
-#define RFC_PWR_PWMCLKEN_CPE                                        0x00000002
-#define RFC_PWR_PWMCLKEN_CPE_BITN                                   1
-#define RFC_PWR_PWMCLKEN_CPE_M                                      0x00000002
-#define RFC_PWR_PWMCLKEN_CPE_S                                      1
+#define RFC_PWR_PWMCLKEN_CPERAM                                     0x00000004
+#define RFC_PWR_PWMCLKEN_CPERAM_BITN                                         2
+#define RFC_PWR_PWMCLKEN_CPERAM_M                                   0x00000004
+#define RFC_PWR_PWMCLKEN_CPERAM_S                                            2
 
-// Field: [0]    RFC
+// Field:     [1] CPE
+//
+// Enable processor clock (hclk) to the Command and Packet Engine (CPE). As
+// part of RF Core initialization, set this bit together with CPERAM bit to
+// enable CPE to boot.
+#define RFC_PWR_PWMCLKEN_CPE                                        0x00000002
+#define RFC_PWR_PWMCLKEN_CPE_BITN                                            1
+#define RFC_PWR_PWMCLKEN_CPE_M                                      0x00000002
+#define RFC_PWR_PWMCLKEN_CPE_S                                               1
+
+// Field:     [0] RFC
 //
 // Enable essential clocks for the RF Core interface. This includes the
-// interconnect, the radio doorbell DBELL command interface, the power management
-// (PWR) clock control module, and bus clock (sclk) for the CPE. To remove
-// possibility of locking yourself out from the RF Core, this bit can not be
-// cleared. If you need to disable all clocks to the RF Core, see the
+// interconnect, the radio doorbell DBELL command interface, the power
+// management (PWR) clock control module, and bus clock (sclk) for the CPE. To
+// remove possibility of locking yourself out from the RF Core, this bit can
+// not be cleared. If you need to disable all clocks to the RF Core, see the
 // PRCM:RFCCLKG.CLK_EN register.
 #define RFC_PWR_PWMCLKEN_RFC                                        0x00000001
-#define RFC_PWR_PWMCLKEN_RFC_BITN                                   0
+#define RFC_PWR_PWMCLKEN_RFC_BITN                                            0
 #define RFC_PWR_PWMCLKEN_RFC_M                                      0x00000001
-#define RFC_PWR_PWMCLKEN_RFC_S                                      0
+#define RFC_PWR_PWMCLKEN_RFC_S                                               0
 
-#endif // __HW_RFC_PWR_H__
+
+#endif // __RFC_PWR__

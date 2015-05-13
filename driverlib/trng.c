@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       trng.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-02-10 22:32:28 +0100 (ti, 10 feb 2015)
+*  Revision:       42645
 *
 *  Description:    Driver for the TRNG module
 *
@@ -73,17 +73,17 @@ TRNGConfigure(uint32_t ui32MinSamplesPerCycle,
     // Configure the startup number of samples.
     //
     ui32Val &= ~TRNG_CTL_STARTUP_CYCLES_M;
-    ui32Val |= ((ui32MaxSamplesPerCycle >> 8) & 0xFFFF) << 16;
+    ui32Val |= ((( ui32MaxSamplesPerCycle >> 8 ) << TRNG_CTL_STARTUP_CYCLES_S ) & TRNG_CTL_STARTUP_CYCLES_M );
     HWREG(TRNG_BASE + TRNG_O_CTL) = ui32Val;
 
     //
     // Configure the minimum and maximum number of samples pr generated number
     // and the number of clocks per sample.
     //
-    HWREG(TRNG_BASE + TRNG_O_CFG0) =
-         (((ui32MaxSamplesPerCycle >> 8) & 0xFFFF) << 16) |
-         ((ui32ClocksPerSample & 0xFF) << 8) |
-         ((ui32MinSamplesPerCycle >> 6) & 0xFF);
+    HWREG(TRNG_BASE + TRNG_O_CFG0) = (
+        ((( ui32MaxSamplesPerCycle >> 8 ) << TRNG_CFG0_MAX_REFILL_CYCLES_S ) & TRNG_CFG0_MAX_REFILL_CYCLES_M ) |
+        ((( ui32ClocksPerSample         ) << TRNG_CFG0_SMPL_DIV_S          ) & TRNG_CFG0_SMPL_DIV_M          ) |
+        ((( ui32MinSamplesPerCycle >> 6 ) << TRNG_CFG0_MIN_REFILL_CYCLES_S ) & TRNG_CFG0_MIN_REFILL_CYCLES_M )   );
 }
 
 //*****************************************************************************

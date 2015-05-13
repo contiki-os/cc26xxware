@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_rfc_rat.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_rfc_rat_h
+*  Revised:        2015-02-10 21:34:21 +0100 (ti, 10 feb 2015)
+*  Revision:       42642
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -37,7 +37,6 @@
 #ifndef __HW_RFC_RAT_H__
 #define __HW_RFC_RAT_H__
 
-
 //*****************************************************************************
 //
 // This section defines the register offsets of
@@ -52,10 +51,11 @@
 // Register: RFC_RAT_O_RATCNT
 //
 //*****************************************************************************
-// Field: [31:0] CNT
+// Field:  [31:0] CNT
 //
 // Counter value. This is not writable while radio timer counter is enabled.
 #define RFC_RAT_RATCNT_CNT_M                                        0xFFFFFFFF
-#define RFC_RAT_RATCNT_CNT_S                                        0
+#define RFC_RAT_RATCNT_CNT_S                                                 0
 
-#endif // __HW_RFC_RAT_H__
+
+#endif // __RFC_RAT__

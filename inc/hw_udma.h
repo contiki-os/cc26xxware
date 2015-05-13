@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_udma.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_udma_h
+*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
+*  Revision:       43111
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -37,17 +37,16 @@
 #ifndef __HW_UDMA_H__
 #define __HW_UDMA_H__
 
-
 //*****************************************************************************
 //
 // This section defines the register offsets of
 // UDMA component
 //
 //*****************************************************************************
-// UDMA Status
+// Status
 #define UDMA_O_STATUS                                               0x00000000
 
-// UDMA Configuration
+// Configuration
 #define UDMA_O_CFG                                                  0x00000004
 
 // Channel Control Data Base Pointer
@@ -92,7 +91,7 @@
 // Clear Channel Priority
 #define UDMA_O_CLEARCHNLPRIORITY                                    0x0000003C
 
-// Clear Bus Error
+// Error Status and Clear
 #define UDMA_O_ERROR                                                0x0000004C
 
 // Channel Request Done
@@ -100,9 +99,6 @@
 
 // Channel Request Done Mask
 #define UDMA_O_DONEMASK                                             0x00000520
-
-// Peripheral Identification 4
-#define UDMA_O_PID4                                                 0x00000FD0
 
 //*****************************************************************************
 //
@@ -118,12 +114,12 @@
 // ...
 // 0xF: Undefined
 #define UDMA_STATUS_TEST_M                                          0xF0000000
-#define UDMA_STATUS_TEST_S                                          28
+#define UDMA_STATUS_TEST_S                                                  28
 
 // Field: [20:16] TOTALCHANNELS
 //
-// Register value returns number of available uDMA channels minus one. For example
-// a read out value of:
+// Register value returns number of available uDMA channels minus one. For
+// example a read out value of:
 //
 // 0x00: Show that the controller is configured to use 1 uDMA channel
 // 0x01: Shows that the controller is configured to use 2 uDMA channels
@@ -131,11 +127,12 @@
 // 0x1F: Shows that the controller is configured to use 32 uDMA channels
 // (32-1=31=0x1F)
 #define UDMA_STATUS_TOTALCHANNELS_M                                 0x001F0000
-#define UDMA_STATUS_TOTALCHANNELS_S                                 16
+#define UDMA_STATUS_TOTALCHANNELS_S                                         16
 
-// Field: [7:4] STATE
+// Field:   [7:4] STATE
 //
-// Current state of the control state machine. State can be one of the following:
+// Current state of the control state machine. State can be one of the
+// following:
 //
 // 0x0: Idle
 // 0x1: Reading channel controller data
@@ -152,28 +149,28 @@
 // ...
 // 0xF: Undefined.
 #define UDMA_STATUS_STATE_M                                         0x000000F0
-#define UDMA_STATUS_STATE_S                                         4
+#define UDMA_STATUS_STATE_S                                                  4
 
-// Field: [0]    MASTERENABLE
+// Field:     [0] MASTERENABLE
 //
 // Shows the enable status of the controller as configured by CFG.MASTERENABLE:
 //
 // 0: Controller is disabled
 // 1: Controller is enabled
 #define UDMA_STATUS_MASTERENABLE                                    0x00000001
-#define UDMA_STATUS_MASTERENABLE_BITN                               0
+#define UDMA_STATUS_MASTERENABLE_BITN                                        0
 #define UDMA_STATUS_MASTERENABLE_M                                  0x00000001
-#define UDMA_STATUS_MASTERENABLE_S                                  0
+#define UDMA_STATUS_MASTERENABLE_S                                           0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_CFG
 //
 //*****************************************************************************
-// Field: [7:5] PRTOCTRL
+// Field:   [7:5] PRTOCTRL
 //
-// Sets the AHB-Lite bus protocol protection state by controlling the AHB signal
-// HProt[3:1] as follows:
+// Sets the AHB-Lite bus protocol protection state by controlling the AHB
+// signal HProt[3:1] as follows:
 //
 // Bit [7] Controls HProt[3] to indicate if a cacheable access is occurring.
 // Bit [6] Controls HProt[2] to indicate if a bufferable access is occurring.
@@ -182,18 +179,18 @@
 // When bit [n] = 1 then the corresponding HProt is high.
 // When bit [n] = 0 then the corresponding HProt is low.
 #define UDMA_CFG_PRTOCTRL_M                                         0x000000E0
-#define UDMA_CFG_PRTOCTRL_S                                         5
+#define UDMA_CFG_PRTOCTRL_S                                                  5
 
-// Field: [0]    MASTERENABLE
+// Field:     [0] MASTERENABLE
 //
 // Enables the controller:
 //
 // 0: Disables the controller
 // 1: Enables the controller
 #define UDMA_CFG_MASTERENABLE                                       0x00000001
-#define UDMA_CFG_MASTERENABLE_BITN                                  0
+#define UDMA_CFG_MASTERENABLE_BITN                                           0
 #define UDMA_CFG_MASTERENABLE_M                                     0x00000001
-#define UDMA_CFG_MASTERENABLE_S                                     0
+#define UDMA_CFG_MASTERENABLE_S                                              0
 
 //*****************************************************************************
 //
@@ -202,30 +199,30 @@
 //*****************************************************************************
 // Field: [31:10] BASEPTR
 //
-// This register point to the base address for the primary data structures of each
-// DMA channel. This is not stored in module, but in system memory, thus space must
-// be allocated for this usage when DMA is in usage
+// This register point to the base address for the primary data structures of
+// each DMA channel. This is not stored in module, but in system memory, thus
+// space must be allocated for this usage when DMA is in usage
 #define UDMA_CTRL_BASEPTR_M                                         0xFFFFFC00
-#define UDMA_CTRL_BASEPTR_S                                         10
+#define UDMA_CTRL_BASEPTR_S                                                 10
 
 //*****************************************************************************
 //
 // Register: UDMA_O_ALTCTRL
 //
 //*****************************************************************************
-// Field: [31:0] BASEPTR
+// Field:  [31:0] BASEPTR
 //
-// This register shows the base address for the alternate data structures and is
-// calculated by module, thus read only
+// This register shows the base address for the alternate data structures and
+// is calculated by module, thus read only
 #define UDMA_ALTCTRL_BASEPTR_M                                      0xFFFFFFFF
-#define UDMA_ALTCTRL_BASEPTR_S                                      0
+#define UDMA_ALTCTRL_BASEPTR_S                                               0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_WAITONREQ
 //
 //*****************************************************************************
-// Field: [31:0] CHNLSTATUS
+// Field:  [31:0] CHNLSTATUS
 //
 // Channel wait on request status:
 //
@@ -233,20 +230,20 @@
 // this channel may come out of active state even if request is still present.
 // Bit [Ch] = 1: Once uDMA receives a single or burst request on channel Ch, it
 // keeps channel Ch in active state until the requests are deasserted. This
-// handshake is necessary for channels where the requester is in an asynchronous
-// domain or can run at slower clock speed than uDMA
+// handshake is necessary for channels where the requester is in an
+// asynchronous domain or can run at slower clock speed than uDMA
 #define UDMA_WAITONREQ_CHNLSTATUS_M                                 0xFFFFFFFF
-#define UDMA_WAITONREQ_CHNLSTATUS_S                                 0
+#define UDMA_WAITONREQ_CHNLSTATUS_S                                          0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_SOFTREQ
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
-// Set the appropriate bit to generate a software uDMA request on the corresponding
-// uDMA channel
+// Set the appropriate bit to generate a software uDMA request on the
+// corresponding uDMA channel
 //
 // Bit [Ch] = 0: Does not create a uDMA request for channel Ch
 // Bit [Ch] = 1: Creates a uDMA request for channel Ch
@@ -254,14 +251,14 @@
 // Writing to a bit where a uDMA channel is not implemented does not create a
 // uDMA request for that channel
 #define UDMA_SOFTREQ_CHNLS_M                                        0xFFFFFFFF
-#define UDMA_SOFTREQ_CHNLS_S                                        0
+#define UDMA_SOFTREQ_CHNLS_S                                                 0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_SETBURST
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
 // Returns the useburst status, or disables individual channels from generating
 // single uDMA requests. The value R is the arbitration rate and stored in the
@@ -278,19 +275,19 @@
 //
 // Write as:
 // Bit [Ch] = 0: No effect. Use the CLEARBURST.CHNLS to set bit [Ch] to 0.
-// Bit [Ch] = 1: Disables single transfer requests on channel Ch. The controller
-// performs 2^R transfers for burst requests.
+// Bit [Ch] = 1: Disables single transfer requests on channel Ch. The
+// controller performs 2^R transfers for burst requests.
 //
 // Writing to a bit where a uDMA channel is not implemented has no effect
 #define UDMA_SETBURST_CHNLS_M                                       0xFFFFFFFF
-#define UDMA_SETBURST_CHNLS_S                                       0
+#define UDMA_SETBURST_CHNLS_S                                                0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_CLEARBURST
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
 // Set the appropriate bit to enable single transfer requests.
 //
@@ -303,38 +300,37 @@
 //
 // Writing to a bit where a DMA channel is not implemented has no effect.
 #define UDMA_CLEARBURST_CHNLS_M                                     0xFFFFFFFF
-#define UDMA_CLEARBURST_CHNLS_S                                     0
+#define UDMA_CLEARBURST_CHNLS_S                                              0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_SETREQMASK
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
-// Returns the burst and single request mask status, or disables the corresponding
-// channel from generating uDMA requests.
+// Returns the burst and single request mask status, or disables the
+// corresponding channel from generating uDMA requests.
 //
 // Read as:
 // Bit [Ch] = 0: External requests are enabled for channel Ch.
 // Bit [Ch] = 1: External requests are disabled for channel Ch.
 //
 // Write as:
-// Bit [Ch] = 0: No effect. Use the CLEARREQMASK.CHNLS to enable uDMA
-// requests.
-// Bit [Ch] = 1: Disables uDMA burst request channel [C] and uDMA single request
-// channel [C] input from generating uDMA requests.
+// Bit [Ch] = 0: No effect. Use the CLEARREQMASK.CHNLS to enable uDMA requests.
+// Bit [Ch] = 1: Disables uDMA burst request channel [C] and uDMA single
+// request channel [C] input from generating uDMA requests.
 //
 // Writing to a bit where a uDMA channel is not implemented has no effect
 #define UDMA_SETREQMASK_CHNLS_M                                     0xFFFFFFFF
-#define UDMA_SETREQMASK_CHNLS_S                                     0
+#define UDMA_SETREQMASK_CHNLS_S                                              0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_CLEARREQMASK
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
 // Set the appropriate bit to enable DMA request for the channel.
 //
@@ -345,14 +341,14 @@
 //
 // Writing to a bit where a DMA channel is not implemented has no effect.
 #define UDMA_CLEARREQMASK_CHNLS_M                                   0xFFFFFFFF
-#define UDMA_CLEARREQMASK_CHNLS_S                                   0
+#define UDMA_CLEARREQMASK_CHNLS_S                                            0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_SETCHANNELEN
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
 // Returns the enable status of the channels, or enables the corresponding
 // channels.
@@ -367,35 +363,34 @@
 //
 // Writing to a bit where a DMA channel is not implemented has no effect
 #define UDMA_SETCHANNELEN_CHNLS_M                                   0xFFFFFFFF
-#define UDMA_SETCHANNELEN_CHNLS_S                                   0
+#define UDMA_SETCHANNELEN_CHNLS_S                                            0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_CLEARCHANNELEN
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
 // Set the appropriate bit to disable the corresponding uDMA channel.
 //
 // Write as:
-// Bit [Ch] = 0: No effect. Use the SETCHANNELEN.CHNLS to enable uDMA
-// channels.
+// Bit [Ch] = 0: No effect. Use the SETCHANNELEN.CHNLS to enable uDMA channels.
 // Bit [Ch] = 1: Disables channel Ch
 //
 // Writing to a bit where a uDMA channel is not implemented has no effect
 #define UDMA_CLEARCHANNELEN_CHNLS_M                                 0xFFFFFFFF
-#define UDMA_CLEARCHANNELEN_CHNLS_S                                 0
+#define UDMA_CLEARCHANNELEN_CHNLS_S                                          0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_SETCHNLPRIALT
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
-// Returns the channel control data structure status, or selects the alternate data
-// structure for the corresponding uDMA channel.
+// Returns the channel control data structure status, or selects the alternate
+// data structure for the corresponding uDMA channel.
 //
 // Read as:
 // Bit [Ch] = 0: uDMA channel Ch is using the primary data structure.
@@ -407,35 +402,36 @@
 //
 // Writing to a bit where a uDMA channel is not implemented has no effect
 #define UDMA_SETCHNLPRIALT_CHNLS_M                                  0xFFFFFFFF
-#define UDMA_SETCHNLPRIALT_CHNLS_S                                  0
+#define UDMA_SETCHNLPRIALT_CHNLS_S                                           0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_CLEARCHNLPRIALT
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
 // Clears the appropriate bit to select the primary data structure for the
 // corresponding uDMA channel.
 //
 // Write as:
-// Bit [Ch] = 0: No effect. Use the SETCHNLPRIALT.CHNLS to select the
-// alternate data structure.
+// Bit [Ch] = 0: No effect. Use the SETCHNLPRIALT.CHNLS to select the alternate
+// data structure.
 // Bit [Ch] = 1: Selects the primary data structure for channel Ch.
 //
 // Writing to a bit where a uDMA channel is not implemented has no effect
 #define UDMA_CLEARCHNLPRIALT_CHNLS_M                                0xFFFFFFFF
-#define UDMA_CLEARCHNLPRIALT_CHNLS_S                                0
+#define UDMA_CLEARCHNLPRIALT_CHNLS_S                                         0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_SETCHNLPRIORITY
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
-// Returns the channel priority mask status, or sets the channel priority to high.
+// Returns the channel priority mask status, or sets the channel priority to
+// high.
 //
 // Read as:
 // Bit [Ch] = 0: uDMA channel Ch is using the default priority level.
@@ -448,17 +444,17 @@
 //
 // Writing to a bit where a uDMA channel is not implemented has no effect
 #define UDMA_SETCHNLPRIORITY_CHNLS_M                                0xFFFFFFFF
-#define UDMA_SETCHNLPRIORITY_CHNLS_S                                0
+#define UDMA_SETCHNLPRIORITY_CHNLS_S                                         0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_CLEARCHNLPRIORITY
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
-// Clear the appropriate bit to select the default priority level for the specified
-// uDMA channel.
+// Clear the appropriate bit to select the default priority level for the
+// specified uDMA channel.
 //
 // Write as:
 // Bit [Ch] = 0: No effect. Use the SETCHNLPRIORITY.CHNLS to set channel Ch to
@@ -467,14 +463,14 @@
 //
 // Writing to a bit where a uDMA channel is not implemented has no effect
 #define UDMA_CLEARCHNLPRIORITY_CHNLS_M                              0xFFFFFFFF
-#define UDMA_CLEARCHNLPRIORITY_CHNLS_S                              0
+#define UDMA_CLEARCHNLPRIORITY_CHNLS_S                                       0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_ERROR
 //
 //*****************************************************************************
-// Field: [0]    STATUS
+// Field:     [0] STATUS
 //
 // Returns the status of bus error flag in uDMA, or clears this bit
 //
@@ -488,19 +484,19 @@
 // 0: No effect, status of bus error flag is unchanged.
 // 1: Clears the bus error flag.
 #define UDMA_ERROR_STATUS                                           0x00000001
-#define UDMA_ERROR_STATUS_BITN                                      0
+#define UDMA_ERROR_STATUS_BITN                                               0
 #define UDMA_ERROR_STATUS_M                                         0x00000001
-#define UDMA_ERROR_STATUS_S                                         0
+#define UDMA_ERROR_STATUS_S                                                  0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_REQDONE
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
-// Reflects the uDMA done status for the given channel, channel [Ch]. It's a sticky
-// done bit. Unless cleared by writing a 1, it holds the value of 1.
+// Reflects the uDMA done status for the given channel, channel [Ch]. It&#39;s
+// a sticky done bit. Unless cleared by writing a 1, it holds the value of 1.
 //
 // Read as:
 // Bit [Ch] = 0: Request has not completed for channel Ch
@@ -512,14 +508,14 @@
 // Bit [Ch] = 0: No effect.
 // Bit [Ch] = 1: The corresponding [Ch] bit is cleared  and is set to 0
 #define UDMA_REQDONE_CHNLS_M                                        0xFFFFFFFF
-#define UDMA_REQDONE_CHNLS_S                                        0
+#define UDMA_REQDONE_CHNLS_S                                                 0
 
 //*****************************************************************************
 //
 // Register: UDMA_O_DONEMASK
 //
 //*****************************************************************************
-// Field: [31:0] CHNLS
+// Field:  [31:0] CHNLS
 //
 // Controls the propagation of the uDMA done and active state to the assigned
 // peripheral. Specifically used for software channels.
@@ -538,35 +534,15 @@
 // Write as:
 // Bit [Ch] = 0: Allows uDMA done and active stat to propagate to the
 // peripherals.
-// Note that this disables uDMA done state for channel [Ch] from contributing to
-// generation of combined uDMA done signal
+// Note that this disables uDMA done state for channel [Ch] from contributing
+// to generation of combined uDMA done signal
 //
 // Bit [Ch] = 1: Blocks uDMA done and active state to propagate to the
 // peripherals.
 // Note that this enables uDMA done for  channel [Ch] to contribute to
 // generation of combined uDMA done signal.
 #define UDMA_DONEMASK_CHNLS_M                                       0xFFFFFFFF
-#define UDMA_DONEMASK_CHNLS_S                                       0
+#define UDMA_DONEMASK_CHNLS_S                                                0
 
-//*****************************************************************************
-//
-// Register: UDMA_O_PID4
-//
-//*****************************************************************************
-// Field: [7:4] BLOCKCOUNT
-//
-// The number of 4KB address blocks you require, to access the registers, expressed
-// in powers of 2.
-// These bits read back as 0x0.
-#define UDMA_PID4_BLOCKCOUNT_M                                      0x000000F0
-#define UDMA_PID4_BLOCKCOUNT_S                                      4
 
-// Field: [3:0] JEP106C
-//
-// This bit field is a continuation code value and represents how many 0x7F
-// continuation characters occur in the manufacturer's identity code.
-// These bits read back as 0x4.
-#define UDMA_PID4_JEP106C_M                                         0x0000000F
-#define UDMA_PID4_JEP106C_S                                         0
-
-#endif // __HW_UDMA_H__
+#endif // __UDMA__

@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       hw_cpu_tiprop.h
-*  Revised:        2015-01-15 18:41:47 +0100 (to, 15 jan 2015)
-*  Revision:       42400
+*  Filename:       hw_cpu_tiprop_h
+*  Revised:        2015-02-13 15:47:13 +0100 (fr, 13 feb 2015)
+*  Revision:       42724
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -37,7 +37,6 @@
 #ifndef __HW_CPU_TIPROP_H__
 #define __HW_CPU_TIPROP_H__
 
-
 //*****************************************************************************
 //
 // This section defines the register offsets of
@@ -55,40 +54,29 @@
 // Register: CPU_TIPROP_O_TRACECLKMUX
 //
 //*****************************************************************************
-// Field: [0]    TRACECLK_N_SWV
+// Field:     [0] TRACECLK_N_SWV
 //
-// Mux selector for SWV or TRACECLK
-// This bit is reset when ITM is reset.
+// Internal. Only to be used through TI provided API.
 // ENUMs:
-// SWV                  SWV
-// TRACECLK             TRACECLK
-//
+// TRACECLK                 Internal. Only to be used through TI provided API.
+// SWV                      Internal. Only to be used through TI provided API.
 #define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV                       0x00000001
-#define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_BITN                  0
+#define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_BITN                           0
 #define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_M                     0x00000001
-#define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_S                     0
-#define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_SWV                   0x00000000
+#define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_S                              0
 #define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_TRACECLK              0x00000001
+#define CPU_TIPROP_TRACECLKMUX_TRACECLK_N_SWV_SWV                   0x00000000
 
 //*****************************************************************************
 //
 // Register: CPU_TIPROP_O_DYN_CG
 //
 //*****************************************************************************
-// Field: [1:0] DYN_CG
+// Field:   [1:0] DYN_CG
 //
-// Clock gating scheme configuration:
-//
-// 0: No clock gating from bus monitor
-// 1: Clock gating as soon as the clock gating conditions are met (most
-// aggressive).
-// 2: Clock gating if the clock gating conditions stays valid more than one
-// cycle.
-// 3: Clock gating if the clock gating conditions stays valid more than two
-// cycles.
-//
-// This field is reset when CPU core is reset.
+// Internal. Only to be used through TI provided API.
 #define CPU_TIPROP_DYN_CG_DYN_CG_M                                  0x00000003
-#define CPU_TIPROP_DYN_CG_DYN_CG_S                                  0
+#define CPU_TIPROP_DYN_CG_DYN_CG_S                                           0
 
-#endif // __HW_CPU_TIPROP_H__
+
+#endif // __CPU_TIPROP__
