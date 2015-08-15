@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       ioc.h
-*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
-*  Revision:       42989
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the IO Controller.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup peripheral_group
+//! @{
 //! \addtogroup ioc_api
 //! @{
 //
@@ -79,10 +81,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define IOCPortConfigureSet             NOROM_IOCPortConfigureSet
     #define IOCPortConfigureGet             NOROM_IOCPortConfigureGet
     #define IOCIOShutdownSet                NOROM_IOCIOShutdownSet
@@ -150,7 +150,7 @@ extern "C"
 #define IOID_29                 0x0000001D  // IO Id 29
 #define IOID_30                 0x0000001E  // IO Id 30
 #define IOID_31                 0x0000001F  // IO Id 31
-#define IOID_UNUSED             0xFFFFFFFF  // Unsued IO Id
+#define IOID_UNUSED             0xFFFFFFFF  // Unused IO Id
 
 #define IOC_IOID_MASK           0x000000FF  // IOC IO Id bit mask
 
@@ -288,7 +288,7 @@ extern "C"
                                             // (2/4/8 mA @ 1.8V)
 #define IOC_STRENGTH_MED        0x00000200  // Medium Drive Strength
                                             // (2/4/8 mA @ 2.5V)
-#define IOC_STRENGTH_MIN        0x00000100  // Miniumm Drive Strength
+#define IOC_STRENGTH_MIN        0x00000100  // Minimum Drive Strength
                                             // (2/4/8 mA @ 3.3V)
 //*****************************************************************************
 //
@@ -598,7 +598,7 @@ extern void IOCIOSlewCtrlSet(uint32_t ui32IOId, uint32_t ui32SlewEnable);
 
 //*****************************************************************************
 //
-//! \brief Configure the drive strength and maxium current of an IO port.
+//! \brief Configure the drive strength and maximum current of an IO port.
 //!
 //! This function sets the drive strength of an IO port.
 //!
@@ -783,7 +783,7 @@ extern void IOCIntDisable(uint32_t ui32IOId);
 //! asserts. This function must be called in the interrupt handler to keep the
 //! interrupt from being recognized again immediately upon exit.
 //!
-//! \note Because there is a write buffer in the Cortex-M3 processor, it may
+//! \note Because there is a write buffer in the System CPU, it may
 //! take several clock cycles before the interrupt source is actually cleared.
 //! Therefore, it is recommended that the interrupt source be cleared early in
 //! the interrupt handler (as opposed to the very last action) to avoid
@@ -944,7 +944,7 @@ extern void IOCPinTypeUart(uint32_t ui32Base, uint32_t ui32Rx,
 //
 //! \brief Configure a set of IOs for standard SSI peripheral master control.
 //!
-//! \param ui32Base is the mase address of the SSI module to connect to the IOs
+//! \param ui32Base is the base address of the SSI module to connect to the IOs
 //! \param ui32Rx is the IO to connect to the SSI MISO line.
 //! - \ref IOID_0
 //! - ...
@@ -1083,7 +1083,7 @@ extern void IOCPinTypeAux(uint32_t ui32IOId);
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_IOCPortConfigureSet
         #undef  IOCPortConfigureSet
@@ -1185,6 +1185,7 @@ extern void IOCPinTypeAux(uint32_t ui32IOId);
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

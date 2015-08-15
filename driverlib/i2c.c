@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       i2c.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-05-18 13:52:35 +0200 (Mon, 18 May 2015)
+*  Revision:       43512
 *
 *  Description:    Driver for the I2C module
 *
@@ -44,7 +44,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  I2CMasterInitExpClk
     #define I2CMasterInitExpClk             NOROM_I2CMasterInitExpClk
     #undef  I2CMasterErr
@@ -60,6 +60,7 @@
 //! Initializes the I2C Master block
 //
 //*****************************************************************************
+
 void
 I2CMasterInitExpClk(uint32_t ui32Base, uint32_t ui32I2CClk,
                     bool bFast)
@@ -75,7 +76,7 @@ I2CMasterInitExpClk(uint32_t ui32Base, uint32_t ui32I2CClk,
     //
     // Must enable the device before doing anything else.
     //
-    I2CMasterEnable(ui32Base);
+    I2CMasterEnable(I2C0_BASE);
 
     //
     // Get the desired SCL speed.
@@ -96,7 +97,7 @@ I2CMasterInitExpClk(uint32_t ui32Base, uint32_t ui32I2CClk,
     // to the desired clock, never greater.
     //
     ui32TPR = ((ui32I2CClk + (2 * 10 * ui32SCLFreq) - 1) / (2 * 10 * ui32SCLFreq)) - 1;
-    HWREG(ui32Base + I2C_O_MTPR) = ui32TPR;
+    HWREG(I2C0_BASE + I2C_O_MTPR) = ui32TPR;
 }
 
 //*****************************************************************************
@@ -104,6 +105,7 @@ I2CMasterInitExpClk(uint32_t ui32Base, uint32_t ui32I2CClk,
 //! Gets the error status of the I2C Master module
 //
 //*****************************************************************************
+
 uint32_t
 I2CMasterErr(uint32_t ui32Base)
 {
@@ -117,7 +119,7 @@ I2CMasterErr(uint32_t ui32Base)
     //
     // Get the raw error state.
     //
-    ui32Err = HWREG(ui32Base + I2C_O_MSTAT);
+    ui32Err = HWREG(I2C0_BASE + I2C_O_MSTAT);
 
     //
     // If the I2C master is busy, then all the other status bits are invalid,

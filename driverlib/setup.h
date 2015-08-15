@@ -1,7 +1,9 @@
 /******************************************************************************
-*  Filename:       hw_cm3_cc26xx.h
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Filename:       setup.h
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
+*
+*  Description:    Prototypes and defines for the setup API.
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -34,40 +36,57 @@
 *
 ******************************************************************************/
 
-#ifndef __HW_CM3_CC26XX_H__
-#define __HW_CM3_CC26XX_H__
+//*****************************************************************************
+//
+//! \addtogroup system_control_group
+//! @{
+//! \addtogroup setup_api
+//! @{
+//
+//*****************************************************************************
+
+#ifndef __SETUP_H__
+#define __SETUP_H__
 
 //*****************************************************************************
 //
-// The following are defines for the CM3_CC26XX register offsets.
+// If building with a C++ compiler, make all of the definitions in this header
+// have a C binding.
 //
 //*****************************************************************************
-#define CM3_CC26XX_O_BUS_MON_CFG \
-                                0x00000FFC  // Configuration of Clock Gating
-                                            // Scheme
-
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 //*****************************************************************************
 //
-// The following are defines for the bit fields in the
-// CM3_CC26XX_O_BUS_MON_CFG register.
+//! \brief Performs the necessary trim of the device which is not done in boot code.
+//!
+//! This function should only execute coming from ROM boot. The current
+//! implementation does not take soft reset into account. However, it does no
+//! damage to execute it again. It only consumes time.
+//!
+//! \return None
 //
 //*****************************************************************************
-#define CM3_CC26XX_BUS_MON_CFG_CFG_M \
-                                0x00000003  // Configuration of Clock Gating
-                                            // Scheme 0x0: no clock gating from
-                                            // bus monitor 0x1: clock gating as
-                                            // soon as
-                                            // bus_mon_clock_gate_possible is
-                                            // high. 0x2: clock gating if
-                                            // bus_mon_clock_gate_possible
-                                            // stays high more than one cycle.
-                                            // 0x3: clock gating if
-                                            // bus_mon_clock_gate_possible
-                                            // stays high more than two cycles.
+extern void trimDevice( void );
 
-#define CM3_CC26XX_BUS_MON_CFG_CFG_S 0
+//*****************************************************************************
+//
+// Mark the end of the C bindings section for C++ compilers.
+//
+//*****************************************************************************
+#ifdef __cplusplus
+}
+#endif
 
+#endif //  __SETUP_H__
 
-#endif // __HW_CM3_CC26XX_H__
+//*****************************************************************************
+//
+//! Close the Doxygen group.
+//! @}
+//! @}
+//
+//*****************************************************************************

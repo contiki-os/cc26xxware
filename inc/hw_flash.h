@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_flash_h
-*  Revised:        2015-02-12 20:48:43 +0100 (to, 12 feb 2015)
-*  Revision:       42710
+*  Revised:        2015-06-29 09:10:28 +0200 (Mon, 29 Jun 2015)
+*  Revision:       44054
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -779,13 +779,13 @@
 #define FLASH_BOUNDARY_OUTPUTENABLE_M                               0x0003C000
 #define FLASH_BOUNDARY_OUTPUTENABLE_S                                       14
 
-// Field:    [13] YS_ECC_SELF_TEST_EN
+// Field:    [13] SYS_ECC_SELF_TEST_EN
 //
 // Internal. Only to be used through TI provided API.
-#define FLASH_BOUNDARY_YS_ECC_SELF_TEST_EN                          0x00002000
-#define FLASH_BOUNDARY_YS_ECC_SELF_TEST_EN_BITN                             13
-#define FLASH_BOUNDARY_YS_ECC_SELF_TEST_EN_M                        0x00002000
-#define FLASH_BOUNDARY_YS_ECC_SELF_TEST_EN_S                                13
+#define FLASH_BOUNDARY_SYS_ECC_SELF_TEST_EN                         0x00002000
+#define FLASH_BOUNDARY_SYS_ECC_SELF_TEST_EN_BITN                            13
+#define FLASH_BOUNDARY_SYS_ECC_SELF_TEST_EN_M                       0x00002000
+#define FLASH_BOUNDARY_SYS_ECC_SELF_TEST_EN_S                               13
 
 // Field:    [12] SYS_ECC_OVERRIDE_EN
 //

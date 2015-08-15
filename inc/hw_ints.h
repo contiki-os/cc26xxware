@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ints.h
-*  Revised:        2015-01-28 16:21:36 +0100 (on, 28 jan 2015)
-*  Revision:       42503
+*  Revised:        2015-06-29 11:50:58 +0200 (Mon, 29 Jun 2015)
+*  Revision:       44059
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -59,14 +59,14 @@
 //*****************************************************************************
 #define INT_EDGE_DETECT         16          // AON edge detect
 #define INT_I2C                 17          // I2C
-#define INT_RF_CPE1             18          // RF Core Packet Engine 1
+#define INT_RF_CPE1             18          // RF Command and Packet Engine 1
 #define INT_SPIS                19          // AON SpiSplave Rx, Tx and CS
 #define INT_AON_RTC             20          // AON RTC
 #define INT_UART0               21          // UART0 Rx and Tx
 #define INT_AON_AUX_SWEV0       22          // Sensor Controller software event 0, through AON domain
 #define INT_SSI0                23          // SSI0 Rx and Tx
 #define INT_SSI1                24          // SSI1 Rx and Tx
-#define INT_RF_CPE0             25          // RF Core Packet Engine 0
+#define INT_RF_CPE0             25          // RF Command and Packet Engine 0
 #define INT_RF_HW               26          // RF Core Hardware
 #define INT_RF_CMD_ACK          27          // RF Core Command Acknowledge
 #define INT_I2S                 28          // I2S

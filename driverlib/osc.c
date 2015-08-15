@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       osc.c
-*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
-*  Revision:       42989
+*  Revised:        2015-06-19 19:26:38 +0200 (Fri, 19 Jun 2015)
+*  Revision:       44012
 *
 *  Description:    Driver for setting up the system Oscillators
 *
@@ -48,7 +48,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  OSCClockSourceSet
     #define OSCClockSourceSet               NOROM_OSCClockSourceSet
     #undef  OSCClockSourceGet
@@ -171,7 +171,7 @@ OSCClockSourceGet(uint32_t ui32SrcClk)
 
 //*****************************************************************************
 //
-//! Enable CM3 access to the OSC_DIG module
+//! Enable System CPU access to the OSC_DIG module
 //
 //*****************************************************************************
 void
@@ -205,7 +205,7 @@ OSCHF_GetStartupTime( uint32_t timeUntilWakeupInMs )
    int32_t  deltaTempSinceXoscOn       ;
    uint32_t newStartupTimeInUs         ;
 
-   deltaTimeSinceXoscOnInMs = RTC_CV_TO_MS( AONRTCCurrentCompareValueGet() - oscHfGlobals.timeXoscOff_CV );
+   deltaTimeSinceXoscOnInMs = RTC_CV_TO_MS( AONRTCCurrentCompareValueGet() - oscHfGlobals.timeXoscOn_CV );
    deltaTempSinceXoscOn     = AONBatMonTemperatureGetDegC() - oscHfGlobals.tempXoscOff;
 
    if ( deltaTempSinceXoscOn < 0 ) {
@@ -222,7 +222,7 @@ OSCHF_GetStartupTime( uint32_t timeUntilWakeupInMs )
          newStartupTimeInUs = (( HWREG( CCFG_BASE + CCFG_O_MODE_CONF_1 ) &
             CCFG_MODE_CONF_1_XOSC_MAX_START_M ) >>
             CCFG_MODE_CONF_1_XOSC_MAX_START_S ) * 125;
-            // Note: CCFG startup time is "in units of 100us" adding 25% margine results in *125
+            // Note: CCFG startup time is "in units of 100us" adding 25% margin results in *125
       }
    } else {
       newStartupTimeInUs = RTC_CV_TO_US( oscHfGlobals.timeXoscStable_CV - oscHfGlobals.timeXoscOn_CV );
@@ -305,7 +305,7 @@ OSCHF_SwitchToRcOscTurnOffXosc( void )
    OSCClockSourceSet( OSC_SRC_CLK_HF | OSC_SRC_CLK_MF, OSC_RCOSC_HF );
 
    //
-   // Do the swithing if not alrady running on RCOSC_HF
+   // Do the switching if not already running on RCOSC_HF
    //
    if ( OSCClockSourceGet( OSC_SRC_CLK_HF ) != OSC_RCOSC_HF ) {
       OSCHfSourceSwitch();

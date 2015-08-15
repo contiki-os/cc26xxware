@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_i2c_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -119,7 +119,7 @@
 // First byte received
 //
 // 0: The first byte has not been received.
-// 1: The first byte following the slave&#39;s own address has been received.
+// 1: The first byte following the slave's own address has been received.
 //
 // This bit is only valid when the RREQ bit is set and is automatically cleared
 // when data has been read from the SDR register.

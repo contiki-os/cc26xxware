@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_udma_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-07-29 09:40:39 +0200 (Wed, 29 Jul 2015)
+*  Revision:       44232
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -176,8 +176,15 @@
 // Bit [6] Controls HProt[2] to indicate if a bufferable access is occurring.
 // Bit [5] Controls HProt[1] to indicate if a privileged access is occurring.
 //
-// When bit [n] = 1 then the corresponding HProt is high.
-// When bit [n] = 0 then the corresponding HProt is low.
+// When bit [n] = 1 then the corresponding HProt bit is high.
+// When bit [n] = 0 then the corresponding HProt bit is low.
+//
+// This field controls HProt[3:1] signal for all transactions initiated by uDMA
+// except two transactions below:
+// - the read from the address indicated by source address pointer
+// - the write to the address indicated by destination address pointer
+// HProt[3:1] for these two exceptions can be controlled by dedicated fields in
+// the channel configutation descriptor.
 #define UDMA_CFG_PRTOCTRL_M                                         0x000000E0
 #define UDMA_CFG_PRTOCTRL_S                                                  5
 
@@ -495,8 +502,8 @@
 //*****************************************************************************
 // Field:  [31:0] CHNLS
 //
-// Reflects the uDMA done status for the given channel, channel [Ch]. It&#39;s
-// a sticky done bit. Unless cleared by writing a 1, it holds the value of 1.
+// Reflects the uDMA done status for the given channel, channel [Ch]. It's a
+// sticky done bit. Unless cleared by writing a 1, it holds the value of 1.
 //
 // Read as:
 // Bit [Ch] = 0: Request has not completed for channel Ch

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_batmon.c
-*  Revised:        2015-02-18 11:12:55 +0100 (on, 18 feb 2015)
-*  Revision:       42790
+*  Revised:        2015-04-24 17:38:27 +0200 (Fri, 24 Apr 2015)
+*  Revision:       43311
 *
 *  Description:    Driver for the AON Battery and Temperature Monitor
 *
@@ -48,7 +48,7 @@
 //*****************************************************************************
 //
 // AONBatMonTemperatureGetDegC()
-// Returns sign exteded temperature in Deg C (-256 .. +255)
+// Returns sign extended temperature in Deg C (-256 .. +255)
 //
 //*****************************************************************************
 int32_t

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_vims_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -167,7 +167,7 @@
 //
 // Icode/Dcode and sysbus arbitation scheme
 //
-// 0: Static arbitration  (icode/docde &#62; sysbus)
+// 0: Static arbitration  (icode/docde > sysbus)
 // 1: Round-robin arbitration
 #define VIMS_CTL_ARB_CFG                                            0x00000008
 #define VIMS_CTL_ARB_CFG_BITN                                                3

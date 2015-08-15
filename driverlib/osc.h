@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       osc.h
-*  Revised:        2015-02-10 16:20:36 +0100 (ti, 10 feb 2015)
-*  Revision:       42636
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the system oscillator control.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup system_control_group
+//! @{
 //! \addtogroup osc_api
 //! @{
 //
@@ -81,10 +83,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define OSCClockSourceSet               NOROM_OSCClockSourceSet
     #define OSCClockSourceGet               NOROM_OSCClockSourceGet
     #define OSCInterfaceEnable              NOROM_OSCInterfaceEnable
@@ -165,16 +165,16 @@ OSCXHfPowerModeSet(uint32_t ui32Mode)
 //!
 //! When selecting the high frequency clock source, this function will not do
 //! the actual switch. Enabling the high frequency XTAL can take several hundred
-//! micro seconds, so the actual switch is split into a seperate function,
-//! leaving CM3 free to perform other tasks as the XTAL starts up.
+//! micro seconds, so the actual switch is split into a separate function,
+//! leaving System CPU free to perform other tasks as the XTAL starts up.
 //!
 //! \note The High Frequency (\ref OSC_SRC_CLK_HF) and Medium Frequency
 //! (\ref OSC_SRC_CLK_MF) can only be derived from the high frequency
 //! oscillator. The Low Frequency source clock (\ref OSC_SRC_CLK_LF) can be
 //! derived from all 4 oscillators.
 //!
-//! \note If enabling \ref OSC_XOSC_LF it is not safe to go to
-//! Powerdown/Shutdown before 7.5 ms (TBD) later.
+//! \note If enabling \ref OSC_XOSC_LF it is not safe to go to powerdown/shutdown
+//! until the LF clock is running which can be checked using \ref OSCClockSourceGet().
 //!
 //! \param ui32SrcClk is the source clocks to configure.
 //! - \ref OSC_SRC_CLK_HF
@@ -185,6 +185,8 @@ OSCXHfPowerModeSet(uint32_t ui32Mode)
 //! - \ref OSC_XOSC_HF
 //! - \ref OSC_RCOSC_LF (only when ui32SrcClk is \ref OSC_SRC_CLK_LF)
 //! - \ref OSC_XOSC_LF (only when ui32SrcClk is \ref OSC_SRC_CLK_LF)
+//!
+//! \sa OSCClockSourceGet()
 //!
 //! \return None
 //
@@ -209,7 +211,7 @@ extern void OSCClockSourceSet(uint32_t ui32SrcClk, uint32_t ui32Osc);
 //! - \ref OSC_RCOSC_LF
 //! - \ref OSC_XOSC_LF
 //!
-//! \sa \ref OSCHfSourceSwitch()
+//! \sa \ref OSCClockSourceSet(), \ref OSCHfSourceSwitch()
 //
 //*****************************************************************************
 extern uint32_t OSCClockSourceGet(uint32_t ui32SrcClk);
@@ -219,7 +221,7 @@ extern uint32_t OSCClockSourceGet(uint32_t ui32SrcClk);
 //! \brief Check if the HF clock source is ready to be switched.
 //!
 //! If a request to switch the HF clock source has been made, this function
-//! can be used to check if the clock source is ready to be swithced.
+//! can be used to check if the clock source is ready to be switched.
 //!
 //! Once the HF clock source is ready the switch can be performed by calling
 //! the \ref OSCHfSourceSwitch()
@@ -233,7 +235,7 @@ __STATIC_INLINE bool
 OSCHfSourceReady(void)
 {
     //
-    // Return the readyness of the HF clock source
+    // Return the readiness of the HF clock source
     //
     return (DDI16BitfieldRead(AUX_DDI0_OSC_BASE, DDI_0_OSC_O_STAT0,
                               DDI_0_OSC_STAT0_PENDINGSCLKHFSWITCHING_M,
@@ -270,13 +272,13 @@ OSCHfSourceSwitch(void)
 
 //*****************************************************************************
 //
-//! \brief Enable CM3 access to the OSC_DIG module.
+//! \brief Enable System CPU access to the OSC_DIG module.
 //!
-//! Force power on AUX and enable clocks to allow CM3 access on the OSC_DIG
+//! Force power on AUX and enable clocks to allow System CPU access on the OSC_DIG
 //! interface.
 //!
 //! \note Access to the OSC_DIG interface is a shared resource between the
-//! AUX controller and the CPU, so enabling or disabling this interface must
+//! Sensor Controller and the CPU, so enabling or disabling this interface must
 //! be done with consideration.
 //!
 //! \return None
@@ -286,12 +288,12 @@ extern void OSCInterfaceEnable(void);
 
 //*****************************************************************************
 //
-//! \brief Disable CM3 access to the OSC_DIG module.
+//! \brief Disable System CPU access to the OSC_DIG module.
 //!
 //! Release the "force power on" of AUX and disable clock to AUX.
 //!
 //! \note Access to the OSC_DIG interface is a shared resource between the
-//! AUX controller and the CPU, so enabling or disabling this interface must
+//! Sensor Controller and the CPU, so enabling or disabling this interface must
 //! be done with consideration.
 //!
 //! \return None
@@ -376,7 +378,7 @@ void OSCHF_SwitchToRcOscTurnOffXosc( void );
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_OSCClockSourceSet
         #undef  OSCClockSourceSet
@@ -407,6 +409,7 @@ void OSCHF_SwitchToRcOscTurnOffXosc( void );
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

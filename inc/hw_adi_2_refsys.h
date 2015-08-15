@@ -1,6 +1,6 @@
 /******************************************************************************
 *  Filename:       hw_adi_2_refsys_h
-*  Revised:        2015-02-12 20:48:43 +0100 (to, 12 feb 2015)
+*  Revised:        2015-02-12 20:48:43 +0100 (Thu, 12 Feb 2015)
 *  Revision:       42710
 *
 * Copyright (c) 2015, Texas Instruments Incorporated

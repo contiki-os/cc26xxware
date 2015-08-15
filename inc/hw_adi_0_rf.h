@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_adi_0_rf_h
-*  Revised:        2015-02-13 15:47:13 +0100 (fr, 13 feb 2015)
-*  Revision:       42724
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -88,7 +88,7 @@
 // IFADC Trim and Configuration
 #define ADI_0_RF_O_IFADCLFCFG1                                      0x0000000E
 
-// IFADC Ttrim and Configuration
+// IFADC Trim and Configuration
 #define ADI_0_RF_O_IFADCDAC                                         0x0000000F
 
 // IFADC Quantizer Trim and Control

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       sys_ctrl.h
-*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
-*  Revision:       42989
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the System Controller.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup system_control_group
+//! @{
 //! \addtogroup sysctrl_api
 //! @{
 //
@@ -99,10 +101,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define SysCtrlPowerEverything          NOROM_SysCtrlPowerEverything
     #define SysCtrlStandby                  NOROM_SysCtrlStandby
     #define SysCtrlPowerdown                NOROM_SysCtrlPowerdown
@@ -120,12 +120,26 @@ extern "C"
 
 //*****************************************************************************
 //
-// Defines for the different power modes of the Cortex M3
+// Defines for the different power modes of the System CPU
 //
 //*****************************************************************************
 #define CPU_RUN                 0x00000000
 #define CPU_SLEEP               0x00000001
 #define CPU_DEEP_SLEEP          0x00000002
+
+//*****************************************************************************
+//
+// Defines for SysCtrlSetRechargeBeforePowerDown
+//
+//*****************************************************************************
+#define XOSC_IN_HIGH_POWER_MODE 0 // When xosc_hf is in HIGH_POWER_XOSC
+#define XOSC_IN_LOW_POWER_MODE  1 // When xosc_hf is in LOW_POWER_XOSC
+
+//
+// Keeping backward compatibility until major revision number is incremented
+//
+#define XoscInHighPowerMode      ( XOSC_IN_HIGH_POWER_MODE     )
+#define XoscInLowPowerMode       ( XOSC_IN_LOW_POWER_MODE      )
 
 //*****************************************************************************
 //
@@ -200,7 +214,7 @@ extern void SysCtrlShutdown(void);
 //
 //! \brief Get the CPU core clock frequency.
 //!
-//! Use this function to retreive the current clock frequency for the CPU.
+//! Use this function to get the current clock frequency for the CPU.
 //!
 //! The CPU can run from 48 MHz and down to 750kHz. The frequency is defined
 //! by the combined division factor of the SYSBUS and the CPU clock divider.
@@ -267,21 +281,6 @@ SysCtrlAonUpdate(void)
 
 //*****************************************************************************
 //
-//! \brief Enumeration describing possible input options to
-//! \ref SysCtrlSetRechargeBeforePowerDown().
-//!
-//! Inform the \ref SysCtrlSetRechargeBeforePowerDown() function whether the XOSC is
-//! in High or Low power mode. This is typically set by calling the function
-//! \ref OSCXHfPowerModeSet().
-//
-//*****************************************************************************
-typedef enum {
-   XoscInHighPowerMode = 0, //!< When xosc_hf is in HIGH_POWER_XOSC.
-   XoscInLowPowerMode       //!< When xosc_hf is in LOW_POWER_XOSC.
-} XoscPowerMode_t;
-
-//*****************************************************************************
-//
 //! \brief Set Recharge values before entering Power Down.
 //!
 //! This function shall be called just before entering Power Down.
@@ -296,13 +295,15 @@ typedef enum {
 //! \ref SysCtrlAonSync() since this call will not return before there are no
 //! outstanding write requests between MCU and AON.
 //!
-//! \param xoscPowerMode (typically running in XoscInHighPowerMode all the time).
+//! \param xoscPowerMode (typically running in XOSC_IN_HIGH_POWER_MODE all the time).
+//! - \ref XOSC_IN_HIGH_POWER_MODE : When xosc_hf is in HIGH_POWER_XOSC.
+//! - \ref XOSC_IN_LOW_POWER_MODE  : When xosc_hf is in LOW_POWER_XOSC.
 //!
 //! \return None
 //
 //*****************************************************************************
 void
-SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode );
+SysCtrlSetRechargeBeforePowerDown( uint32_t xoscPowerMode );
 
 
 //*****************************************************************************
@@ -400,7 +401,7 @@ SysCtrlSystemReset( void )
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_SysCtrlPowerEverything
         #undef  SysCtrlPowerEverything
@@ -438,6 +439,7 @@ SysCtrlSystemReset( void )
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

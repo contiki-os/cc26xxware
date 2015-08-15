@@ -1,6 +1,6 @@
 /******************************************************************************
 *  Filename:       hw_adi_1_synth_h
-*  Revised:        2015-02-13 15:47:13 +0100 (fr, 13 feb 2015)
+*  Revised:        2015-02-13 15:47:13 +0100 (Fri, 13 Feb 2015)
 *  Revision:       42724
 *
 * Copyright (c) 2015, Texas Instruments Incorporated

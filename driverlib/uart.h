@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       uart.h
-*  Revised:        2015-03-23 14:28:15 +0100 (ma, 23 mar 2015)
-*  Revision:       43093
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the UART.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup peripheral_group
+//! @{
 //! \addtogroup uart_api
 //! @{
 //
@@ -78,10 +80,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define UARTFIFOLevelGet                NOROM_UARTFIFOLevelGet
     #define UARTConfigSetExpClk             NOROM_UARTConfigSetExpClk
     #define UARTConfigGetExpClk             NOROM_UARTConfigGetExpClk
@@ -878,7 +878,7 @@ UARTIntStatus(uint32_t ui32Base, bool bMasked)
 //! assert. This function must be called in the interrupt handler to keep the
 //! interrupt from being recognized again immediately upon exit.
 //!
-//! \note Because there is a write buffer in the Cortex-M3 processor, it may
+//! \note Because there is a write buffer in the System CPU, it may
 //! take several clock cycles before the interrupt source is actually cleared.
 //! Therefore, it is recommended that the interrupt source be cleared early in
 //! the interrupt handler (as opposed to the very last action) to avoid
@@ -1067,7 +1067,7 @@ UARTHwFlowControlEnable( uint32_t ui32Base )
 
 //*****************************************************************************
 //
-//! \brief Disbales hardware flow control for both CTS and RTS
+//! \brief Disables hardware flow control for both CTS and RTS
 //!
 //! Hardware flow control is disabled by default.
 //!
@@ -1094,7 +1094,7 @@ UARTHwFlowControlDisable( uint32_t ui32Base )
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_UARTFIFOLevelGet
         #undef  UARTFIFOLevelGet
@@ -1152,6 +1152,7 @@ UARTHwFlowControlDisable( uint32_t ui32Base )
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

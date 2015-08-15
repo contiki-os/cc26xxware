@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aon_batmon_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -294,7 +294,7 @@
 //
 // Integer part (signed) of temperature value.
 // Total value = INTEGER + FRACTIONAL
-// 2&#39;s complement encoding
+// 2's complement encoding
 //
 // 0x100: Min value
 // 0x1D8: -40C

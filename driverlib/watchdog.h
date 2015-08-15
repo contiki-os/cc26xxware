@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       wdt.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-07-16 12:53:29 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44153
 *
 *  Description:    Defines and prototypes for the Watchdog Timer.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup peripheral_group
+//! @{
 //! \addtogroup wdt_api
 //! @{
 //
@@ -133,10 +135,8 @@ WatchdogRunning(void)
 __STATIC_INLINE void
 WatchdogEnable(void)
 {
-    //
     // Enable the watchdog timer module.
-    //
-    HWREG(WDT_BASE + WDT_O_CTL) |= WDT_CTL_INTEN;
+    HWREGBITW(WDT_BASE + WDT_O_CTL, WDT_CTL_INTEN_BITN) = 1;
 }
 
 //*****************************************************************************
@@ -156,10 +156,8 @@ WatchdogEnable(void)
 __STATIC_INLINE void
 WatchdogResetEnable(void)
 {
-    //
     // Enable the watchdog reset.
-    //
-    HWREG(WDT_BASE + WDT_O_CTL) |= WDT_CTL_RESEN;
+    HWREGBITW(WDT_BASE + WDT_O_CTL, WDT_CTL_RESEN_BITN) = 1;
 }
 
 //*****************************************************************************
@@ -179,10 +177,8 @@ WatchdogResetEnable(void)
 __STATIC_INLINE void
 WatchdogResetDisable(void)
 {
-    //
     // Disable the watchdog reset.
-    //
-    HWREG(WDT_BASE + WDT_O_CTL) &= ~(WDT_CTL_RESEN);
+    HWREGBITW(WDT_BASE + WDT_O_CTL, WDT_CTL_RESEN_BITN) = 0;
 }
 
 //*****************************************************************************
@@ -384,24 +380,20 @@ WatchdogIntUnregister(void)
 
 //*****************************************************************************
 //
-//! \brief Enables the watchdog timer interrupt.
+//! \brief Enables the watchdog timer.
 //!
-//! This function enables the watchdog timer interrupt.
-//!
-//! \note This function has no effect if the watchdog timer has been locked.
+//! This function enables the watchdog timer by calling \ref WatchdogEnable().
 //!
 //! \return None
 //!
-//! \sa \ref WatchdogLock(), \ref WatchdogUnlock(), \ref WatchdogEnable()
+//! \sa \ref WatchdogEnable()
 //
 //*****************************************************************************
 __STATIC_INLINE void
 WatchdogIntEnable(void)
 {
-    //
     // Enable the Watchdog interrupt.
-    //
-    HWREG(WDT_BASE + WDT_O_CTL) |= WDT_CTL_INTEN;
+    WatchdogEnable();
 }
 
 //*****************************************************************************
@@ -411,8 +403,10 @@ WatchdogIntEnable(void)
 //! This function returns the interrupt status for the watchdog timer module.
 //!
 //! \return Returns the interrupt status.
-//! - 1 : Watchdog interrupt is active.
-//! - 0 : Watchdog interrupt is not active.
+//! - 1 : Watchdog time-out has occurred.
+//! - 0 : Watchdog time-out has not occurred.
+//!
+//! \sa \ref WatchdogIntClear();
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
@@ -432,7 +426,7 @@ WatchdogIntStatus(void)
 //! The watchdog timer interrupt source is cleared, so that it no longer
 //! asserts.
 //!
-//! \note Because there is a write buffer in the Cortex-M processor, it may
+//! \note Because there is a write buffer in the System CPU, it may
 //! take several clock cycles before the interrupt source is actually cleared.
 //! Therefore, it is recommended that the interrupt source be cleared early in
 //! the interrupt handler (as opposed to the very last action) to avoid
@@ -474,20 +468,12 @@ WatchdogIntClear(void)
 __STATIC_INLINE void
 WatchdogIntTypeSet(uint32_t ui32Type)
 {
-    uint32_t ui32Reg;
-
-    //
     // Check the arguments.
-    //
     ASSERT((ui32Type == WATCHDOG_INT_TYPE_INT) ||
            (ui32Type == WATCHDOG_INT_TYPE_NMI));
 
-    //
     // Set the interrupt type.
-    //
-    ui32Reg = HWREG(WDT_BASE + WDT_O_CTL);
-    ui32Reg &= ~WDT_CTL_INTTYPE;
-    HWREG(WDT_BASE + WDT_O_CTL) = ui32Reg | ui32Type;
+    HWREGBITW(WDT_BASE + WDT_O_CTL, WDT_CTL_INTTYPE_BITN) = (ui32Type == WATCHDOG_INT_TYPE_INT)? 0 : 1;
 }
 
 //*****************************************************************************
@@ -507,10 +493,8 @@ WatchdogIntTypeSet(uint32_t ui32Type)
 __STATIC_INLINE void
 WatchdogStallEnable(void)
 {
-    //
     // Enable timer stalling.
-    //
-    HWREG(WDT_BASE + WDT_O_TEST) |= WDT_TEST_STALL;
+    HWREGBITW(WDT_BASE + WDT_O_TEST, WDT_TEST_STALL_BITN) = 1;
 }
 
 //*****************************************************************************
@@ -527,10 +511,8 @@ WatchdogStallEnable(void)
 __STATIC_INLINE void
 WatchdogStallDisable(void)
 {
-    //
     // Disable timer stalling.
-    //
-    HWREG(WDT_BASE + WDT_O_TEST) &= ~WDT_TEST_STALL;
+    HWREGBITW(WDT_BASE + WDT_O_TEST, WDT_TEST_STALL_BITN) = 0;
 }
 
 //*****************************************************************************
@@ -547,6 +529,7 @@ WatchdogStallDisable(void)
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

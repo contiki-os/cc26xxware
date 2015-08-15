@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       rfc.c
-*  Revised:        2015-01-13 16:59:55 +0100 (ti, 13 jan 2015)
-*  Revision:       42365
+*  Revised:        2015-07-23 12:59:29 +0200 (Thu, 23 Jul 2015)
+*  Revision:       44197
 *
 *  Description:    Driver for the RF Core.
 *
@@ -37,5 +37,33 @@
 ******************************************************************************/
 
 #include <driverlib/rfc.h>
+
+//*****************************************************************************
+//
+//! Get and clear CPE interrupt flags
+//
+//*****************************************************************************
+uint32_t RFCCpeIntGetAndClear(void)
+{
+    uint32_t ui32Ifg = HWREG(RFC_DBELL_BASE+RFC_DBELL_O_RFCPEIFG);
+
+    do {
+        HWREG(RFC_DBELL_BASE+RFC_DBELL_O_RFCPEIFG) = 0;
+    } while (HWREG(RFC_DBELL_BASE+RFC_DBELL_O_RFCPEIFG));
+
+	return (ui32Ifg);
+}
+
+
+//*****************************************************************************
+//
+// Handle support for DriverLib in ROM:
+// This section will undo prototype renaming made in the header file
+//
+//*****************************************************************************
+#if !defined(DOXYGEN)
+    #undef  RFCCpeIntGetAndClear
+    #define RFCCpeIntGetAndClear            NOROM_RFCCpeIntGetAndClear
+#endif
 
 // See rfc.h for implementation

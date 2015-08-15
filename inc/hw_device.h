@@ -1,6 +1,6 @@
 /******************************************************************************
 *  Filename:       hw_device.h
-*  Revised:        2015-02-10 13:17:04 +0100 (ti, 10 feb 2015)
+*  Revised:        2015-02-10 13:17:04 +0100 (Tue, 10 Feb 2015)
 *  Revision:       42629
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated

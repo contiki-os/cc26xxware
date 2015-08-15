@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       flash.h
-*  Revised:        2015-02-03 14:18:59 +0100 (ti, 03 feb 2015)
-*  Revision:       42551
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the Flash driver.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup system_control_group
+//! @{
 //! \addtogroup flash_api
 //! @{
 //
@@ -80,10 +82,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define FlashPowerModeSet               NOROM_FlashPowerModeSet
     #define FlashPowerModeGet               NOROM_FlashPowerModeGet
     #define FlashProtectionSet              NOROM_FlashProtectionSet
@@ -91,7 +91,6 @@ extern "C"
     #define FlashProtectionSave             NOROM_FlashProtectionSave
     #define FlashSectorErase                NOROM_FlashSectorErase
     #define FlashProgram                    NOROM_FlashProgram
-    #define FlashProgramNowait              NOROM_FlashProgramNowait
     #define FlashEfuseReadRow               NOROM_FlashEfuseReadRow
     #define FlashDisableSectorsForWrite     NOROM_FlashDisableSectorsForWrite
 #endif
@@ -625,7 +624,7 @@ FlashIntStatus(void)
 //! asserts. This must be done in the interrupt handler to keep it from being
 //! called again immediately upon exit.
 //!
-//! \note Because there is a write buffer in the CM3, it may
+//! \note Because there is a write buffer in the System CPU, it may
 //! take several clock cycles before the interrupt source is actually cleared.
 //! Therefore, it is recommended that the interrupt source be cleared early in
 //! the interrupt handler (as opposed to the very last action) to avoid
@@ -770,7 +769,7 @@ extern void FlashDisableSectorsForWrite(void);
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_FlashPowerModeSet
         #undef  FlashPowerModeSet
@@ -800,10 +799,6 @@ extern void FlashDisableSectorsForWrite(void);
         #undef  FlashProgram
         #define FlashProgram                    ROM_FlashProgram
     #endif
-    #ifdef ROM_FlashProgramNowait
-        #undef  FlashProgramNowait
-        #define FlashProgramNowait              ROM_FlashProgramNowait
-    #endif
     #ifdef ROM_FlashEfuseReadRow
         #undef  FlashEfuseReadRow
         #define FlashEfuseReadRow               ROM_FlashEfuseReadRow
@@ -828,6 +823,7 @@ extern void FlashDisableSectorsForWrite(void);
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

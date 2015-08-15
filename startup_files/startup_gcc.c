@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       startup_gcc.c
-*  Revised:        $Date: 2014-03-13 14:58:46 +0100 (to, 13 mar 2014) $
-*  Revision:       $Revision: 12379 $
+*  Revised:        $Date: 2015-05-19 15:09:27 +0200 (ti, 19 mai 2015) $
+*  Revision:       $Revision: 15737 $
 *
 *  Description:    Startup code for CC26xx PG2 device family for use with GCC.
 *

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       rom.h
-*  Revised:        2015-04-09 11:58:21 +0200 (to, 09 apr 2015)
-*  Revision:       43183
+*  Revised:        2015-08-03 14:46:38 +0200 (Mon, 03 Aug 2015)
+*  Revision:       44311
 *
 *  Description:    Prototypes for the ROM utility functions.
 *
@@ -63,94 +63,58 @@ extern "C"
 //
 // ROM Hard-API function interface types
 //
-typedef uint32_t       (* FPTR_CRC32_T)                         \
-                                            (uint8_t* /*pui8Data*/,      \
-                                             uint32_t  /*ui32ByteCount*/,  \
-                                             uint32_t  /*ui32RepeatCount*/);
+typedef uint32_t     (* FPTR_CRC32_T)              ( uint8_t*     /* pui8Data        */,\
+                                                     uint32_t     /* ui32ByteCount   */,\
+                                                     uint32_t     /* ui32RepeatCount */);
 
-typedef uint32_t       (* FPTR_GETFLSIZE_T)                     \
-                                            (void);
+typedef uint32_t     (* FPTR_GETFLSIZE_T)          ( void );
 
-typedef uint32_t       (* FPTR_GETCHIPID_T)                     \
-                                            (void);
+typedef uint32_t     (* FPTR_GETCHIPID_T)          ( void );
 
-#if (CC_GET_CHIP_OPTION == CC_CHIP_OPTION_OTP)
-typedef uint32_t            (* volatile FPTR_DUMMY_T)                         \
-                                            (uint32_t  /*ui32Dummy*/);
+typedef uint32_t     (* FPTR_RESERVED1_T)          ( uint32_t );
 
-typedef uint32_t            (* volatile FPTR_PROGRAW_T)                       \
-                                            (uint8_t* /*pui8RamData*/,        \
-                                             uint32_t  /*ui32OtpAdr*/,        \
-                                             uint32_t  /*ui32Count*/);
+typedef uint32_t     (* FPTR_RESERVED2_T)          ( void );
 
-typedef uint32_t            (* volatile FPTR_PROGECC_T)                       \
-                                            (uint8_t* /*pui8RamData*/,        \
-                                             uint32_t  /*ui32OtpAdr*/,        \
-                                             uint32_t  /*ui32Count*/);
-#else
-typedef uint32_t       (* FPTR_RESERVED1_T)                     \
-                                            (uint32_t);
+typedef uint32_t     (* FPTR_RESERVED3_T)          ( uint8_t*                          ,\
+                                                     uint32_t                          ,\
+                                                     uint32_t                          );
+typedef void         (* FPTR_RESETDEV_T)           ( void );
 
-typedef uint32_t       (* FPTR_RESERVED2_T)                    \
-                                            (void);
+typedef uint32_t     (* FPTR_FLETCHER32_T)         ( uint16_t*    /* pui16Data       */,\
+                                                     uint16_t     /* ui16WordCount   */,\
+                                                     uint16_t     /* ui16RepeatCount */);
 
-typedef uint32_t       (* FPTR_RESERVED3_T)                    \
-                                            (uint8_t*,                  \
-                                             uint32_t,                  \
-                                             uint32_t);
-#endif
-typedef void                (* FPTR_RESETDEV_T)                      \
-                                            (void);
+typedef uint32_t     (* FPTR_MINVAL_T)             ( uint32_t*    /* ulpDataBuffer   */,\
+                                                     uint32_t     /* ui32DataCount   */);
 
-typedef uint32_t       (* FPTR_FLETCHER32_T)                    \
-                                            (uint16_t* /*pui16Data*/,      \
-                                             uint16_t  /*ui16WordCount*/,  \
-                                             uint16_t  /*ui16RepeatCount*/);
+typedef uint32_t     (* FPTR_MAXVAL_T)             ( uint32_t*    /* pui32DataBuffer */,\
+                                                     uint32_t     /* ui32DataCount   */);
 
-typedef uint32_t       (* FPTR_MINVAL_T)                        \
-                                            (uint32_t*  /*ulpDataBuffer*/,\
-                                             uint32_t   /*ui32DataCount*/);
+typedef uint32_t     (* FPTR_MEANVAL_T)            ( uint32_t*    /* pui32DataBuffer */,\
+                                                     uint32_t     /* ui32DataCount   */);
 
-typedef uint32_t       (* FPTR_MAXVAL_T)                        \
-                                            (uint32_t*  /*pui32DataBuffer*/,\
-                                             uint32_t   /*ui32DataCount*/);
+typedef uint32_t     (* FPTR_STDDVAL_T)            ( uint32_t*    /* pui32DataBuffer */,\
+                                                     uint32_t     /* ui32DataCount   */);
 
-typedef uint32_t       (* FPTR_MEANVAL_T)                       \
-                                            (uint32_t*   /*pui32DataBuffer*/,\
-                                             uint32_t    /*ui32DataCount*/);
+typedef void         (* FPTR_HFSOURCESAFESWITCH_T) ( void );
 
-typedef uint32_t       (* FPTR_STDDVAL_T)                       \
-                                            (uint32_t*   /*pui32DataBuffer*/,\
-                                             uint32_t    /*ui32DataCount*/);
+typedef void         (* FPTR_RESERVED4_T)          ( uint32_t                          );
 
-typedef void                (* FPTR_HFSOURCESAFESWITCH_T)            \
-                                            (void);
+typedef void         (* FPTR_RESERVED5_T)          ( uint32_t                          );
 
-typedef void                (* FPTR_RESETPERIPHERAL_T)               \
-                                            (uint32_t    /*ui32Peripheral*/);
+typedef void         (* FPTR_COMPAIN_T)            ( uint8_t      /* ut8Signal       */);
 
-typedef void                (* FPTR_RESETDOMAIN_T)                   \
-                                            (uint32_t    /*ui32Domain*/);
+typedef void         (* FPTR_COMPAREF_T)           ( uint8_t      /* ut8Signal       */);
 
-typedef void                (* FPTR_COMPAIN_T)                       \
-                                              (uint8_t /*ut8Signal*/);
+typedef void         (* FPTR_ADCCOMPBIN_T)         ( uint8_t      /* ut8Signal       */);
 
-typedef void                (* FPTR_COMPAREF_T)                      \
-                                              (uint8_t /*ut8Signal*/);
+typedef void         (* FPTR_COMPBREF_T)           ( uint8_t      /* ut8Signal       */);
 
-typedef void                (* FPTR_ADCCOMPBIN_T)                    \
-                                              (uint8_t /*ut8Signal*/);
-
-typedef void                (* FPTR_COMPBREF_T)                      \
-                                              (uint8_t /*ut8Signal*/);
-
-#if (CC_GET_CHIP_OPTION != CC_CHIP_OPTION_OTP)
 extern uint32_t MemBusWrkAroundHapiProgramFlash(uint8_t *pui8DataBuffer,
                                                 uint32_t ui32Address,
                                                 uint32_t ui32Count);
 
 extern uint32_t MemBusWrkAroundHapiEraseSector(uint32_t ui32Address);
-#endif
 
 //
 // ROM Hard-API access table type
@@ -158,29 +122,19 @@ extern uint32_t MemBusWrkAroundHapiEraseSector(uint32_t ui32Address);
 typedef struct
 {
     FPTR_CRC32_T                    Crc32;
-#if (CC_GET_CHIP_OPTION == CC_CHIP_OPTION_OTP)
-    FPTR_GETFLSIZE_T                OtpGetSize;
-#else
     FPTR_GETFLSIZE_T                FlashGetSize;
-#endif
     FPTR_GETCHIPID_T                GetChipId;
-#if (CC_GET_CHIP_OPTION == CC_CHIP_OPTION_OTP)
-    FPTR_DUMMY_T                    Dummy;
-    FPTR_PROGRAW_T                  ProgramOtpRaw;
-    FPTR_PROGECC_T                  ProgramOtpEcc;
-#else
     FPTR_RESERVED1_T                ReservedLocation1;
     FPTR_RESERVED2_T                ReservedLocation2;
     FPTR_RESERVED3_T                ReservedLocation3;
-#endif
     FPTR_RESETDEV_T                 ResetDevice;
     FPTR_FLETCHER32_T               Fletcher32;
     FPTR_MINVAL_T                   MinValue;
     FPTR_MAXVAL_T                   MaxValue;
     FPTR_MEANVAL_T                  MeanValue;
     FPTR_STDDVAL_T                  StandDeviationValue;
-    FPTR_RESETPERIPHERAL_T          ResetPeripheral;    /* Test functions */
-    FPTR_RESETDOMAIN_T              ResetDomain;        /* Test functions */
+    FPTR_RESERVED4_T                ReservedLocation4;
+    FPTR_RESERVED5_T                ReservedLocation5;
     FPTR_HFSOURCESAFESWITCH_T       HFSourceSafeSwitch;
     FPTR_COMPAIN_T                  SelectCompAInput;
     FPTR_COMPAREF_T                 SelectCompARef;
@@ -199,30 +153,16 @@ typedef struct
 extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define HapiCrc32(a,b,c)             P_HARD_API->Crc32(a,b,c)
-#if (CC_GET_CHIP_OPTION == CC_CHIP_OPTION_OTP)
-#define HapiGetOtpSize()             P_HARD_API->OtpGetSize()
-#else
 #define HapiGetFlashSize()           P_HARD_API->FlashGetSize()
-#endif
 #define HapiGetChipId()              P_HARD_API->GetChipId()
-#if (CC_GET_CHIP_OPTION == CC_CHIP_OPTION_OTP)
-#define HapiDummy(a)                 P_HARD_API->Dummy(a)
-#define HapiProgramOtpRaw(a,b,c)     P_HARD_API->ProgramOtpRaw(a,b,c)
-#define HapiProgramOtpEcc(a,b,c)     P_HARD_API->ProgramOtpEcc(a,b,c)
-#else
 #define HapiSectorErase(a)           MemBusWrkAroundHapiEraseSector(a)
 #define HapiProgramFlash(a,b,c)      MemBusWrkAroundHapiProgramFlash(a,b,c)
-#endif
 #define HapiResetDevice()            P_HARD_API->ResetDevice()
 #define HapiFletcher32(a,b,c)        P_HARD_API->Fletcher32(a,b,c)
 #define HapiMinValue(a,b)            P_HARD_API->MinValue(a,b)
 #define HapiMaxValue(a,b)            P_HARD_API->MaxValue(a,b)
 #define HapiMeanValue(a,b)           P_HARD_API->MeanValue(a,b)
 #define HapiStandDeviationValue(a,b) P_HARD_API->StandDeviationValue(a,b)
-/* Test function */
-#define HapiResetPeripheral(a)       P_HARD_API->ResetPeripheral(a)
-/* Test function */
-#define HapiResetDomain(a)           P_HARD_API->ResetDomain(a)
 #define HapiHFSourceSafeSwitch()     P_HARD_API->HFSourceSafeSwitch()
 #define HapiSelectCompAInput(a)      SafeHapiAuxAdiSelect( P_HARD_API->SelectCompAInput   , a )
 #define HapiSelectCompARef(a)        SafeHapiAuxAdiSelect( P_HARD_API->SelectCompARef     , a )
@@ -248,9 +188,9 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 // The define values can not be changed!
 //
 #define COMPA_REF_NC           0x00
-#define COMPA_REF_VDD1P2V      0x01
-#define COMPA_REF_VSSA         0x02
-#define COMPA_REF_VDDA3P3V     0x03
+#define COMPA_REF_DCOUPL       0x01
+#define COMPA_REF_VSS          0x02
+#define COMPA_REF_VDDS         0x03
 #define COMPA_REF_ADCVREFP     0x04
 #define COMPA_REF_AUXIO7       0x09
 #define COMPA_REF_AUXIO6       0x0A
@@ -266,9 +206,9 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 // The define values can not be changed!
 //
 #define ADC_COMPB_IN_NC        0x00
-#define ADC_COMPB_IN_VDD1P2V   0x03
-#define ADC_COMPB_IN_VSSA      0x04
-#define ADC_COMPB_IN_VDDA3P3V  0x05
+#define ADC_COMPB_IN_DCOUPL    0x03
+#define ADC_COMPB_IN_VSS       0x04
+#define ADC_COMPB_IN_VDDS      0x05
 #define ADC_COMPB_IN_AUXIO7    0x09
 #define ADC_COMPB_IN_AUXIO6    0x0A
 #define ADC_COMPB_IN_AUXIO5    0x0B
@@ -282,10 +222,10 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 // Defines for input parameter to the HapiSelectCompBRef function.
 // The define values can not be changed!
 //
-#define COMPB_REF_NC            0x00
-#define COMPB_REF_VDD1P2V       0x01
-#define COMPB_REF_VSSA          0x02
-#define COMPB_REF_VDDA3P3V      0x03
+#define COMPB_REF_NC           0x00
+#define COMPB_REF_DCOUPL       0x01
+#define COMPB_REF_VSS          0x02
+#define COMPB_REF_VDDS         0x03
 
 #endif // __HAPI_H_
 
@@ -305,11 +245,7 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define ROM_AUX_TIMERTABLE      ((uint32_t *)(ROM_APITABLE[7]))
 #define ROM_AUX_WUCTABLE        ((uint32_t *)(ROM_APITABLE[8]))
 #define ROM_DDITABLE            ((uint32_t *)(ROM_APITABLE[9]))
-#if (CC_GET_CHIP_OPTION == CC_CHIP_OPTION_OTP)
-#define ROM_OTPTABLE            ((uint32_t *)(ROM_APITABLE[10]))
-#else
 #define ROM_FLASHTABLE          ((uint32_t *)(ROM_APITABLE[10]))
-#endif
 #define ROM_I2CTABLE            ((uint32_t *)(ROM_APITABLE[11]))
 #define ROM_INTERRUPTTABLE      ((uint32_t *)(ROM_APITABLE[12]))
 #define ROM_IOCTABLE            ((uint32_t *)(ROM_APITABLE[13]))
@@ -328,7 +264,6 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 // Macros for calling ROM functions in the AON_EVENT API.
 //
 //*****************************************************************************
-
 #define ROM_AONEventMcuWakeUpSet                                              \
         ((void (*)(uint32_t ui32MCUWUEvent,                                   \
                    uint32_t ui32EventSrc))ROM_AON_EVENTTABLE[0])
@@ -349,12 +284,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_AONEventMcuGet                                                    \
         ((uint32_t (*)(uint32_t ui32MCUEvent))ROM_AON_EVENTTABLE[5])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the AON_IOC API.
 //
 //*****************************************************************************
-
 #define ROM_AONIOCDriveStrengthSet                                            \
         ((void (*)(uint32_t ui32LowDrvStr,                                    \
                    uint32_t ui32MedDrvStr,                                    \
@@ -362,58 +297,18 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_AONIOCDriveStrengthGet                                            \
         ((uint32_t (*)(uint32_t ui32DriveLevel))ROM_AON_IOCTABLE[1])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the AON_RTC API.
 //
 //*****************************************************************************
 
-#define ROM_AONRTCStatus                                                      \
-        ((uint32_t (*)(void))ROM_AON_RTCTABLE[0])
-
-#define ROM_AONRTCEventClear                                                  \
-        ((void (*)(uint32_t ui32Channel))ROM_AON_RTCTABLE[1])
-
-#define ROM_AONRTCEventGet                                                    \
-        ((bool (*)(uint32_t ui32Channel))ROM_AON_RTCTABLE[2])
-
-#define ROM_AONRTCModeCh1Set                                                  \
-        ((void (*)(uint32_t ui32Mode))ROM_AON_RTCTABLE[3])
-
-#define ROM_AONRTCModeCh1Get                                                  \
-        ((uint32_t (*)(void))ROM_AON_RTCTABLE[4])
-
-#define ROM_AONRTCModeCh2Set                                                  \
-        ((void (*)(uint32_t ui32Mode))ROM_AON_RTCTABLE[5])
-
-#define ROM_AONRTCModeCh2Get                                                  \
-        ((uint32_t (*)(void))ROM_AON_RTCTABLE[6])
-
-#define ROM_AONRTCChannelEnable                                               \
-        ((void (*)(uint32_t ui32Channel))ROM_AON_RTCTABLE[7])
-
-#define ROM_AONRTCChannelDisable                                              \
-        ((void (*)(uint32_t ui32Channel))ROM_AON_RTCTABLE[8])
-
-#define ROM_AONRTCCompareValueSet                                             \
-        ((void (*)(uint32_t ui32Channel,                                      \
-                   uint32_t ui32CompValue))ROM_AON_RTCTABLE[9])
-
-#define ROM_AONRTCCompareValueGet                                             \
-        ((uint32_t (*)(uint32_t ui32Channel))ROM_AON_RTCTABLE[10])
-
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the AON_WUC API.
 //
 //*****************************************************************************
-
-
-#define ROM_AONWUCAuxSRamConfig                                               \
-        ((void (*)(uint32_t ui32Retention))ROM_AON_WUCTABLE[1])
-
-#define ROM_AONWUCAuxWakeupEvent                                              \
-        ((void (*)(uint32_t ui32Mode))ROM_AON_WUCTABLE[2])
 
 #define ROM_AONWUCAuxReset                                                    \
         ((void (*)(void))ROM_AON_WUCTABLE[3])
@@ -433,7 +328,6 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 // Macros for calling ROM functions in the AUX_TDC API.
 //
 //*****************************************************************************
-
 #define ROM_AUXTDCConfigSet                                                   \
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t ui32StartCondition,                               \
@@ -441,12 +335,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_AUXTDCMeasurementDone                                             \
         ((uint32_t (*)(uint32_t ui32Base))ROM_AUX_TDCTABLE[1])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the AUX_TIMER API.
 //
 //*****************************************************************************
-
 #define ROM_AUXTimerConfigure                                                 \
         ((void (*)(uint32_t ui32Timer,                                        \
                    uint32_t ui32Config))ROM_AUX_TIMERTABLE[0])
@@ -463,12 +357,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_AUXTimerPrescaleGet                                               \
         ((uint32_t (*)(uint32_t ui32Timer))ROM_AUX_TIMERTABLE[4])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the AUX_WUC API.
 //
 //*****************************************************************************
-
 #define ROM_AUXWUCClockEnable                                                 \
         ((void (*)(uint32_t ui32Clocks))ROM_AUX_WUCTABLE[0])
 
@@ -480,58 +374,7 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_AUXWUCPowerCtrl                                                   \
         ((void (*)(uint32_t ui32PowerMode))ROM_AUX_WUCTABLE[3])
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the DDI API.
-//
-//*****************************************************************************
 
-
-#if (CC_GET_CHIP_OPTION == CC_CHIP_OPTION_OTP)
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the OTP API.
-//
-//*****************************************************************************
-
-#define ROM_OTPRawProgram                                                     \
-        ((uint32_t (*)(const void* pOtpAddr,                                  \
-                       void* pSrc,                                            \
-                       uint32_t ui32NoOfBytes))ROM_OTPTABLE[0])
-
-#define ROM_OTPEccProgram                                                     \
-        ((uint32_t (*)(const void* pOtpAddr,                                  \
-                       void* pSrc,                                            \
-                       uint32_t ui32NoOfBytes))ROM_OTPTABLE[1])
-
-#define ROM_OTPElemRawProgram                                                 \
-        ((uint32_t (*)(const void* pOtpAddr,                                  \
-                       void* pSrc,                                            \
-                       uint32_t ui32NoOfBytes,                                \
-                       const void** ppui32FailOtpAddr))ROM_OTPTABLE[2])
-
-#define ROM_OTPElemEccProgram                                                 \
-        ((uint32_t (*)(const void* pOtpAddr,                                  \
-                       void* pSrc,                                            \
-                       uint32_t ui32NoOfBytes,                                \
-                       const void** ppui32FailOtpAddr))ROM_OTPTABLE[3])
-
-#define ROM_OTPTrimForProgram                                                 \
-        ((void (*)(void))ROM_OTPTABLE[4])
-
-#define ROM_OTPEfuseReadRow                                                   \
-        ((bool (*)(uint32_t *pui32EfuseData,                                  \
-                   uint32_t ui32RowAddress))ROM_OTPTABLE[5])
-
-#define ROM_OTPRepair                                                         \
-        ((bool (*)(const void* pOtpAddr))ROM_OTPTABLE[6])
-
-#define ROM_OTPBrick                                                          \
-        ((bool (*)(uint32_t ui32Key))ROM_OTPTABLE[7])
-
-#define ROM_OTPGetFreeRepairs                                                 \
-        ((uint32_t (*)(void))ROM_OTPTABLE[8])
-#else
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the FLASH API.
@@ -557,13 +400,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_FlashDisableSectorsForWrite                                       \
         ((void (*)(void))ROM_FLASHTABLE[9])
-#endif
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the I2C API.
 //
 //*****************************************************************************
-
 #define ROM_I2CMasterInitExpClk                                               \
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t ui32I2CClk,                                       \
@@ -571,12 +413,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_I2CMasterErr                                                      \
         ((uint32_t (*)(uint32_t ui32Base))ROM_I2CTABLE[1])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the INTERRUPT API.
 //
 //*****************************************************************************
-
 #define ROM_IntPriorityGroupingSet                                            \
         ((void (*)(uint32_t ui32Bits))ROM_INTERRUPTTABLE[0])
 
@@ -604,12 +446,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_IntPendClear                                                      \
         ((void (*)(uint32_t ui32Interrupt))ROM_INTERRUPTTABLE[8])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the IOC API.
 //
 //*****************************************************************************
-
 #define ROM_IOCPortConfigureSet                                               \
         ((void (*)(uint32_t ui32IOId,                                         \
                    uint32_t ui32PortId,                                       \
@@ -703,12 +545,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_IOCPinTypeAux                                                     \
         ((void (*)(uint32_t ui32IOId))ROM_IOCTABLE[21])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the PRCM API.
 //
 //*****************************************************************************
-
 #define ROM_PRCMInfClockConfigureSet                                          \
         ((void (*)(uint32_t ui32ClkDiv,                                       \
                    uint32_t ui32PowerMode))ROM_PRCMTABLE[0])
@@ -751,20 +593,21 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define ROM_PRCMDeepSleep                                                     \
         ((void (*)(void))ROM_PRCMTABLE[14])
 
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the SMPH API.
 //
 //*****************************************************************************
-
 #define ROM_SMPHAcquire                                                       \
         ((void (*)(uint32_t ui32Semaphore))ROM_SMPHTABLE[0])
+
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the SSI API.
 //
 //*****************************************************************************
-
 #define ROM_SSIConfigSetExpClk                                                \
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t ui32SSIClk,                                       \
@@ -788,12 +631,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define ROM_SSIDataGetNonBlocking                                             \
         ((int32_t (*)(uint32_t ui32Base,                                      \
                       uint32_t *pui32Data))ROM_SSITABLE[4])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the TIMER API.
 //
 //*****************************************************************************
-
 #define ROM_TimerConfigure                                                    \
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t ui32Config))ROM_TIMERTABLE[0])
@@ -802,11 +645,6 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t ui32Timer,                                        \
                    bool bInvert))ROM_TIMERTABLE[1])
-
-#define ROM_TimerTriggerControl                                               \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Timer,                                        \
-                   bool bEnable))ROM_TIMERTABLE[2])
 
 #define ROM_TimerStallControl                                                 \
         ((void (*)(uint32_t ui32Base,                                         \
@@ -817,6 +655,7 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t ui32Timer,                                        \
                    bool bWait))ROM_TIMERTABLE[4])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the TRNG API.
@@ -825,12 +664,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define ROM_TRNGNumberGet                                                     \
         ((uint32_t (*)(uint32_t ui32Word))ROM_TRNGTABLE[1])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the UART API.
 //
 //*****************************************************************************
-
 #define ROM_UARTFIFOLevelGet                                                  \
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t *pui32TxLevel,                                    \
@@ -864,12 +703,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define ROM_UARTCharPut                                                       \
         ((void (*)(uint32_t ui32Base,                                         \
                    uint8_t ui8Data))ROM_UARTTABLE[7])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the UDMA API.
 //
 //*****************************************************************************
-
 #define ROM_uDMAChannelAttributeEnable                                        \
         ((void (*)(uint32_t ui32Base,                                         \
                    uint32_t ui32ChannelNum,                                   \
@@ -903,12 +742,12 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define ROM_uDMAChannelModeGet                                                \
         ((uint32_t (*)(uint32_t ui32Base,                                     \
                        uint32_t ui32ChannelStructIndex))ROM_UDMATABLE[7])
+
 //*****************************************************************************
 //
 // Macros for calling ROM functions in the VIMS API.
 //
 //*****************************************************************************
-
 #define ROM_VIMSConfigure                                                     \
         ((void (*)(uint32_t ui32Base,                                         \
                    bool bRoundRobin,                                          \

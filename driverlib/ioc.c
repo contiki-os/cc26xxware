@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       ioc.c
-*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
-*  Revision:       42989
+*  Revised:        2015-05-08 15:23:45 +0200 (Fri, 08 May 2015)
+*  Revision:       43451
 *
 *  Description:    Driver for the IOC.
 *
@@ -44,7 +44,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  IOCPortConfigureSet
     #define IOCPortConfigureSet             NOROM_IOCPortConfigureSet
     #undef  IOCPortConfigureGet
@@ -390,7 +390,7 @@ IOCIOSlewCtrlSet(uint32_t ui32IOId, uint32_t ui32SlewEnable)
 
 //*****************************************************************************
 //
-//! Configure the drive strength and maxium current of an IO port
+//! Configure the drive strength and maximum current of an IO port
 //
 //*****************************************************************************
 void

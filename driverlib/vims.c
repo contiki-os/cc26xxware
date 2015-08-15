@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       vims.c
-*  Revised:        2015-03-04 13:37:39 +0100 (on, 04 mar 2015)
-*  Revision:       42883
+*  Revised:        2015-05-08 15:31:06 +0200 (Fri, 08 May 2015)
+*  Revision:       43457
 *
 *  Description:    Driver for the VIMS.
 *
@@ -44,7 +44,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  VIMSConfigure
     #define VIMSConfigure                   NOROM_VIMSConfigure
     #undef  VIMSModeSet
@@ -149,14 +149,14 @@ VIMSModeGet(uint32_t ui32Base)
 // - Function is blocking
 // - Can be called for any mode change (also if actually not changing mode)
 // Note: The shift operators (VIMS_CTL_MODE_S and VIMS_STAT_MODE_S) is not
-//       used bacause we know that they both are = 0.
+//       used because we know that they both are = 0.
 //
 //*****************************************************************************
 void
 VIMSModeSetBlocking( uint32_t ui32Mode )
 {
    //
-   // Make sure that only the mode bits are set (just for sequirity)
+   // Make sure that only the mode bits are set (just for security)
    //
    ui32Mode &= VIMS_CTL_MODE_M;
 

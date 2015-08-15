@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ssi_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-21 09:44:02 +0200 (Thu, 21 May 2015)
+*  Revision:       43546
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -83,7 +83,7 @@
 // Serial clock rate:
 // This is used to generate the transmit and receive bit rate of the SSI. The
 // bit rate is
-// (SSI&#39;s clock frequency)/((SCR+1)*CPSR.CPSDVSR).
+// (SSI's clock frequency)/((SCR+1)*CPSR.CPSDVSR).
 // SCR is a value from 0-255.
 #define SSI_CR0_SCR_M                                               0x0000FF00
 #define SSI_CR0_SCR_S                                                        8
@@ -97,9 +97,9 @@
 // permitting a clock transition before the first data capture edge.
 // ENUMs:
 // 2ND_CLK_EDGE             Data is captured on the second clock edge
-// transition.
+//                          transition.
 // 1ST_CLK_EDGE             Data is captured on the first clock edge
-// transition.
+//                          transition.
 #define SSI_CR0_SPH                                                 0x00000080
 #define SSI_CR0_SPH_BITN                                                     7
 #define SSI_CR0_SPH_M                                               0x00000080
@@ -112,9 +112,10 @@
 // CLKOUT polarity (Motorola SPI frame format only)
 // ENUMs:
 // HIGH                     SSI produces a steady state HIGH value on the
-// CLKOUT pin when data is not being transferred.
+//                          CLKOUT pin when data is not being transferred.
 // LOW                      SSI produces a steady state LOW value on the
-// CLKOUT pin when data is not being transferred.
+//                          CLKOUT pin when data is
+//                          not being transferred.
 #define SSI_CR0_SPO                                                 0x00000040
 #define SSI_CR0_SPO_BITN                                                     6
 #define SSI_CR0_SPO_M                                               0x00000040
@@ -127,7 +128,7 @@
 // Frame format.
 // The supported frame formats are Motorola SPI, TI synchronous serial and
 // National Microwire.
-// Value 0&#39;b11 is reserved and shall not be used.
+// Value 0'b11 is reserved and shall not be used.
 // ENUMs:
 // NATIONAL_MICROWIRE       National Microwire frame format
 // TI_SYNC_SERIAL           TI synchronous serial frame format

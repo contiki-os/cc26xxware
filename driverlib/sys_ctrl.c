@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       sys_ctrl.c
-*  Revised:        2015-04-10 10:07:11 +0200 (fr, 10 apr 2015)
-*  Revision:       43196
+*  Revised:        2015-06-08 08:49:51 +0200 (Mon, 08 Jun 2015)
+*  Revision:       43812
 *
 *  Description:    Driver for the System Control.
 *
@@ -49,7 +49,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  SysCtrlPowerEverything
     #define SysCtrlPowerEverything          NOROM_SysCtrlPowerEverything
     #undef  SysCtrlStandby
@@ -131,7 +131,7 @@ SysCtrlPowerEverything(void)
     // Enable all the AUX domain clocks and wait for them to be ready
     //
     ui32AuxClocks = AUX_WUC_ADI_CLOCK | AUX_WUC_OSCCTRL_CLOCK |
-                    AUX_WUC_TDCIF_CLOCK | AUX_WUC_SOC_CLOCK |
+                    AUX_WUC_TDCIF_CLOCK | AUX_WUC_ANAIF_CLOCK |
                     AUX_WUC_TIMER_CLOCK | AUX_WUC_AIODIO0_CLOCK |
                     AUX_WUC_AIODIO1_CLOCK | AUX_WUC_SMPH_CLOCK |
                     AUX_WUC_TDC_CLOCK | AUX_WUC_ADC_CLOCK |
@@ -192,7 +192,7 @@ SysCtrlPowerEverything(void)
     HWREG(RFC_PWR_NONBUF_BASE + RFC_PWR_O_PWMCLKEN) = 0x7FF;
 
     //
-    // Enable all peripheral clocks in CM3 run/sleep/deep-sleep mode.
+    // Enable all peripheral clocks in System CPU run/sleep/deep-sleep mode.
     //
     for(ui32Idx = 0; ui32Idx < sizeof(g_pui32ModuleCG) / sizeof(uint32_t);
         ui32Idx++)
@@ -331,7 +331,7 @@ SysCtrlShutdown(void)
 //
 //*****************************************************************************
 void
-SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
+SysCtrlSetRechargeBeforePowerDown( uint32_t xoscPowerMode )
 {
    int32_t           curTemp           ;
    int32_t           shiftedTemp       ;
@@ -373,7 +373,7 @@ SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
    if ( prcmRamRetention & PRCM_RAMRETEN_RFC ) {
       curState |= PD_STATE_RFMEM_RET;
    }
-   if ( xoscPowerMode != XoscInHighPowerMode ) {
+   if ( xoscPowerMode != XOSC_IN_HIGH_POWER_MODE ) {
       curState |= PD_STATE_XOSC_LPM;
    }
 
@@ -495,7 +495,7 @@ SysCtrlSetRechargeBeforePowerDown( XoscPowerMode_t xoscPowerMode )
    perM = ( perM - 15 ) >> 4;
 
    HWREG( AON_WUC_BASE + AON_WUC_O_RECHARGECFG ) =
-      ( 0x80A4FF00                          ) |
+      ( 0x80A4E700                          ) |
       ( perM << AON_WUC_RECHARGECFG_PER_M_S ) |
       ( perE << AON_WUC_RECHARGECFG_PER_E_S ) ;
    HWREG( AON_WUC_BASE + AON_WUC_O_RECHARGESTAT ) = 0;

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       udma.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-08-03 10:40:26 +0200 (Mon, 03 Aug 2015)
+*  Revision:       44307
 *
 *  Description:    Defines and prototypes for the uDMA controller.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup peripheral_group
+//! @{
 //! \addtogroup udma_api
 //! @{
 //
@@ -78,10 +80,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define uDMAChannelAttributeEnable      NOROM_uDMAChannelAttributeEnable
     #define uDMAChannelAttributeDisable     NOROM_uDMAChannelAttributeDisable
     #define uDMAChannelAttributeGet         NOROM_uDMAChannelAttributeGet
@@ -1123,7 +1123,7 @@ uDMAIntSwEventEnable(uint32_t ui32Base, uint32_t ui32IntChannel)
     //
     // Enable the channel.
     //
-    HWREG(ui32Base + UDMA_O_DONEMASK) |= 1 << ui32IntChannel;
+    HWREGBITW(ui32Base + UDMA_O_DONEMASK, ui32IntChannel) = 1;
 }
 
 //*****************************************************************************
@@ -1154,7 +1154,7 @@ uDMAIntSwEventDisable(uint32_t ui32Base, uint32_t ui32IntChannel)
     //
     // Disable the SW channel.
     //
-    HWREG(ui32Base + UDMA_O_DONEMASK) &= ~(1 << ui32IntChannel);
+    HWREGBITW(ui32Base + UDMA_O_DONEMASK, ui32IntChannel) = 0;
 }
 
 //*****************************************************************************
@@ -1272,7 +1272,7 @@ uDMAChannelPriorityClear(uint32_t ui32Base, uint32_t ui32ChannelNum)
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_uDMAChannelAttributeEnable
         #undef  uDMAChannelAttributeEnable
@@ -1322,6 +1322,7 @@ uDMAChannelPriorityClear(uint32_t ui32Base, uint32_t ui32ChannelNum)
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

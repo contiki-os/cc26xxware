@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       chipinfo.h
-*  Revised:        2015-04-15 13:12:25 +0200 (on, 15 apr 2015)
-*  Revision:       43227
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Collection of functions returning chip information.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup system_control_group
+//! @{
 //! \addtogroup ChipInfo
 //! @{
 //
@@ -434,6 +436,7 @@ extern void ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated( void );
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

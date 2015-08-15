@@ -1,9 +1,9 @@
 /******************************************************************************
 *  Filename:       ssi.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
-*  Description:    Defines and macroes for the SSI.
+*  Description:    Defines and macros for the SSI.
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup peripheral_group
+//! @{
 //! \addtogroup ssi_api
 //! @{
 //
@@ -78,10 +80,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define SSIConfigSetExpClk              NOROM_SSIConfigSetExpClk
     #define SSIDataPut                      NOROM_SSIDataPut
     #define SSIDataPutNonBlocking           NOROM_SSIDataPutNonBlocking
@@ -399,7 +399,7 @@ SSIBusy(uint32_t ui32Base)
 //
 //! \brief Get the status of the SSI data buffers.
 //!
-//! This funtion is used to poll the status of the internal FIFOs in the SSI
+//! This function is used to poll the status of the internal FIFOs in the SSI
 //! module. The status of both TX and RX FIFO is returned.
 //!
 //! \param ui32Base specifies the SSI module base address.
@@ -536,7 +536,7 @@ SSIIntDisable(uint32_t ui32Base, uint32_t ui32IntFlags)
 //! assert. This function must be called in the interrupt handler to keep the
 //! interrupts from being recognized again immediately upon exit.
 //!
-//! \note Because there is a write buffer in the Cortex-M3 processor, it may
+//! \note Because there is a write buffer in the System CPU, it may
 //! take several clock cycles before the interrupt source is actually cleared.
 //! Therefore, it is recommended that the interrupt source be cleared early in
 //! the interrupt handler (as opposed to the very last action) to avoid
@@ -679,7 +679,7 @@ SSIDMADisable(uint32_t ui32Base, uint32_t ui32DMAFlags)
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_SSIConfigSetExpClk
         #undef  SSIConfigSetExpClk
@@ -725,6 +725,7 @@ SSIDMADisable(uint32_t ui32Base, uint32_t ui32DMAFlags)
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

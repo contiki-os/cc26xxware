@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_adi_3_refsys_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
+*  Revision:       43524
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -70,10 +70,10 @@
 // DCDC Control 3
 #define ADI_3_REFSYS_O_DCDCCTL3                                     0x00000009
 
-// DCDC Control 5
+// DCDC Control 4
 #define ADI_3_REFSYS_O_DCDCCTL4                                     0x0000000A
 
-// DCDC Control 6
+// DCDC Control 5
 #define ADI_3_REFSYS_O_DCDCCTL5                                     0x0000000B
 
 //*****************************************************************************
@@ -277,7 +277,7 @@
 // Field:   [7:5] GLDO_ISRC
 //
 // Set charge and re-charge current level.
-// 2&#39;s complement encoding.
+// 2's complement encoding.
 //
 // 0x0: Default 11mA.
 // 0x3: Max 15mA.
@@ -391,7 +391,8 @@
 // ENUMs:
 // VDDROK                   VDDR_OK connected to test bus.
 // IB1U                     1uA bias current connected to test bus.
-// PASSGATE                 Pass transistor gate voltage connected to test bus.
+// PASSGATE                 Pass transistor gate voltage connected to test
+//                          bus.
 // ERRAMP_OUT               Error amp output voltage connected to test bus.
 // NC                       No signal connected to test bus.
 #define ADI_3_REFSYS_DCDCCTL2_TESTSEL_M                             0x0000000F

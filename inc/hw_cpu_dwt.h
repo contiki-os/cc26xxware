@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_cpu_dwt_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -343,8 +343,8 @@
 // Sleep counter. Counts the number of cycles during which the processor is
 // sleeping. An event is emitted on counter overflow (every 256 cycles). This
 // counter initializes to 0 when it is enabled using CTRL.SLEEPEVTENA. Note
-// that the sleep counter is clocked using CPU&#39;s free-running clock. In
-// some power modes the free-running clock to CPU is gated to minimize power
+// that the sleep counter is clocked using CPU's free-running clock. In some
+// power modes the free-running clock to CPU is gated to minimize power
 // consumption. This means that the sleep counter will be invalid in these
 // power modes.
 #define CPU_DWT_SLEEPCNT_SLEEPCNT_M                                 0x000000FF

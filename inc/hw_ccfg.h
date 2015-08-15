@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ccfg_h
-*  Revised:        2015-03-06 09:34:08 +0100 (fr, 06 mar 2015)
-*  Revision:       42900
+*  Revised:        2015-06-19 13:49:23 +0200 (Fri, 19 Jun 2015)
+*  Revision:       43999
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -118,8 +118,8 @@
 //
 // Unsigned integer, selecting the DIO to supply external 32kHz clock as
 // SCLK_LF when MODE_CONF.SCLK_LF_OPTION is set to EXTERNAL. The selected DIO
-// will be marked as reserved by the pin driver and must therefore be set to
-// 255 (0xFF) when unused.
+// will be marked as reserved by the pin driver (TI-RTOS environment) and hence
+// not selectable for other usage.
 #define CCFG_EXT_LF_CLK_DIO_M                                       0xFF000000
 #define CCFG_EXT_LF_CLK_DIO_S                                               24
 
@@ -213,13 +213,29 @@
 #define CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_M                      0xFFFF0000
 #define CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_S                              16
 
-// Field:  [15:2] DISABLE_FLAGS
+// Field:  [15:3] DISABLE_FLAGS
 //
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
-#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M                     0x0000FFFC
-#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S                              2
+#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M                     0x0000FFF8
+#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S                              3
+
+// Field:     [2] DIS_GPRAM
+//
+// Disable GPRAM (or use the 8K VIMS RAM as CACHE RAM).
+// 0: GPRAM is enabled and hence CACHE disabled.
+// 1: GPRAM is disabled and instead CACHE is enabled (default).
+// Notes:
+// - Disabling CACHE will reduce CPU execution speed (up to 60%).
+// - GPRAM is 8 K-bytes in size and located at 0x11000000-0x11001FFF if
+// enabled.
+// See:
+// VIMS:CTL.MODE
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM                           0x00000004
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM_BITN                               2
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM_M                         0x00000004
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM_S                                  2
 
 // Field:     [1] DIS_ALT_DCDC_SETTING
 //
@@ -592,16 +608,16 @@
 //
 // Bootloader enable. Boot loader can be accessed if
 // IMAGE_VALID_CONF.IMAGE_VALID is non-zero or BL_ENABLE is enabled (and
-// conditions for failure analysis are met).
-// 0xC5: Boot loader is enabled
-// Any other value: Boot loader is disabled
+// conditions for boot loader backdoor are met).
+// 0xC5: Boot loader is enabled.
+// Any other value: Boot loader is disabled.
 #define CCFG_BL_CONFIG_BOOTLOADER_ENABLE_M                          0xFF000000
 #define CCFG_BL_CONFIG_BOOTLOADER_ENABLE_S                                  24
 
 // Field:    [16] BL_LEVEL
 //
-// Sets the active level of the selected pin if boot loader failure analysis is
-// enabled.
+// Sets the active level of the selected DIO number BL_PIN_NUMBER if boot
+// loader backdoor is enabled by the BL_ENABLE field.
 // 0: Active low.
 // 1: Active high.
 #define CCFG_BL_CONFIG_BL_LEVEL                                     0x00010000
@@ -611,19 +627,19 @@
 
 // Field:  [15:8] BL_PIN_NUMBER
 //
-// DIO number that is level checked if the boot loader failure analysis is
-// enabled.
+// DIO number that is level checked if the boot loader backdoor is enabled by
+// the BL_ENABLE field.
 #define CCFG_BL_CONFIG_BL_PIN_NUMBER_M                              0x0000FF00
 #define CCFG_BL_CONFIG_BL_PIN_NUMBER_S                                       8
 
 // Field:   [7:0] BL_ENABLE
 //
-// Enables the boot loader failure analysis.
-// 0xC5: Failure analysis enabled.
-// Any other value: Failure analysis disabled.
+// Enables the boot loader backdoor.
+// 0xC5: Boot loader backdoor is enabled.
+// Any other value: Boot loader backdoor is disabled.
 //
-// NOTE! Boot loader must be enabled (see BOOTLOADER_ENABLE) if failure
-// analysis is enabled.
+// NOTE! Boot loader must be enabled (see BOOTLOADER_ENABLE) if boot loader
+// backdoor is enabled.
 #define CCFG_BL_CONFIG_BL_ENABLE_M                                  0x000000FF
 #define CCFG_BL_CONFIG_BL_ENABLE_S                                           0
 
@@ -635,6 +651,10 @@
 // Field:     [8] CHIP_ERASE_DIS_N
 //
 // Chip erase.
+// This bit controls if a chip erase requested through the JTAG WUC TAP will be
+// ignored in a following boot caused by a reset of the MCU VD.
+// A successful chip erase operation will force the content of the flash main
+// bank back to the state as it was when delivered by TI.
 // 0: Disable. Any chip erase request detected during boot will be ignored.
 // 1: Enable. Any chip erase request detected during boot will be performed by
 // the boot FW.
@@ -645,9 +665,11 @@
 
 // Field:     [0] BANK_ERASE_DIS_N
 //
-// Bank erase. This bit will be tested by the ROM boot loader in order to
-// verify if a received Bank Erase boot loader command can be executed or not.
-// Bank erase is also referred to as mass erase.
+// Bank erase.
+// This bit controls if the ROM serial boot loader will accept a received Bank
+// Erase command (COMMAND_BANK_ERASE).
+// A successful Bank Erase operation will erase all main bank sectors not
+// protected by write protect configuration bits in CCFG.
 // 0: Disable the boot loader bank erase function.
 // 1: Enable the boot loader bank erase function.
 #define CCFG_ERASE_CONF_BANK_ERASE_DIS_N                            0x00000001
@@ -678,29 +700,30 @@
 // Field: [23:16] CPU_DAP_ENABLE
 //
 // Enable CPU DAP.
-// 0xC5: AON_WUC:JTAGCFG.CPU_DAP will be set to 1 by boot FW while in safezone.
-// Any other value: AON_WUC:JTAGCFG.CPU_DAP will be set to 0 by boot FW while
-// in safezone.
+// 0xC5: Main CPU DAP access is enabled during power-up/system-reset by ROM
+// boot FW.
+// Any other value: Main CPU DAP access will remain disabled out of
+// power-up/system-reset.
 #define CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE_M                        0x00FF0000
 #define CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE_S                                16
 
 // Field:  [15:8] PRCM_TAP_ENABLE
 //
 // Enable PRCM TAP.
-// 0xC5: AON_WUC:JTAGCFG.PRCM_TAP will be set to 1 by boot FW while in
-// safezone.
-// Any other value: AON_WUC:JTAGCFG.PRCM_TAP will be set to 0 by boot FW while
-// in safezone.
+// 0xC5: PRCM TAP access is enabled during power-up/system-reset by ROM boot FW
+// if enabled by corresponding configuration value in FCFG1 defined by TI.
+// Any other value: PRCM TAP access will remain disabled out of
+// power-up/system-reset.
 #define CCFG_CCFG_TAP_DAP_0_PRCM_TAP_ENABLE_M                       0x0000FF00
 #define CCFG_CCFG_TAP_DAP_0_PRCM_TAP_ENABLE_S                                8
 
 // Field:   [7:0] TEST_TAP_ENABLE
 //
 // Enable Test TAP.
-// 0xC5: AON_WUC:JTAGCFG.TEST_TAP will be set to 1 by boot FW while in
-// safezone.
-// Any other value: AON_WUC:JTAGCFG.TEST_TAP will be set to 0 by boot FW while
-// in safezone.
+// 0xC5: TEST TAP access is enabled during power-up/system-reset by ROM boot FW
+// if enabled by corresponding configuration value in FCFG1 defined by TI.
+// Any other value: TEST TAP access will remain disabled out of
+// power-up/system-reset.
 #define CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE_M                       0x000000FF
 #define CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE_S                                0
 
@@ -712,30 +735,30 @@
 // Field: [23:16] PBIST2_TAP_ENABLE
 //
 // Enable PBIST2 TAP.
-// 0xC5: AON_WUC:JTAGCFG.PBIST2_TAP will be set to 1 by boot FW while in
-// safezone.
-// Any other value: AON_WUC:JTAGCFG.PBIST2_TAP will be set to 0 by boot FW
-// while in safezone.
+// 0xC5: PBIST2 TAP access is enabled during power-up/system-reset by ROM boot
+// FW if enabled by corresponding configuration value in FCFG1 defined by TI.
+// Any other value: PBIST2 TAP access will remain disabled out of
+// power-up/system-reset.
 #define CCFG_CCFG_TAP_DAP_1_PBIST2_TAP_ENABLE_M                     0x00FF0000
 #define CCFG_CCFG_TAP_DAP_1_PBIST2_TAP_ENABLE_S                             16
 
 // Field:  [15:8] PBIST1_TAP_ENABLE
 //
 // Enable PBIST1 TAP.
-// 0xC5: AON_WUC:JTAGCFG.PBIST1_TAP will be set to 1 by boot FW while in
-// safezone.
-// Any other value: AON_WUC:JTAGCFG.PBIST1_TAP will be set to 0 by boot FW
-// while in safezone.
+// 0xC5: PBIST1 TAP access is enabled during power-up/system-reset by ROM boot
+// FW if enabled by corresponding configuration value in FCFG1 defined by TI.
+// Any other value: PBIST1 TAP access will remain disabled out of
+// power-up/system-reset.
 #define CCFG_CCFG_TAP_DAP_1_PBIST1_TAP_ENABLE_M                     0x0000FF00
 #define CCFG_CCFG_TAP_DAP_1_PBIST1_TAP_ENABLE_S                              8
 
 // Field:   [7:0] WUC_TAP_ENABLE
 //
 // Enable WUC TAP
-// 0xC5: AON_WUC:JTAGCFG.WUC_TAP will be set to 1 by boot FW while in safezone.
-//
-// Any other value: AON_WUC:JTAGCFG.WUC_TAP will be set to 0 by boot FW while
-// in safezone.
+// 0xC5: WUC TAP access is enabled during power-up/system-reset by ROM boot FW
+// if enabled by corresponding configuration value in FCFG1 defined by TI.
+// Any other value: WUC TAP access will remain disabled out of
+// power-up/system-reset.
 #define CCFG_CCFG_TAP_DAP_1_WUC_TAP_ENABLE_M                        0x000000FF
 #define CCFG_CCFG_TAP_DAP_1_WUC_TAP_ENABLE_S                                 0
 

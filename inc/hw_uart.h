@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_uart_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
+*  Revision:       43524
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -402,10 +402,10 @@
 //
 // UART Enable FIFOs
 // ENUMs:
-// EN                       Transmit and receive FIFO buffers are enabled (FIFO
-// mode)
+// EN                       Transmit and receive FIFO buffers are enabled
+//                          (FIFO mode)
 // DIS                      FIFOs are disabled (character mode) that is, the
-// FIFOs become 1-byte-deep holding registers.
+//                          FIFOs become 1-byte-deep holding registers.
 #define UART_LCRH_FEN                                               0x00000010
 #define UART_LCRH_FEN_BITN                                                   4
 #define UART_LCRH_FEN_M                                             0x00000010
@@ -428,9 +428,9 @@
 // UART Even Parity Select
 // ENUMs:
 // EVEN                     Even parity: The UART generates or checks for an
-// even number of 1s in the data and parity bits.
-// ODD                      Odd parity: The UART generates or checks for an odd
-// number of 1s in the data and parity bits.
+//                          even number of 1s in the data and parity bits.
+// ODD                      Odd parity: The UART generates or checks for an
+//                          odd number of 1s in the data and parity bits.
 #define UART_LCRH_EPS                                               0x00000004
 #define UART_LCRH_EPS_BITN                                                   2
 #define UART_LCRH_EPS_M                                             0x00000004
@@ -445,7 +445,7 @@
 // ENUMs:
 // EN                       Parity checking and generation is enabled.
 // DIS                      Parity is disabled and no parity bit is added to
-// the data frame
+//                          the data frame
 #define UART_LCRH_PEN                                               0x00000002
 #define UART_LCRH_PEN_BITN                                                   1
 #define UART_LCRH_PEN_M                                             0x00000002
@@ -576,11 +576,11 @@
 // This field sets the trigger points for the receive interrupt. Values
 // 0b101-0b111 are reserved.
 // ENUMs:
-// 7_8                      Receive FIFO becomes &#62;= 7/8 full
-// 6_8                      Receive FIFO becomes &#62;= 3/4 full
-// 4_8                      Receive FIFO becomes &#62;= 1/2 full
-// 2_8                      Receive FIFO becomes &#62;= 1/4 full
-// 1_8                      Receive FIFO becomes &#62;= 1/8 full
+// 7_8                      Receive FIFO becomes >= 7/8 full
+// 6_8                      Receive FIFO becomes >= 3/4 full
+// 4_8                      Receive FIFO becomes >= 1/2 full
+// 2_8                      Receive FIFO becomes >= 1/4 full
+// 1_8                      Receive FIFO becomes >= 1/8 full
 #define UART_IFLS_RXSEL_M                                           0x00000038
 #define UART_IFLS_RXSEL_S                                                    3
 #define UART_IFLS_RXSEL_7_8                                         0x00000020
@@ -595,11 +595,11 @@
 // This field sets the trigger points for the transmit interrupt. Values
 // 0b101-0b111 are reserved.
 // ENUMs:
-// 7_8                      Transmit FIFO becomes &#60;= 7/8 full
-// 6_8                      Transmit FIFO becomes &#60;= 3/4 full
-// 4_8                      Transmit FIFO becomes &#60;= 1/2 full
-// 2_8                      Transmit FIFO becomes &#60;= 1/4 full
-// 1_8                      Transmit FIFO becomes &#60;= 1/8 full
+// 7_8                      Transmit FIFO becomes <= 7/8 full
+// 6_8                      Transmit FIFO becomes <= 3/4 full
+// 4_8                      Transmit FIFO becomes <= 1/2 full
+// 2_8                      Transmit FIFO becomes <= 1/4 full
+// 1_8                      Transmit FIFO becomes <= 1/8 full
 #define UART_IFLS_TXSEL_M                                           0x00000007
 #define UART_IFLS_TXSEL_S                                                    0
 #define UART_IFLS_TXSEL_7_8                                         0x00000004
@@ -615,7 +615,7 @@
 //*****************************************************************************
 // Field:    [10] OEIM
 //
-// Overrun error interrupt mask. A read returns the current mask for UART&#39;s
+// Overrun error interrupt mask. A read returns the current mask for UART's
 // overrun error interrupt. On a write of 1, the mask of the overrun error
 // interrupt is set which means the interrupt state will be reflected in
 // MIS.OEMIS. A write of 0 clears the mask which means MIS.OEMIS will not
@@ -627,11 +627,10 @@
 
 // Field:     [9] BEIM
 //
-// Break error interrupt mask. A read returns the current mask for UART&#39;s
-// break error interrupt. On a write of 1, the mask of the overrun error
-// interrupt is set which means the interrupt state will be reflected in
-// MIS.BEMIS. A write of 0 clears the mask which means MIS.BEMIS will not
-// reflect the interrupt.
+// Break error interrupt mask. A read returns the current mask for UART's break
+// error interrupt. On a write of 1, the mask of the overrun error interrupt is
+// set which means the interrupt state will be reflected in MIS.BEMIS. A write
+// of 0 clears the mask which means MIS.BEMIS will not reflect the interrupt.
 #define UART_IMSC_BEIM                                              0x00000200
 #define UART_IMSC_BEIM_BITN                                                  9
 #define UART_IMSC_BEIM_M                                            0x00000200
@@ -639,7 +638,7 @@
 
 // Field:     [8] PEIM
 //
-// Parity error interrupt mask. A read returns the current mask for UART&#39;s
+// Parity error interrupt mask. A read returns the current mask for UART's
 // parity error interrupt. On a write of 1, the mask of the overrun error
 // interrupt is set which means the interrupt state will be reflected in
 // MIS.PEMIS. A write of 0 clears the mask which means MIS.PEMIS will not
@@ -651,7 +650,7 @@
 
 // Field:     [7] FEIM
 //
-// Framing error interrupt mask. A read returns the current mask for UART&#39;s
+// Framing error interrupt mask. A read returns the current mask for UART's
 // framing error interrupt. On a write of 1, the mask of the overrun error
 // interrupt is set which means the interrupt state will be reflected in
 // MIS.FEMIS. A write of 0 clears the mask which means MIS.FEMIS will not
@@ -663,11 +662,11 @@
 
 // Field:     [6] RTIM
 //
-// Receive timeout interrupt mask. A read returns the current mask for
-// UART&#39;s receive timeout interrupt. On a write of 1, the mask of the
-// overrun error interrupt is set which means the interrupt state will be
-// reflected in MIS.RTMIS. A write of 0 clears the mask which means this
-// bitfield will not reflect the interrupt.
+// Receive timeout interrupt mask. A read returns the current mask for UART's
+// receive timeout interrupt. On a write of 1, the mask of the overrun error
+// interrupt is set which means the interrupt state will be reflected in
+// MIS.RTMIS. A write of 0 clears the mask which means this bitfield will not
+// reflect the interrupt.
 // The raw interrupt for receive timeout RIS.RTRIS cannot be set unless the
 // mask is set (RTIM = 1). This is because the mask acts as an enable for power
 // saving. That is, the same status can be read from MIS.RTMIS and RIS.RTRIS.
@@ -678,11 +677,10 @@
 
 // Field:     [5] TXIM
 //
-// Transmit interrupt mask. A read returns the current mask for UART&#39;s
-// transmit interrupt. On a write of 1, the mask of the overrun error interrupt
-// is set which means the interrupt state will be reflected in MIS.TXMIS. A
-// write of 0 clears the mask which means MIS.TXMIS will not reflect the
-// interrupt.
+// Transmit interrupt mask. A read returns the current mask for UART's transmit
+// interrupt. On a write of 1, the mask of the overrun error interrupt is set
+// which means the interrupt state will be reflected in MIS.TXMIS. A write of 0
+// clears the mask which means MIS.TXMIS will not reflect the interrupt.
 #define UART_IMSC_TXIM                                              0x00000020
 #define UART_IMSC_TXIM_BITN                                                  5
 #define UART_IMSC_TXIM_M                                            0x00000020
@@ -690,11 +688,10 @@
 
 // Field:     [4] RXIM
 //
-// Receive interrupt mask. A read returns the current mask for UART&#39;s
-// receive interrupt. On a write of 1, the mask of the overrun error interrupt
-// is set which means the interrupt state will be reflected in MIS.RXMIS. A
-// write of 0 clears the mask which means MIS.RXMIS will not reflect the
-// interrupt.
+// Receive interrupt mask. A read returns the current mask for UART's receive
+// interrupt. On a write of 1, the mask of the overrun error interrupt is set
+// which means the interrupt state will be reflected in MIS.RXMIS. A write of 0
+// clears the mask which means MIS.RXMIS will not reflect the interrupt.
 #define UART_IMSC_RXIM                                              0x00000010
 #define UART_IMSC_RXIM_BITN                                                  4
 #define UART_IMSC_RXIM_M                                            0x00000010
@@ -703,10 +700,10 @@
 // Field:     [1] CTSMIM
 //
 // Clear to Send (CTS) modem interrupt mask. A read returns the current mask
-// for UART&#39;s clear to send interrupt. On a write of 1, the mask of the
-// overrun error interrupt is set which means the interrupt state will be
-// reflected in MIS.CTSMMIS. A write of 0 clears the mask which means
-// MIS.CTSMMIS will not reflect the interrupt.
+// for UART's clear to send interrupt. On a write of 1, the mask of the overrun
+// error interrupt is set which means the interrupt state will be reflected in
+// MIS.CTSMMIS. A write of 0 clears the mask which means MIS.CTSMMIS will not
+// reflect the interrupt.
 #define UART_IMSC_CTSMIM                                            0x00000002
 #define UART_IMSC_CTSMIM_BITN                                                1
 #define UART_IMSC_CTSMIM_M                                          0x00000002
@@ -720,7 +717,7 @@
 // Field:    [10] OERIS
 //
 // Overrun error interrupt status:
-// This field returns the raw interrupt state of UART&#39;s overrun error
+// This field returns the raw interrupt state of UART's overrun error
 // interrupt. Overrun error occurs if data is received and the receive FIFO is
 // full.
 #define UART_RIS_OERIS                                              0x00000400
@@ -731,11 +728,10 @@
 // Field:     [9] BERIS
 //
 // Break error interrupt status:
-// This field returns the raw interrupt state of UART&#39;s break error
-// interrupt. Break error is set when a break condition is detected, indicating
-// that the received data input (UARTRXD input pin) was held LOW for longer
-// than a full-word transmission time (defined as start, data, parity and stop
-// bits).
+// This field returns the raw interrupt state of UART's break error interrupt.
+// Break error is set when a break condition is detected, indicating that the
+// received data input (UARTRXD input pin) was held LOW for longer than a
+// full-word transmission time (defined as start, data, parity and stop bits).
 #define UART_RIS_BERIS                                              0x00000200
 #define UART_RIS_BERIS_BITN                                                  9
 #define UART_RIS_BERIS_M                                            0x00000200
@@ -744,9 +740,9 @@
 // Field:     [8] PERIS
 //
 // Parity error interrupt status:
-// This field returns the raw interrupt state of UART&#39;s parity error
-// interrupt. Parity error is set if the parity of the received data character
-// does not match the parity that the LCRH.EPS and LCRH.SPS select.
+// This field returns the raw interrupt state of UART's parity error interrupt.
+// Parity error is set if the parity of the received data character does not
+// match the parity that the LCRH.EPS and LCRH.SPS select.
 #define UART_RIS_PERIS                                              0x00000100
 #define UART_RIS_PERIS_BITN                                                  8
 #define UART_RIS_PERIS_M                                            0x00000100
@@ -755,7 +751,7 @@
 // Field:     [7] FERIS
 //
 // Framing error interrupt status:
-// This field returns the raw interrupt state of UART&#39;s framing error
+// This field returns the raw interrupt state of UART's framing error
 // interrupt. Framing error is set if the received character does not have a
 // valid stop bit (a valid stop bit is 1).
 #define UART_RIS_FERIS                                              0x00000080
@@ -766,7 +762,7 @@
 // Field:     [6] RTRIS
 //
 // Receive timeout interrupt status:
-// This field returns the raw interrupt state of UART&#39;s receive timeout
+// This field returns the raw interrupt state of UART's receive timeout
 // interrupt. The receive timeout interrupt is asserted when the receive FIFO
 // is not empty, and no more data is received during a 32-bit period. The
 // receive timeout interrupt is cleared either when the FIFO becomes empty
@@ -782,7 +778,7 @@
 // Field:     [5] TXRIS
 //
 // Transmit interrupt status:
-// This field returns the raw interrupt state of UART&#39;s transmit interrupt.
+// This field returns the raw interrupt state of UART's transmit interrupt.
 // When FIFOs are enabled (LCRH.FEN = 1), the transmit interrupt is asserted if
 // the number of bytes in transmit FIFO is equal to or lower than the
 // programmed trigger level (IFLS.TXSEL). The transmit interrupt is cleared by
@@ -800,7 +796,7 @@
 // Field:     [4] RXRIS
 //
 // Receive interrupt status:
-// This field returns the raw interrupt state of UART&#39;s receive interrupt.
+// This field returns the raw interrupt state of UART's receive interrupt.
 // When FIFOs are enabled (LCRH.FEN = 1), the receive interrupt is asserted if
 // the receive FIFO reaches the programmed trigger
 // level (IFLS.RXSEL). The receive interrupt is cleared by reading data from
@@ -819,7 +815,7 @@
 // Field:     [1] CTSRMIS
 //
 // Clear to Send (CTS) modem interrupt status:
-// This field returns the raw interrupt state of UART&#39;s clear to send
+// This field returns the raw interrupt state of UART's clear to send
 // interrupt.
 #define UART_RIS_CTSRMIS                                            0x00000002
 #define UART_RIS_CTSRMIS_BITN                                                1

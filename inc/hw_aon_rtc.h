@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aon_rtc_h
-*  Revised:        2015-02-13 15:47:13 +0100 (fr, 13 feb 2015)
-*  Revision:       42724
+*  Revised:        2015-07-29 09:40:39 +0200 (Wed, 29 Jul 2015)
+*  Revision:       44232
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -87,8 +87,6 @@
 // Field: [18:16] COMB_EV_MASK
 //
 // Eventmask selecting which delayed events that form the combined event.
-//
-// Enumeration values can be combined with a logical or.
 // ENUMs:
 // CH2                      Use Channel 2 delayed event in combined event
 // CH1                      Use Channel 1 delayed event in combined event
@@ -309,7 +307,7 @@
 //*****************************************************************************
 // Field:    [18] CH2_CONT_EN
 //
-// Set to enable continuous opereation of Channel 2
+// Set to enable continuous operation of Channel 2
 #define AON_RTC_CHCTL_CH2_CONT_EN                                   0x00040000
 #define AON_RTC_CHCTL_CH2_CONT_EN_BITN                                      18
 #define AON_RTC_CHCTL_CH2_CONT_EN_M                                 0x00040000

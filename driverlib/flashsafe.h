@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       flashsafe.h
-*  Revised:        2015-02-03 14:18:59 +0100 (ti, 03 feb 2015)
-*  Revision:       42551
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the Flash driver in
 *                  Thread safe mode.
@@ -39,6 +39,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup system_control_group
+//! @{
 //! \addtogroup flashsafe_api
 //! @{
 //
@@ -83,10 +85,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define FlashsafeSizeGet                NOROM_FlashsafeSizeGet
     #define FlashsafeSectorSizeGet          NOROM_FlashsafeSectorSizeGet
     #define FlashsafePowerModeSet           NOROM_FlashsafePowerModeSet
@@ -104,8 +104,6 @@ extern "C"
     #define FlashsafeIntClear               NOROM_FlashsafeIntClear
     #define FlashsafeSectorErase            NOROM_FlashsafeSectorErase
     #define FlashsafeProgram                NOROM_FlashsafeProgram
-    #define FlashsafeProgramNowait          NOROM_FlashsafeProgramNowait
-    #define FlashsafeProgramNowaitRelease   NOROM_FlashsafeProgramNowaitRelease
     #define FlashsafeDisableSectorsForWrite NOROM_FlashsafeDisableSectorsForWrite
 #endif
 
@@ -476,7 +474,7 @@ extern uint32_t FlashsafeIntStatus(void);
 //! assert. This must be done in the interrupt handler to keep it from being
 //! called again immediately upon exit.
 //!
-//! \note Because there is a write buffer in the CM3 processor, it may
+//! \note Because there is a write buffer in the System CPU, it may
 //! take several clock cycles before the interrupt source is actually cleared.
 //! Therefore, it is recommended that the interrupt source be cleared early in
 //! the interrupt handler (as opposed to the very last action) to avoid
@@ -580,7 +578,7 @@ extern uint32_t FlashsafeDisableSectorsForWrite(void);
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_FlashsafeSizeGet
         #undef  FlashsafeSizeGet
@@ -650,14 +648,6 @@ extern uint32_t FlashsafeDisableSectorsForWrite(void);
         #undef  FlashsafeProgram
         #define FlashsafeProgram                ROM_FlashsafeProgram
     #endif
-    #ifdef ROM_FlashsafeProgramNowait
-        #undef  FlashsafeProgramNowait
-        #define FlashsafeProgramNowait          ROM_FlashsafeProgramNowait
-    #endif
-    #ifdef ROM_FlashsafeProgramNowaitRelease
-        #undef  FlashsafeProgramNowaitRelease
-        #define FlashsafeProgramNowaitRelease   ROM_FlashsafeProgramNowaitRelease
-    #endif
     #ifdef ROM_FlashsafeDisableSectorsForWrite
         #undef  FlashsafeDisableSectorsForWrite
         #define FlashsafeDisableSectorsForWrite ROM_FlashsafeDisableSectorsForWrite
@@ -678,6 +668,7 @@ extern uint32_t FlashsafeDisableSectorsForWrite(void);
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

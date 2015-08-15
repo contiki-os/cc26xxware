@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_cpu_tpiu_h
-*  Revised:        2015-02-10 21:34:21 +0100 (ti, 10 feb 2015)
-*  Revision:       42642
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -195,7 +195,7 @@
 // ENUMs:
 // SWO_NRZ                  SerialWire Output (NRZ)
 // SWO_MANCHESTER           SerialWire Output (Manchester). This is the reset
-// value.
+//                          value.
 // TRACEPORT                TracePort mode
 #define CPU_TPIU_SPPR_PROTOCOL_M                                    0x00000003
 #define CPU_TPIU_SPPR_PROTOCOL_S                                             0

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       timer.c
-*  Revised:        2015-04-14 14:41:18 +0200 (ti, 14 apr 2015)
-*  Revision:       43221
+*  Revised:        2015-06-03 13:49:57 +0200 (Wed, 03 Jun 2015)
+*  Revision:       43724
 *
 *  Description:    Driver for the General Purpose Timer
 *
@@ -44,13 +44,11 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  TimerConfigure
     #define TimerConfigure                  NOROM_TimerConfigure
     #undef  TimerLevelControl
     #define TimerLevelControl               NOROM_TimerLevelControl
-    #undef  TimerTriggerControl
-    #define TimerTriggerControl             NOROM_TimerTriggerControl
     #undef  TimerStallControl
     #define TimerStallControl               NOROM_TimerStallControl
     #undef  TimerWaitOnTriggerControl
@@ -67,8 +65,6 @@
 
 //*****************************************************************************
 //
-//! \internal
-//!
 //! \brief Gets the timer interrupt number.
 //!
 //! Given a timer base address, this function returns the corresponding
@@ -189,49 +185,6 @@ TimerLevelControl(uint32_t ui32Base, uint32_t ui32Timer, bool bInvert)
     //
     ui32Timer &= GPT_CTL_TAPWML | GPT_CTL_TBPWML;
     HWREG(ui32Base + GPT_O_CTL) = (bInvert ?
-                                   (HWREG(ui32Base + GPT_O_CTL) | ui32Timer) :
-                                   (HWREG(ui32Base + GPT_O_CTL) &
-                                   ~(ui32Timer)));
-}
-
-//*****************************************************************************
-//
-//! Enables or disables the ADC trigger output
-//
-//*****************************************************************************
-void
-TimerTriggerControl(uint32_t ui32Base, uint32_t ui32Timer, bool bEnable)
-{
-    uint32_t ui32Val;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT(TimerBaseValid(ui32Base));
-    ASSERT((ui32Timer == TIMER_A) || (ui32Timer == TIMER_B) ||
-           (ui32Timer == TIMER_BOTH));
-
-    //
-    // Determine which bits to set or clear in GPTM_ADCEV.
-    //
-    ui32Val = (GPT_ADCEV_TATOADCEN | GPT_ADCEV_TBTOADCEN);
-    ui32Val &= ui32Timer;
-
-    //
-    // Write the GPTM ADC Event register to enable or disable the trigger.
-    // to the ADC.
-    //
-    HWREG(ui32Base + GPT_O_ADCEV) = (bEnable ?
-                                     (HWREG(ui32Base + GPT_O_ADCEV) | ui32Val) :
-                                     (HWREG(ui32Base + GPT_O_ADCEV) &
-                                     ~(ui32Val)));
-
-    //
-    // Set the trigger output as requested.
-    // Set the ADC trigger output as requested.
-    //
-    ui32Timer &= GPT_CTL_TAOTE | GPT_CTL_TBOTE;
-    HWREG(ui32Base + GPT_O_CTL) = (bEnable ?
                                    (HWREG(ui32Base + GPT_O_CTL) | ui32Timer) :
                                    (HWREG(ui32Base + GPT_O_CTL) &
                                    ~(ui32Timer)));
@@ -433,13 +386,27 @@ TimerMatchUpdateMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_t ui32Mode)
     // Set mode for timer A
     if(ui32Timer & TIMER_A)
     {
-        HWREGBITW(ui32Base + GPT_O_TAMR, GPT_TAMR_TAMRSU_BITN) = ui32Mode;
+        if(ui32Mode == TIMER_MATCHUPDATE_NEXTCYCLE)
+        {
+            HWREG(ui32Base + GPT_O_TAMR) &= ~(GPT_TAMR_TAMRSU);
+        }
+        else
+        {
+            HWREG(ui32Base + GPT_O_TAMR) |= GPT_TAMR_TAMRSU;
+        }
     }
 
     // Set mode for timer B
     if(ui32Timer & TIMER_B)
     {
-        HWREGBITW(ui32Base + GPT_O_TBMR, GPT_TBMR_TBMRSU_BITN) = ui32Mode;
+        if(ui32Mode == TIMER_MATCHUPDATE_NEXTCYCLE)
+        {
+            HWREG(ui32Base + GPT_O_TBMR) &= ~(GPT_TBMR_TBMRSU);
+        }
+        else
+        {
+            HWREG(ui32Base + GPT_O_TBMR) |= GPT_TBMR_TBMRSU;
+        }
     }
 }
 
@@ -459,12 +426,26 @@ TimerIntervalLoadMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_t ui32Mode)
     // Set mode for timer A
     if(ui32Timer & TIMER_A)
     {
-        HWREGBITW(ui32Base + GPT_O_TAMR, GPT_TAMR_TAILD_BITN) = ui32Mode;
+        if(ui32Mode == TIMER_INTERVALLOAD_NEXTCYCLE)
+        {
+            HWREG(ui32Base + GPT_O_TAMR) &= ~(GPT_TAMR_TAILD);
+        }
+        else
+        {
+            HWREG(ui32Base + GPT_O_TAMR) |= GPT_TAMR_TAILD;
+        }
     }
 
     // Set mode for timer B
     if(ui32Timer & TIMER_B)
     {
-        HWREGBITW(ui32Base + GPT_O_TBMR, GPT_TBMR_TBILD_BITN) = ui32Mode;
+        if(ui32Mode == TIMER_INTERVALLOAD_NEXTCYCLE)
+        {
+            HWREG(ui32Base + GPT_O_TBMR) &= ~(GPT_TBMR_TBILD);
+        }
+        else
+        {
+            HWREG(ui32Base + GPT_O_TBMR) |= GPT_TBMR_TBILD;
+        }
     }
 }

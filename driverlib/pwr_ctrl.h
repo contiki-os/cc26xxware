@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       pwr_ctrl.h
-*  Revised:        2015-03-16 14:43:45 +0100 (ma, 16 mar 2015)
-*  Revision:       42989
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the System Power Control.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup system_control_group
+//! @{
 //! \addtogroup pwrctrl_api
 //! @{
 //
@@ -88,10 +90,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define PowerCtrlStateSet               NOROM_PowerCtrlStateSet
     #define PowerCtrlSourceSet              NOROM_PowerCtrlSourceSet
 #endif
@@ -150,13 +150,13 @@ extern "C"
 //! - \ref PWRCTRL_POWER_DOWN
 //! - \ref PWRCTRL_SHUTDOWN
 //!
-//! \note This code does not guarantee free operation of the AUX controller.
+//! \note This code does not guarantee free operation of the Sensor Controller.
 //! It is only guaranteed to flip the switches to force the desired low power
 //! mode on the device.
 //!
 //! \note It is solely the programmers responsibility to properly configure an
 //! interrupt that will enable the device to wakeup before configuring the
-//! power mode. If not properly implemented the behaviour is undefined.
+//! power mode. If not properly implemented the behavior is undefined.
 //!
 //! \note This function will be deprecated in future releases.
 //!
@@ -201,7 +201,7 @@ extern void PowerCtrlSourceSet(uint32_t ui32PowerConfig);
 //!
 //! Use this function to retrieve the current active power source.
 //!
-//! When the CM3 is active it can never be powered by uLDO as this
+//! When the System CPU is active it can never be powered by uLDO as this
 //! is too weak a power source.
 //!
 //! \note Using the DCDC power supply requires an external inductor.
@@ -312,7 +312,7 @@ PowerCtrlIOFreezeDisable(void)
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_PowerCtrlStateSet
         #undef  PowerCtrlStateSet
@@ -338,6 +338,7 @@ PowerCtrlIOFreezeDisable(void)
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

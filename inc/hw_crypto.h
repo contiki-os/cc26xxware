@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_crypto_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
+*  Revision:       43524
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -672,9 +672,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN7                     0x00000080
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN7_BITN                         7
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN7_M                   0x00000080
@@ -692,9 +693,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN6                     0x00000040
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN6_BITN                         6
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN6_M                   0x00000040
@@ -712,9 +714,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN5                     0x00000020
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN5_BITN                         5
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN5_M                   0x00000020
@@ -732,9 +735,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN4                     0x00000010
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN4_BITN                         4
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN4_M                   0x00000010
@@ -752,9 +756,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN3                     0x00000008
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN3_BITN                         3
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN3_M                   0x00000008
@@ -772,9 +777,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN2                     0x00000004
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN2_BITN                         2
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN2_M                   0x00000004
@@ -792,9 +798,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN1                     0x00000002
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN1_BITN                         1
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN1_M                   0x00000002
@@ -813,9 +820,10 @@
 // DMASWRESET.RESET. After a soft reset, all keys must be rewritten to the key
 // store memory.
 // ENUMs:
-// WRITTEN                  This RAM area is written with valid key information
+// WRITTEN                  This RAM area is written with valid key
+//                          information
 // NOT_WRITTEN              This RAM area is not written with valid key
-// information
+//                          information
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN0                     0x00000001
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN0_BITN                         0
 #define CRYPTO_KEYWRITTENAREA_RAM_AREA_WRITTEN0_M                   0x00000001
@@ -1266,8 +1274,8 @@
 // Note: For the combined modes (GCM and CCM), this length does not include the
 // authentication only data; the authentication length is specified in the
 // AESAUTHLEN.LEN.
-// All modes must have a length &#62; 0. For the combined modes, it is allowed
-// to have one of the lengths equal to zero.
+// All modes must have a length > 0. For the combined modes, it is allowed to
+// have one of the lengths equal to zero.
 // For the basic encryption modes (ECB/CBC/CTR) it is allowed to program zero
 // to the length field; in that case the length is assumed infinite.
 // All data must be byte (8-bit) aligned for stream cipher modes; bit aligned
@@ -1344,12 +1352,12 @@
 //
 // Note: AES typically operates on 128 bits block multiple input data. The CTR,
 // GCM and CCM modes form an exception. The last block of a CTR-mode message
-// may contain less than 128 bits (refer to [NIST 800-38A]): 0 &#60; n &#60;=
-// 128 bits. For GCM/CCM, the last block of both AAD and message data may
-// contain less than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral
-// automatically pads or masks misaligned ending data blocks with zeroes for
-// GCM, CCM and CBC-MAC. For CTR mode, the remaining data in an unaligned data
-// block is ignored.
+// may contain less than 128 bits (refer to [NIST 800-38A]): 0 < n <= 128 bits.
+// For GCM/CCM, the last block of both AAD and message data may contain less
+// than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral automatically
+// pads or masks misaligned ending data blocks with zeroes for GCM, CCM and
+// CBC-MAC. For CTR mode, the remaining data in an unaligned data block is
+// ignored.
 #define CRYPTO_AESDATAIN0_DATA_M                                    0xFFFFFFFF
 #define CRYPTO_AESDATAIN0_DATA_S                                             0
 
@@ -1405,12 +1413,12 @@
 //
 // Note: AES typically operates on 128 bits block multiple input data. The CTR,
 // GCM and CCM modes form an exception. The last block of a CTR-mode message
-// may contain less than 128 bits (refer to [NIST 800-38A]): 0 &#60; n &#60;=
-// 128 bits. For GCM/CCM, the last block of both AAD and message data may
-// contain less than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral
-// automatically pads or masks misaligned ending data blocks with zeroes for
-// GCM, CCM and CBC-MAC. For CTR mode, the remaining data in an unaligned data
-// block is ignored.
+// may contain less than 128 bits (refer to [NIST 800-38A]): 0 < n <= 128 bits.
+// For GCM/CCM, the last block of both AAD and message data may contain less
+// than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral automatically
+// pads or masks misaligned ending data blocks with zeroes for GCM, CCM and
+// CBC-MAC. For CTR mode, the remaining data in an unaligned data block is
+// ignored.
 #define CRYPTO_AESDATAIN1_DATA_M                                    0xFFFFFFFF
 #define CRYPTO_AESDATAIN1_DATA_S                                             0
 
@@ -1466,12 +1474,12 @@
 //
 // Note: AES typically operates on 128 bits block multiple input data. The CTR,
 // GCM and CCM modes form an exception. The last block of a CTR-mode message
-// may contain less than 128 bits (refer to [NIST 800-38A]): 0 &#60; n &#60;=
-// 128 bits. For GCM/CCM, the last block of both AAD and message data may
-// contain less than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral
-// automatically pads or masks misaligned ending data blocks with zeroes for
-// GCM, CCM and CBC-MAC. For CTR mode, the remaining data in an unaligned data
-// block is ignored.
+// may contain less than 128 bits (refer to [NIST 800-38A]): 0 < n <= 128 bits.
+// For GCM/CCM, the last block of both AAD and message data may contain less
+// than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral automatically
+// pads or masks misaligned ending data blocks with zeroes for GCM, CCM and
+// CBC-MAC. For CTR mode, the remaining data in an unaligned data block is
+// ignored.
 #define CRYPTO_AESDATAIN2_DATA_M                                    0xFFFFFFFF
 #define CRYPTO_AESDATAIN2_DATA_S                                             0
 
@@ -1527,12 +1535,12 @@
 //
 // Note: AES typically operates on 128 bits block multiple input data. The CTR,
 // GCM and CCM modes form an exception. The last block of a CTR-mode message
-// may contain less than 128 bits (refer to [NIST 800-38A]): 0 &#60; n &#60;=
-// 128 bits. For GCM/CCM, the last block of both AAD and message data may
-// contain less than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral
-// automatically pads or masks misaligned ending data blocks with zeroes for
-// GCM, CCM and CBC-MAC. For CTR mode, the remaining data in an unaligned data
-// block is ignored.
+// may contain less than 128 bits (refer to [NIST 800-38A]): 0 < n <= 128 bits.
+// For GCM/CCM, the last block of both AAD and message data may contain less
+// than 128 bits (refer to [NIST 800-38D]). The Crypto peripheral automatically
+// pads or masks misaligned ending data blocks with zeroes for GCM, CCM and
+// CBC-MAC. For CTR mode, the remaining data in an unaligned data block is
+// ignored.
 #define CRYPTO_AESDATAIN3_DATA_M                                    0xFFFFFFFF
 #define CRYPTO_AESDATAIN3_DATA_S                                             0
 
@@ -1627,8 +1635,8 @@
 //
 // Select AHB transfer protection control for DMA transfers using the key store
 // area as destination.
-// 0 : transfers use &#39;USER&#39; type access.
-// 1 : transfers use &#39;PRIVILEGED&#39; type access.
+// 0 : transfers use 'USER' type access.
+// 1 : transfers use 'PRIVILEGED' type access.
 #define CRYPTO_DMAPROTCTL_EN                                        0x00000001
 #define CRYPTO_DMAPROTCTL_EN_BITN                                            0
 #define CRYPTO_DMAPROTCTL_EN_M                                      0x00000001

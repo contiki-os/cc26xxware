@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aux_anaif_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
+*  Revision:       43524
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -79,9 +79,9 @@
 // Field:  [12:8] START_SRC
 //
 // Selected source for ADC conversion start event. The start source selected by
-// this field is OR&#39;ed with any trigger coming from writes to
-// ADCTRIG.START. If it is desired to only trigger ADC conversions by writes to
-// ADCTRIG.START one should select NO_EVENT&#60;n&#62; here
+// this field is OR'ed with any trigger coming from writes to ADCTRIG.START. If
+// it is desired to only trigger ADC conversions by writes to ADCTRIG.START one
+// should select NO_EVENT<n> here
 // ENUMs:
 // ADC_IRQ                  Selects ADC_IRQ as start signal
 // MCU_EV                   Selects MCU_EV as start signal
@@ -155,8 +155,9 @@
 // ADC interface control command
 // ENUMs:
 // FLUSH                    ADC FIFO flush. Note that CMD needs to be set to
-// &#39;EN&#39; again for FIFO to be functional after a flush. A flush takes
-// two clock periods on the AUX clock to finish.
+//                          'EN' again for FIFO to be functional after a
+//                          flush. A flush takes two clock periods on the
+//                          AUX clock to finish.
 // EN                       ADC interface enabled
 // DIS                      ADC interface disabled
 #define AUX_ANAIF_ADCCTL_CMD_M                                      0x00000003

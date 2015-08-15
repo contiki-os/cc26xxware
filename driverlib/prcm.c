@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       prcm.c
-*  Revised:        2015-02-13 13:30:59 +0100 (fr, 13 feb 2015)
-*  Revision:       42716
+*  Revised:        2015-05-11 10:13:03 +0200 (Mon, 11 May 2015)
+*  Revision:       43466
 *
 *  Description:    Driver for the PRCM.
 *
@@ -44,7 +44,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  PRCMInfClockConfigureSet
     #define PRCMInfClockConfigureSet        NOROM_PRCMInfClockConfigureSet
     #undef  PRCMInfClockConfigureGet
@@ -197,7 +197,7 @@ PRCMInfClockConfigureSet(uint32_t ui32ClkDiv, uint32_t ui32PowerMode)
 
 //*****************************************************************************
 //
-//! Use this function to retreive the set infrastructure clock configuration
+//! Use this function to get the infrastructure clock configuration
 //
 //*****************************************************************************
 uint32_t
@@ -253,7 +253,7 @@ PRCMInfClockConfigureGet(uint32_t ui32PowerMode)
     }
 
     //
-    // Return the clock divison factor.
+    // Return the clock division factor.
     //
     return ui32Divisor;
 }
@@ -327,7 +327,7 @@ PRCMAudioClockConfigSet(uint32_t ui32ClkConfig, uint32_t ui32SampleRate)
     }
 
     //
-    // Write the clock divison factors.
+    // Write the clock division factors.
     //
     HWREG(PRCM_BASE + PRCM_O_I2SMCLKDIV) = ui32MstDiv;
     HWREG(PRCM_BASE + PRCM_O_I2SBCLKDIV) = ui32BitDiv;
@@ -373,7 +373,7 @@ PRCMAudioClockConfigSetOverride(uint32_t ui32ClkConfig, uint32_t ui32MstDiv,
     }
 
     //
-    // Write the clock divison factors.
+    // Write the clock division factors.
     //
     HWREG(PRCM_BASE + PRCM_O_I2SMCLKDIV) = ui32MstDiv;
     HWREG(PRCM_BASE + PRCM_O_I2SBCLKDIV) = ui32BitDiv;

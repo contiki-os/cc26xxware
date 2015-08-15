@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       timer.h
-*  Revised:        2015-04-14 14:41:18 +0200 (ti, 14 apr 2015)
-*  Revision:       43221
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -36,6 +36,8 @@
 
 //****************************************************************************
 //
+//! \addtogroup peripheral_group
+//! @{
 //! \addtogroup timer_api
 //! @{
 //
@@ -76,13 +78,10 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define TimerConfigure                  NOROM_TimerConfigure
     #define TimerLevelControl               NOROM_TimerLevelControl
-    #define TimerTriggerControl             NOROM_TimerTriggerControl
     #define TimerStallControl               NOROM_TimerStallControl
     #define TimerWaitOnTriggerControl       NOROM_TimerWaitOnTriggerControl
     #define TimerIntRegister                NOROM_TimerIntRegister
@@ -357,27 +356,6 @@ extern void TimerConfigure(uint32_t ui32Base, uint32_t ui32Config);
 //*****************************************************************************
 extern void TimerLevelControl(uint32_t ui32Base, uint32_t ui32Timer,
                               bool bInvert);
-
-//*****************************************************************************
-//
-//! \brief Enables or disables the ADC trigger output.
-//!
-//! This function controls the ADC trigger output for the specified timer.
-//!
-//! \param ui32Base is the base address of the timer module.
-//! \param ui32Timer specifies the timer to adjust; must be one of:
-//! - \ref TIMER_A
-//! - \ref TIMER_B
-//! - \ref TIMER_BOTH
-//! \param bEnable specifies the desired ADC trigger state.
-//! - \c true  : Enable timer's ADC output trigger.
-//! - \c false : Disable timer's ADC output trigger.
-//!
-//! \return None
-//
-//*****************************************************************************
-extern void TimerTriggerControl(uint32_t ui32Base, uint32_t ui32Timer,
-                                bool bEnable);
 
 //*****************************************************************************
 //
@@ -1092,7 +1070,7 @@ TimerIntStatus(uint32_t ui32Base, bool bMasked)
 //! assert. This function must be called in the interrupt handler to keep the
 //! interrupt from being triggered again immediately upon exit.
 //!
-//! \note Because there is a write buffer in the Cortex-M processor, it may
+//! \note Because there is a write buffer in the System CPU, it may
 //! take several clock cycles before the interrupt source is actually cleared.
 //! Therefore, it is recommended that the interrupt source be cleared early in
 //! the interrupt handler (as opposed to the very last action) to avoid
@@ -1185,8 +1163,8 @@ TimerCcpCombineEnable(uint32_t ui32Base)
     // Check the arguments
     ASSERT(TimerBaseValid(ui32Base));
 
-    // Set the bit using bit banding
-    HWREGBITW(ui32Base + GPT_O_ANDCCP, GPT_ANDCCP_CCP_AND_EN_BITN) = 1;
+    // Set the bit
+    HWREG(ui32Base + GPT_O_ANDCCP) |= GPT_ANDCCP_CCP_AND_EN;
 }
 
 //*****************************************************************************
@@ -1204,8 +1182,8 @@ TimerCcpCombineDisable(uint32_t ui32Base)
     // Check the arguments
     ASSERT(TimerBaseValid(ui32Base));
 
-    // Clear the bit using bit banding
-    HWREGBITW(ui32Base + GPT_O_ANDCCP, GPT_ANDCCP_CCP_AND_EN_BITN) = 0;
+    // Clear the bit
+    HWREG(ui32Base + GPT_O_ANDCCP) &= ~(GPT_ANDCCP_CCP_AND_EN);
 }
 
 //*****************************************************************************
@@ -1267,7 +1245,7 @@ extern void TimerIntervalLoadMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_TimerConfigure
         #undef  TimerConfigure
@@ -1276,10 +1254,6 @@ extern void TimerIntervalLoadMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_
     #ifdef ROM_TimerLevelControl
         #undef  TimerLevelControl
         #define TimerLevelControl               ROM_TimerLevelControl
-    #endif
-    #ifdef ROM_TimerTriggerControl
-        #undef  TimerTriggerControl
-        #define TimerTriggerControl             ROM_TimerTriggerControl
     #endif
     #ifdef ROM_TimerStallControl
         #undef  TimerStallControl
@@ -1321,6 +1295,7 @@ extern void TimerIntervalLoadMode(uint32_t ui32Base, uint32_t ui32Timer, uint32_
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

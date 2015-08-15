@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       interrupt.c
-*  Revised:        2015-02-10 16:20:36 +0100 (ti, 10 feb 2015)
-*  Revision:       42636
+*  Revised:        2015-06-03 13:49:57 +0200 (Wed, 03 Jun 2015)
+*  Revision:       43724
 *
 *  Description:    Driver for the NVIC Interrupt Controller.
 *
@@ -44,7 +44,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  IntRegister
     #define IntRegister                     NOROM_IntRegister
     #undef  IntUnregister
@@ -97,8 +97,7 @@ static const uint32_t g_pui32Regs[] =
 
 //*****************************************************************************
 //
-//! \internal
-//! The default interrupt handler.
+//! \brief The default interrupt handler.
 //!
 //! This is the default interrupt handler for all interrupts. It simply loops
 //! forever so that the system state is preserved for observation by a
@@ -138,7 +137,7 @@ static __no_init void (*g_pfnRAMVectors[NUM_INTERRUPTS])(void) @ ".vtable_ram";
 #pragma DATA_ALIGN(g_pfnRAMVectors, 256)
 #pragma DATA_SECTION(g_pfnRAMVectors, ".vtable_ram")
 void (*g_pfnRAMVectors[NUM_INTERRUPTS])(void);
-#elif defined (rvmdk)
+#elif defined (__CC_ARM)
 static __attribute__((section("vtable_ram")))
 void (*g_pfnRAMVectors[NUM_INTERRUPTS])(void) __attribute__((aligned(256),
         zero_init));

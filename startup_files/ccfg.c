@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       ccfg.c
-*  Revised:        $Date: 2015-03-20 14:44:57 +0100 (fr, 20 mar 2015) $
-*  Revision:       $Revision: 15313 $
+*  Revised:        $Date: 2015-07-01 09:11:10 +0200 (on, 01 jul 2015) $
+*  Revision:       $Revision: 15909 $
 *
 *  Description:    Customer Configuration for CC26xx device family (HW rev 2).
 *
@@ -64,13 +64,13 @@
 // Alternate DC/DC settings
 //#####################################
 
-#define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING 0x0       // Alternate DC/DC setting enabled
-//#define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING 0x1     // Alternate DC/DC setting disabled
+#define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING    0x0    // Alternate DC/DC setting enabled
+// #define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING 0x1    // Alternate DC/DC setting disabled
 
 #define SET_CCFG_MODE_CONF_1_ALT_DCDC_VMIN              0x8        // 2.25V
 
 #define SET_CCFG_MODE_CONF_1_ALT_DCDC_DITHER_EN         0x0        // Disable
-//#define SET_CCFG_MODE_CONF_1_ALT_DCDC_DITHER_EN       0x1        // Enable
+// #define SET_CCFG_MODE_CONF_1_ALT_DCDC_DITHER_EN      0x1        // Enable
 
 #define SET_CCFG_MODE_CONF_1_ALT_DCDC_IPEAK             0x2        // 39mA
 
@@ -78,7 +78,7 @@
 // XOSC override settings
 //#####################################
 
-//#define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR      0x0        // Enable override
+// #define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR     0x0        // Enable override
 #define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR        0x1        // Disable override
 
 #define SET_CCFG_MODE_CONF_1_DELTA_IBIAS_INIT           0x0        // Delta = 0
@@ -123,19 +123,26 @@
 #define SET_CCFG_EXT_LF_CLK_RTC_INCREMENT               0x800000   // RTC increment representing the external LF clock frequency
 
 //#####################################
+// Special HF clock source setting
+//#####################################
+// #define SET_CCFG_MODE_CONF_XOSC_FREQ                 0x1        // Use BAW oscillator as HF source (if executed on a BAW chip, otherwise uing default (=3))
+// #define SET_CCFG_MODE_CONF_XOSC_FREQ                 0x2        // HF source is a 48 MHz xtal
+#define SET_CCFG_MODE_CONF_XOSC_FREQ                    0x3        // HF source is a 24 MHz xtal (default)
+
+//#####################################
 // Bootloader settings
 //#####################################
 
-// #define SET_CCFG_BL_CONFIG_BOOTLOADER_ENABLE         0x00       // Disable
-#define SET_CCFG_BL_CONFIG_BOOTLOADER_ENABLE            0xC5       // Enable
+// #define SET_CCFG_BL_CONFIG_BOOTLOADER_ENABLE         0x00       // Disable ROM boot loader
+#define SET_CCFG_BL_CONFIG_BOOTLOADER_ENABLE            0xC5       // Enable ROM boot loader
 
-// #define SET_CCFG_BL_CONFIG_BL_LEVEL                  0x0        // Active low
-#define SET_CCFG_BL_CONFIG_BL_LEVEL                     0x1        // Active high
+// #define SET_CCFG_BL_CONFIG_BL_LEVEL                  0x0        // Active low to open boot loader backdoor
+#define SET_CCFG_BL_CONFIG_BL_LEVEL                     0x1        // Active high to open boot loader backdoor
 
-#define SET_CCFG_BL_CONFIG_BL_PIN_NUMBER                0xFF       // DIO number for boot loader failure analysis
+#define SET_CCFG_BL_CONFIG_BL_PIN_NUMBER                0xFF       // DIO number for boot loader backdoor
 
-// #define SET_CCFG_BL_CONFIG_BL_ENABLE                 0xC5       // Enabled
-#define SET_CCFG_BL_CONFIG_BL_ENABLE                    0xFF       // Disabled
+// #define SET_CCFG_BL_CONFIG_BL_ENABLE                 0xC5       // Enabled boot loader backdoor
+#define SET_CCFG_BL_CONFIG_BL_ENABLE                    0xFF       // Disabled boot loader backdoor
 
 //#####################################
 // Debug access settings
@@ -188,7 +195,7 @@
 // Flash image valid
 //#####################################
 #define SET_CCFG_IMAGE_VALID_CONF_IMAGE_VALID           0x00000000 // Flash image is valid
-//#define SET_CCFG_IMAGE_VALID_CONF_IMAGE_VALID         <non-zero> // Flash image is invalid, call bootloader
+// #define SET_CCFG_IMAGE_VALID_CONF_IMAGE_VALID        <non-zero> // Flash image is invalid, call bootloader
 
 //#####################################
 // Flash sector write protection
@@ -197,6 +204,12 @@
 #define SET_CCFG_CCFG_PROT_63_32                        0xFFFFFFFF
 #define SET_CCFG_CCFG_PROT_95_64                        0xFFFFFFFF
 #define SET_CCFG_CCFG_PROT_127_96                       0xFFFFFFFF
+
+//#####################################
+// Select between cache or GPRAM
+//#####################################
+// #define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM        0x0        // Cache is disabled and GPRAM is available at 0x11000000-0x11001FFF
+#define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM           0x1        // Cache is enabled and GPRAM is disabled (unavailable)
 
 //*****************************************************************************
 //
@@ -208,7 +221,6 @@
 
 #define SET_CCFG_MODE_CONF_VDDR_EXT_LOAD                0x1
 #define SET_CCFG_MODE_CONF_RTC_COMP                     0x1
-#define SET_CCFG_MODE_CONF_XOSC_FREQ                    0x3
 #define SET_CCFG_MODE_CONF_HF_COMP                      0x1
 
 #define SET_CCFG_VOLT_LOAD_0_VDDR_EXT_TP45              0xFF
@@ -250,6 +262,7 @@
 #define DEFAULT_CCFG_SIZE_AND_DIS_FLAGS  ( \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG         << CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_S         )) | ~CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_M         ) & \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS        << CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S        )) | ~CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M        ) & \
+	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM            << CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM_S            )) | ~CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM_M            ) & \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING << CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING_S )) | ~CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING_M ) & \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR         << CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR_S         )) | ~CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR_M         ) )
 

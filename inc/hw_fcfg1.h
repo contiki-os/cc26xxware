@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_fcfg1_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-06-18 17:11:10 +0200 (Thu, 18 Jun 2015)
+*  Revision:       43982
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -45,6 +45,16 @@
 //*****************************************************************************
 // Misc configurations
 #define FCFG1_O_MISC_CONF_1                                         0x000000A0
+
+#define FCFG1_O_BAW_MEAS_5                                          0x000000B0
+
+#define FCFG1_O_BAW_MEAS_4                                          0x000000B4
+
+#define FCFG1_O_BAW_MEAS_3                                          0x000000B8
+
+#define FCFG1_O_BAW_MEAS_2                                          0x000000BC
+
+#define FCFG1_O_BAW_MEAS_1                                          0x000000C0
 
 // Configuration of RF Frontend in Divide-by-5 Mode
 #define FCFG1_O_CONFIG_RF_FRONTEND_DIV5                             0x000000C4
@@ -188,9 +198,6 @@
 // RCOSC HF Temperature Compensation
 #define FCFG1_O_RCOSC_HF_TEMPCOMP                                   0x00000310
 
-// Production Test Trim and Calibration Revision
-#define FCFG1_O_TRIM_CAL_REVISION                                   0x00000314
-
 // IcePick Device Identification
 #define FCFG1_O_ICEPICK_DEVICE_ID                                   0x00000318
 
@@ -220,9 +227,6 @@
 
 // AUX_ADC Gain in Relative Reference Mode
 #define FCFG1_O_SOC_ADC_REL_GAIN                                    0x00000360
-
-// AUX_ADC Gain in External Reference Mode
-#define FCFG1_O_SOC_ADC_EXT_GAIN                                    0x00000364
 
 // AUX_ADC Temperature Offsets in Absolute Reference Mode
 #define FCFG1_O_SOC_ADC_OFFSET_INT                                  0x00000368
@@ -288,10 +292,142 @@
 //*****************************************************************************
 // Field:   [7:0] DEVICE_MINOR_REV
 //
-// HW minor revision number (a value of 0xFF is treated equally to 0x00).
+// HW minor revision number (a value of 0xFF shall be treated equally to 0x00).
+// Any test of this field by SW should be implemented as a 'greater or equal'
+// comparison as signed integer.
 // Value may change without warning.
 #define FCFG1_MISC_CONF_1_DEVICE_MINOR_REV_M                        0x000000FF
 #define FCFG1_MISC_CONF_1_DEVICE_MINOR_REV_S                                 0
+
+//*****************************************************************************
+//
+// Register: FCFG1_O_BAW_MEAS_5
+//
+//*****************************************************************************
+// Field: [31:16] BAW_D5
+//
+// Insertion 5 BAW delta frequency:
+// D = round((f/48e6-1)*2^22)
+#define FCFG1_BAW_MEAS_5_BAW_D5_M                                   0xFFFF0000
+#define FCFG1_BAW_MEAS_5_BAW_D5_S                                           16
+
+// Field:  [15:8] BAW_T5
+//
+// Insertion 5 BAW temp sensor readout, in degrees C, relative to 27C:
+// T = round(t-27)
+#define FCFG1_BAW_MEAS_5_BAW_T5_M                                   0x0000FF00
+#define FCFG1_BAW_MEAS_5_BAW_T5_S                                            8
+
+// Field:   [7:0] BAW_DT5
+//
+// Insertion 5 BAW delta T readout over VDDS, in 0.25 degrees C steps:
+// DT = round ((4*(t at VDDS=3.8V))-round((4*(t at VDDS=1.8V))
+#define FCFG1_BAW_MEAS_5_BAW_DT5_M                                  0x000000FF
+#define FCFG1_BAW_MEAS_5_BAW_DT5_S                                           0
+
+//*****************************************************************************
+//
+// Register: FCFG1_O_BAW_MEAS_4
+//
+//*****************************************************************************
+// Field: [31:16] BAW_D4
+//
+// Insertion 4 BAW delta frequency:
+// D = round((f/48e6-1)*2^22)
+#define FCFG1_BAW_MEAS_4_BAW_D4_M                                   0xFFFF0000
+#define FCFG1_BAW_MEAS_4_BAW_D4_S                                           16
+
+// Field:  [15:8] BAW_T4
+//
+// Insertion 4 BAW temp sensor readout, in degrees C, relative to 27C:
+// T = round(t-27)
+#define FCFG1_BAW_MEAS_4_BAW_T4_M                                   0x0000FF00
+#define FCFG1_BAW_MEAS_4_BAW_T4_S                                            8
+
+// Field:   [7:0] BAW_DT4
+//
+// Insertion 4 BAW delta T readout over VDDS, in 0.25 degrees C steps:
+// DT = round ((4*(t at VDDS=3.8V))-round((4*(t at VDDS=1.8V))
+#define FCFG1_BAW_MEAS_4_BAW_DT4_M                                  0x000000FF
+#define FCFG1_BAW_MEAS_4_BAW_DT4_S                                           0
+
+//*****************************************************************************
+//
+// Register: FCFG1_O_BAW_MEAS_3
+//
+//*****************************************************************************
+// Field: [31:16] BAW_D3
+//
+// Insertion 3 BAW delta frequency:
+// D = round((f/48e6-1)*2^22)
+#define FCFG1_BAW_MEAS_3_BAW_D3_M                                   0xFFFF0000
+#define FCFG1_BAW_MEAS_3_BAW_D3_S                                           16
+
+// Field:  [15:8] BAW_T3
+//
+// Insertion 3 BAW temp sensor readout, in degrees C, relative to 27C:
+// T = round(t-27)
+#define FCFG1_BAW_MEAS_3_BAW_T3_M                                   0x0000FF00
+#define FCFG1_BAW_MEAS_3_BAW_T3_S                                            8
+
+// Field:   [7:0] BAW_DT3
+//
+// Insertion 3 BAW delta T readout over VDDS, in 0.25 degrees C steps:
+// DT = round ((4*(t at VDDS=3.8V))-round((4*(t at VDDS=1.8V))
+#define FCFG1_BAW_MEAS_3_BAW_DT3_M                                  0x000000FF
+#define FCFG1_BAW_MEAS_3_BAW_DT3_S                                           0
+
+//*****************************************************************************
+//
+// Register: FCFG1_O_BAW_MEAS_2
+//
+//*****************************************************************************
+// Field: [31:16] BAW_D2
+//
+// Insertion 2 BAW delta frequency:
+// D = round((f/48e6-1)*2^22)
+#define FCFG1_BAW_MEAS_2_BAW_D2_M                                   0xFFFF0000
+#define FCFG1_BAW_MEAS_2_BAW_D2_S                                           16
+
+// Field:  [15:8] BAW_T2
+//
+// Insertion 2 BAW temp sensor readout, in degrees C, relative to 27C:
+// T = round(t-27)
+#define FCFG1_BAW_MEAS_2_BAW_T2_M                                   0x0000FF00
+#define FCFG1_BAW_MEAS_2_BAW_T2_S                                            8
+
+// Field:   [7:0] BAW_DT2
+//
+// Insertion 2 BAW delta T readout over VDDS, in 0.25 degrees C steps:
+// DT = round ((4*(t at VDDS=3.8V))-round((4*(t at VDDS=1.8V))
+#define FCFG1_BAW_MEAS_2_BAW_DT2_M                                  0x000000FF
+#define FCFG1_BAW_MEAS_2_BAW_DT2_S                                           0
+
+//*****************************************************************************
+//
+// Register: FCFG1_O_BAW_MEAS_1
+//
+//*****************************************************************************
+// Field: [31:16] BAW_D1
+//
+// Insertion 1 BAW delta frequency:
+// D = round((f/48e6-1)*2^22)
+#define FCFG1_BAW_MEAS_1_BAW_D1_M                                   0xFFFF0000
+#define FCFG1_BAW_MEAS_1_BAW_D1_S                                           16
+
+// Field:  [15:8] BAW_T1
+//
+// Insertion 1 BAW temp sensor readout, in degrees C, relative to 27C:
+// T = round(t-27)
+#define FCFG1_BAW_MEAS_1_BAW_T1_M                                   0x0000FF00
+#define FCFG1_BAW_MEAS_1_BAW_T1_S                                            8
+
+// Field:   [7:0] BAW_DT1
+//
+// Insertion 1 BAW delta T readout over VDDS, in 0.25 degrees C steps:
+// DT = round ((4*(t at VDDS=3.8V))-round((4*(t at VDDS=1.8V))
+#define FCFG1_BAW_MEAS_1_BAW_DT1_M                                  0x000000FF
+#define FCFG1_BAW_MEAS_1_BAW_DT1_S                                           0
 
 //*****************************************************************************
 //
@@ -1076,8 +1212,8 @@
 
 // Field: [23:16] PV_ACCESS
 //
-// Program verify EXECUTEZ-&#62;data valid time in half-microseconds. Value
-// will be converted to number of FCLK cycles by by flash device driver and the
+// Program verify EXECUTEZ->data valid time in half-microseconds. Value will be
+// converted to number of FCLK cycles by by flash device driver and the
 // converted value is written to FLASH:FSM_EX_VAL.EXE_VALD when an
 // erase/program operation is initiated..
 #define FCFG1_FLASH_C_E_P_R_PV_ACCESS_M                             0x00FF0000
@@ -1085,7 +1221,7 @@
 
 // Field: [15:12] A_EXEZ_SETUP
 //
-// Address-&#62;EXECUTEZ setup time in cycles. Value will be written to
+// Address->EXECUTEZ setup time in cycles. Value will be written to
 // FLASH:FSM_CMP_VSU.ADD_EXZ by the flash device driver when an erase/program
 // operation is initiated..
 #define FCFG1_FLASH_C_E_P_R_A_EXEZ_SETUP_M                          0x0000F000
@@ -1196,8 +1332,8 @@
 //*****************************************************************************
 // Field: [31:24] PUMP_SU
 //
-// Pump read-&#62;non-read mode transition time in half-microseconds (mainly
-// for FPES).
+// Pump read->non-read mode transition time in half-microseconds (mainly for
+// FPES).
 #define FCFG1_FLASH_PP_PUMP_SU_M                                    0xFF000000
 #define FCFG1_FLASH_PP_PUMP_SU_S                                            24
 
@@ -1344,7 +1480,7 @@
 //*****************************************************************************
 // Field: [31:28] PG_REV
 //
-// PG revision number:
+// Field used to distinguish revisions of the device.
 #define FCFG1_USER_ID_PG_REV_M                                      0xF0000000
 #define FCFG1_USER_ID_PG_REV_S                                              28
 
@@ -1846,29 +1982,12 @@
 
 //*****************************************************************************
 //
-// Register: FCFG1_O_TRIM_CAL_REVISION
-//
-//*****************************************************************************
-// Field: [31:16] FT1
-//
-// The revision of the ATE Trim&#38;Calc document used in FT1 in production
-#define FCFG1_TRIM_CAL_REVISION_FT1_M                               0xFFFF0000
-#define FCFG1_TRIM_CAL_REVISION_FT1_S                                       16
-
-// Field:  [15:0] MP1
-//
-// The revision of the ATE Trim&#38;Calc document used in MP1 in production
-#define FCFG1_TRIM_CAL_REVISION_MP1_M                               0x0000FFFF
-#define FCFG1_TRIM_CAL_REVISION_MP1_S                                        0
-
-//*****************************************************************************
-//
 // Register: FCFG1_O_ICEPICK_DEVICE_ID
 //
 //*****************************************************************************
 // Field: [31:28] PG_REV
 //
-// Field used to distinguish between different silicon revisions of the device.
+// Field used to distinguish revisions of the device.
 #define FCFG1_ICEPICK_DEVICE_ID_PG_REV_M                            0xF0000000
 #define FCFG1_ICEPICK_DEVICE_ID_PG_REV_S                                    28
 
@@ -2151,11 +2270,6 @@
 
 //*****************************************************************************
 //
-// Register: FCFG1_O_SOC_ADC_EXT_GAIN
-//
-//*****************************************************************************
-//*****************************************************************************
-//
 // Register: FCFG1_O_SOC_ADC_OFFSET_INT
 //
 //*****************************************************************************
@@ -2194,15 +2308,15 @@
 // Field: [23:18] HPMRAMP3_LTH
 //
 // HPM Ramp3 low amplitude threshhold.
-// In HPM_RAMP3, if amp &#62; HPMRAMP3_LTH &#38;&#38; amp &#60; HPMRAMP3_HTH
-// then move on HPM_UPDATE.
+// In HPM_RAMP3, if amp > HPMRAMP3_LTH && amp < HPMRAMP3_HTH then move on
+// HPM_UPDATE.
 #define FCFG1_AMPCOMP_TH1_HPMRAMP3_LTH_M                            0x00FC0000
 #define FCFG1_AMPCOMP_TH1_HPMRAMP3_LTH_S                                    18
 
 // Field: [15:10] HPMRAMP3_HTH
 //
-// In HPM_RAMP3, if amp &#62; HPMRAMP3_LTH &#38;&#38; amp &#60; HPMRAMP3_HTH
-// then move on to HPM_UPDATE.
+// In HPM_RAMP3, if amp > HPMRAMP3_LTH && amp < HPMRAMP3_HTH then move on to
+// HPM_UPDATE.
 #define FCFG1_AMPCOMP_TH1_HPMRAMP3_HTH_M                            0x0000FC00
 #define FCFG1_AMPCOMP_TH1_HPMRAMP3_HTH_S                                    10
 
@@ -2230,20 +2344,20 @@
 // Field: [31:26] LPMUPDATE_LTH
 //
 // LPM Update low amplitude threshhold.
-// if amp &#62; LPMUPDATE_LTH &#38;&#38; amp &#60; LPMUPDATE_HTH then move on.
+// if amp > LPMUPDATE_LTH && amp < LPMUPDATE_HTH then move on.
 #define FCFG1_AMPCOMP_TH2_LPMUPDATE_LTH_M                           0xFC000000
 #define FCFG1_AMPCOMP_TH2_LPMUPDATE_LTH_S                                   26
 
 // Field: [23:18] LPMUPDATE_HTM
 //
 // LPM Update high amplitude threshhold.
-// if amp &#62; LPMUPDATE_LTH &#38;&#38; amp &#60; LPMUPDATE_HTH then move on.
+// if amp > LPMUPDATE_LTH && amp < LPMUPDATE_HTH then move on.
 #define FCFG1_AMPCOMP_TH2_LPMUPDATE_HTM_M                           0x00FC0000
 #define FCFG1_AMPCOMP_TH2_LPMUPDATE_HTM_S                                   18
 
 // Field: [15:10] ADC_COMP_AMPTH_LPM
 //
-// When ADC is forced in comparator mode, this value is used as OPAMP&#39;s
+// When ADC is forced in comparator mode, this value is used as OPAMP's
 // threshold during LPM_UPDATE mode. Actual amplitude is compared against this
 // threshhold to generate 1-bit adc_threshholdmet indicator output.
 #define FCFG1_AMPCOMP_TH2_ADC_COMP_AMPTH_LPM_M                      0x0000FC00
@@ -2251,7 +2365,7 @@
 
 // Field:   [7:2] ADC_COMP_AMPTH_HPM
 //
-// When ADC is forced in comparator mode, this value is used as OPAMP&#39;s
+// When ADC is forced in comparator mode, this value is used as OPAMP's
 // threshold during HPM_UPDATE mode. Actual amplitude is compared against this
 // threshhold to generate 1-bit adc_threshholdmet indicator output.
 #define FCFG1_AMPCOMP_TH2_ADC_COMP_AMPTH_HPM_M                      0x000000FC
@@ -2445,6 +2559,71 @@
 #define FCFG1_OSC_CONF_XOSC_OPTION_BITN                                     18
 #define FCFG1_OSC_CONF_XOSC_OPTION_M                                0x00040000
 #define FCFG1_OSC_CONF_XOSC_OPTION_S                                        18
+
+// Field:    [17] BAW_OPTION
+//
+// 0: BAW available
+// 1: BAW unavailable (default)
+#define FCFG1_OSC_CONF_BAW_OPTION                                   0x00020000
+#define FCFG1_OSC_CONF_BAW_OPTION_BITN                                      17
+#define FCFG1_OSC_CONF_BAW_OPTION_M                                 0x00020000
+#define FCFG1_OSC_CONF_BAW_OPTION_S                                         17
+
+// Field:    [16] BAW_BIAS_HOLD_MODE_EN
+//
+// Enable signal for bias sample and hold mode. Written to
+// ADI_2_REFSYS:BAWCTL2.BIAS_HOLD_MODE_EN.
+#define FCFG1_OSC_CONF_BAW_BIAS_HOLD_MODE_EN                        0x00010000
+#define FCFG1_OSC_CONF_BAW_BIAS_HOLD_MODE_EN_BITN                           16
+#define FCFG1_OSC_CONF_BAW_BIAS_HOLD_MODE_EN_M                      0x00010000
+#define FCFG1_OSC_CONF_BAW_BIAS_HOLD_MODE_EN_S                              16
+
+// Field: [15:12] BAW_CURRMIRR_RATIO
+//
+// Set current mirror ratio in BAW. Controls amount of current flowing in BAW
+// oscillator core. Written to ADI_2_REFSYS:BAWCTL2.CURRMIRR_RATIO.
+#define FCFG1_OSC_CONF_BAW_CURRMIRR_RATIO_M                         0x0000F000
+#define FCFG1_OSC_CONF_BAW_CURRMIRR_RATIO_S                                 12
+
+// Field:  [11:8] BAW_BIAS_RES_SET
+//
+// Adjust the BAW bias resistor to set the current in the BAW core. Two's
+// complement encoding.  Written to ADI_2_REFSYS:BAWCTL1.BIAS_RES_SET.
+#define FCFG1_OSC_CONF_BAW_BIAS_RES_SET_M                           0x00000F00
+#define FCFG1_OSC_CONF_BAW_BIAS_RES_SET_S                                    8
+
+// Field:     [7] BAW_FILTER_EN
+//
+// Enables a low pass filter around 1 kHz in the bias. Written to
+// ADI_2_REFSYS:BAWCTL0.FILTER_EN.
+#define FCFG1_OSC_CONF_BAW_FILTER_EN                                0x00000080
+#define FCFG1_OSC_CONF_BAW_FILTER_EN_BITN                                    7
+#define FCFG1_OSC_CONF_BAW_FILTER_EN_M                              0x00000080
+#define FCFG1_OSC_CONF_BAW_FILTER_EN_S                                       7
+
+// Field:   [6:5] BAW_BIAS_RECHARGE_DELAY
+//
+// This field sets the recharge delay for sample and hold mode. Written to
+// ADI_2_REFSYS:BAWCTL0.BIAS_RECHARGE_DLY.
+#define FCFG1_OSC_CONF_BAW_BIAS_RECHARGE_DELAY_M                    0x00000060
+#define FCFG1_OSC_CONF_BAW_BIAS_RECHARGE_DELAY_S                             5
+
+// Field:   [2:1] BAW_SERIES_CAP
+//
+// Cap to set BAW into proper mode. Written to ADI_2_REFSYS:BAWCTL0.SERIES_CAP.
+#define FCFG1_OSC_CONF_BAW_SERIES_CAP_M                             0x00000006
+#define FCFG1_OSC_CONF_BAW_SERIES_CAP_S                                      1
+
+// Field:     [0] BAW_DIV3_BYPASS
+//
+// Bypass div3 for divider, for divide ratio of 17.5. Written to
+// ADI_2_REFSYS:BAWCTL0.DIV3_BYPASS.
+// 0: Divide by 52.5 for use with 2520 MHz BAW
+// 1: Divide by 17.5 for use with 840 MHz BAW
+#define FCFG1_OSC_CONF_BAW_DIV3_BYPASS                              0x00000001
+#define FCFG1_OSC_CONF_BAW_DIV3_BYPASS_BITN                                  0
+#define FCFG1_OSC_CONF_BAW_DIV3_BYPASS_M                            0x00000001
+#define FCFG1_OSC_CONF_BAW_DIV3_BYPASS_S                                     0
 
 //*****************************************************************************
 //

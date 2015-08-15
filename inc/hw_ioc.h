@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ioc_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-21 09:44:02 +0200 (Thu, 21 May 2015)
+*  Revision:       43546
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -168,7 +168,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -198,13 +198,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input/output
+//                          Inverted input/output
 // OPENSRC                  Open Source
-// Normal input / outut
+//                          Normal input / outut
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG0_IOMODE_M                                         0x07000000
@@ -268,7 +268,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG0_IOCURR_M                                         0x00000C00
@@ -318,29 +319,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -353,10 +378,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG0_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG0_PORT_ID_S                                                 0
@@ -401,10 +422,6 @@
 #define IOC_IOCFG0_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG0_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG0_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG0_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG0_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG0_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG0_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG0_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -436,7 +453,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -466,13 +483,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG1_IOMODE_M                                         0x07000000
@@ -536,7 +553,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG1_IOCURR_M                                         0x00000C00
@@ -586,29 +604,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -621,10 +663,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG1_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG1_PORT_ID_S                                                 0
@@ -669,10 +707,6 @@
 #define IOC_IOCFG1_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG1_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG1_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG1_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG1_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG1_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG1_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG1_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -704,7 +738,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -734,13 +768,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG2_IOMODE_M                                         0x07000000
@@ -804,7 +838,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG2_IOCURR_M                                         0x00000C00
@@ -854,29 +889,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -889,10 +948,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG2_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG2_PORT_ID_S                                                 0
@@ -937,10 +992,6 @@
 #define IOC_IOCFG2_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG2_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG2_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG2_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG2_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG2_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG2_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG2_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -972,7 +1023,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -1002,13 +1053,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG3_IOMODE_M                                         0x07000000
@@ -1072,7 +1123,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG3_IOCURR_M                                         0x00000C00
@@ -1122,29 +1174,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -1157,10 +1233,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG3_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG3_PORT_ID_S                                                 0
@@ -1205,10 +1277,6 @@
 #define IOC_IOCFG3_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG3_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG3_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG3_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG3_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG3_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG3_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG3_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -1240,7 +1308,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -1270,13 +1338,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG4_IOMODE_M                                         0x07000000
@@ -1340,7 +1408,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG4_IOCURR_M                                         0x00000C00
@@ -1390,29 +1459,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -1425,10 +1518,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG4_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG4_PORT_ID_S                                                 0
@@ -1473,10 +1562,6 @@
 #define IOC_IOCFG4_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG4_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG4_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG4_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG4_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG4_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG4_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG4_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -1508,7 +1593,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -1538,13 +1623,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG5_IOMODE_M                                         0x07000000
@@ -1608,7 +1693,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG5_IOCURR_M                                         0x00000C00
@@ -1658,29 +1744,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -1693,10 +1803,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG5_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG5_PORT_ID_S                                                 0
@@ -1741,10 +1847,6 @@
 #define IOC_IOCFG5_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG5_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG5_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG5_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG5_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG5_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG5_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG5_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -1776,7 +1878,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -1806,13 +1908,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG6_IOMODE_M                                         0x07000000
@@ -1876,7 +1978,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG6_IOCURR_M                                         0x00000C00
@@ -1926,29 +2029,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -1961,10 +2088,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG6_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG6_PORT_ID_S                                                 0
@@ -2009,10 +2132,6 @@
 #define IOC_IOCFG6_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG6_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG6_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG6_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG6_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG6_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG6_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG6_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -2044,7 +2163,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -2074,13 +2193,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG7_IOMODE_M                                         0x07000000
@@ -2144,7 +2263,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG7_IOCURR_M                                         0x00000C00
@@ -2194,29 +2314,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -2229,10 +2373,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG7_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG7_PORT_ID_S                                                 0
@@ -2277,10 +2417,6 @@
 #define IOC_IOCFG7_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG7_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG7_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG7_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG7_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG7_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG7_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG7_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -2312,7 +2448,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -2342,13 +2478,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG8_IOMODE_M                                         0x07000000
@@ -2412,7 +2548,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG8_IOCURR_M                                         0x00000C00
@@ -2462,29 +2599,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -2497,10 +2658,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG8_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG8_PORT_ID_S                                                 0
@@ -2545,10 +2702,6 @@
 #define IOC_IOCFG8_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG8_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG8_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG8_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG8_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG8_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG8_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG8_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -2580,7 +2733,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -2610,13 +2763,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG9_IOMODE_M                                         0x07000000
@@ -2680,7 +2833,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG9_IOCURR_M                                         0x00000C00
@@ -2730,29 +2884,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -2765,10 +2943,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG9_PORT_ID_M                                        0x0000003F
 #define IOC_IOCFG9_PORT_ID_S                                                 0
@@ -2813,10 +2987,6 @@
 #define IOC_IOCFG9_PORT_ID_SSI0_RX                                  0x00000009
 #define IOC_IOCFG9_PORT_ID_AUX_IO                                   0x00000008
 #define IOC_IOCFG9_PORT_ID_AON_CLK32K                               0x00000007
-#define IOC_IOCFG9_PORT_ID_AON_SDO                                  0x00000004
-#define IOC_IOCFG9_PORT_ID_AON_SDI                                  0x00000003
-#define IOC_IOCFG9_PORT_ID_AON_SCK                                  0x00000002
-#define IOC_IOCFG9_PORT_ID_AON_SCS                                  0x00000001
 #define IOC_IOCFG9_PORT_ID_GPIO                                     0x00000000
 
 //*****************************************************************************
@@ -2848,7 +3018,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -2878,13 +3048,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG10_IOMODE_M                                        0x07000000
@@ -2948,7 +3118,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG10_IOCURR_M                                        0x00000C00
@@ -2998,29 +3169,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -3033,10 +3228,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG10_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG10_PORT_ID_S                                                0
@@ -3081,10 +3272,6 @@
 #define IOC_IOCFG10_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG10_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG10_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG10_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG10_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG10_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG10_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG10_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -3116,7 +3303,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -3146,13 +3333,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG11_IOMODE_M                                        0x07000000
@@ -3216,7 +3403,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG11_IOCURR_M                                        0x00000C00
@@ -3266,29 +3454,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -3301,10 +3513,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG11_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG11_PORT_ID_S                                                0
@@ -3349,10 +3557,6 @@
 #define IOC_IOCFG11_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG11_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG11_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG11_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG11_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG11_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG11_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG11_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -3384,7 +3588,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -3414,13 +3618,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG12_IOMODE_M                                        0x07000000
@@ -3484,7 +3688,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG12_IOCURR_M                                        0x00000C00
@@ -3534,29 +3739,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -3569,10 +3798,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG12_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG12_PORT_ID_S                                                0
@@ -3617,10 +3842,6 @@
 #define IOC_IOCFG12_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG12_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG12_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG12_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG12_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG12_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG12_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG12_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -3652,7 +3873,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -3682,13 +3903,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG13_IOMODE_M                                        0x07000000
@@ -3752,7 +3973,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG13_IOCURR_M                                        0x00000C00
@@ -3802,29 +4024,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -3837,10 +4083,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG13_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG13_PORT_ID_S                                                0
@@ -3885,10 +4127,6 @@
 #define IOC_IOCFG13_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG13_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG13_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG13_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG13_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG13_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG13_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG13_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -3920,7 +4158,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -3950,13 +4188,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG14_IOMODE_M                                        0x07000000
@@ -4020,7 +4258,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG14_IOCURR_M                                        0x00000C00
@@ -4070,29 +4309,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -4105,10 +4368,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG14_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG14_PORT_ID_S                                                0
@@ -4153,10 +4412,6 @@
 #define IOC_IOCFG14_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG14_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG14_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG14_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG14_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG14_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG14_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG14_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -4188,7 +4443,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -4218,13 +4473,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG15_IOMODE_M                                        0x07000000
@@ -4288,7 +4543,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG15_IOCURR_M                                        0x00000C00
@@ -4338,29 +4594,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -4373,10 +4653,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG15_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG15_PORT_ID_S                                                0
@@ -4421,10 +4697,6 @@
 #define IOC_IOCFG15_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG15_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG15_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG15_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG15_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG15_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG15_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG15_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -4456,7 +4728,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -4486,13 +4758,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG16_IOMODE_M                                        0x07000000
@@ -4556,7 +4828,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG16_IOCURR_M                                        0x00000C00
@@ -4606,29 +4879,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -4641,10 +4938,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG16_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG16_PORT_ID_S                                                0
@@ -4689,10 +4982,6 @@
 #define IOC_IOCFG16_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG16_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG16_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG16_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG16_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG16_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG16_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG16_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -4724,7 +5013,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -4754,13 +5043,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG17_IOMODE_M                                        0x07000000
@@ -4824,7 +5113,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG17_IOCURR_M                                        0x00000C00
@@ -4874,29 +5164,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -4909,10 +5223,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG17_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG17_PORT_ID_S                                                0
@@ -4957,10 +5267,6 @@
 #define IOC_IOCFG17_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG17_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG17_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG17_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG17_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG17_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG17_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG17_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -4992,7 +5298,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -5022,13 +5328,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG18_IOMODE_M                                        0x07000000
@@ -5092,7 +5398,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG18_IOCURR_M                                        0x00000C00
@@ -5142,29 +5449,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -5177,10 +5508,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG18_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG18_PORT_ID_S                                                0
@@ -5225,10 +5552,6 @@
 #define IOC_IOCFG18_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG18_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG18_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG18_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG18_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG18_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG18_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG18_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -5260,7 +5583,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -5290,13 +5613,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG19_IOMODE_M                                        0x07000000
@@ -5360,7 +5683,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG19_IOCURR_M                                        0x00000C00
@@ -5410,29 +5734,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -5445,10 +5793,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG19_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG19_PORT_ID_S                                                0
@@ -5493,10 +5837,6 @@
 #define IOC_IOCFG19_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG19_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG19_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG19_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG19_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG19_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG19_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG19_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -5528,7 +5868,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -5558,13 +5898,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG20_IOMODE_M                                        0x07000000
@@ -5628,7 +5968,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG20_IOCURR_M                                        0x00000C00
@@ -5678,29 +6019,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -5713,10 +6078,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG20_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG20_PORT_ID_S                                                0
@@ -5761,10 +6122,6 @@
 #define IOC_IOCFG20_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG20_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG20_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG20_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG20_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG20_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG20_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG20_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -5796,7 +6153,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -5826,13 +6183,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG21_IOMODE_M                                        0x07000000
@@ -5896,7 +6253,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG21_IOCURR_M                                        0x00000C00
@@ -5946,29 +6304,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -5981,10 +6363,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG21_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG21_PORT_ID_S                                                0
@@ -6029,10 +6407,6 @@
 #define IOC_IOCFG21_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG21_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG21_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG21_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG21_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG21_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG21_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG21_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -6064,7 +6438,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -6094,13 +6468,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG22_IOMODE_M                                        0x07000000
@@ -6164,7 +6538,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG22_IOCURR_M                                        0x00000C00
@@ -6214,29 +6589,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -6249,10 +6648,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG22_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG22_PORT_ID_S                                                0
@@ -6297,10 +6692,6 @@
 #define IOC_IOCFG22_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG22_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG22_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG22_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG22_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG22_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG22_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG22_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -6332,7 +6723,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -6362,13 +6753,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG23_IOMODE_M                                        0x07000000
@@ -6432,7 +6823,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG23_IOCURR_M                                        0x00000C00
@@ -6482,29 +6874,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -6517,10 +6933,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG23_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG23_PORT_ID_S                                                0
@@ -6565,10 +6977,6 @@
 #define IOC_IOCFG23_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG23_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG23_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG23_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG23_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG23_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG23_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG23_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -6600,7 +7008,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -6630,13 +7038,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG24_IOMODE_M                                        0x07000000
@@ -6700,7 +7108,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG24_IOCURR_M                                        0x00000C00
@@ -6750,29 +7159,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -6785,10 +7218,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG24_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG24_PORT_ID_S                                                0
@@ -6833,10 +7262,6 @@
 #define IOC_IOCFG24_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG24_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG24_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG24_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG24_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG24_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG24_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG24_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -6868,7 +7293,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -6898,13 +7323,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG25_IOMODE_M                                        0x07000000
@@ -6968,7 +7393,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG25_IOCURR_M                                        0x00000C00
@@ -7018,29 +7444,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -7053,10 +7503,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG25_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG25_PORT_ID_S                                                0
@@ -7101,10 +7547,6 @@
 #define IOC_IOCFG25_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG25_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG25_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG25_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG25_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG25_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG25_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG25_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -7136,7 +7578,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -7166,13 +7608,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG26_IOMODE_M                                        0x07000000
@@ -7236,7 +7678,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG26_IOCURR_M                                        0x00000C00
@@ -7286,29 +7729,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -7321,10 +7788,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG26_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG26_PORT_ID_S                                                0
@@ -7369,10 +7832,6 @@
 #define IOC_IOCFG26_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG26_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG26_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG26_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG26_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG26_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG26_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG26_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -7404,7 +7863,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -7434,13 +7893,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG27_IOMODE_M                                        0x07000000
@@ -7504,7 +7963,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG27_IOCURR_M                                        0x00000C00
@@ -7554,29 +8014,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -7589,10 +8073,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG27_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG27_PORT_ID_S                                                0
@@ -7637,10 +8117,6 @@
 #define IOC_IOCFG27_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG27_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG27_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG27_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG27_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG27_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG27_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG27_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -7672,7 +8148,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -7702,13 +8178,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG28_IOMODE_M                                        0x07000000
@@ -7772,7 +8248,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG28_IOCURR_M                                        0x00000C00
@@ -7822,29 +8299,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -7857,10 +8358,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG28_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG28_PORT_ID_S                                                0
@@ -7905,10 +8402,6 @@
 #define IOC_IOCFG28_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG28_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG28_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG28_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG28_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG28_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG28_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG28_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -7940,7 +8433,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -7970,13 +8463,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG29_IOMODE_M                                        0x07000000
@@ -8040,7 +8533,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG29_IOCURR_M                                        0x00000C00
@@ -8090,29 +8584,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -8125,10 +8643,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG29_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG29_PORT_ID_S                                                0
@@ -8173,10 +8687,6 @@
 #define IOC_IOCFG29_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG29_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG29_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG29_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG29_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG29_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG29_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG29_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -8208,7 +8718,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -8238,13 +8748,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG30_IOMODE_M                                        0x07000000
@@ -8308,7 +8818,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG30_IOCURR_M                                        0x00000C00
@@ -8358,29 +8869,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -8393,10 +8928,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG30_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG30_PORT_ID_S                                                0
@@ -8441,10 +8972,6 @@
 #define IOC_IOCFG30_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG30_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG30_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG30_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG30_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG30_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG30_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG30_PORT_ID_GPIO                                    0x00000000
 
 //*****************************************************************************
@@ -8476,7 +9003,7 @@
 // Field: [28:27] WU_CFG
 //
 // If DIO is configured GPIO or non-AON peripheral signals, i.e. PORT_ID 0x00
-// or &#62;0x08:
+// or >0x08:
 //
 // 00: No wake-up
 // 01: No wake-up
@@ -8506,13 +9033,13 @@
 // 0x3: Reserved. Undefined behavior.
 // ENUMs:
 // OPENSRC_INV              Open Source
-// Inverted input / output
+//                          Inverted input / output
 // OPENSRC                  Open Source
-// Normal input / output
+//                          Normal input / output
 // OPENDR_INV               Open Drain
-// Inverted input / output
+//                          Inverted input / output
 // OPENDR                   Open Drain,
-// Normal input / output
+//                          Normal input / output
 // INV                      Inverted input / ouput
 // NORMAL                   Normal input / output
 #define IOC_IOCFG31_IOMODE_M                                        0x07000000
@@ -8576,7 +9103,8 @@
 // Selects IO current in combination with IOSTR
 // ENUMs:
 // 4_8MA                    4 or 8 mA
-// 8 mA if IO is double drive strength
+//                          8 mA if IO is double
+//                          drive strength
 // 4MA                      4 mA
 // 2MA                      2 mA
 #define IOC_IOCFG31_IOCURR_M                                        0x00000C00
@@ -8626,29 +9154,53 @@
 // SSI1_RX                  SSI1 RX
 // CPU_SWV                  CPU SWV
 // PORT_EVENT7              PORT EVENT 7
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT6              PORT EVENT 6
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT5              PORT EVENT 5
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT4              PORT EVENT 4
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT3              PORT EVENT 3
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT2              PORT EVENT 2
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT1              PORT EVENT 1
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // PORT_EVENT0              PORT EVENT 0
-// Can be used as a general purpose IO event by selecting it via registers in
-// the EVENT module, e.g. EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV, etc
+//                          Can be used as a general
+//                          purpose IO event by selecting it via registers
+//                          in the EVENT module, e.g.
+//                          EVENT:GPT0ACAPTSEL.EV, EVENT:UDMACH14BSEL.EV,
+//                          etc
 // UART0_RTS                UART0 RTS
 // UART0_CTS                UART0 CTS
 // UART0_TX                 UART0 TX
@@ -8661,10 +9213,6 @@
 // SSI0_RX                  SSI0 RX
 // AUX_IO                   AUX IO
 // AON_CLK32K               AON 32 KHz clock (SCLK_LF)
-// AON_SDO                  AON **SPI-S** SDO
-// AON_SDI                  AON **SPI-S** SDI
-// AON_SCK                  AON **SPI-S** SCK
-// AON_SCS                  AON **SPI-S** SCS
 // GPIO                     General Purpose IO
 #define IOC_IOCFG31_PORT_ID_M                                       0x0000003F
 #define IOC_IOCFG31_PORT_ID_S                                                0
@@ -8709,10 +9257,6 @@
 #define IOC_IOCFG31_PORT_ID_SSI0_RX                                 0x00000009
 #define IOC_IOCFG31_PORT_ID_AUX_IO                                  0x00000008
 #define IOC_IOCFG31_PORT_ID_AON_CLK32K                              0x00000007
-#define IOC_IOCFG31_PORT_ID_AON_SDO                                 0x00000004
-#define IOC_IOCFG31_PORT_ID_AON_SDI                                 0x00000003
-#define IOC_IOCFG31_PORT_ID_AON_SCK                                 0x00000002
-#define IOC_IOCFG31_PORT_ID_AON_SCS                                 0x00000001
 #define IOC_IOCFG31_PORT_ID_GPIO                                    0x00000000
 
 

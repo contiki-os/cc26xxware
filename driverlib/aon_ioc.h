@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aon_ioc.h
-*  Revised:        2015-01-14 12:12:44 +0100 (on, 14 jan 2015)
-*  Revision:       42373
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the AON IO Controller
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup aon_group
+//! @{
 //! \addtogroup aonioc_api
 //! @{
 //
@@ -76,10 +78,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define AONIOCDriveStrengthSet          NOROM_AONIOCDriveStrengthSet
     #define AONIOCDriveStrengthGet          NOROM_AONIOCDriveStrengthGet
 #endif
@@ -110,7 +110,7 @@ extern "C"
 
 //*****************************************************************************
 //
-//! \brief Setup the drive strength for all IOs on the chip.
+//! \brief Set up the drive strength for all IOs on the chip.
 //!
 //! Use this function to define the general drive strength settings for all IOs
 //! on the device. The drive strength of the individual IOs is set using the
@@ -157,7 +157,7 @@ extern void AONIOCDriveStrengthSet(uint32_t ui32LowDrvStr,
 //
 //! \brief Get a specific drive level setting for all IOs.
 //!
-//! Use this function to retreive the driver strengt setting for a specific
+//! Use this function to retrieve the driver strength setting for a specific
 //! IO drive level.
 //!
 //! \param ui32DriveLevel is the specific drive level to get the setting for.
@@ -278,7 +278,7 @@ AONIOC32kHzOutputEnable(void)
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_AONIOCDriveStrengthSet
         #undef  AONIOCDriveStrengthSet
@@ -304,6 +304,7 @@ AONIOC32kHzOutputEnable(void)
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

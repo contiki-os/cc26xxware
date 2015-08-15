@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aon_wuc_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
+*  Revision:       43524
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -204,9 +204,9 @@
 // banks that has retention during MCU power off
 // ENUMs:
 // RET_FULL                 Retention on for all banks (SRAM:BANK0, SRAM:BANK1
-// ,SRAM:BANK2 and SRAM:BANK3)
+//                          ,SRAM:BANK2 and SRAM:BANK3)
 // RET_LEVEL3               Retention on for SRAM:BANK0, SRAM:BANK1 and
-// SRAM:BANK2
+//                          SRAM:BANK2
 // RET_LEVEL2               Retention on for SRAM:BANK0 and SRAM:BANK1
 // RET_LEVEL1               Retention on for SRAM:BANK0
 // RET_NONE                 Retention is disabled
@@ -490,7 +490,7 @@
 //
 // Note: Rounding may cause adaptive recharge not to start for very small
 // values of both Gain and Initial period. Criteria for algorithm to start is
-// MAX(PERIOD*2^-C1,PERIOD*2^-C2) &#62;= 1
+// MAX(PERIOD*2^-C1,PERIOD*2^-C2) >= 1
 #define AON_WUC_RECHARGECFG_C2_M                                    0x00F00000
 #define AON_WUC_RECHARGECFG_C2_S                                            20
 
@@ -503,7 +503,7 @@
 //
 // Note: Rounding may cause adaptive recharge not to start for very small
 // values of both Gain and Initial period. Criteria for algorithm to start is
-// MAX(PERIOD*2^-C1,PERIOD*2^-C2) &#62;= 1
+// MAX(PERIOD*2^-C1,PERIOD*2^-C2) >= 1
 #define AON_WUC_RECHARGECFG_C1_M                                    0x000F0000
 #define AON_WUC_RECHARGECFG_C1_S                                            16
 
@@ -564,14 +564,14 @@
 //
 // The register is being updated in every recharge period with a shift left,
 // and bit 0 is updated with the last VDDR sample, ie a 1 is shiftet in in case
-// VDDR &#62; VDDR_threshold just before recharge starts. Otherwise a 0 will be
+// VDDR > VDDR_threshold just before recharge starts. Otherwise a 0 will be
 // shifted in.
 #define AON_WUC_RECHARGESTAT_VDDR_SMPLS_M                           0x000F0000
 #define AON_WUC_RECHARGESTAT_VDDR_SMPLS_S                                   16
 
 // Field:  [15:0] MAX_USED_PER
 //
-// The maximum value of recharge period seen with VDDR&#62;threshold.
+// The maximum value of recharge period seen with VDDR>threshold.
 //
 // The VDDR voltage is compared against the threshold voltage at  just before
 // each recharge. If VDDR is above threshold, MAX_USED_PER is updated with max

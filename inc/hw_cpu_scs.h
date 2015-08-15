@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_cpu_scs_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -3381,7 +3381,7 @@
 //*****************************************************************************
 // Field:  [11:8] MICROCONTROLLER_PROGRAMMERS_MODEL
 //
-// Microcontroller programmer&#39;s model
+// Microcontroller programmer's model
 //
 // 0x0: Not supported
 // 0x2: Two-stack support
@@ -3640,8 +3640,7 @@
 // 0x10: XPSR/flags, execution state information, and exception number
 // 0x11: MSP (Main SP)
 // 0x12: PSP (Process SP)
-// 0x14: CONTROL&#60;&#60;24 | FAULTMASK&#60;&#60;16 | BASEPRI&#60;&#60;8 |
-// PRIMASK
+// 0x14: CONTROL<<24 | FAULTMASK<<16 | BASEPRI<<8 | PRIMASK
 #define CPU_SCS_DCRSR_REGSEL_M                                      0x0000001F
 #define CPU_SCS_DCRSR_REGSEL_S                                               0
 

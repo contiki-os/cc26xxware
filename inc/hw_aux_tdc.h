@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aux_tdc_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-08-03 14:46:38 +0200 (Mon, 03 Aug 2015)
+*  Revision:       44311
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -84,20 +84,27 @@
 // ENUMs:
 // ABORT                    This command forces the TDC back to IDLE state
 // RUN                      This command makes the TDC FSM start  and stop
-// counting asynchronously. TDC measurement may start immediately if start is
-// high and hence it may not give precise edge to edge measurements. Only
-// recommended when start pulse is guaranteed to arrive at least 7 clock
-// periods after the command
+//                          counting asynchronously. TDC measurement may
+//                          start immediately if start is high and hence it
+//                          may not give precise edge to edge measurements.
+//                          Only recommended when start pulse is guaranteed
+//                          to arrive at least 7 clock periods after the
+//                          command
 // RUN_SYNC_START           This command makes the TDC FSM start counting
-// synchronously to the first rising edge that follows a required falling edge
-// of the start event. This guarantees an edge triggered start and is
-// recommended for frequency measurements. A falling edge of the start event
-// may be missed if the command is issued close to it in time, but the TDC will
-// catch later falling edges and guarantee that a measurement starts
-// synchronously to the rising edge of the start event
+//                          synchronously to the first rising edge that
+//                          follows a required falling edge of the start
+//                          event. This guarantees an edge triggered start
+//                          and is recommended for frequency measurements.
+//                          A falling edge of the start event may be missed
+//                          if the command is issued close to it in time,
+//                          but the TDC will catch later falling edges and
+//                          guarantee that a measurement starts
+//                          synchronously to the rising edge of the start
+//                          event
 // CLR_RESULT               This command clears STAT.SAT, STAT.DONE and
-// results. Note: This is not needed as prerequisite for a measurement.
-// Reliable clear is only guaranteed from IDLE state
+//                          results. Note: This is not needed as
+//                          prerequisite for a measurement. Reliable clear
+//                          is only guaranteed from IDLE state
 #define AUX_TDC_CTL_CMD_M                                           0x00000003
 #define AUX_TDC_CTL_CMD_S                                                    0
 #define AUX_TDC_CTL_CMD_ABORT                                       0x00000003
@@ -175,7 +182,7 @@
 // Field:  [24:0] VALUE
 //
 // Result of the TDC conversion. The result is in clock edges of the clock
-// selected in [OSC_DIG.CTL0.ACLK_TDC_SRC_SEL]. Both rising and falling edges
+// selected in DDI_0_OSC:CTL0.ACLK_TDC_SRC_SEL. Both rising and falling edges
 // are counted.
 //
 // When saturating the result is slightly higher than the saturation limit,
@@ -192,34 +199,67 @@
 //*****************************************************************************
 // Field:   [3:0] LIMIT
 //
-// Select when the TDC should time out. Values not enumerated is not supported
+// Select when the TDC times out. Values not enumerated are not supported
 // ENUMs:
-// ROVF                     Result bit 24 : TDC saturates at 2^24 ticks
-// R23                      Result bit 23 : TDC saturates at 2^23 ticks
-// R22                      Result bit 22 : TDC saturates at 2^22 ticks
-// R21                      Result bit 21 : TDC saturates at 2^21 ticks
-// R20                      Result bit 20 : TDC saturates at 2^20 ticks
-// R19                      Result bit 19 : TDC saturates at 2^19 ticks
-// R18                      Result bit 18 : TDC saturates at 2^18 ticks
-// R17                      Result bit 17 : TDC saturates at 2^17 ticks
-// R16                      Result bit 16 : TDC saturates at 2^16 ticks
-// R15                      Result bit 15 : TDC saturates at 2^15 ticks
-// R14                      Result bit 14 : TDC saturates at 2^14 ticks
-// R13                      Result bit 13 : TDC saturates 2^13 ticks
+// R24                      Result bit 24 : TDC saturates and stops when
+//                          RESULT.VALUE[24] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R23                      Result bit 23 : TDC saturates and stops when
+//                          RESULT.VALUE[23] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R22                      Result bit 22 : TDC saturates and stops when
+//                          RESULT.VALUE[22] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R21                      Result bit 21 : TDC saturates and stops when
+//                          RESULT.VALUE[21] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R20                      Result bit 20 : TDC saturates and stops when
+//                          RESULT.VALUE[20] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R19                      Result bit 19 : TDC saturates and stops when
+//                          RESULT.VALUE[19] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R18                      Result bit 18 : TDC saturates and stops when
+//                          RESULT.VALUE[18] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R17                      Result bit 17 : TDC saturates and stops when
+//                          RESULT.VALUE[17] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R16                      Result bit 16 : TDC saturates and stops when
+//                          RESULT.VALUE[16] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R15                      Result bit 15 : TDC saturates and stops when
+//                          RESULT.VALUE[15] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R14                      Result bit 14 : TDC saturates and stops when
+//                          RESULT.VALUE[14] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R13                      Result bit 13 : TDC saturates and stops when
+//                          RESULT.VALUE[13] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
+// R12                      Result bit 12 : TDC saturates and stops when
+//                          RESULT.VALUE[12] is set. The flag STAT.SAT is
+//                          set when the timer saturates.
 #define AUX_TDC_SATCFG_LIMIT_M                                      0x0000000F
 #define AUX_TDC_SATCFG_LIMIT_S                                               0
-#define AUX_TDC_SATCFG_LIMIT_ROVF                                   0x0000000F
-#define AUX_TDC_SATCFG_LIMIT_R23                                    0x0000000D
-#define AUX_TDC_SATCFG_LIMIT_R22                                    0x0000000C
-#define AUX_TDC_SATCFG_LIMIT_R21                                    0x0000000B
-#define AUX_TDC_SATCFG_LIMIT_R20                                    0x0000000A
-#define AUX_TDC_SATCFG_LIMIT_R19                                    0x00000009
-#define AUX_TDC_SATCFG_LIMIT_R18                                    0x00000008
-#define AUX_TDC_SATCFG_LIMIT_R17                                    0x00000007
-#define AUX_TDC_SATCFG_LIMIT_R16                                    0x00000006
-#define AUX_TDC_SATCFG_LIMIT_R15                                    0x00000005
-#define AUX_TDC_SATCFG_LIMIT_R14                                    0x00000004
-#define AUX_TDC_SATCFG_LIMIT_R13                                    0x00000003
+#define AUX_TDC_SATCFG_LIMIT_R24                                    0x0000000F
+#define AUX_TDC_SATCFG_LIMIT_R23                                    0x0000000E
+#define AUX_TDC_SATCFG_LIMIT_R22                                    0x0000000D
+#define AUX_TDC_SATCFG_LIMIT_R21                                    0x0000000C
+#define AUX_TDC_SATCFG_LIMIT_R20                                    0x0000000B
+#define AUX_TDC_SATCFG_LIMIT_R19                                    0x0000000A
+#define AUX_TDC_SATCFG_LIMIT_R18                                    0x00000009
+#define AUX_TDC_SATCFG_LIMIT_R17                                    0x00000008
+#define AUX_TDC_SATCFG_LIMIT_R16                                    0x00000007
+#define AUX_TDC_SATCFG_LIMIT_R15                                    0x00000006
+#define AUX_TDC_SATCFG_LIMIT_R14                                    0x00000005
+#define AUX_TDC_SATCFG_LIMIT_R13                                    0x00000004
+#define AUX_TDC_SATCFG_LIMIT_R12                                    0x00000003
+
+//
+// Keeping backward compatibility until major revision number is incremented
+//
+#define AUX_TDC_SATCFG_LIMIT_ROVF   ( AUX_TDC_SATCFG_LIMIT_R24 )
 
 //*****************************************************************************
 //
@@ -472,11 +512,13 @@
 // TDC_PRE line. After the prescaler is reset the event output TDC_PRE is 0.
 // ENUMs:
 // DIV64                    Prescaler divides by 64. A rising edge on the
-// output is generated for every 64 rising edges of the input (the output
-// toggles on every 32th rising edge of the input). .
+//                          output is generated for every 64 rising edges
+//                          of the input (the output toggles on every 32th
+//                          rising edge of the input). .
 // DIV16                    Prescaler divides by 16. A rising edge on the
-// output is generated for every 16 rising edges of the input (the output
-// toggles on every 8th rising edge of the input).
+//                          output is generated for every 16 rising edges
+//                          of the input (the output toggles on every 8th
+//                          rising edge of the input).
 #define AUX_TDC_PRECTL_RATIO                                        0x00000040
 #define AUX_TDC_PRECTL_RATIO_BITN                                            6
 #define AUX_TDC_PRECTL_RATIO_M                                      0x00000040
@@ -489,38 +531,38 @@
 // Selects event for prescaler to use as input
 // Note! Only change when prescaler is in reset
 // ENUMs:
-// ADC_IRQ                  Selects ADC_IRQ
-// MCU_EV                   Selects MCU_EV
-// ACLK_REF                 Selects ACLK_REF
-// AUXIO15                  Selects AUXIO15
-// AUXIO14                  Selects AUXIO14
-// AUXIO13                  Selects AUXIO13
-// AUXIO12                  Selects AUXIO12
-// AUXIO11                  Selects AUXIO11
-// AUXIO10                  Selects AUXIO10
-// AUXIO9                   Selects AUXIO9
-// AUXIO8                   Selects AUXIO8
-// AUXIO7                   Selects AUXIO7
-// AUXIO6                   Selects AUXIO6
-// AUXIO5                   Selects AUXIO5
-// AUXIO4                   Selects AUXIO4
-// AUXIO3                   Selects AUXIO3
-// AUXIO2                   Selects AUXIO2
-// AUXIO1                   Selects AUXIO1
-// AUXIO0                   Selects AUXIO0
-// AON_PROG_WU              Selects AON_PROG_WU
-// AON_SW                   Selects AON_SW
-// OBSMUX1                  Selects OBSMUX1
-// OBSMUX0                  Selects OBSMUX0
-// ADC_FIFO_ALMOST_FULL     Selects ADC_FIFO_ALMOST_FULL
-// ADC_DONE                 Selects ADC_DONE
-// SMPH_AUTOTAKE_DONE       Selects SMPH_AUTOTAKE_DONE
-// TIMER1_EV                Selects TIMER1_EV
-// TIMER0_EV                Selects TIMER0_EV
-// ISRC_RESET               Selects ISRC_RESET
-// AUX_COMPB                Selects AUX_COMPB
-// AUX_COMPA                Selects AUX_COMPA
-// AON_RTC_CH2              Selects AON_RTC_CH2
+// ADC_IRQ
+// MCU_EV
+// ACLK_REF
+// AUXIO15
+// AUXIO14
+// AUXIO13
+// AUXIO12
+// AUXIO11
+// AUXIO10
+// AUXIO9
+// AUXIO8
+// AUXIO7
+// AUXIO6
+// AUXIO5
+// AUXIO4
+// AUXIO3
+// AUXIO2
+// AUXIO1
+// AUXIO0
+// AON_PROG_WU
+// AON_SW
+// OBSMUX1
+// OBSMUX0
+// ADC_FIFO_ALMOST_FULL
+// ADC_DONE
+// SMPH_AUTOTAKE_DONE
+// TIMER1_EV
+// TIMER0_EV
+// ISRC_RESET
+// AUX_COMPB
+// AUX_COMPA
+// AON_RTC_CH2
 #define AUX_TDC_PRECTL_SRC_M                                        0x0000001F
 #define AUX_TDC_PRECTL_SRC_S                                                 0
 #define AUX_TDC_PRECTL_SRC_ADC_IRQ                                  0x0000001F
@@ -564,7 +606,7 @@
 // Field:  [15:0] CNT
 //
 // Writing to this register will latch the contents of the 16 bit prescaler
-// counter (The value written is don&#39;t care).
+// counter (The value written is don't care).
 //
 // Reading will return the latched value.
 #define AUX_TDC_PRECNT_CNT_M                                        0x0000FFFF

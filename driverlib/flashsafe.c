@@ -1,6 +1,6 @@
 /******************************************************************************
 *  Filename:       flash.c
-*  Revised:        2015-02-03 14:18:59 +0100 (ti, 03 feb 2015)
+*  Revised:        2015-02-03 14:18:59 +0100 (Tue, 03 Feb 2015)
 *  Revision:       42551
 *
 *  Description:    Thread Safe Driver for the Flash.
@@ -45,7 +45,7 @@
 // This section will undo prototype renaming made in the header file
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #undef  FlashsafeSizeGet
     #define FlashsafeSizeGet                NOROM_FlashsafeSizeGet
     #undef  FlashsafeSectorSizeGet
@@ -80,10 +80,6 @@
     #define FlashsafeSectorErase            NOROM_FlashsafeSectorErase
     #undef  FlashsafeProgram
     #define FlashsafeProgram                NOROM_FlashsafeProgram
-    #undef  FlashsafeProgramNowait
-    #define FlashsafeProgramNowait          NOROM_FlashsafeProgramNowait
-    #undef  FlashsafeProgramNowaitRelease
-    #define FlashsafeProgramNowaitRelease   NOROM_FlashsafeProgramNowaitRelease
     #undef  FlashsafeDisableSectorsForWrite
     #define FlashsafeDisableSectorsForWrite NOROM_FlashsafeDisableSectorsForWrite
 #endif

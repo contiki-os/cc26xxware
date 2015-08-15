@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_trng_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -149,11 +149,10 @@
 
 // Field:     [1] SHUTDOWN_OVF
 //
-// 1: The number of FROs shut down (i.e. the number of &#39;1&#39; bits in the
+// 1: The number of FROs shut down (i.e. the number of '1' bits in the
 // ALARMSTOP register) has exceeded the threshold set by ALARMCNT.SHUTDOWN_THR
 //
-// Writing &#39;1&#39; to IRQFLAGCLR.SHUTDOWN_OVF clears this bit to
-// &#39;0&#39; again.
+// Writing '1' to IRQFLAGCLR.SHUTDOWN_OVF clears this bit to '0' again.
 #define TRNG_IRQFLAGSTAT_SHUTDOWN_OVF                               0x00000002
 #define TRNG_IRQFLAGSTAT_SHUTDOWN_OVF_BITN                                   1
 #define TRNG_IRQFLAGSTAT_SHUTDOWN_OVF_M                             0x00000002
@@ -163,8 +162,8 @@
 //
 // 1: Data are available in OUT0 and OUT1.
 //
-// Acknowledging this state by writing &#39;1&#39; to IRQFLAGCLR.RDY clears
-// this bit to &#39;0&#39;.
+// Acknowledging this state by writing '1' to IRQFLAGCLR.RDY clears this bit to
+// '0'.
 // If a new number is already available in the internal register of the TRNG,
 // the number is directly clocked into the result register. In this case the
 // status bit is asserted again, after one clock cycle.
@@ -257,10 +256,10 @@
 //
 // 1: Remove XNOR feedback from the main LFSR, converting it into a normal
 // shift register for the XOR-ed outputs of the FROs (shifting data in on the
-// LSB side). A &#39;1&#39; also forces the LFSR to sample continuously.
+// LSB side). A '1' also forces the LFSR to sample continuously.
 //
-// This bit can only be set to &#39;1&#39; when TEST_MODE is also set to
-// &#39;1&#39; and should not be used for other than test purposes
+// This bit can only be set to '1' when TEST_MODE is also set to '1' and should
+// not be used for other than test purposes
 #define TRNG_CTL_NO_LFSR_FB                                         0x00000004
 #define TRNG_CTL_NO_LFSR_FB_BITN                                             2
 #define TRNG_CTL_NO_LFSR_FB_M                                       0x00000004
@@ -270,7 +269,7 @@
 //
 // 1: Enables access to the TESTCNT and LFSR0/LFSR1/LFSR2 registers (the latter
 // are automatically cleared before enabling access)  and keeps
-// IRQFLAGSTAT.NEED_CLOCK at &#39;1&#39;.
+// IRQFLAGSTAT.NEED_CLOCK at '1'.
 //
 // This bit shall not be used unless you need to change the LFSR seed prior to
 // creating a new random value. All other testing is done external to register
@@ -317,7 +316,7 @@
 // worst-case
 // conditions) has a cycle time less than twice the sample period.
 //
-// This field can only be modified while CTL.TRNG_EN is &#39;0&#39;.
+// This field can only be modified while CTL.TRNG_EN is '0'.
 #define TRNG_CFG0_SMPL_DIV_M                                        0x00000F00
 #define TRNG_CFG0_SMPL_DIV_S                                                 8
 
@@ -331,8 +330,8 @@
 // to 2^14). To ensure same entropy in all generated random numbers the value 0
 // should be used. Then MAX_REFILL_CYCLES controls the minimum refill interval.
 // The number of samples defined here cannot be higher than the number defined
-// by the &#39;max_refill_cycles&#39; field (i.e. that field takes precedence).
-// No random value will be created if min refill &#62; max refill.
+// by the 'max_refill_cycles' field (i.e. that field takes precedence). No
+// random value will be created if min refill > max refill.
 //
 // This field can only be modified while CTL.TRNG_EN = 0.
 //
@@ -351,7 +350,7 @@
 //*****************************************************************************
 // Field: [29:24] SHUTDOWN_CNT
 //
-// Read-only, indicates the number of &#39;1&#39; bits in ALARMSTOP register.
+// Read-only, indicates the number of '1' bits in ALARMSTOP register.
 // The maximum value equals the number of FROs.
 #define TRNG_ALARMCNT_SHUTDOWN_CNT_M                                0x3F000000
 #define TRNG_ALARMCNT_SHUTDOWN_CNT_S                                        24
@@ -366,10 +365,10 @@
 // Field:   [7:0] ALARM_THR
 //
 // Alarm detection threshold for the repeating pattern detectors on each FRO.
-// An FRO &#39;alarm event&#39; is declared when a repeating pattern (of up to
-// four samples length) is detected continuously for the number of samples
-// defined by this field&#39;s value. Reset value 0xFF should keep the number
-// of &#39;alarm events&#39; to a manageable level.
+// An FRO 'alarm event' is declared when a repeating pattern (of up to four
+// samples length) is detected continuously for the number of samples defined
+// by this field's value. Reset value 0xFF should keep the number of 'alarm
+// events' to a manageable level.
 #define TRNG_ALARMCNT_ALARM_THR_M                                   0x000000FF
 #define TRNG_ALARMCNT_ALARM_THR_S                                            0
 
@@ -380,14 +379,12 @@
 //*****************************************************************************
 // Field:  [23:0] FRO_MASK
 //
-// Enable bits for the individual FROs. A &#39;1&#39; in bit [n] enables FRO
-// &#39;n&#39;. Default state is all &#39;1&#39;s to enable all FROs after
-// power-up. Note that they are not actually started up before the CTL.TRNG_EN
-// bit  is set to &#39;1&#39;.
+// Enable bits for the individual FROs. A '1' in bit [n] enables FRO 'n'.
+// Default state is all '1's to enable all FROs after power-up. Note that they
+// are not actually started up before the CTL.TRNG_EN bit  is set to '1'.
 //
-// Bits are automatically forced to &#39;0&#39; here (and cannot be written to
-// &#39;1&#39;) while the corresponding bit in  ALARMSTOP.FRO_FLAGS has value
-// &#39;1&#39;.
+// Bits are automatically forced to '0' here (and cannot be written to '1')
+// while the corresponding bit in  ALARMSTOP.FRO_FLAGS has value '1'.
 #define TRNG_FROEN_FRO_MASK_M                                       0x00FFFFFF
 #define TRNG_FROEN_FRO_MASK_S                                                0
 
@@ -398,10 +395,10 @@
 //*****************************************************************************
 // Field:  [23:0] FRO_MASK
 //
-// De-tune bits for the individual FROs. A &#39;1&#39; in bit [n] lets FRO
-// &#39;n&#39; run approximately 5% faster. The value of one of these bits may
-// only be changed while the corresponding FRO is turned off (by temporarily
-// writing a &#39;0&#39; in the corresponding
+// De-tune bits for the individual FROs. A '1' in bit [n] lets FRO 'n' run
+// approximately 5% faster. The value of one of these bits may only be changed
+// while the corresponding FRO is turned off (by temporarily writing a '0' in
+// the corresponding
 // bit of the FROEN.FRO_MASK register).
 #define TRNG_FRODETUNE_FRO_MASK_M                                   0x00FFFFFF
 #define TRNG_FRODETUNE_FRO_MASK_S                                            0
@@ -413,9 +410,8 @@
 //*****************************************************************************
 // Field:  [23:0] FRO_MASK
 //
-// Logging bits for the &#39;alarm events&#39; of individual FROs. A
-// &#39;1&#39; in bit [n] indicates FRO &#39;n&#39; experienced an &#39;alarm
-// event&#39;.
+// Logging bits for the 'alarm events' of individual FROs. A '1' in bit [n]
+// indicates FRO 'n' experienced an 'alarm event'.
 #define TRNG_ALARMMASK_FRO_MASK_M                                   0x00FFFFFF
 #define TRNG_ALARMMASK_FRO_MASK_S                                            0
 
@@ -426,11 +422,10 @@
 //*****************************************************************************
 // Field:  [23:0] FRO_FLAGS
 //
-// Logging bits for the &#39;alarm events&#39; of individual FROs. A
-// &#39;1&#39; in bit [n] indicates FRO &#39;n&#39; experienced more than one
-// &#39;alarm event&#39; in quick succession and has been turned off. A
-// &#39;1&#39; in this field forces the corresponding bit in FROEN.FRO_MASK to
-// &#39;0&#39;.
+// Logging bits for the 'alarm events' of individual FROs. A '1' in bit [n]
+// indicates FRO 'n' experienced more than one 'alarm event' in quick
+// succession and has been turned off. A '1' in this field forces the
+// corresponding bit in FROEN.FRO_MASK to '0'.
 #define TRNG_ALARMSTOP_FRO_FLAGS_M                                  0x00FFFFFF
 #define TRNG_ALARMSTOP_FRO_FLAGS_S                                           0
 
@@ -527,7 +522,7 @@
 //*****************************************************************************
 // Field:     [1] SHUTDOWN_OVF
 //
-// Shutdown Overflow (result of IRQFLAGSTAT.SHUTDOWN_OVF AND&#39;ed with
+// Shutdown Overflow (result of IRQFLAGSTAT.SHUTDOWN_OVF AND'ed with
 // IRQFLAGMASK.SHUTDOWN_OVF)
 #define TRNG_IRQSTATMASK_SHUTDOWN_OVF                               0x00000002
 #define TRNG_IRQSTATMASK_SHUTDOWN_OVF_BITN                                   1
@@ -536,7 +531,7 @@
 
 // Field:     [0] RDY
 //
-// New random value available (result of IRQFLAGSTAT.RDY AND&#39;ed with
+// New random value available (result of IRQFLAGSTAT.RDY AND'ed with
 // IRQFLAGMASK.RDY)
 #define TRNG_IRQSTATMASK_RDY                                        0x00000001
 #define TRNG_IRQSTATMASK_RDY_BITN                                            0
@@ -566,8 +561,8 @@
 //*****************************************************************************
 // Field:     [0] RESET
 //
-// Write &#39;1&#39; to soft reset , reset will be low for 4-5 clock cycles.
-// Poll to 0 for reset to be completed.
+// Write '1' to soft reset , reset will be low for 4-5 clock cycles. Poll to 0
+// for reset to be completed.
 #define TRNG_SWRESET_RESET                                          0x00000001
 #define TRNG_SWRESET_RESET_BITN                                              0
 #define TRNG_SWRESET_RESET_M                                        0x00000001
@@ -580,7 +575,7 @@
 //*****************************************************************************
 // Field:     [0] STAT
 //
-// TRNG Interrupt status. OR&#39;ed version of IRQFLAGSTAT.SHUTDOWN_OVF and
+// TRNG Interrupt status. OR'ed version of IRQFLAGSTAT.SHUTDOWN_OVF and
 // IRQFLAGSTAT.RDY
 #define TRNG_IRQSTAT_STAT                                           0x00000001
 #define TRNG_IRQSTAT_STAT_BITN                                               0

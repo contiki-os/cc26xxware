@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ddi_0_osc_h
-*  Revised:        2015-03-03 09:29:52 +0100 (ti, 03 mar 2015)
-*  Revision:       42862
+*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
+*  Revision:       43524
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -253,9 +253,9 @@
 // XOSCLF                   Low frequency XOSC
 // RCOSCLF                  Low frequency RCOSC
 // XOSCHFDLF                Low frequency clock derived from High Frequency
-// XOSC
+//                          XOSC
 // RCOSCHFDLF               Low frequency clock derived from High Frequency
-// RCOSC
+//                          RCOSC
 #define DDI_0_OSC_CTL0_SCLK_LF_SRC_SEL_M                            0x0000000C
 #define DDI_0_OSC_CTL0_SCLK_LF_SRC_SEL_S                                     2
 #define DDI_0_OSC_CTL0_SCLK_LF_SRC_SEL_XOSCLF                       0x0000000C
@@ -268,7 +268,7 @@
 // Internal. Only to be used through TI provided API.
 // ENUMs:
 // XCOSCHFDMF               Medium frequency clock derived from high frequency
-// XOSC.
+//                          XOSC.
 // RCOSCHFDMF               Internal. Only to be used through TI provided API.
 #define DDI_0_OSC_CTL0_SCLK_MF_SRC_SEL                              0x00000002
 #define DDI_0_OSC_CTL0_SCLK_MF_SRC_SEL_BITN                                  1
@@ -661,9 +661,9 @@
 // XOSCLF                   Low frequency XOSC
 // RCOSCLF                  Low frequency RCOSC
 // XOSCHFDLF                Low frequency clock derived from High Frequency
-// XOSC
+//                          XOSC
 // RCOSCHFDLF               Low frequency clock derived from High Frequency
-// RCOSC
+//                          RCOSC
 #define DDI_0_OSC_STAT0_SCLK_LF_SRC_M                               0x60000000
 #define DDI_0_OSC_STAT0_SCLK_LF_SRC_S                                       29
 #define DDI_0_OSC_STAT0_SCLK_LF_SRC_XOSCLF                          0x60000000

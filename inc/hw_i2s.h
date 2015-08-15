@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_i2s_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-06-02 15:45:47 +0200 (Tue, 02 Jun 2015)
+*  Revision:       43703
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -154,11 +154,11 @@
 // Selects WCLK source for AIF (should be the same as the BCLK source). The
 // BCLK source is defined in the PRCM:I2SBCLKSEL.SRC
 // ENUMs:
-// RESERVED                 Not supported. Will give same WCLK as
-// &#39;NONE&#39; (&#39;00&#39;)
+// RESERVED                 Not supported. Will give same WCLK as 'NONE'
+//                          ('00')
 // INT                      Internal WCLK generator, from module PRCM/ClkCtrl
 // EXT                      External WCLK generator, from pad
-// NONE                     None (&#39;0&#39;)
+// NONE                     None ('0')
 #define I2S_AIFWCLKSRC_WCLK_SRC_M                                   0x00000003
 #define I2S_AIFWCLKSRC_WCLK_SRC_S                                            0
 #define I2S_AIFWCLKSRC_WCLK_SRC_RESERVED                            0x00000003
@@ -257,7 +257,7 @@
 // The size of each word stored to or loaded from memory:
 // ENUMs:
 // 24BIT                    24-bit (one 8 bit and one 16 bit locked access per
-// sample)
+//                          sample)
 // 16BIT                    16-bit (one 16 bit access per sample)
 #define I2S_AIFFMTCFG_MEM_LEN_24                                    0x00000080
 #define I2S_AIFFMTCFG_MEM_LEN_24_BITN                                        7
@@ -272,9 +272,9 @@
 // opposite edges of BCLK.
 // ENUMs:
 // POS                      Data is sampled on the positive edge and clocked
-// out on the negative edge.
+//                          out on the negative edge.
 // NEG                      Data is sampled on the negative edge and clocked
-// out on the positive edge.
+//                          out on the positive edge.
 #define I2S_AIFFMTCFG_SMPL_EDGE                                     0x00000040
 #define I2S_AIFFMTCFG_SMPL_EDGE_BITN                                         6
 #define I2S_AIFFMTCFG_SMPL_EDGE_M                                   0x00000040
@@ -317,7 +317,7 @@
 // In single-phase mode, each bit represents one channel, starting with LSB for
 // the first word in the frame. A frame can contain up to 8 channels.  Channels
 // that are not included in the mask will not be sampled and stored in memory,
-// and clocked out as &#39;0&#39;.
+// and clocked out as '0'.
 //
 // In dual-phase mode, only the two LSBs are considered. For a stereo
 // configuration, set both bits. For a mono configuration, set bit 0 only. In
@@ -328,8 +328,8 @@
 // channel 0 will be repeated in the second phase when clocked out.
 //
 // If all bits are zero, no input words will be stored to memory, and the
-// output data lines will be constant &#39;0&#39;. This can be utilized when
-// PWM debug output is desired without any actively used output pins.
+// output data lines will be constant '0'. This can be utilized when PWM debug
+// output is desired without any actively used output pins.
 #define I2S_AIFWMASK0_MASK_M                                        0x000000FF
 #define I2S_AIFWMASK0_MASK_S                                                 0
 
@@ -345,7 +345,7 @@
 // In single-phase mode, each bit represents one channel, starting with LSB for
 // the first word in the frame. A frame can contain up to 8 channels.  Channels
 // that are not included in the mask will not be sampled and stored in memory,
-// and clocked out as &#39;0&#39;.
+// and clocked out as '0'.
 //
 // In dual-phase mode, only the two LSBs are considered. For a stereo
 // configuration, set both bits. For a mono configuration, set bit 0 only. In
@@ -356,8 +356,8 @@
 // channel 0 will be repeated in the second phase when clocked out.
 //
 // If all bits are zero, no input words will be stored to memory, and the
-// output data lines will be constant &#39;0&#39;. This can be utilized when
-// PWM debug output is desired without any actively used output pins.
+// output data lines will be constant '0'. This can be utilized when PWM debug
+// output is desired without any actively used output pins.
 #define I2S_AIFWMASK1_MASK_M                                        0x000000FF
 #define I2S_AIFWMASK1_MASK_S                                                 0
 
@@ -373,7 +373,7 @@
 // In single-phase mode, each bit represents one channel, starting with LSB for
 // the first word in the frame. A frame can contain up to 8 channels.  Channels
 // that are not included in the mask will not be sampled and stored in memory,
-// and clocked out as &#39;0&#39;.
+// and clocked out as '0'.
 //
 // In dual-phase mode, only the two LSBs are considered. For a stereo
 // configuration, set both bits. For a mono configuration, set bit 0 only. In
@@ -384,8 +384,8 @@
 // channel 0 will be repeated in the second phase when clocked out.
 //
 // If all bits are zero, no input words will be stored to memory, and the
-// output data lines will be constant &#39;0&#39;. This can be utilized when
-// PWM debug output is desired without any actively used output pins.
+// output data lines will be constant '0'. This can be utilized when PWM debug
+// output is desired without any actively used output pins.
 #define I2S_AIFWMASK2_MASK_M                                        0x000000FF
 #define I2S_AIFWMASK2_MASK_S                                                 0
 
@@ -422,18 +422,18 @@
 // is transferred to the DMA controller to start on the next buffer. This event
 // is signalized by aif_dma_in_irq.
 //
-// At startup, the value should be written once before and once after
-// configuring the DMA buffer size in AIFDMACFG.
+// At startup, the value must be written once before and once after configuring
+// the DMA buffer size in AIFDMACFG.
 //
 // The next pointer must be written to this register while the DMA function
 // uses the previously written pointer. If not written in time,
 // IRQFLAGS.PTR_ERR will be raised and all input pins will be disabled.
 //
 // Note the following limitations:
-// -  Address space wrapping is not supported (i.e. address(last sample) must
-// be higher than address(first sample).
-// -  A DMA block cannot be aligned with the end of the address space (i.e. a
-// block cannot contain the address 0xFFFF)
+// -  Address space wrapping is not supported. That means address(last sample)
+// must be higher than address(first sample.
+// -  A DMA block cannot be aligned with the end of the address space, that
+// means a block cannot contain the address 0xFFFF.
 #define I2S_AIFINPTRNEXT_PTR_M                                      0xFFFFFFFF
 #define I2S_AIFINPTRNEXT_PTR_S                                               0
 
@@ -463,19 +463,19 @@
 // value is transferred to the DMA controller to start on the next buffer. This
 // event is signalized by aif_dma_out_irq.
 //
-// At startup, the value should be written once before and once after
-// configuring the DMA buffer size in AIFDMACFG. At this time, the first two
-// samples will be fetched from memory.
+// At startup, the value must be written once before and once after configuring
+// the DMA buffer size in AIFDMACFG. At this time, the first two samples will
+// be fetched from memory.
 //
 // The next pointer must be written to this register while the DMA function
 // uses the previously written pointer. If not written in time,
 // IRQFLAGS.PTR_ERR will be raised and all output pins will be disabled.
 //
 // Note the following limitations:
-// -  Address space wrapping is not supported (i.e. address(last sample) must
-// be higher than address(first sample).
-// - A DMA block cannot be aligned with the end of the address space (i.e. a
-// block cannot contain the address 0xFFFF)
+// -  Address space wrapping is not supported. That means address(last sample)
+// must be higher than address(first sample.
+// -  A DMA block cannot be aligned with the end of the address space, that
+// means a block cannot contain the address 0xFFFF.
 #define I2S_AIFOUTPTRNEXT_PTR_M                                     0xFFFFFFFF
 #define I2S_AIFOUTPTRNEXT_PTR_S                                              0
 
@@ -499,8 +499,8 @@
 // Field:     [2] OUT_RDY
 //
 // Low until the output pins are ready to be started by the samplestamp
-// generator. When started (i.e. STMPOUTTRIG equals the WCLK counter) the bit
-// goes back low.
+// generator. When started (that is STMPOUTTRIG equals the WCLK counter) the
+// bit goes back low.
 #define I2S_STMPCTL_OUT_RDY                                         0x00000004
 #define I2S_STMPCTL_OUT_RDY_BITN                                             2
 #define I2S_STMPCTL_OUT_RDY_M                                       0x00000004
@@ -509,7 +509,7 @@
 // Field:     [1] IN_RDY
 //
 // Low until the input pins are ready to be started by the samplestamp
-// generator. When started (i.e. STMPINTRIG equals the WCLK counter) the bit
+// generator. When started (that is STMPINTRIG equals the WCLK counter) the bit
 // goes back low.
 #define I2S_STMPCTL_IN_RDY                                          0x00000002
 #define I2S_STMPCTL_IN_RDY_BITN                                              1
@@ -518,7 +518,7 @@
 
 // Field:     [0] STMP_EN
 //
-// Enables the samplestamp generator. The samplestamp generator should only be
+// Enables the samplestamp generator. The samplestamp generator must only be
 // enabled after it has been properly configured.
 // When cleared, all samplestamp generator counters and capture values are
 // cleared.
@@ -553,9 +553,9 @@
 //*****************************************************************************
 // Field:  [15:0] VALUE
 //
-// The number of 24 MHz clock cycles in the previous WCLK period (i.e. the next
-// value of the XOSC counter at the positive WCLK edge, had it not been reset
-// to 0).
+// The number of 24 MHz clock cycles in the previous WCLK period (that is -
+// the next value of the XOSC counter at the positive WCLK edge, had it not
+// been reset to 0).
 // The value is cleared when STMPCTL.STMP_EN = 0.
 #define I2S_STMPXPER_VALUE_M                                        0x0000FFFF
 #define I2S_STMPXPER_VALUE_S                                                 0
@@ -585,8 +585,8 @@
 //
 // Used to define when STMPWCNT is to be reset so number of WCLK edges are
 // found for the size of the sample buffer. This is thus a modulo value for the
-// WCLK counter. This number should correspond to the size of the sample buffer
-// used by the system (i.e. the index of the last sample plus 1).
+// WCLK counter. This number must correspond to the size of the sample buffer
+// used by the system (that is the index of the last sample plus 1).
 #define I2S_STMPWPER_VALUE_M                                        0x0000FFFF
 #define I2S_STMPWPER_VALUE_S                                                 0
 
@@ -599,7 +599,7 @@
 //
 // Compare value used to start the incoming audio streams.
 // This bit field shall equal the WCLK counter value during the WCLK period in
-// which the first input word(s) are sampled and stored to memory (i.e. the
+// which the first input word(s) are sampled and stored to memory (that is the
 // sample at the start of the very first DMA input buffer).
 //
 // The value of this register takes effect when the following conditions are
@@ -622,8 +622,8 @@
 //
 // Compare value used to start the outgoing audio streams.
 //
-// This bit field shall equal the WCLK counter value during the WCLK period in
-// which the first output word(s) read from memory are clocked out (i.e. the
+// This bit field must equal the WCLK counter value during the WCLK period in
+// which the first output word(s) read from memory are clocked out (that is the
 // sample at the start of the very first DMA output buffer).
 //
 // The value of this register takes effect when the following conditions are
@@ -633,8 +633,8 @@
 // cycle ticks have happened.
 // - 2 samples have been preloaded from memory (examine the AIFOUTPTR register
 // if necessary).
-// Note: The memory read access is only performed when required, i.e. channels
-// 0/1 must be selected in AIFWMASK0/AIFWMASK1.
+// Note: The memory read access is only performed when required, that is
+// channels 0/1 must be selected in AIFWMASK0/AIFWMASK1.
 //
 // Note: To avoid false triggers, this bit field should be set higher than
 // STMPWPER.VALUE.
@@ -663,9 +663,7 @@
 // WCLK counter modification: Adds the written value to the running WCLK
 // counter. If a positive edge of WCLK occurs at the same time as the
 // operation, this will be taken into account.
-// This operation is typically used to adjust the WCLK counter after receiving
-// the first WASP beacon.
-// To add a negative value, write &#34;STMPWPER.VALUE - value&#34;.
+// To add a negative value, write "STMPWPER.VALUE - value".
 //
 #define I2S_STMPWADD_VALUE_INC_M                                    0x0000FFFF
 #define I2S_STMPWADD_VALUE_INC_S                                             0
@@ -833,8 +831,8 @@
 //  65535 clk periods. This signalizes that the internal or external BCLK and
 // WCLK generator source has been disabled.
 //
-// The bit is sticky and may only be cleared by software (by writing
-// &#39;1&#39; to IRQCLR.WCLK_TIMEOUT).
+// The bit is sticky and may only be cleared by software (by writing '1' to
+// IRQCLR.WCLK_TIMEOUT).
 #define I2S_IRQFLAGS_WCLK_TIMEOUT                                   0x00000008
 #define I2S_IRQFLAGS_WCLK_TIMEOUT_BITN                                       3
 #define I2S_IRQFLAGS_WCLK_TIMEOUT_M                                 0x00000008
@@ -842,11 +840,11 @@
 
 // Field:     [2] BUS_ERR
 //
-// Set when a DMA operation is not completed in time (i.e. audio output buffer
-// underflow, or audio input buffer overflow).
+// Set when a DMA operation is not completed in time (that is audio output
+// buffer underflow, or audio input buffer overflow).
 // This error requires a complete restart since word synchronization has been
-// lost. The bit is sticky and may only be cleared by software (by writing
-// &#39;1&#39; to IRQCLR.BUS_ERR).
+// lost. The bit is sticky and may only be cleared by software (by writing '1'
+// to IRQCLR.BUS_ERR).
 //
 // Note that DMA initiated transactions to illegal addresses will not trigger
 // an interrupt. The response to such transactions is undefined.
@@ -865,8 +863,8 @@
 // apart.
 // -  In single-phase mode, when a WCLK pulse occurs before the last channel.
 // This error requires a complete restart since word synchronization has been
-// lost. The bit is sticky and may only be cleared by software (by writing
-// &#39;1&#39; to IRQCLR.WCLK_ERR).
+// lost. The bit is sticky and may only be cleared by software (by writing '1'
+// to IRQCLR.WCLK_ERR).
 #define I2S_IRQFLAGS_WCLK_ERR                                       0x00000002
 #define I2S_IRQFLAGS_WCLK_ERR_BITN                                           1
 #define I2S_IRQFLAGS_WCLK_ERR_M                                     0x00000002
@@ -877,8 +875,8 @@
 // Set when AIFINPTRNEXT or AIFOUTPTRNEXT has not been loaded with the next
 // block address in time.
 // This error requires a complete restart since word synchronization has been
-// lost. The bit is sticky and may only be cleared by software (by writing
-// &#39;1&#39; to IRQCLR.PTR_ERR).
+// lost. The bit is sticky and may only be cleared by software (by writing '1'
+// to IRQCLR.PTR_ERR).
 #define I2S_IRQFLAGS_PTR_ERR                                        0x00000001
 #define I2S_IRQFLAGS_PTR_ERR_BITN                                            0
 #define I2S_IRQFLAGS_PTR_ERR_M                                      0x00000001

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       vims.h
-*  Revised:        2015-03-04 13:37:39 +0100 (on, 04 mar 2015)
-*  Revision:       42883
+*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
+*  Revision:       44151
 *
 *  Description:    Defines and prototypes for the VIMS.
 *
@@ -38,6 +38,8 @@
 
 //*****************************************************************************
 //
+//! \addtogroup system_control_group
+//! @{
 //! \addtogroup vims_api
 //! @{
 //
@@ -76,10 +78,8 @@ extern "C"
 // - Globally: Define DRIVERLIB_NOROM at project level
 // - Per function: Use prefix "NOROM_" when calling the function
 //
-// Do not define DRIVERLIB_GENERATE_ROM!
-//
 //*****************************************************************************
-#ifndef DRIVERLIB_GENERATE_ROM
+#if !defined(DOXYGEN)
     #define VIMSConfigure                   NOROM_VIMSConfigure
     #define VIMSModeSet                     NOROM_VIMSModeSet
     #define VIMSModeGet                     NOROM_VIMSModeGet
@@ -187,13 +187,13 @@ extern void VIMSConfigure(uint32_t ui32Base, bool bRoundRobin,
 //! In \ref VIMS_MODE_OFF the cache RAM is off to conserve power.
 //!
 //! \note Access from System Bus is never cached. Only access through ICODE
-//! DCODE bus from the Cortex-M is cached.
+//! DCODE bus from the System CPU is cached.
 //!
 //! \note The VIMS must be invalidated before switching from
 //! \ref VIMS_MODE_ENABLED to \ref VIMS_MODE_SPLIT mode and vice versa.
 //! Is is also highly recommended that the VIMS is put in disabled mode before
 //! \b writing to flash, since the cache will not be updated nor invalidated
-//! by flash writes. The linebuffers should also be disabled when updating the
+//! by flash writes. The line buffers should also be disabled when updating the
 //! flash. Once \ref VIMSModeSet() is used to set the VIMS in
 //! \ref VIMS_MODE_CHANGING mode, the user should check using
 //! \ref VIMSModeGet() when the mode switches to \ref VIMS_MODE_DISABLED. Only when
@@ -268,13 +268,13 @@ extern uint32_t VIMSModeGet(uint32_t ui32Base);
 //! In \ref VIMS_MODE_OFF the cache RAM is off to conserve power.
 //!
 //! \note Access from System Bus is never cached. Only access through ICODE
-//! DCODE bus from the Cortex-M is cached.
+//! DCODE bus from the System CPU is cached.
 //!
 //! \note The VIMS must be invalidated before switching from
 //! \ref VIMS_MODE_ENABLED to \ref VIMS_MODE_SPLIT mode and vice versa.
 //! Is is also highly recommended that the VIMS is put in disabled mode before
 //! \b writing to flash, since the cache will not be updated nor invalidated
-//! by flash writes. The linebuffers should also be disabled when updating the
+//! by flash writes. The line buffers should also be disabled when updating the
 //! flash. Once \ref VIMSModeSet() is used to set the VIMS in
 //! \ref VIMS_MODE_CHANGING mode, the user should check using
 //! \ref VIMSModeGet() when the mode switches to \ref VIMS_MODE_DISABLED. Only when
@@ -302,6 +302,8 @@ extern void VIMSModeSetBlocking( uint32_t ui32Mode );
 //! updated the linebuffers should be reenabled. Failing to enable
 //! will have a performance impact.
 //!
+//! \param ui32Base is the base address of the VIMS.
+//!
 //! \return None.
 //
 //*****************************************************************************
@@ -324,6 +326,8 @@ VIMSLineBufDisable(uint32_t ui32Base)
 //! updated the linebuffers should be reenabled. Failing to enable
 //! will have a performance impact.
 //!
+//! \param ui32Base is the base address of the VIMS.
+//!
 //! \return None.
 //
 //*****************************************************************************
@@ -343,7 +347,7 @@ VIMSLineBufEnable(uint32_t ui32Base)
 // Redirect to implementation in ROM when available.
 //
 //*****************************************************************************
-#ifndef DRIVERLIB_NOROM
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
     #ifdef ROM_VIMSConfigure
         #undef  VIMSConfigure
@@ -377,6 +381,7 @@ VIMSLineBufEnable(uint32_t ui32Base)
 //*****************************************************************************
 //
 //! Close the Doxygen group.
+//! @}
 //! @}
 //
 //*****************************************************************************

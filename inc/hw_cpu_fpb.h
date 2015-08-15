@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_cpu_fpb_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -83,7 +83,7 @@
 // Number of full banks of code comparators, sixteen comparators per bank.
 // Where less than sixteen code comparators are provided, the bank count is
 // zero, and the number present indicated by NUM_CODE1. This read only field
-// contains 3&#39;b000 to indicate 0 banks for Cortex-M processor.
+// contains 3'b000 to indicate 0 banks for Cortex-M processor.
 #define CPU_FPB_CTRL_NUM_CODE2_M                                    0x00003000
 #define CPU_FPB_CTRL_NUM_CODE2_S                                            12
 
@@ -109,7 +109,7 @@
 // Field:     [1] KEY
 //
 // Key field. In order to write to this register, this bit-field must be
-// written to &#39;1&#39;. This bit always reads 0.
+// written to '1'. This bit always reads 0.
 #define CPU_FPB_CTRL_KEY                                            0x00000002
 #define CPU_FPB_CTRL_KEY_BITN                                                1
 #define CPU_FPB_CTRL_KEY_M                                          0x00000002

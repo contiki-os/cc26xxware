@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_cpu_itm_h
-*  Revised:        2015-03-24 13:39:29 +0100 (ti, 24 mar 2015)
-*  Revision:       43111
+*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
+*  Revision:       43498
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -164,8 +164,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA0 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM0_STIM0_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM0_STIM0_S                                                0
@@ -180,8 +180,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA1 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM1_STIM1_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM1_STIM1_S                                                0
@@ -196,8 +196,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA2 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM2_STIM2_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM2_STIM2_S                                                0
@@ -212,8 +212,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA3 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM3_STIM3_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM3_STIM3_S                                                0
@@ -228,8 +228,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA4 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM4_STIM4_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM4_STIM4_S                                                0
@@ -244,8 +244,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA5 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM5_STIM5_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM5_STIM5_S                                                0
@@ -260,8 +260,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA6 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM6_STIM6_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM6_STIM6_S                                                0
@@ -276,8 +276,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA7 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM7_STIM7_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM7_STIM7_S                                                0
@@ -292,8 +292,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA8 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM8_STIM8_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM8_STIM8_S                                                0
@@ -308,8 +308,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA9 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM9_STIM9_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM9_STIM9_S                                                0
@@ -324,8 +324,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA10 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM10_STIM10_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM10_STIM10_S                                              0
@@ -340,8 +340,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA11 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM11_STIM11_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM11_STIM11_S                                              0
@@ -356,8 +356,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA12 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM12_STIM12_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM12_STIM12_S                                              0
@@ -372,8 +372,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA13 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM13_STIM13_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM13_STIM13_S                                              0
@@ -388,8 +388,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA14 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM14_STIM14_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM14_STIM14_S                                              0
@@ -404,8 +404,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA15 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM15_STIM15_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM15_STIM15_S                                              0
@@ -420,8 +420,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA16 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM16_STIM16_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM16_STIM16_S                                              0
@@ -436,8 +436,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA17 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM17_STIM17_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM17_STIM17_S                                              0
@@ -452,8 +452,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA18 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM18_STIM18_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM18_STIM18_S                                              0
@@ -468,8 +468,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA19 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM19_STIM19_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM19_STIM19_S                                              0
@@ -484,8 +484,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA20 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM20_STIM20_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM20_STIM20_S                                              0
@@ -500,8 +500,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA21 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM21_STIM21_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM21_STIM21_S                                              0
@@ -516,8 +516,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA22 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM22_STIM22_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM22_STIM22_S                                              0
@@ -532,8 +532,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA23 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM23_STIM23_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM23_STIM23_S                                              0
@@ -548,8 +548,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA24 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM24_STIM24_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM24_STIM24_S                                              0
@@ -564,8 +564,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA25 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM25_STIM25_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM25_STIM25_S                                              0
@@ -580,8 +580,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA26 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM26_STIM26_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM26_STIM26_S                                              0
@@ -596,8 +596,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA27 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM27_STIM27_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM27_STIM27_S                                              0
@@ -612,8 +612,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA28 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM28_STIM28_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM28_STIM28_S                                              0
@@ -628,8 +628,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA29 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM29_STIM29_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM29_STIM29_S                                              0
@@ -644,8 +644,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA30 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM30_STIM30_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM30_STIM30_S                                              0
@@ -660,8 +660,8 @@
 // A write to this location causes data to be written into the FIFO if
 // TER.STIMENA31 is set. Reading from the stimulus port returns the FIFO status
 // in bit [0]: 0 = full, 1 = not full. The polled FIFO interface does not
-// provide an atomic read-modify-write, so it&#39;s users responsibility to
-// ensure exclusive read-modify-write if this ITM port is used concurrently by
+// provide an atomic read-modify-write, so it's users responsibility to ensure
+// exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
 #define CPU_ITM_STIM31_STIM31_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM31_STIM31_S                                              0

@@ -1,9 +1,9 @@
 /******************************************************************************
-*  Filename:       systick.c
-*  Revised:        2015-01-13 16:59:55 +0100 (Tue, 13 Jan 2015)
-*  Revision:       42365
+*  Filename:       ccfgread.c
+*  Revised:        2015-08-04 11:44:20 +0200 (Tue, 04 Aug 2015)
+*  Revision:       44329
 *
-*  Description:    Driver for the SysTick timer in NVIC
+*  Description:    API for reading CCFG.
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -36,6 +36,6 @@
 *
 ******************************************************************************/
 
-#include <driverlib/systick.h>
+#include <driverlib/ccfgread.h>
 
-// See systick.h for implementation
+// See ccfgread.h for implementation

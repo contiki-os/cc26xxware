@@ -1,6 +1,6 @@
 /******************************************************************************
 *  Filename:       hw_rfc_pwr_h
-*  Revised:        2015-02-10 21:34:21 +0100 (ti, 10 feb 2015)
+*  Revised:        2015-02-10 21:34:21 +0100 (Tue, 10 Feb 2015)
 *  Revision:       42642
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
