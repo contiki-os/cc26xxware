@@ -151,6 +151,8 @@ ChipInfo_GetHwRevision( void )
          break;
       }
       break;
+   default:
+      break;
    }
 
    return ( hwRev );
