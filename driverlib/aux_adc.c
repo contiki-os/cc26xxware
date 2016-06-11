@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aux_adc.c
-*  Revised:        2015-06-10 16:28:25 +0200 (Wed, 10 Jun 2015)
-*  Revision:       43858
+*  Revised:        2015-10-14 18:23:25 +0200 (Wed, 14 Oct 2015)
+*  Revision:       44751
 *
 *  Description:    Driver for the AUX Time to Digital Converter interface.
 *
@@ -193,8 +193,8 @@ AUXADCDisableInputScaling(void)
 void
 AUXADCFlushFifo(void)
 {
-    HWREG(AUX_ANAIF_BASE + AUX_ANAIF_O_ADCCTL) |= 0x00000002;
-    HWREG(AUX_ANAIF_BASE + AUX_ANAIF_O_ADCCTL) &= 0x00000002;
+    HWREGBITW(AUX_ANAIF_BASE + AUX_ANAIF_O_ADCCTL, 1) = 1; // CMD: EN(1) -> FLUSH(3)
+    HWREGBITW(AUX_ANAIF_BASE + AUX_ANAIF_O_ADCCTL, 1) = 0; // CMD: FLUSH(3) -> EN(1)
 }
 
 //*****************************************************************************
@@ -273,7 +273,7 @@ AUXADCValueToMicrovolts(int32_t fixedRefVoltage, int32_t adcValue)
 {
     // Chop off 4 bits during calculations to avoid 32-bit overflow
     fixedRefVoltage >>= 4;
-    return (((adcValue * fixedRefVoltage) + (2048 >> 4)) / 4095) << 4;
+    return (((adcValue * fixedRefVoltage) + 2047) / 4095) << 4;
 }
 
 //*****************************************************************************

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_uart_h
-*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
-*  Revision:       43524
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -149,6 +149,7 @@
 // On writes, the transmit data character is pushed into the FIFO.
 // On reads, the oldest received data character since the last read is
 // returned.
+#define UART_DR_DATA_W                                                       8
 #define UART_DR_DATA_M                                              0x000000FF
 #define UART_DR_DATA_S                                                       0
 
@@ -340,6 +341,7 @@
 // illegal.
 // A valid value must be written to this field before the UART can be used for
 // RX or TX operations.
+#define UART_IBRD_DIVINT_W                                                  16
 #define UART_IBRD_DIVINT_M                                          0x0000FFFF
 #define UART_IBRD_DIVINT_S                                                   0
 
@@ -359,6 +361,7 @@
 // illegal.
 // A valid value must be written to this field before the UART can be used for
 // RX or TX operations.
+#define UART_FBRD_DIVFRAC_W                                                  6
 #define UART_FBRD_DIVFRAC_M                                         0x0000003F
 #define UART_FBRD_DIVFRAC_S                                                  0
 
@@ -391,6 +394,7 @@
 // 7                        Word Length 7 bits
 // 6                        Word Length 6 bits
 // 5                        Word Length 5 bits
+#define UART_LCRH_WLEN_W                                                     2
 #define UART_LCRH_WLEN_M                                            0x00000060
 #define UART_LCRH_WLEN_S                                                     5
 #define UART_LCRH_WLEN_8                                            0x00000060
@@ -581,6 +585,7 @@
 // 4_8                      Receive FIFO becomes >= 1/2 full
 // 2_8                      Receive FIFO becomes >= 1/4 full
 // 1_8                      Receive FIFO becomes >= 1/8 full
+#define UART_IFLS_RXSEL_W                                                    3
 #define UART_IFLS_RXSEL_M                                           0x00000038
 #define UART_IFLS_RXSEL_S                                                    3
 #define UART_IFLS_RXSEL_7_8                                         0x00000020
@@ -600,6 +605,7 @@
 // 4_8                      Transmit FIFO becomes <= 1/2 full
 // 2_8                      Transmit FIFO becomes <= 1/4 full
 // 1_8                      Transmit FIFO becomes <= 1/8 full
+#define UART_IFLS_TXSEL_W                                                    3
 #define UART_IFLS_TXSEL_M                                           0x00000007
 #define UART_IFLS_TXSEL_S                                                    0
 #define UART_IFLS_TXSEL_7_8                                         0x00000004

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       ssi.c
-*  Revised:        2015-01-13 16:59:55 +0100 (Tue, 13 Jan 2015)
-*  Revision:       42365
+*  Revised:        2015-11-16 19:41:47 +0100 (Mon, 16 Nov 2015)
+*  Revision:       45094
 *
 *  Description:    Driver for Synchronous Serial Interface
 *
@@ -285,7 +285,7 @@ SSIIntRegister(uint32_t ui32Base, void (*pfnHandler)(void))
     //
     // Determine the interrupt number based on the SSI port.
     //
-    ui32Int = (ui32Base == SSI0_BASE) ? INT_SSI0 : INT_SSI1;
+    ui32Int = (ui32Base == SSI0_BASE) ? INT_SSI0_COMB : INT_SSI1_COMB;
 
     //
     // Register the interrupt handler.
@@ -327,7 +327,7 @@ SSIIntUnregister(uint32_t ui32Base)
     //
     // Determine the interrupt number based on the SSI port.
     //
-    ui32Int = (ui32Base == SSI0_BASE) ? INT_SSI0 : INT_SSI1;
+    ui32Int = (ui32Base == SSI0_BASE) ? INT_SSI0_COMB : INT_SSI1_COMB;
 
     //
     // Disable the interrupt.

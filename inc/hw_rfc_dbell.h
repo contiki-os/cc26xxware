@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_rfc_dbell_h
-*  Revised:        2015-06-04 13:37:08 +0200 (Thu, 04 Jun 2015)
-*  Revision:       43773
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -80,6 +80,7 @@
 //
 // Command register. Raises an interrupt to the Command and packet engine (CPE)
 // upon write.
+#define RFC_DBELL_CMDR_CMD_W                                                32
 #define RFC_DBELL_CMDR_CMD_M                                        0xFFFFFFFF
 #define RFC_DBELL_CMDR_CMD_S                                                 0
 
@@ -91,6 +92,7 @@
 // Field:  [31:0] STAT
 //
 // Status of the last command used
+#define RFC_DBELL_CMDSTA_STAT_W                                             32
 #define RFC_DBELL_CMDSTA_STAT_M                                     0xFFFFFFFF
 #define RFC_DBELL_CMDSTA_STAT_S                                              0
 
@@ -1522,6 +1524,7 @@
 // CPEGPO2                  CPE GPO line 2
 // CPEGPO1                  CPE GPO line 1
 // CPEGPO0                  CPE GPO line 0
+#define RFC_DBELL_SYSGPOCTL_GPOCTL3_W                                        4
 #define RFC_DBELL_SYSGPOCTL_GPOCTL3_M                               0x0000F000
 #define RFC_DBELL_SYSGPOCTL_GPOCTL3_S                                       12
 #define RFC_DBELL_SYSGPOCTL_GPOCTL3_RATGPO3                         0x0000F000
@@ -1562,6 +1565,7 @@
 // CPEGPO2                  CPE GPO line 2
 // CPEGPO1                  CPE GPO line 1
 // CPEGPO0                  CPE GPO line 0
+#define RFC_DBELL_SYSGPOCTL_GPOCTL2_W                                        4
 #define RFC_DBELL_SYSGPOCTL_GPOCTL2_M                               0x00000F00
 #define RFC_DBELL_SYSGPOCTL_GPOCTL2_S                                        8
 #define RFC_DBELL_SYSGPOCTL_GPOCTL2_RATGPO3                         0x00000F00
@@ -1602,6 +1606,7 @@
 // CPEGPO2                  CPE GPO line 2
 // CPEGPO1                  CPE GPO line 1
 // CPEGPO0                  CPE GPO line 0
+#define RFC_DBELL_SYSGPOCTL_GPOCTL1_W                                        4
 #define RFC_DBELL_SYSGPOCTL_GPOCTL1_M                               0x000000F0
 #define RFC_DBELL_SYSGPOCTL_GPOCTL1_S                                        4
 #define RFC_DBELL_SYSGPOCTL_GPOCTL1_RATGPO3                         0x000000F0
@@ -1642,6 +1647,7 @@
 // CPEGPO2                  CPE GPO line 2
 // CPEGPO1                  CPE GPO line 1
 // CPEGPO0                  CPE GPO line 0
+#define RFC_DBELL_SYSGPOCTL_GPOCTL0_W                                        4
 #define RFC_DBELL_SYSGPOCTL_GPOCTL0_M                               0x0000000F
 #define RFC_DBELL_SYSGPOCTL_GPOCTL0_S                                        0
 #define RFC_DBELL_SYSGPOCTL_GPOCTL0_RATGPO3                         0x0000000F

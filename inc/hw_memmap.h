@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_memmap_h
-*  Revised:        2015-06-18 17:11:10 +0200 (Thu, 18 Jun 2015)
-*  Revision:       43982
+*  Revised:        2015-10-29 14:35:22 +0100 (Thu, 29 Oct 2015)
+*  Revision:       44885
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -82,7 +82,7 @@
 #define AON_BATMON_BASE         0x40095000 // AON_BATMON
 #define AUX_AIODIO0_BASE        0x400C1000 // AUX_AIODIO
 #define AUX_AIODIO1_BASE        0x400C2000 // AUX_AIODIO
-#define AUX_TDCIF_BASE          0x400C4000 // AUX_TDC
+#define AUX_TDC_BASE            0x400C4000 // AUX_TDC
 #define AUX_EVCTL_BASE          0x400C5000 // AUX_EVCTL
 #define AUX_WUC_BASE            0x400C6000 // AUX_WUC
 #define AUX_TIMER_BASE          0x400C7000 // AUX_TIMER
@@ -134,7 +134,7 @@
                                 0x600C1000 // AUX_AIODIO CPU nonbuf base
 #define AUX_AIODIO1_NONBUF_BASE \
                                 0x600C2000 // AUX_AIODIO CPU nonbuf base
-#define AUX_TDCIF_NONBUF_BASE   0x600C4000 // AUX_TDC CPU nonbuf base
+#define AUX_TDC_NONBUF_BASE     0x600C4000 // AUX_TDC CPU nonbuf base
 #define AUX_EVCTL_NONBUF_BASE   0x600C5000 // AUX_EVCTL CPU nonbuf base
 #define AUX_WUC_NONBUF_BASE     0x600C6000 // AUX_WUC CPU nonbuf base
 #define AUX_TIMER_NONBUF_BASE   0x600C7000 // AUX_TIMER CPU nonbuf base

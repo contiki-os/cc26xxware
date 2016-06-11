@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aux_wuc_h
-*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
-*  Revision:       43524
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -471,6 +471,7 @@
 // Field:  [15:0] INC15_0
 //
 // Bits 15:0 of the RTC sub-second increment value.
+#define AUX_WUC_RTCSUBSECINC0_INC15_0_W                                     16
 #define AUX_WUC_RTCSUBSECINC0_INC15_0_M                             0x0000FFFF
 #define AUX_WUC_RTCSUBSECINC0_INC15_0_S                                      0
 
@@ -482,6 +483,7 @@
 // Field:   [7:0] INC23_16
 //
 // Bits 23:16 of the RTC sub-second increment value.
+#define AUX_WUC_RTCSUBSECINC1_INC23_16_W                                     8
 #define AUX_WUC_RTCSUBSECINC1_INC23_16_M                            0x000000FF
 #define AUX_WUC_RTCSUBSECINC1_INC23_16_S                                     0
 

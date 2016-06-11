@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aon_sysctl_h
-*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
-*  Revision:       43498
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -310,6 +310,7 @@
 // VDDS_LOSS                Brown out detect on VDDS
 // PIN_RESET                Reset pin
 // PWR_ON                   Power on reset
+#define AON_SYSCTL_RESETCTL_RESET_SRC_W                                      3
 #define AON_SYSCTL_RESETCTL_RESET_SRC_M                             0x0000000E
 #define AON_SYSCTL_RESETCTL_RESET_SRC_S                                      1
 #define AON_SYSCTL_RESETCTL_RESET_SRC_WARMRESET                     0x0000000E

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aux_tdc_h
-*  Revised:        2015-08-03 14:46:38 +0200 (Mon, 03 Aug 2015)
-*  Revision:       44311
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -105,6 +105,7 @@
 //                          results. Note: This is not needed as
 //                          prerequisite for a measurement. Reliable clear
 //                          is only guaranteed from IDLE state
+#define AUX_TDC_CTL_CMD_W                                                    2
 #define AUX_TDC_CTL_CMD_M                                           0x00000003
 #define AUX_TDC_CTL_CMD_S                                                    0
 #define AUX_TDC_CTL_CMD_ABORT                                       0x00000003
@@ -160,6 +161,7 @@
 // IDLE                     Current state is TDC_STATE_IDLE
 // WAIT_START_STOP_CNT_EN   Current state is TDC_STATE_WAIT_STARTSTOPCNTEN
 // WAIT_START               Current state is TDC_STATE_WAIT_START
+#define AUX_TDC_STAT_STATE_W                                                 6
 #define AUX_TDC_STAT_STATE_M                                        0x0000003F
 #define AUX_TDC_STAT_STATE_S                                                 0
 #define AUX_TDC_STAT_STATE_FORCE_STOP                               0x0000002E
@@ -189,6 +191,7 @@
 // since it takes a non-zero time to stop the measurement. The highest
 // saturation limit is 24 bits (see SATCFG.LIMIT) so maximum value of VALUE is
 // hence slightly above 2^24.
+#define AUX_TDC_RESULT_VALUE_W                                              25
 #define AUX_TDC_RESULT_VALUE_M                                      0x01FFFFFF
 #define AUX_TDC_RESULT_VALUE_S                                               0
 
@@ -240,6 +243,7 @@
 // R12                      Result bit 12 : TDC saturates and stops when
 //                          RESULT.VALUE[12] is set. The flag STAT.SAT is
 //                          set when the timer saturates.
+#define AUX_TDC_SATCFG_LIMIT_W                                               4
 #define AUX_TDC_SATCFG_LIMIT_M                                      0x0000000F
 #define AUX_TDC_SATCFG_LIMIT_S                                               0
 #define AUX_TDC_SATCFG_LIMIT_R24                                    0x0000000F
@@ -255,11 +259,6 @@
 #define AUX_TDC_SATCFG_LIMIT_R14                                    0x00000005
 #define AUX_TDC_SATCFG_LIMIT_R13                                    0x00000004
 #define AUX_TDC_SATCFG_LIMIT_R12                                    0x00000003
-
-//
-// Keeping backward compatibility until major revision number is incremented
-//
-#define AUX_TDC_SATCFG_LIMIT_ROVF   ( AUX_TDC_SATCFG_LIMIT_R24 )
 
 //*****************************************************************************
 //
@@ -317,6 +316,7 @@
 // AUX_COMPB                Selects AUX_COMPB
 // AUX_COMPA                Selects AUX_COMPA
 // AON_RTC_CH2              Selects AON_RTC_CH2
+#define AUX_TDC_TRIGSRC_STOP_SRC_W                                           5
 #define AUX_TDC_TRIGSRC_STOP_SRC_M                                  0x00001F00
 #define AUX_TDC_TRIGSRC_STOP_SRC_S                                           8
 #define AUX_TDC_TRIGSRC_STOP_SRC_TDC_PRE                            0x00001F00
@@ -403,6 +403,7 @@
 // AUX_COMPB                Selects AUX_COMPB
 // AUX_COMPA                Selects AUX_COMPA
 // AON_RTC_CH2              Selects AON_RTC_CH2
+#define AUX_TDC_TRIGSRC_START_SRC_W                                          5
 #define AUX_TDC_TRIGSRC_START_SRC_M                                 0x0000001F
 #define AUX_TDC_TRIGSRC_START_SRC_S                                          0
 #define AUX_TDC_TRIGSRC_START_SRC_TDC_PRE                           0x0000001F
@@ -453,6 +454,7 @@
 // after which the TDC will stop measurement on event number CNT
 //
 // Note! Must not be changed if STAT.STATE is not IDLE
+#define AUX_TDC_TRIGCNT_CNT_W                                               16
 #define AUX_TDC_TRIGCNT_CNT_M                                       0x0000FFFF
 #define AUX_TDC_TRIGCNT_CNT_S                                                0
 
@@ -471,6 +473,7 @@
 // the start event
 //
 // Note! Must not be changed if STAT.STATE is not IDLE
+#define AUX_TDC_TRIGCNTLOAD_CNT_W                                           16
 #define AUX_TDC_TRIGCNTLOAD_CNT_M                                   0x0000FFFF
 #define AUX_TDC_TRIGCNTLOAD_CNT_S                                            0
 
@@ -563,6 +566,7 @@
 // AUX_COMPB
 // AUX_COMPA
 // AON_RTC_CH2
+#define AUX_TDC_PRECTL_SRC_W                                                 5
 #define AUX_TDC_PRECTL_SRC_M                                        0x0000001F
 #define AUX_TDC_PRECTL_SRC_S                                                 0
 #define AUX_TDC_PRECTL_SRC_ADC_IRQ                                  0x0000001F
@@ -609,6 +613,7 @@
 // counter (The value written is don't care).
 //
 // Reading will return the latched value.
+#define AUX_TDC_PRECNT_CNT_W                                                16
 #define AUX_TDC_PRECNT_CNT_M                                        0x0000FFFF
 #define AUX_TDC_PRECNT_CNT_S                                                 0
 

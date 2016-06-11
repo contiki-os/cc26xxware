@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       rom.h
-*  Revised:        2015-08-03 14:46:38 +0200 (Mon, 03 Aug 2015)
-*  Revision:       44311
+*  Revised:        2015-12-15 10:40:56 +0100 (Tue, 15 Dec 2015)
+*  Revision:       45307
 *
 *  Description:    Prototypes for the ROM utility functions.
 *
@@ -150,6 +150,7 @@ typedef struct
 //
 // Add wrapper around the Hapi functions needing the "bus arbitration issue" workaround
 //
+extern void SafeHapiVoid( FPTR_VOID_VOID_T fPtr );
 extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 
 #define HapiCrc32(a,b,c)             P_HARD_API->Crc32(a,b,c)
@@ -163,7 +164,7 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define HapiMaxValue(a,b)            P_HARD_API->MaxValue(a,b)
 #define HapiMeanValue(a,b)           P_HARD_API->MeanValue(a,b)
 #define HapiStandDeviationValue(a,b) P_HARD_API->StandDeviationValue(a,b)
-#define HapiHFSourceSafeSwitch()     P_HARD_API->HFSourceSafeSwitch()
+#define HapiHFSourceSafeSwitch()     SafeHapiVoid( P_HARD_API->HFSourceSafeSwitch )
 #define HapiSelectCompAInput(a)      SafeHapiAuxAdiSelect( P_HARD_API->SelectCompAInput   , a )
 #define HapiSelectCompARef(a)        SafeHapiAuxAdiSelect( P_HARD_API->SelectCompARef     , a )
 #define HapiSelectADCCompBInput(a)   SafeHapiAuxAdiSelect( P_HARD_API->SelectADCCompBInput, a )
@@ -227,535 +228,466 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define COMPB_REF_VSS          0x02
 #define COMPB_REF_VDDS         0x03
 
-#endif // __HAPI_H_
+#endif // __HAPI_H__
 
 //*****************************************************************************
 //
 // Pointers to the main API tables.
 //
 //*****************************************************************************
-#define ROM_APITABLE            ((uint32_t *)0x10000180)
-#define ROM_VERSION             (ROM_APITABLE[0])
-#define ROM_AON_EVENTTABLE      ((uint32_t *)(ROM_APITABLE[1]))
-#define ROM_AON_IOCTABLE        ((uint32_t *)(ROM_APITABLE[2]))
-#define ROM_AON_RTCTABLE        ((uint32_t *)(ROM_APITABLE[3]))
-#define ROM_AON_WUCTABLE        ((uint32_t *)(ROM_APITABLE[4]))
-#define ROM_AUX_CTRLTABLE       ((uint32_t *)(ROM_APITABLE[5]))
-#define ROM_AUX_TDCTABLE        ((uint32_t *)(ROM_APITABLE[6]))
-#define ROM_AUX_TIMERTABLE      ((uint32_t *)(ROM_APITABLE[7]))
-#define ROM_AUX_WUCTABLE        ((uint32_t *)(ROM_APITABLE[8]))
-#define ROM_DDITABLE            ((uint32_t *)(ROM_APITABLE[9]))
-#define ROM_FLASHTABLE          ((uint32_t *)(ROM_APITABLE[10]))
-#define ROM_I2CTABLE            ((uint32_t *)(ROM_APITABLE[11]))
-#define ROM_INTERRUPTTABLE      ((uint32_t *)(ROM_APITABLE[12]))
-#define ROM_IOCTABLE            ((uint32_t *)(ROM_APITABLE[13]))
-#define ROM_PRCMTABLE           ((uint32_t *)(ROM_APITABLE[14]))
-#define ROM_SMPHTABLE           ((uint32_t *)(ROM_APITABLE[15]))
-#define ROM_SPISTABLE           ((uint32_t *)(ROM_APITABLE[16]))
-#define ROM_SSITABLE            ((uint32_t *)(ROM_APITABLE[17]))
-#define ROM_TIMERTABLE          ((uint32_t *)(ROM_APITABLE[18]))
-#define ROM_TRNGTABLE           ((uint32_t *)(ROM_APITABLE[19]))
-#define ROM_UARTTABLE           ((uint32_t *)(ROM_APITABLE[20]))
-#define ROM_UDMATABLE           ((uint32_t *)(ROM_APITABLE[21]))
-#define ROM_VIMSTABLE           ((uint32_t *)(ROM_APITABLE[22]))
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the AON_EVENT API.
-//
-//*****************************************************************************
-#define ROM_AONEventMcuWakeUpSet                                              \
-        ((void (*)(uint32_t ui32MCUWUEvent,                                   \
-                   uint32_t ui32EventSrc))ROM_AON_EVENTTABLE[0])
-
-#define ROM_AONEventMcuWakeUpGet                                              \
-        ((uint32_t (*)(uint32_t ui32MCUWUEvent))ROM_AON_EVENTTABLE[1])
-
-#define ROM_AONEventAuxWakeUpSet                                              \
-        ((void (*)(uint32_t ui32AUXWUEvent,                                   \
-                   uint32_t ui32EventSrc))ROM_AON_EVENTTABLE[2])
-
-#define ROM_AONEventAuxWakeUpGet                                              \
-        ((uint32_t (*)(uint32_t ui32AUXWUEvent))ROM_AON_EVENTTABLE[3])
-
-#define ROM_AONEventMcuSet                                                    \
-        ((void (*)(uint32_t ui32MCUEvent,                                     \
-                   uint32_t ui32EventSrc))ROM_AON_EVENTTABLE[4])
-
-#define ROM_AONEventMcuGet                                                    \
-        ((uint32_t (*)(uint32_t ui32MCUEvent))ROM_AON_EVENTTABLE[5])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the AON_IOC API.
-//
-//*****************************************************************************
-#define ROM_AONIOCDriveStrengthSet                                            \
-        ((void (*)(uint32_t ui32LowDrvStr,                                    \
-                   uint32_t ui32MedDrvStr,                                    \
-                   uint32_t ui32MaxDrvStr))ROM_AON_IOCTABLE[0])
-
-#define ROM_AONIOCDriveStrengthGet                                            \
-        ((uint32_t (*)(uint32_t ui32DriveLevel))ROM_AON_IOCTABLE[1])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the AON_RTC API.
-//
-//*****************************************************************************
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the AON_WUC API.
-//
-//*****************************************************************************
-
-#define ROM_AONWUCAuxReset                                                    \
-        ((void (*)(void))ROM_AON_WUCTABLE[3])
-
-#define ROM_AONWUCRechargeCtrlConfigSet                                       \
-        ((void (*)(bool bAdaptEnable,                                         \
-                   uint32_t ui32AdaptRate,                                    \
-                   uint32_t ui32Period,                                       \
-                   uint32_t ui32MaxPeriod))ROM_AON_WUCTABLE[4])
-
-#define ROM_AONWUCOscConfig                                                   \
-        ((void (*)(uint32_t ui32Period))ROM_AON_WUCTABLE[5])
-
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the AUX_TDC API.
-//
-//*****************************************************************************
-#define ROM_AUXTDCConfigSet                                                   \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32StartCondition,                               \
-                   uint32_t ui32StopCondition))ROM_AUX_TDCTABLE[0])
-
-#define ROM_AUXTDCMeasurementDone                                             \
-        ((uint32_t (*)(uint32_t ui32Base))ROM_AUX_TDCTABLE[1])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the AUX_TIMER API.
-//
-//*****************************************************************************
-#define ROM_AUXTimerConfigure                                                 \
-        ((void (*)(uint32_t ui32Timer,                                        \
-                   uint32_t ui32Config))ROM_AUX_TIMERTABLE[0])
-
-#define ROM_AUXTimerStart                                                     \
-        ((void (*)(uint32_t ui32Timer))ROM_AUX_TIMERTABLE[1])
-
-#define ROM_AUXTimerStop                                                      \
-        ((void (*)(uint32_t ui32Timer))ROM_AUX_TIMERTABLE[2])
-
-#define ROM_AUXTimerPrescaleSet                                               \
-        ((void (*)(uint32_t ui32Timer,                                        \
-                   uint32_t ui32PrescaleDiv))ROM_AUX_TIMERTABLE[3])
-
-#define ROM_AUXTimerPrescaleGet                                               \
-        ((uint32_t (*)(uint32_t ui32Timer))ROM_AUX_TIMERTABLE[4])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the AUX_WUC API.
-//
-//*****************************************************************************
-#define ROM_AUXWUCClockEnable                                                 \
-        ((void (*)(uint32_t ui32Clocks))ROM_AUX_WUCTABLE[0])
-
-#define ROM_AUXWUCClockDisable                                                \
-        ((void (*)(uint32_t ui32Clocks))ROM_AUX_WUCTABLE[1])
-
-#define ROM_AUXWUCClockStatus                                                 \
-        ((uint32_t (*)(uint32_t ui32Clocks))ROM_AUX_WUCTABLE[2])
-
-#define ROM_AUXWUCPowerCtrl                                                   \
-        ((void (*)(uint32_t ui32PowerMode))ROM_AUX_WUCTABLE[3])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the FLASH API.
-//
-//*****************************************************************************
-
-#define ROM_FlashPowerModeGet                                                 \
-        ((uint32_t (*)(void))ROM_FLASHTABLE[1])
-
-#define ROM_FlashProtectionSet                                                \
-        ((void (*)(uint32_t ui32SectorAddress,                                \
-                   uint32_t ui32ProtectMode))ROM_FLASHTABLE[2])
-
-#define ROM_FlashProtectionGet                                                \
-        ((uint32_t (*)(uint32_t ui32SectorAddress))ROM_FLASHTABLE[3])
-
-#define ROM_FlashProtectionSave                                               \
-        ((uint32_t (*)(uint32_t ui32SectorAddress))ROM_FLASHTABLE[4])
-
-#define ROM_FlashEfuseReadRow                                                 \
-        ((bool (*)(uint32_t *pui32EfuseData,                                  \
-                   uint32_t ui32RowAddress))ROM_FLASHTABLE[8])
-
-#define ROM_FlashDisableSectorsForWrite                                       \
-        ((void (*)(void))ROM_FLASHTABLE[9])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the I2C API.
-//
-//*****************************************************************************
-#define ROM_I2CMasterInitExpClk                                               \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32I2CClk,                                       \
-                   bool bFast))ROM_I2CTABLE[0])
-
-#define ROM_I2CMasterErr                                                      \
-        ((uint32_t (*)(uint32_t ui32Base))ROM_I2CTABLE[1])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the INTERRUPT API.
-//
-//*****************************************************************************
-#define ROM_IntPriorityGroupingSet                                            \
-        ((void (*)(uint32_t ui32Bits))ROM_INTERRUPTTABLE[0])
-
-#define ROM_IntPriorityGroupingGet                                            \
-        ((uint32_t (*)(void))ROM_INTERRUPTTABLE[1])
-
-#define ROM_IntPrioritySet                                                    \
-        ((void (*)(uint32_t ui32Interrupt,                                    \
-                   uint8_t ui8Priority))ROM_INTERRUPTTABLE[2])
-
-#define ROM_IntPriorityGet                                                    \
-        ((int32_t (*)(uint32_t ui32Interrupt))ROM_INTERRUPTTABLE[3])
-
-#define ROM_IntEnable                                                         \
-        ((void (*)(uint32_t ui32Interrupt))ROM_INTERRUPTTABLE[4])
-
-#define ROM_IntDisable                                                        \
-        ((void (*)(uint32_t ui32Interrupt))ROM_INTERRUPTTABLE[5])
-
-#define ROM_IntPendSet                                                        \
-        ((void (*)(uint32_t ui32Interrupt))ROM_INTERRUPTTABLE[6])
-
-#define ROM_IntPendGet                                                        \
-        ((bool (*)(uint32_t ui32Interrupt))ROM_INTERRUPTTABLE[7])
-
-#define ROM_IntPendClear                                                      \
-        ((void (*)(uint32_t ui32Interrupt))ROM_INTERRUPTTABLE[8])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the IOC API.
-//
-//*****************************************************************************
-#define ROM_IOCPortConfigureSet                                               \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32PortId,                                       \
-                   uint32_t ui32IOConfig))ROM_IOCTABLE[0])
-
-#define ROM_IOCPortConfigureGet                                               \
-        ((uint32_t (*)(uint32_t ui32IOId))ROM_IOCTABLE[1])
-
-#define ROM_IOCIOShutdownSet                                                  \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32IOShutdown))ROM_IOCTABLE[2])
-
-
-#define ROM_IOCIOModeSet                                                      \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32IOMode))ROM_IOCTABLE[4])
-
-#define ROM_IOCIOIntSet                                                       \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32Int,                                          \
-                   uint32_t ui32EdgeDet))ROM_IOCTABLE[5])
-
-#define ROM_IOCIOPortPullSet                                                  \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32Pull))ROM_IOCTABLE[6])
-
-#define ROM_IOCIOHystSet                                                      \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32Hysteresis))ROM_IOCTABLE[7])
-
-#define ROM_IOCIOInputSet                                                     \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32Input))ROM_IOCTABLE[8])
-
-#define ROM_IOCIOSlewCtrlSet                                                  \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32SlewEnable))ROM_IOCTABLE[9])
-
-#define ROM_IOCIODrvStrengthSet                                               \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32IOCurrent,                                    \
-                   uint32_t ui32DrvStrength))ROM_IOCTABLE[10])
+#define ROM_API_TABLE           ((uint32_t *) 0x10000180)
+#define ROM_VERSION             (ROM_API_TABLE[0])
+
+
+#define ROM_API_AON_EVENT_TABLE ((uint32_t*) (ROM_API_TABLE[1]))
+#define ROM_API_AON_IOC_TABLE   ((uint32_t*) (ROM_API_TABLE[2]))
+#define ROM_API_AON_RTC_TABLE   ((uint32_t*) (ROM_API_TABLE[3]))
+#define ROM_API_AON_WUC_TABLE   ((uint32_t*) (ROM_API_TABLE[4]))
+#define ROM_API_AUX_CTRL_TABLE  ((uint32_t*) (ROM_API_TABLE[5]))
+#define ROM_API_AUX_TDC_TABLE   ((uint32_t*) (ROM_API_TABLE[6]))
+#define ROM_API_AUX_TIMER_TABLE ((uint32_t*) (ROM_API_TABLE[7]))
+#define ROM_API_AUX_WUC_TABLE   ((uint32_t*) (ROM_API_TABLE[8]))
+#define ROM_API_DDI_TABLE       ((uint32_t*) (ROM_API_TABLE[9]))
+#define ROM_API_FLASH_TABLE     ((uint32_t*) (ROM_API_TABLE[10]))
+#define ROM_API_I2C_TABLE       ((uint32_t*) (ROM_API_TABLE[11]))
+#define ROM_API_INTERRUPT_TABLE ((uint32_t*) (ROM_API_TABLE[12]))
+#define ROM_API_IOC_TABLE       ((uint32_t*) (ROM_API_TABLE[13]))
+#define ROM_API_PRCM_TABLE      ((uint32_t*) (ROM_API_TABLE[14]))
+#define ROM_API_SMPH_TABLE      ((uint32_t*) (ROM_API_TABLE[15]))
+#define ROM_API_SPIS_TABLE      ((uint32_t*) (ROM_API_TABLE[16]))
+#define ROM_API_SSI_TABLE       ((uint32_t*) (ROM_API_TABLE[17]))
+#define ROM_API_TIMER_TABLE     ((uint32_t*) (ROM_API_TABLE[18]))
+#define ROM_API_TRNG_TABLE      ((uint32_t*) (ROM_API_TABLE[19]))
+#define ROM_API_UART_TABLE      ((uint32_t*) (ROM_API_TABLE[20]))
+#define ROM_API_UDMA_TABLE      ((uint32_t*) (ROM_API_TABLE[21]))
+#define ROM_API_VIMS_TABLE      ((uint32_t*) (ROM_API_TABLE[22]))
+
+// AON_EVENT FUNCTIONS
+#define ROM_AONEventMcuWakeUpSet \
+    ((void (*)(uint32_t ui32MCUWUEvent, uint32_t ui32EventSrc)) \
+    ROM_API_AON_EVENT_TABLE[0])
+
+#define ROM_AONEventMcuWakeUpGet \
+    ((uint32_t (*)(uint32_t ui32MCUWUEvent)) \
+    ROM_API_AON_EVENT_TABLE[1])
+
+#define ROM_AONEventAuxWakeUpSet \
+    ((void (*)(uint32_t ui32AUXWUEvent, uint32_t ui32EventSrc)) \
+    ROM_API_AON_EVENT_TABLE[2])
+
+#define ROM_AONEventAuxWakeUpGet \
+    ((uint32_t (*)(uint32_t ui32AUXWUEvent)) \
+    ROM_API_AON_EVENT_TABLE[3])
+
+#define ROM_AONEventMcuSet \
+    ((void (*)(uint32_t ui32MCUEvent, uint32_t ui32EventSrc)) \
+    ROM_API_AON_EVENT_TABLE[4])
+
+#define ROM_AONEventMcuGet \
+    ((uint32_t (*)(uint32_t ui32MCUEvent)) \
+    ROM_API_AON_EVENT_TABLE[5])
+
+
+// AON_WUC FUNCTIONS
+#define ROM_AONWUCAuxReset \
+    ((void (*)(void)) \
+    ROM_API_AON_WUC_TABLE[3])
+
+#define ROM_AONWUCRechargeCtrlConfigSet \
+    ((void (*)(bool bAdaptEnable, uint32_t ui32AdaptRate, uint32_t ui32Period, uint32_t ui32MaxPeriod)) \
+    ROM_API_AON_WUC_TABLE[4])
+
+#define ROM_AONWUCOscConfig \
+    ((void (*)(uint32_t ui32Period)) \
+    ROM_API_AON_WUC_TABLE[5])
+
+
+// AUX_TDC FUNCTIONS
+#define ROM_AUXTDCConfigSet \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32StartCondition, uint32_t ui32StopCondition)) \
+    ROM_API_AUX_TDC_TABLE[0])
+
+#define ROM_AUXTDCMeasurementDone \
+    ((uint32_t (*)(uint32_t ui32Base)) \
+    ROM_API_AUX_TDC_TABLE[1])
+
+
+// AUX_TIMER FUNCTIONS
+#define ROM_AUXTimerConfigure \
+    ((void (*)(uint32_t ui32Timer, uint32_t ui32Config)) \
+    ROM_API_AUX_TIMER_TABLE[0])
+
+#define ROM_AUXTimerStart \
+    ((void (*)(uint32_t ui32Timer)) \
+    ROM_API_AUX_TIMER_TABLE[1])
+
+#define ROM_AUXTimerStop \
+    ((void (*)(uint32_t ui32Timer)) \
+    ROM_API_AUX_TIMER_TABLE[2])
+
+#define ROM_AUXTimerPrescaleSet \
+    ((void (*)(uint32_t ui32Timer, uint32_t ui32PrescaleDiv)) \
+    ROM_API_AUX_TIMER_TABLE[3])
+
+#define ROM_AUXTimerPrescaleGet \
+    ((uint32_t (*)(uint32_t ui32Timer)) \
+    ROM_API_AUX_TIMER_TABLE[4])
+
+
+// AUX_WUC FUNCTIONS
+#define ROM_AUXWUCClockEnable \
+    ((void (*)(uint32_t ui32Clocks)) \
+    ROM_API_AUX_WUC_TABLE[0])
 
-#define ROM_IOCIOPortIdSet                                                    \
-        ((void (*)(uint32_t ui32IOId,                                         \
-                   uint32_t ui32PortId))ROM_IOCTABLE[11])
-
-#define ROM_IOCIntEnable                                                      \
-        ((void (*)(uint32_t ui32IOId))ROM_IOCTABLE[12])
-
-#define ROM_IOCIntDisable                                                     \
-        ((void (*)(uint32_t ui32IOId))ROM_IOCTABLE[13])
-
-#define ROM_IOCPinTypeGpioInput                                               \
-        ((void (*)(uint32_t ui32IOId))ROM_IOCTABLE[14])
-
-#define ROM_IOCPinTypeGpioOutput                                              \
-        ((void (*)(uint32_t ui32IOId))ROM_IOCTABLE[15])
-
-#define ROM_IOCPinTypeUart                                                    \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Rx,                                           \
-                   uint32_t ui32Tx,                                           \
-                   uint32_t ui32Cts,                                          \
-                   uint32_t ui32Rts))ROM_IOCTABLE[16])
-
-#define ROM_IOCPinTypeSsiMaster                                               \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Rx,                                           \
-                   uint32_t ui32Tx,                                           \
-                   uint32_t ui32Fss,                                          \
-                   uint32_t ui32Clk))ROM_IOCTABLE[17])
-
-#define ROM_IOCPinTypeSsiSlave                                                \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Rx,                                           \
-                   uint32_t ui32Tx,                                           \
-                   uint32_t ui32Fss,                                          \
-                   uint32_t ui32Clk))ROM_IOCTABLE[18])
-
-#define ROM_IOCPinTypeI2c                                                     \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Data,                                         \
-                   uint32_t ui32Clk))ROM_IOCTABLE[19])
-
-#define ROM_IOCPinTypeSpis                                                    \
-        ((void (*)(uint32_t ui32Rx,                                           \
-                   uint32_t ui32Tx,                                           \
-                   uint32_t ui32Fss,                                          \
-                   uint32_t ui32Clk))ROM_IOCTABLE[20])
-
-#define ROM_IOCPinTypeAux                                                     \
-        ((void (*)(uint32_t ui32IOId))ROM_IOCTABLE[21])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the PRCM API.
-//
-//*****************************************************************************
-#define ROM_PRCMInfClockConfigureSet                                          \
-        ((void (*)(uint32_t ui32ClkDiv,                                       \
-                   uint32_t ui32PowerMode))ROM_PRCMTABLE[0])
-
-#define ROM_PRCMInfClockConfigureGet                                          \
-        ((uint32_t (*)(uint32_t ui32PowerMode))ROM_PRCMTABLE[1])
-
-
-#define ROM_PRCMAudioClockConfigSet                                           \
-        ((void (*)(uint32_t ui32ClkConfig,                                    \
-                   uint32_t ui32SampleRate))ROM_PRCMTABLE[4])
-
-#define ROM_PRCMPowerDomainOn                                                 \
-        ((void (*)(uint32_t ui32Domains))ROM_PRCMTABLE[5])
-
-#define ROM_PRCMPowerDomainOff                                                \
-        ((void (*)(uint32_t ui32Domains))ROM_PRCMTABLE[6])
-
-#define ROM_PRCMPeripheralRunEnable                                           \
-        ((void (*)(uint32_t ui32Peripheral))ROM_PRCMTABLE[7])
-
-#define ROM_PRCMPeripheralRunDisable                                          \
-        ((void (*)(uint32_t ui32Peripheral))ROM_PRCMTABLE[8])
-
-#define ROM_PRCMPeripheralSleepEnable                                         \
-        ((void (*)(uint32_t ui32Peripheral))ROM_PRCMTABLE[9])
-
-#define ROM_PRCMPeripheralSleepDisable                                        \
-        ((void (*)(uint32_t ui32Peripheral))ROM_PRCMTABLE[10])
-
-#define ROM_PRCMPeripheralDeepSleepEnable                                     \
-        ((void (*)(uint32_t ui32Peripheral))ROM_PRCMTABLE[11])
-
-#define ROM_PRCMPeripheralDeepSleepDisable                                    \
-        ((void (*)(uint32_t ui32Peripheral))ROM_PRCMTABLE[12])
-
-#define ROM_PRCMPowerDomainStatus                                             \
-        ((uint32_t (*)(uint32_t ui32Domains))ROM_PRCMTABLE[13])
-
-#define ROM_PRCMDeepSleep                                                     \
-        ((void (*)(void))ROM_PRCMTABLE[14])
-
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the SMPH API.
-//
-//*****************************************************************************
-#define ROM_SMPHAcquire                                                       \
-        ((void (*)(uint32_t ui32Semaphore))ROM_SMPHTABLE[0])
-
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the SSI API.
-//
-//*****************************************************************************
-#define ROM_SSIConfigSetExpClk                                                \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32SSIClk,                                       \
-                   uint32_t ui32Protocol,                                     \
-                   uint32_t ui32Mode,                                         \
-                   uint32_t ui32BitRate,                                      \
-                   uint32_t ui32DataWidth))ROM_SSITABLE[0])
-
-#define ROM_SSIDataPut                                                        \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Data))ROM_SSITABLE[1])
-
-#define ROM_SSIDataPutNonBlocking                                             \
-        ((int32_t (*)(uint32_t ui32Base,                                      \
-                      uint32_t ui32Data))ROM_SSITABLE[2])
-
-#define ROM_SSIDataGet                                                        \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t *pui32Data))ROM_SSITABLE[3])
-
-#define ROM_SSIDataGetNonBlocking                                             \
-        ((int32_t (*)(uint32_t ui32Base,                                      \
-                      uint32_t *pui32Data))ROM_SSITABLE[4])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the TIMER API.
-//
-//*****************************************************************************
-#define ROM_TimerConfigure                                                    \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Config))ROM_TIMERTABLE[0])
-
-#define ROM_TimerLevelControl                                                 \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Timer,                                        \
-                   bool bInvert))ROM_TIMERTABLE[1])
-
-#define ROM_TimerStallControl                                                 \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Timer,                                        \
-                   bool bStall))ROM_TIMERTABLE[3])
-
-#define ROM_TimerWaitOnTriggerControl                                         \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Timer,                                        \
-                   bool bWait))ROM_TIMERTABLE[4])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the TRNG API.
-//
-//*****************************************************************************
-
-#define ROM_TRNGNumberGet                                                     \
-        ((uint32_t (*)(uint32_t ui32Word))ROM_TRNGTABLE[1])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the UART API.
-//
-//*****************************************************************************
-#define ROM_UARTFIFOLevelGet                                                  \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t *pui32TxLevel,                                    \
-                   uint32_t *pui32RxLevel))ROM_UARTTABLE[0])
-
-#define ROM_UARTConfigSetExpClk                                               \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32UARTClk,                                      \
-                   uint32_t ui32Baud,                                         \
-                   uint32_t ui32Config))ROM_UARTTABLE[1])
-
-#define ROM_UARTConfigGetExpClk                                               \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32UARTClk,                                      \
-                   uint32_t *pui32Baud,                                       \
-                   uint32_t *pui32Config))ROM_UARTTABLE[2])
-
-#define ROM_UARTDisable                                                       \
-        ((void (*)(uint32_t ui32Base))ROM_UARTTABLE[3])
-
-#define ROM_UARTCharGetNonBlocking                                            \
-        ((int32_t (*)(uint32_t ui32Base))ROM_UARTTABLE[4])
-
-#define ROM_UARTCharGet                                                       \
-        ((int32_t (*)(uint32_t ui32Base))ROM_UARTTABLE[5])
-
-#define ROM_UARTCharPutNonBlocking                                            \
-        ((bool (*)(uint32_t ui32Base,                                         \
-                   uint8_t ui8Data))ROM_UARTTABLE[6])
-
-#define ROM_UARTCharPut                                                       \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint8_t ui8Data))ROM_UARTTABLE[7])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the UDMA API.
-//
-//*****************************************************************************
-#define ROM_uDMAChannelAttributeEnable                                        \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32ChannelNum,                                   \
-                   uint32_t ui32Attr))ROM_UDMATABLE[0])
-
-#define ROM_uDMAChannelAttributeDisable                                       \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32ChannelNum,                                   \
-                   uint32_t ui32Attr))ROM_UDMATABLE[1])
-
-#define ROM_uDMAChannelAttributeGet                                           \
-        ((uint32_t (*)(uint32_t ui32Base,                                     \
-                       uint32_t ui32ChannelNum))ROM_UDMATABLE[2])
-
-#define ROM_uDMAChannelControlSet                                             \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32ChannelStructIndex,                           \
-                   uint32_t ui32Control))ROM_UDMATABLE[3])
-
-#define ROM_uDMAChannelScatterGatherSet                                       \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32ChannelNum,                                   \
-                   uint32_t ui32TaskCount,                                    \
-                   void *pvTaskList,                                          \
-                   uint32_t ui32IsPeriphSG))ROM_UDMATABLE[5])
-
-#define ROM_uDMAChannelSizeGet                                                \
-        ((uint32_t (*)(uint32_t ui32Base,                                     \
-                       uint32_t ui32ChannelStructIndex))ROM_UDMATABLE[6])
-
-#define ROM_uDMAChannelModeGet                                                \
-        ((uint32_t (*)(uint32_t ui32Base,                                     \
-                       uint32_t ui32ChannelStructIndex))ROM_UDMATABLE[7])
-
-//*****************************************************************************
-//
-// Macros for calling ROM functions in the VIMS API.
-//
-//*****************************************************************************
-#define ROM_VIMSConfigure                                                     \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   bool bRoundRobin,                                          \
-                   bool bPrefetch))ROM_VIMSTABLE[0])
-
-#define ROM_VIMSModeSet                                                       \
-        ((void (*)(uint32_t ui32Base,                                         \
-                   uint32_t ui32Mode))ROM_VIMSTABLE[1])
+#define ROM_AUXWUCClockDisable \
+    ((void (*)(uint32_t ui32Clocks)) \
+    ROM_API_AUX_WUC_TABLE[1])
+
+#define ROM_AUXWUCClockStatus \
+    ((uint32_t (*)(uint32_t ui32Clocks)) \
+    ROM_API_AUX_WUC_TABLE[2])
+
+#define ROM_AUXWUCPowerCtrl \
+    ((void (*)(uint32_t ui32PowerMode)) \
+    ROM_API_AUX_WUC_TABLE[3])
+
+
+// FLASH FUNCTIONS
+#define ROM_FlashPowerModeGet \
+    ((uint32_t (*)(void)) \
+    ROM_API_FLASH_TABLE[1])
+
+#define ROM_FlashProtectionSet \
+    ((void (*)(uint32_t ui32SectorAddress, uint32_t ui32ProtectMode)) \
+    ROM_API_FLASH_TABLE[2])
+
+#define ROM_FlashProtectionGet \
+    ((uint32_t (*)(uint32_t ui32SectorAddress)) \
+    ROM_API_FLASH_TABLE[3])
+
+#define ROM_FlashProtectionSave \
+    ((uint32_t (*)(uint32_t ui32SectorAddress)) \
+    ROM_API_FLASH_TABLE[4])
+
+#define ROM_FlashEfuseReadRow \
+    ((bool (*)(uint32_t *pui32EfuseData, uint32_t ui32RowAddress)) \
+    ROM_API_FLASH_TABLE[8])
+
+#define ROM_FlashDisableSectorsForWrite \
+    ((void (*)(void)) \
+    ROM_API_FLASH_TABLE[9])
+
+
+// I2C FUNCTIONS
+#define ROM_I2CMasterInitExpClk \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32I2CClk, bool bFast)) \
+    ROM_API_I2C_TABLE[0])
+
+#define ROM_I2CMasterErr \
+    ((uint32_t (*)(uint32_t ui32Base)) \
+    ROM_API_I2C_TABLE[1])
+
+
+// INTERRUPT FUNCTIONS
+#define ROM_IntPriorityGroupingSet \
+    ((void (*)(uint32_t ui32Bits)) \
+    ROM_API_INTERRUPT_TABLE[0])
+
+#define ROM_IntPriorityGroupingGet \
+    ((uint32_t (*)(void)) \
+    ROM_API_INTERRUPT_TABLE[1])
+
+#define ROM_IntPrioritySet \
+    ((void (*)(uint32_t ui32Interrupt, uint8_t ui8Priority)) \
+    ROM_API_INTERRUPT_TABLE[2])
+
+#define ROM_IntPriorityGet \
+    ((int32_t (*)(uint32_t ui32Interrupt)) \
+    ROM_API_INTERRUPT_TABLE[3])
+
+#define ROM_IntEnable \
+    ((void (*)(uint32_t ui32Interrupt)) \
+    ROM_API_INTERRUPT_TABLE[4])
+
+#define ROM_IntDisable \
+    ((void (*)(uint32_t ui32Interrupt)) \
+    ROM_API_INTERRUPT_TABLE[5])
+
+#define ROM_IntPendSet \
+    ((void (*)(uint32_t ui32Interrupt)) \
+    ROM_API_INTERRUPT_TABLE[6])
+
+#define ROM_IntPendGet \
+    ((bool (*)(uint32_t ui32Interrupt)) \
+    ROM_API_INTERRUPT_TABLE[7])
+
+#define ROM_IntPendClear \
+    ((void (*)(uint32_t ui32Interrupt)) \
+    ROM_API_INTERRUPT_TABLE[8])
+
+
+// IOC FUNCTIONS
+#define ROM_IOCPortConfigureSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32PortId, uint32_t ui32IOConfig)) \
+    ROM_API_IOC_TABLE[0])
+
+#define ROM_IOCPortConfigureGet \
+    ((uint32_t (*)(uint32_t ui32IOId)) \
+    ROM_API_IOC_TABLE[1])
+
+#define ROM_IOCIOShutdownSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32IOShutdown)) \
+    ROM_API_IOC_TABLE[2])
+
+#define ROM_IOCIOModeSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32IOMode)) \
+    ROM_API_IOC_TABLE[4])
+
+#define ROM_IOCIOIntSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32Int, uint32_t ui32EdgeDet)) \
+    ROM_API_IOC_TABLE[5])
+
+#define ROM_IOCIOPortPullSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32Pull)) \
+    ROM_API_IOC_TABLE[6])
+
+#define ROM_IOCIOHystSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32Hysteresis)) \
+    ROM_API_IOC_TABLE[7])
+
+#define ROM_IOCIOInputSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32Input)) \
+    ROM_API_IOC_TABLE[8])
+
+#define ROM_IOCIOSlewCtrlSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32SlewEnable)) \
+    ROM_API_IOC_TABLE[9])
+
+#define ROM_IOCIODrvStrengthSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32IOCurrent, uint32_t ui32DrvStrength)) \
+    ROM_API_IOC_TABLE[10])
+
+#define ROM_IOCIOPortIdSet \
+    ((void (*)(uint32_t ui32IOId, uint32_t ui32PortId)) \
+    ROM_API_IOC_TABLE[11])
+
+#define ROM_IOCIntEnable \
+    ((void (*)(uint32_t ui32IOId)) \
+    ROM_API_IOC_TABLE[12])
+
+#define ROM_IOCIntDisable \
+    ((void (*)(uint32_t ui32IOId)) \
+    ROM_API_IOC_TABLE[13])
+
+#define ROM_IOCPinTypeGpioInput \
+    ((void (*)(uint32_t ui32IOId)) \
+    ROM_API_IOC_TABLE[14])
+
+#define ROM_IOCPinTypeGpioOutput \
+    ((void (*)(uint32_t ui32IOId)) \
+    ROM_API_IOC_TABLE[15])
+
+#define ROM_IOCPinTypeUart \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Rx, uint32_t ui32Tx, uint32_t ui32Cts, uint32_t ui32Rts)) \
+    ROM_API_IOC_TABLE[16])
+
+#define ROM_IOCPinTypeSsiMaster \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Rx, uint32_t ui32Tx, uint32_t ui32Fss, uint32_t ui32Clk)) \
+    ROM_API_IOC_TABLE[17])
+
+#define ROM_IOCPinTypeSsiSlave \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Rx, uint32_t ui32Tx, uint32_t ui32Fss, uint32_t ui32Clk)) \
+    ROM_API_IOC_TABLE[18])
+
+#define ROM_IOCPinTypeI2c \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Data, uint32_t ui32Clk)) \
+    ROM_API_IOC_TABLE[19])
+
+#define ROM_IOCPinTypeAux \
+    ((void (*)(uint32_t ui32IOId)) \
+    ROM_API_IOC_TABLE[21])
+
+
+// PRCM FUNCTIONS
+#define ROM_PRCMInfClockConfigureSet \
+    ((void (*)(uint32_t ui32ClkDiv, uint32_t ui32PowerMode)) \
+    ROM_API_PRCM_TABLE[0])
+
+#define ROM_PRCMInfClockConfigureGet \
+    ((uint32_t (*)(uint32_t ui32PowerMode)) \
+    ROM_API_PRCM_TABLE[1])
+
+#define ROM_PRCMAudioClockConfigSet \
+    ((void (*)(uint32_t ui32ClkConfig, uint32_t ui32SampleRate)) \
+    ROM_API_PRCM_TABLE[4])
+
+#define ROM_PRCMPowerDomainOn \
+    ((void (*)(uint32_t ui32Domains)) \
+    ROM_API_PRCM_TABLE[5])
+
+#define ROM_PRCMPowerDomainOff \
+    ((void (*)(uint32_t ui32Domains)) \
+    ROM_API_PRCM_TABLE[6])
+
+#define ROM_PRCMPeripheralRunEnable \
+    ((void (*)(uint32_t ui32Peripheral)) \
+    ROM_API_PRCM_TABLE[7])
+
+#define ROM_PRCMPeripheralRunDisable \
+    ((void (*)(uint32_t ui32Peripheral)) \
+    ROM_API_PRCM_TABLE[8])
+
+#define ROM_PRCMPeripheralSleepEnable \
+    ((void (*)(uint32_t ui32Peripheral)) \
+    ROM_API_PRCM_TABLE[9])
+
+#define ROM_PRCMPeripheralSleepDisable \
+    ((void (*)(uint32_t ui32Peripheral)) \
+    ROM_API_PRCM_TABLE[10])
+
+#define ROM_PRCMPeripheralDeepSleepEnable \
+    ((void (*)(uint32_t ui32Peripheral)) \
+    ROM_API_PRCM_TABLE[11])
+
+#define ROM_PRCMPeripheralDeepSleepDisable \
+    ((void (*)(uint32_t ui32Peripheral)) \
+    ROM_API_PRCM_TABLE[12])
+
+#define ROM_PRCMPowerDomainStatus \
+    ((uint32_t (*)(uint32_t ui32Domains)) \
+    ROM_API_PRCM_TABLE[13])
+
+#define ROM_PRCMDeepSleep \
+    ((void (*)(void)) \
+    ROM_API_PRCM_TABLE[14])
+
+
+// SMPH FUNCTIONS
+#define ROM_SMPHAcquire \
+    ((void (*)(uint32_t ui32Semaphore)) \
+    ROM_API_SMPH_TABLE[0])
+
+
+// SSI FUNCTIONS
+#define ROM_SSIConfigSetExpClk \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32SSIClk, uint32_t ui32Protocol, uint32_t ui32Mode, uint32_t ui32BitRate, uint32_t ui32DataWidth)) \
+    ROM_API_SSI_TABLE[0])
+
+#define ROM_SSIDataPut \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Data)) \
+    ROM_API_SSI_TABLE[1])
+
+#define ROM_SSIDataPutNonBlocking \
+    ((int32_t (*)(uint32_t ui32Base, uint32_t ui32Data)) \
+    ROM_API_SSI_TABLE[2])
+
+#define ROM_SSIDataGet \
+    ((void (*)(uint32_t ui32Base, uint32_t *pui32Data)) \
+    ROM_API_SSI_TABLE[3])
+
+#define ROM_SSIDataGetNonBlocking \
+    ((int32_t (*)(uint32_t ui32Base, uint32_t *pui32Data)) \
+    ROM_API_SSI_TABLE[4])
+
+
+// TIMER FUNCTIONS
+#define ROM_TimerConfigure \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Config)) \
+    ROM_API_TIMER_TABLE[0])
+
+#define ROM_TimerLevelControl \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Timer, bool bInvert)) \
+    ROM_API_TIMER_TABLE[1])
+
+#define ROM_TimerStallControl \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Timer, bool bStall)) \
+    ROM_API_TIMER_TABLE[3])
+
+#define ROM_TimerWaitOnTriggerControl \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Timer, bool bWait)) \
+    ROM_API_TIMER_TABLE[4])
+
+
+// TRNG FUNCTIONS
+#define ROM_TRNGNumberGet \
+    ((uint32_t (*)(uint32_t ui32Word)) \
+    ROM_API_TRNG_TABLE[1])
+
+
+// UART FUNCTIONS
+#define ROM_UARTFIFOLevelGet \
+    ((void (*)(uint32_t ui32Base, uint32_t *pui32TxLevel, uint32_t *pui32RxLevel)) \
+    ROM_API_UART_TABLE[0])
+
+#define ROM_UARTConfigSetExpClk \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32UARTClk, uint32_t ui32Baud, uint32_t ui32Config)) \
+    ROM_API_UART_TABLE[1])
+
+#define ROM_UARTConfigGetExpClk \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32UARTClk, uint32_t *pui32Baud, uint32_t *pui32Config)) \
+    ROM_API_UART_TABLE[2])
+
+#define ROM_UARTDisable \
+    ((void (*)(uint32_t ui32Base)) \
+    ROM_API_UART_TABLE[3])
+
+#define ROM_UARTCharGetNonBlocking \
+    ((int32_t (*)(uint32_t ui32Base)) \
+    ROM_API_UART_TABLE[4])
+
+#define ROM_UARTCharGet \
+    ((int32_t (*)(uint32_t ui32Base)) \
+    ROM_API_UART_TABLE[5])
+
+#define ROM_UARTCharPutNonBlocking \
+    ((bool (*)(uint32_t ui32Base, uint8_t ui8Data)) \
+    ROM_API_UART_TABLE[6])
+
+#define ROM_UARTCharPut \
+    ((void (*)(uint32_t ui32Base, uint8_t ui8Data)) \
+    ROM_API_UART_TABLE[7])
+
+
+// UDMA FUNCTIONS
+#define ROM_uDMAChannelAttributeEnable \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32ChannelNum, uint32_t ui32Attr)) \
+    ROM_API_UDMA_TABLE[0])
+
+#define ROM_uDMAChannelAttributeDisable \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32ChannelNum, uint32_t ui32Attr)) \
+    ROM_API_UDMA_TABLE[1])
+
+#define ROM_uDMAChannelAttributeGet \
+    ((uint32_t (*)(uint32_t ui32Base, uint32_t ui32ChannelNum)) \
+    ROM_API_UDMA_TABLE[2])
+
+#define ROM_uDMAChannelControlSet \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32ChannelStructIndex, uint32_t ui32Control)) \
+    ROM_API_UDMA_TABLE[3])
+
+#define ROM_uDMAChannelScatterGatherSet \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32ChannelNum, uint32_t ui32TaskCount, void *pvTaskList, uint32_t ui32IsPeriphSG)) \
+    ROM_API_UDMA_TABLE[5])
+
+#define ROM_uDMAChannelSizeGet \
+    ((uint32_t (*)(uint32_t ui32Base, uint32_t ui32ChannelStructIndex)) \
+    ROM_API_UDMA_TABLE[6])
+
+#define ROM_uDMAChannelModeGet \
+    ((uint32_t (*)(uint32_t ui32Base, uint32_t ui32ChannelStructIndex)) \
+    ROM_API_UDMA_TABLE[7])
+
+
+// VIMS FUNCTIONS
+#define ROM_VIMSConfigure \
+    ((void (*)(uint32_t ui32Base, bool bRoundRobin, bool bPrefetch)) \
+    ROM_API_VIMS_TABLE[0])
+
+#define ROM_VIMSModeSet \
+    ((void (*)(uint32_t ui32Base, uint32_t ui32Mode)) \
+    ROM_API_VIMS_TABLE[1])
+
+
 
 //*****************************************************************************
 //

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       rfc.h
-*  Revised:        2015-07-23 12:59:29 +0200 (Thu, 23 Jul 2015)
-*  Revision:       44197
+*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
+*  Revision:       46052
 *
 *  Description:    Defines and prototypes for the RF Core.
 *
@@ -63,6 +63,16 @@ extern "C"
 #include <inc/hw_memmap.h>
 #include <inc/hw_rfc_pwr.h>
 #include <inc/hw_rfc_dbell.h>
+#include <driverlib/rf_common_cmd.h>
+#include <driverlib/rf_prop_cmd.h>
+#include <inc/hw_fcfg1.h>
+
+typedef struct {
+   uint32_t configIfAdc;
+   uint32_t configRfFrontend;
+   uint32_t configSynth;
+   uint32_t configMiscAdc;
+} rfTrim_t;
 
 //*****************************************************************************
 //
@@ -79,6 +89,11 @@ extern "C"
 //*****************************************************************************
 #if !defined(DOXYGEN)
     #define RFCCpeIntGetAndClear            NOROM_RFCCpeIntGetAndClear
+    #define RFCDoorbellSendTo               NOROM_RFCDoorbellSendTo
+    #define RFCSynthPowerDown               NOROM_RFCSynthPowerDown
+    #define RFCRfTrimRead                   NOROM_RFCRfTrimRead
+    #define RFCRfTrimSet                    NOROM_RFCRfTrimSet
+    #define RFCRTrim                        NOROM_RFCRTrim
 #endif
 
 //*****************************************************************************
@@ -231,14 +246,6 @@ RFCCpeIntDisable(uint32_t ui32Mask)
   //  Disable the masked interrupts
   //
   HWREG( RFC_DBELL_BASE + RFC_DBELL_O_RFCPEIEN ) &= ~ui32Mask;
-
-  do
-  {
-    //
-    // Clear any pending interrupts.
-    //
-    HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFCPEIFG) = 0x0;
-  }while(HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFCPEIFG) != 0x0);
 }
 
 
@@ -254,11 +261,6 @@ RFCHwIntDisable(uint32_t ui32Mask)
   //  Disable the masked interrupts
   //
   HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFHWIEN) &= ~ui32Mask;
-
-  //
-  // Clear any pending interrupts.
-  //
-  HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFHWIFG) = 0x0;
 }
 
 
@@ -283,8 +285,8 @@ RFCCpeIntClear(uint32_t ui32Mask)
     //
     // Clear interrupts that may now be pending
     //
-    HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFCPEIFG) &= ~ui32Mask;
-  }while(HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFCPEIFG) != ~ui32Mask);
+    HWREG(RFC_DBELL_BASE+RFC_DBELL_O_RFCPEIFG) = ~ui32Mask;
+  }while (HWREG(RFC_DBELL_BASE+RFC_DBELL_O_RFCPEIFG) & ui32Mask);
 }
 
 
@@ -299,7 +301,7 @@ RFCHwIntClear(uint32_t ui32Mask)
   //
   // Clear pending interrupts.
   //
-  HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFHWIFG) &= ~ui32Mask;
+  HWREG(RFC_DBELL_BASE + RFC_DBELL_O_RFHWIFG) = ~ui32Mask;
 }
 
 
@@ -320,6 +322,46 @@ RFCAckIntClear(void)
 
 //*****************************************************************************
 //
+//! Send command to doorbell and wait for ack
+//
+//*****************************************************************************
+extern uint32_t RFCDoorbellSendTo(uint32_t pOp);
+
+
+//*****************************************************************************
+//
+//! Turn off synth, NOTE: Radio will no longer respond to commands!
+//
+//*****************************************************************************
+extern void RFCSynthPowerDown(void);
+
+
+//*****************************************************************************
+//
+//! Read RF trim from flash using CM3
+//
+//*****************************************************************************
+extern void RFCRfTrimRead(rfc_radioOp_t *pOpSetup, rfTrim_t* rfTrim);
+
+
+//*****************************************************************************
+//
+//! Write preloaded RF trim values to CM0
+//
+//*****************************************************************************
+extern void RFCRfTrimSet(rfTrim_t* rfTrim);
+
+
+//*****************************************************************************
+//
+//! Check Override RTrim vs FCFG RTrim
+//
+//*****************************************************************************
+extern void RFCRTrim(rfc_radioOp_t *pOpSetup);
+
+
+//*****************************************************************************
+//
 // Support for DriverLib in ROM:
 // Redirect to implementation in ROM when available.
 //
@@ -329,6 +371,26 @@ RFCAckIntClear(void)
     #ifdef ROM_RFCCpeIntGetAndClear
         #undef  RFCCpeIntGetAndClear
         #define RFCCpeIntGetAndClear            ROM_RFCCpeIntGetAndClear
+    #endif
+    #ifdef ROM_RFCDoorbellSendTo
+        #undef  RFCDoorbellSendTo
+        #define RFCDoorbellSendTo               ROM_RFCDoorbellSendTo
+    #endif
+    #ifdef ROM_RFCSynthPowerDown
+        #undef  RFCSynthPowerDown
+        #define RFCSynthPowerDown               ROM_RFCSynthPowerDown
+    #endif
+    #ifdef ROM_RFCRfTrimRead
+        #undef  RFCRfTrimRead
+        #define RFCRfTrimRead                   ROM_RFCRfTrimRead
+    #endif
+    #ifdef ROM_RFCRfTrimSet
+        #undef  RFCRfTrimSet
+        #define RFCRfTrimSet                    ROM_RFCRfTrimSet
+    #endif
+    #ifdef ROM_RFCRTrim
+        #undef  RFCRTrim
+        #define RFCRTrim                        ROM_RFCRTrim
     #endif
 #endif
 

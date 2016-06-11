@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       i2c.c
-*  Revised:        2015-05-18 13:52:35 +0200 (Mon, 18 May 2015)
-*  Revision:       43512
+*  Revised:        2015-11-16 19:41:47 +0100 (Mon, 16 Nov 2015)
+*  Revision:       45094
 *
 *  Description:    Driver for the I2C module
 *
@@ -60,7 +60,6 @@
 //! Initializes the I2C Master block
 //
 //*****************************************************************************
-
 void
 I2CMasterInitExpClk(uint32_t ui32Base, uint32_t ui32I2CClk,
                     bool bFast)
@@ -105,7 +104,6 @@ I2CMasterInitExpClk(uint32_t ui32Base, uint32_t ui32I2CClk,
 //! Gets the error status of the I2C Master module
 //
 //*****************************************************************************
-
 uint32_t
 I2CMasterErr(uint32_t ui32Base)
 {
@@ -161,7 +159,7 @@ I2CIntRegister(uint32_t ui32Base, void (*pfnHandler)(void))
     //
     // Get the interrupt number.
     //
-    ui32Int = INT_I2C;
+    ui32Int = INT_I2C_IRQ;
 
     //
     // Register the interrupt handler, returning an error if an error occurs.
@@ -192,7 +190,7 @@ I2CIntUnregister(uint32_t ui32Base)
     //
     // Get the interrupt number.
     //
-    ui32Int = INT_I2C;
+    ui32Int = INT_I2C_IRQ;
 
     //
     // Disable the interrupt.

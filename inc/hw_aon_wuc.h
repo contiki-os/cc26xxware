@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aon_wuc_h
-*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
-*  Revision:       43524
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -115,6 +115,7 @@
 // ENUMs:
 // SCLK_LF                  Use SCLK_LF in Powerdown
 // NONE                     No clock in Powerdown
+#define AON_WUC_MCUCLK_PWR_DWN_SRC_W                                         2
 #define AON_WUC_MCUCLK_PWR_DWN_SRC_M                                0x00000003
 #define AON_WUC_MCUCLK_PWR_DWN_SRC_S                                         0
 #define AON_WUC_MCUCLK_PWR_DWN_SRC_SCLK_LF                          0x00000001
@@ -133,6 +134,7 @@
 // ENUMs:
 // SCLK_LF                  Use SCLK_LF in Powerdown
 // NONE                     No clock in Powerdown
+#define AON_WUC_AUXCLK_PWR_DWN_SRC_W                                         2
 #define AON_WUC_AUXCLK_PWR_DWN_SRC_M                                0x00001800
 #define AON_WUC_AUXCLK_PWR_DWN_SRC_S                                        11
 #define AON_WUC_AUXCLK_PWR_DWN_SRC_SCLK_LF                          0x00000800
@@ -153,6 +155,7 @@
 // DIV8                     Divide by 8
 // DIV4                     Divide by 4
 // DIV2                     Divide by 2
+#define AON_WUC_AUXCLK_SCLK_HF_DIV_W                                         3
 #define AON_WUC_AUXCLK_SCLK_HF_DIV_M                                0x00000700
 #define AON_WUC_AUXCLK_SCLK_HF_DIV_S                                         8
 #define AON_WUC_AUXCLK_SCLK_HF_DIV_DIV256                           0x00000700
@@ -172,6 +175,7 @@
 // ENUMs:
 // SCLK_LF                  LF Clock (SCLK_LF)
 // SCLK_HF                  HF Clock (SCLK_HF)
+#define AON_WUC_AUXCLK_SRC_W                                                 3
 #define AON_WUC_AUXCLK_SRC_M                                        0x00000007
 #define AON_WUC_AUXCLK_SRC_S                                                 0
 #define AON_WUC_AUXCLK_SRC_SCLK_LF                                  0x00000004
@@ -210,6 +214,7 @@
 // RET_LEVEL2               Retention on for SRAM:BANK0 and SRAM:BANK1
 // RET_LEVEL1               Retention on for SRAM:BANK0
 // RET_NONE                 Retention is disabled
+#define AON_WUC_MCUCFG_SRAM_RET_EN_W                                         4
 #define AON_WUC_MCUCFG_SRAM_RET_EN_M                                0x0000000F
 #define AON_WUC_MCUCFG_SRAM_RET_EN_S                                         0
 #define AON_WUC_MCUCFG_SRAM_RET_EN_RET_FULL                         0x0000000F
@@ -491,6 +496,7 @@
 // Note: Rounding may cause adaptive recharge not to start for very small
 // values of both Gain and Initial period. Criteria for algorithm to start is
 // MAX(PERIOD*2^-C1,PERIOD*2^-C2) >= 1
+#define AON_WUC_RECHARGECFG_C2_W                                             4
 #define AON_WUC_RECHARGECFG_C2_M                                    0x00F00000
 #define AON_WUC_RECHARGECFG_C2_S                                            20
 
@@ -504,6 +510,7 @@
 // Note: Rounding may cause adaptive recharge not to start for very small
 // values of both Gain and Initial period. Criteria for algorithm to start is
 // MAX(PERIOD*2^-C1,PERIOD*2^-C2) >= 1
+#define AON_WUC_RECHARGECFG_C1_W                                             4
 #define AON_WUC_RECHARGECFG_C1_M                                    0x000F0000
 #define AON_WUC_RECHARGECFG_C1_S                                            16
 
@@ -515,6 +522,7 @@
 // exponent:
 // MAXCYCLES=(MAX_PER_M*16+15)*2^MAX_PER_E
 // This field sets the mantissa of MAXCYCLES
+#define AON_WUC_RECHARGECFG_MAX_PER_M_W                                      5
 #define AON_WUC_RECHARGECFG_MAX_PER_M_M                             0x0000F800
 #define AON_WUC_RECHARGECFG_MAX_PER_M_S                                     11
 
@@ -526,6 +534,7 @@
 // exponent:
 // MAXCYCLES=(MAX_PER_M*16+15)*2^MAX_PER_E
 // This field sets the exponent MAXCYCLES
+#define AON_WUC_RECHARGECFG_MAX_PER_E_W                                      3
 #define AON_WUC_RECHARGECFG_MAX_PER_E_M                             0x00000700
 #define AON_WUC_RECHARGECFG_MAX_PER_E_S                                      8
 
@@ -538,6 +547,7 @@
 // bit exponent:
 // This field sets the Mantissa of the Period.
 // PERIOD=(PER_M*16+15)*2^PER_E
+#define AON_WUC_RECHARGECFG_PER_M_W                                          5
 #define AON_WUC_RECHARGECFG_PER_M_M                                 0x000000F8
 #define AON_WUC_RECHARGECFG_PER_M_S                                          3
 
@@ -550,6 +560,7 @@
 // bit exponent:
 // This field sets the Exponent of the Period.
 // PERIOD=(PER_M*16+15)*2^PER_E
+#define AON_WUC_RECHARGECFG_PER_E_W                                          3
 #define AON_WUC_RECHARGECFG_PER_E_M                                 0x00000007
 #define AON_WUC_RECHARGECFG_PER_E_S                                          0
 
@@ -566,6 +577,7 @@
 // and bit 0 is updated with the last VDDR sample, ie a 1 is shiftet in in case
 // VDDR > VDDR_threshold just before recharge starts. Otherwise a 0 will be
 // shifted in.
+#define AON_WUC_RECHARGESTAT_VDDR_SMPLS_W                                    4
 #define AON_WUC_RECHARGESTAT_VDDR_SMPLS_M                           0x000F0000
 #define AON_WUC_RECHARGESTAT_VDDR_SMPLS_S                                   16
 
@@ -581,6 +593,7 @@
 // recharge.
 //
 // This bitfield is cleared to 0 when writing this register.
+#define AON_WUC_RECHARGESTAT_MAX_USED_PER_W                                 16
 #define AON_WUC_RECHARGESTAT_MAX_USED_PER_M                         0x0000FFFF
 #define AON_WUC_RECHARGESTAT_MAX_USED_PER_S                                  0
 
@@ -603,6 +616,7 @@
 // This field sets the mantissa
 // Note: Oscillator amplitude calibration is turned of when both this bitfield
 // and PER_E are set to 0
+#define AON_WUC_OSCCFG_PER_M_W                                               5
 #define AON_WUC_OSCCFG_PER_M_M                                      0x000000F8
 #define AON_WUC_OSCCFG_PER_M_S                                               3
 
@@ -619,6 +633,7 @@
 // This field sets the exponent
 // Note: Oscillator amplitude calibration is turned of when both  PER_M and
 // this bitfield are set to 0
+#define AON_WUC_OSCCFG_PER_E_W                                               3
 #define AON_WUC_OSCCFG_PER_E_M                                      0x00000007
 #define AON_WUC_OSCCFG_PER_E_S                                               0
 
@@ -651,6 +666,7 @@
 //
 // 32-bit JTAG USERCODE register feeding main JTAG TAP
 // NB: This field can be locked
+#define AON_WUC_JTAGUSERCODE_USER_CODE_W                                    32
 #define AON_WUC_JTAGUSERCODE_USER_CODE_M                            0xFFFFFFFF
 #define AON_WUC_JTAGUSERCODE_USER_CODE_S                                     0
 

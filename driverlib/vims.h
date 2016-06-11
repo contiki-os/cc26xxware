@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       vims.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2015-09-01 10:40:32 +0200 (Tue, 01 Sep 2015)
+*  Revision:       44488
 *
 *  Description:    Defines and prototypes for the VIMS.
 *
@@ -83,7 +83,7 @@ extern "C"
     #define VIMSConfigure                   NOROM_VIMSConfigure
     #define VIMSModeSet                     NOROM_VIMSModeSet
     #define VIMSModeGet                     NOROM_VIMSModeGet
-    #define VIMSModeSetBlocking             NOROM_VIMSModeSetBlocking
+    #define VIMSModeSafeSet                 NOROM_VIMSModeSafeSet
 #endif
 
 //*****************************************************************************
@@ -92,13 +92,11 @@ extern "C"
 // and returned from VIMSModeGet().
 //
 //*****************************************************************************
-#define VIMS_MODE_CHANGING      0x4  // VIMS mode is changing now and VIMS_MODE
-                                     // can not be changed at moment.
-#define VIMS_MODE_DISABLED      0x0  // Disabled mode.
-#define VIMS_MODE_ENABLED       0x1  // Enabled mode, only USERCODE is cached.
-#define VIMS_MODE_SPLIT         0x2  // Split mode, both USERCODE and SYSCODE
-                                     // will be cached.
-#define VIMS_MODE_OFF           0x3  // VIMS Cache RAM is off
+#define VIMS_MODE_CHANGING 0x4                   // VIMS mode is changing now and VIMS_MODE
+                                                 // can not be changed at moment.
+#define VIMS_MODE_DISABLED (VIMS_CTL_MODE_GPRAM) // Disabled mode (GPRAM enabled).
+#define VIMS_MODE_ENABLED  (VIMS_CTL_MODE_CACHE) // Enabled mode, only USERCODE is cached.
+#define VIMS_MODE_OFF      (VIMS_CTL_MODE_OFF)   // VIMS Cache RAM is off
 
 //*****************************************************************************
 //
@@ -164,34 +162,27 @@ extern void VIMSConfigure(uint32_t ui32Base, bool bRoundRobin,
 //!   The Cache will not be operational.
 //!   Reads and writes to flash will be uncached.
 //!   After a short delay (approx. 1029 clock cycles) the VIMS will
-//!   automatically switch mode to \ref VIMS_MODE_DISABLED.
+//!   automatically switch mode to \ref VIMS_MODE_DISABLED (GPRAM enabled).
 //!
 //! In \ref VIMS_MODE_DISABLED mode, the cache is disabled but the GP RAM is
 //! accessible:
 //!   The GP RAM will be accessible.
 //!   The Cache will not be operational.
 //!   Reads from flash will be uncached.
-//!   From this mode, the VIMS may be put in \ref VIMS_MODE_ENABLED
-//!   or \ref VIMS_MODE_SPLIT.
+//!   From this mode, the VIMS may be put in \ref VIMS_MODE_ENABLED (CACHE mode).
 //!
 //! In \ref VIMS_MODE_ENABLED mode, the cache is enabled for \b USERCODE space.
 //!   The GP RAM will not be operational (read/write will result in bus fault).
 //!   The Cache will be operational for SYSCODE space.
 //!   Reads from flash in USERCODE space will be uncached.
 //!
-//! In \ref VIMS_MODE_SPLIT mode, the cache is enabled for both \b USERCODE
-//! and \b SYSCODE space.
-//!   The GP RAM will not be operational (read/write will result in bus fault).
-//!   The Cache will be operational for USERCODE and SYSCODE space.
-//!
 //! In \ref VIMS_MODE_OFF the cache RAM is off to conserve power.
 //!
-//! \note Access from System Bus is never cached. Only access through ICODE
-//! DCODE bus from the System CPU is cached.
+//! \note The VIMS must be invalidated when switching mode.
+//! This is done by setting VIMS_MODE_OFF before setting any new mode.
+//! This is automatically handled in \ref VIMSModeSafeSet()
 //!
-//! \note The VIMS must be invalidated before switching from
-//! \ref VIMS_MODE_ENABLED to \ref VIMS_MODE_SPLIT mode and vice versa.
-//! Is is also highly recommended that the VIMS is put in disabled mode before
+//! \note It is highly recommended that the VIMS is put in disabled mode before
 //! \b writing to flash, since the cache will not be updated nor invalidated
 //! by flash writes. The line buffers should also be disabled when updating the
 //! flash. Once \ref VIMSModeSet() is used to set the VIMS in
@@ -199,16 +190,18 @@ extern void VIMSConfigure(uint32_t ui32Base, bool bRoundRobin,
 //! \ref VIMSModeGet() when the mode switches to \ref VIMS_MODE_DISABLED. Only when
 //! the mode has changed the cache has been completely invalidated.
 //!
+//! \note Access from System Bus is never cached. Only access through ICODE
+//! DCODE bus from the System CPU is cached.
+//!
 //! \param ui32Base is the base address of the VIMS.
 //! \param ui32Mode is the operational mode.
-//! - \ref VIMS_MODE_DISABLED
-//! - \ref VIMS_MODE_ENABLED
-//! - \ref VIMS_MODE_SPLIT
+//! - \ref VIMS_MODE_DISABLED (GPRAM enabled)
+//! - \ref VIMS_MODE_ENABLED  (CACHE mode)
 //! - \ref VIMS_MODE_OFF
 //!
 //! \return None
 //!
-//! \sa \ref VIMSModeGet()
+//! \sa \ref VIMSModeGet() and \ref VIMSModeSafeSet()
 //
 //*****************************************************************************
 extern void VIMSModeSet(uint32_t ui32Base, uint32_t ui32Mode);
@@ -223,9 +216,8 @@ extern void VIMSModeSet(uint32_t ui32Base, uint32_t ui32Mode);
 //!
 //! \return Returns one of:
 //! - \ref VIMS_MODE_CHANGING
-//! - \ref VIMS_MODE_DISABLED
-//! - \ref VIMS_MODE_ENABLED
-//! - \ref VIMS_MODE_SPLIT
+//! - \ref VIMS_MODE_DISABLED (GPRAM enabled)
+//! - \ref VIMS_MODE_ENABLED  (CACHE mode)
 //! - \ref VIMS_MODE_OFF
 //!
 //! \sa \ref VIMSModeSet()
@@ -235,63 +227,59 @@ extern uint32_t VIMSModeGet(uint32_t ui32Base);
 
 //*****************************************************************************
 //
-//! \brief Set the operational mode of the VIMS in a safe sequence (blocking).
+//! \brief Set the operational mode of the VIMS in a safe sequence.
 //!
 //! This function sets the operational mode of the VIMS in a safe sequence
 //!
 //! Upon reset the VIMS will be in \ref VIMS_MODE_CHANGING mode.
 //!   In this mode the VIMS will initialize the cache (GP) RAM (to all zeros).
 //!   The GP RAM will not be operational (read/write will result in bus fault).
-//!   The Cache will not be operational.
-//!   Reads and writes to flash will be uncached.
+//!   The Cache will not be operational (read/write to flash will be uncached).
 //!   After a short delay (approx. 1029 clock cycles) the VIMS will
-//!   automatically switch mode to \ref VIMS_MODE_DISABLED.
+//!   automatically switch mode to \ref VIMS_MODE_DISABLED (GPRAM enabled).
 //!
 //! In \ref VIMS_MODE_DISABLED mode, the cache is disabled but the GP RAM is
 //! accessible:
 //!   The GP RAM will be accessible.
 //!   The Cache will not be operational.
 //!   Reads from flash will be uncached.
-//!   From this mode, the VIMS may be put in \ref VIMS_MODE_ENABLED
-//!   or \ref VIMS_MODE_SPLIT.
+//!   From this mode, the VIMS may be put in \ref VIMS_MODE_ENABLED (CACHE mode).
 //!
 //! In \ref VIMS_MODE_ENABLED mode, the cache is enabled for \b USERCODE space.
 //!   The GP RAM will not be operational (read/write will result in bus fault).
 //!   The Cache will be operational for SYSCODE space.
 //!   Reads from flash in USERCODE space will be uncached.
 //!
-//! In \ref VIMS_MODE_SPLIT mode, the cache is enabled for both \b USERCODE
-//! and \b SYSCODE space.
-//!   The GP RAM will not be operational (read/write will result in bus fault).
-//!   The Cache will be operational for USERCODE and SYSCODE space.
-//!
 //! In \ref VIMS_MODE_OFF the cache RAM is off to conserve power.
+//!
+//! \note The VIMS must be invalidated when switching mode.
+//! This is done by setting VIMS_MODE_OFF before setting any new mode.
+//! This is automatically handled in this function.
+//!
+//! \note It is highly recommended that the VIMS is put in disabled mode before
+//! \b writing to flash, since the cache will not be updated nor invalidated
+//! by flash writes. The line buffers should also be disabled when updating the
+//! flash.
 //!
 //! \note Access from System Bus is never cached. Only access through ICODE
 //! DCODE bus from the System CPU is cached.
 //!
-//! \note The VIMS must be invalidated before switching from
-//! \ref VIMS_MODE_ENABLED to \ref VIMS_MODE_SPLIT mode and vice versa.
-//! Is is also highly recommended that the VIMS is put in disabled mode before
-//! \b writing to flash, since the cache will not be updated nor invalidated
-//! by flash writes. The line buffers should also be disabled when updating the
-//! flash. Once \ref VIMSModeSet() is used to set the VIMS in
-//! \ref VIMS_MODE_CHANGING mode, the user should check using
-//! \ref VIMSModeGet() when the mode switches to \ref VIMS_MODE_DISABLED. Only when
-//! the mode has changed the cache has been completely invalidated.
-//!
-//! \param ui32Mode is the operational mode.
-//! - \ref VIMS_MODE_DISABLED
-//! - \ref VIMS_MODE_ENABLED
-//! - \ref VIMS_MODE_SPLIT
+//! \param ui32Base is the base address of the VIMS.
+//! \param ui32NewMode is the new operational mode:
+//! - \ref VIMS_MODE_DISABLED (GPRAM enabled)
+//! - \ref VIMS_MODE_ENABLED  (CACHE mode)
 //! - \ref VIMS_MODE_OFF
+//! \param blocking shall be set to TRUE if further code execution shall be
+//! blocked (delayed) until mode change is completed.
 //!
 //! \return None
 //!
-//! \sa \ref VIMSModeGet()
+//! \sa \ref VIMSModeSet() and \ref VIMSModeGet()
 //
 //*****************************************************************************
-extern void VIMSModeSetBlocking( uint32_t ui32Mode );
+extern void VIMSModeSafeSet( uint32_t ui32Base    ,
+                             uint32_t ui32NewMode ,
+                             bool     blocking    );
 
 //*****************************************************************************
 //
@@ -361,9 +349,9 @@ VIMSLineBufEnable(uint32_t ui32Base)
         #undef  VIMSModeGet
         #define VIMSModeGet                     ROM_VIMSModeGet
     #endif
-    #ifdef ROM_VIMSModeSetBlocking
-        #undef  VIMSModeSetBlocking
-        #define VIMSModeSetBlocking             ROM_VIMSModeSetBlocking
+    #ifdef ROM_VIMSModeSafeSet
+        #undef  VIMSModeSafeSet
+        #define VIMSModeSafeSet                 ROM_VIMSModeSafeSet
     #endif
 #endif
 

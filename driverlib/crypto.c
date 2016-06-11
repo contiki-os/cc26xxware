@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       crypto.c
-*  Revised:        2015-05-18 15:10:12 +0200 (Mon, 18 May 2015)
-*  Revision:       43519
+*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
+*  Revision:       46052
 *
 *  Description:    Driver for the Crypto module
 *
@@ -106,7 +106,7 @@ CRYPTOAesLoadKey(uint32_t *pui32AesKey,
     // Disable the external interrupt to stop the interrupt form propagating
     // from the module to the System CPU.
     //
-    IntDisable(INT_CRYPTO);
+    IntDisable(INT_CRYPTO_RESULT_AVAIL_IRQ);
 
     //
     // Enable internal interrupts.
@@ -221,13 +221,18 @@ CRYPTOAesEcb(uint32_t *pui32MsgIn, uint32_t *pui32MsgOut,
                                             CRYPTO_IRQCLR_RESULT_AVAIL);
 
     //
+    // Wait for interrupt lines from module to be cleared
+    //
+    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_DMA_IN_DONE | CRYPTO_IRQCLR_RESULT_AVAIL));
+
+    //
     // If using interrupts clear any pending interrupts and enable interrupts
     // for the Crypto module.
     //
     if(bIntEnable)
     {
-        IntPendClear(INT_CRYPTO);
-        IntEnable(INT_CRYPTO);
+        IntPendClear(INT_CRYPTO_RESULT_AVAIL_IRQ);
+        IntEnable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     }
 
     //
@@ -344,7 +349,7 @@ CRYPTOAesEcbStatus(void)
     // Operation successful - disable interrupt and return success.
     //
     g_ui32CurrentAesOp = CRYPTO_AES_NONE;
-    IntDisable(INT_CRYPTO);
+    IntDisable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     return (AES_SUCCESS);
 }
 
@@ -382,7 +387,7 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
     // Disable global interrupt, enable local interrupt and clear any pending
     // interrupts.
     //
-    IntDisable(INT_CRYPTO);
+    IntDisable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     HWREG(CRYPTO_BASE + CRYPTO_O_IRQCLR) = (CRYPTO_IRQCLR_DMA_IN_DONE |
                                             CRYPTO_IRQCLR_RESULT_AVAIL);
 
@@ -526,12 +531,24 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
                                             CRYPTO_IRQCLR_RESULT_AVAIL);
 
     //
+    // Wait for interrupt lines from module to be cleared
+    //
+    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_DMA_IN_DONE | CRYPTO_IRQCLR_RESULT_AVAIL));
+
+    //
+    // Disable CRYPTO_IRQEN_DMA_IN_DONE interrupt as we only
+    // want interrupt to trigger once RESULT_AVAIL occurs.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) &= ~CRYPTO_IRQEN_DMA_IN_DONE;
+
+
+    //
     // Is using interrupts enable globally.
     //
     if(bIntEnable)
     {
-        IntPendClear(INT_CRYPTO);
-        IntEnable(INT_CRYPTO);
+        IntPendClear(INT_CRYPTO_RESULT_AVAIL_IRQ);
+        IntEnable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     }
 
     //
@@ -545,10 +562,9 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
     if(bEncrypt)
     {
         //
-        // Configure the DMA controller - enable both DMA channels.
+        // Enable DMA channel 0
         //
         HWREGBITW(CRYPTO_BASE + CRYPTO_O_DMACH0CTL, CRYPTO_DMACH0CTL_EN_BITN) = 1;
-        HWREGBITW(CRYPTO_BASE + CRYPTO_O_DMACH1CTL, CRYPTO_DMACH1CTL_EN_BITN) = 1;
 
         //
         // base address of the payload data in ext. memory.
@@ -557,14 +573,9 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
             (uint32_t)pui32PlainText;
 
         //
-        // Payload data length in bytes, equal to the plaintext length.
-        //
-        HWREG(CRYPTO_BASE + CRYPTO_O_DMACH0LEN) = ui32PlainTextLength;
-
-        //
         // Enable DMA channel 1
         //
-        HWREGBITW(CRYPTO_BASE + CRYPTO_O_DMACH1CTL, CRYPTO_DMACH1CTL_EN_BITN) = 1;  // Redundant (see above)?
+        HWREGBITW(CRYPTO_BASE + CRYPTO_O_DMACH1CTL, CRYPTO_DMACH1CTL_EN_BITN) = 1;
 
         //
         // Base address of the output data buffer.
@@ -572,6 +583,10 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
         HWREG(CRYPTO_BASE + CRYPTO_O_DMACH1EXTADDR) =
             (uint32_t)pui32CipherText;
 
+        //
+        // Payload data length in bytes, equal to the plaintext length.
+        //
+        HWREG(CRYPTO_BASE + CRYPTO_O_DMACH0LEN) = ui32PlainTextLength;
         //
         // Output data length in bytes, equal to the plaintext length.
         //
@@ -616,7 +631,7 @@ CRYPTOCcmAuthEncryptStatus(void)
     //
     // Operation successful - disable interrupt and return success.
     //
-    IntDisable(INT_CRYPTO);
+    IntDisable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     return (AES_SUCCESS);
 }
 
@@ -705,7 +720,7 @@ CRYPTOCcmInvAuthDecrypt(bool bDecrypt, uint32_t ui32AuthLength,
     // Disable global interrupt, enable local interrupt and clear any pending.
     // interrupts.
     //
-    IntDisable(INT_CRYPTO);
+    IntDisable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     HWREG(CRYPTO_BASE + CRYPTO_O_IRQCLR) = (CRYPTO_IRQCLR_DMA_IN_DONE |
                                             CRYPTO_IRQCLR_RESULT_AVAIL);
     //
@@ -849,12 +864,23 @@ CRYPTOCcmInvAuthDecrypt(bool bDecrypt, uint32_t ui32AuthLength,
                                             CRYPTO_IRQCLR_RESULT_AVAIL);
 
     //
+    // Wait for interrupt lines from module to be cleared
+    //
+    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_DMA_IN_DONE | CRYPTO_IRQCLR_RESULT_AVAIL));
+
+    //
+    // Disable CRYPTO_IRQEN_DMA_IN_DONE interrupt as we only
+    // want interrupt to trigger once RESULT_AVAIL occurs.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) &= ~CRYPTO_IRQEN_DMA_IN_DONE;
+
+    //
     // Is using interrupts - clear and enable globally.
     //
     if(bIntEnable)
     {
-        IntPendClear(INT_CRYPTO);
-        IntEnable(INT_CRYPTO);
+        IntPendClear(INT_CRYPTO_RESULT_AVAIL_IRQ);
+        IntEnable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     }
 
     //
@@ -939,7 +965,7 @@ CRYPTOCcmInvAuthDecryptStatus(void)
     //
     // Operation successful - disable interrupt and return success
     //
-    IntDisable(INT_CRYPTO);
+    IntDisable(INT_CRYPTO_RESULT_AVAIL_IRQ);
     return (AES_SUCCESS);
 }
 

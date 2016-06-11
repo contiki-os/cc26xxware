@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       osc.c
-*  Revised:        2015-06-19 19:26:38 +0200 (Fri, 19 Jun 2015)
-*  Revision:       44012
+*  Revised:        2015-11-18 16:59:03 +0100 (Wed, 18 Nov 2015)
+*  Revision:       45131
 *
 *  Description:    Driver for setting up the system Oscillators
 *
@@ -38,6 +38,7 @@
 
 #include <inc/hw_types.h>
 #include <inc/hw_ccfg.h>
+#include <inc/hw_fcfg1.h>
 #include <driverlib/aon_batmon.h>
 #include <driverlib/aon_rtc.h>
 #include <driverlib/osc.h>
@@ -78,7 +79,7 @@ static OscHfGlobals_t oscHfGlobals;
 
 //*****************************************************************************
 //
-//!  Configure the oscillator input to the a source clock.
+//  Configure the oscillator input to the a source clock.
 //
 //*****************************************************************************
 void
@@ -137,7 +138,7 @@ OSCClockSourceSet(uint32_t ui32SrcClk, uint32_t ui32Osc)
 
 //*****************************************************************************
 //
-//!  Get the source clock settings
+//  Get the source clock settings
 //
 //*****************************************************************************
 uint32_t
@@ -171,7 +172,7 @@ OSCClockSourceGet(uint32_t ui32SrcClk)
 
 //*****************************************************************************
 //
-//! Enable System CPU access to the OSC_DIG module
+// Enable System CPU access to the OSC_DIG module
 //
 //*****************************************************************************
 void
@@ -313,4 +314,88 @@ OSCHF_SwitchToRcOscTurnOffXosc( void )
 
    oscHfGlobals.timeXoscOff_CV  = AONRTCCurrentCompareValueGet();
    oscHfGlobals.tempXoscOff     = AONBatMonTemperatureGetDegC();
+}
+
+//*****************************************************************************
+//
+// Calculate the temperature dependent relative frequency offset of HPOSC
+//
+//*****************************************************************************
+int32_t
+OSC_HPOSCRelativeFrequencyOffsetGet( int32_t tempDegC )
+{
+   // Estimate HPOSC frequency, using temperature and curve fitting parameters
+   uint32_t fitParams = HWREG(FCFG1_BASE + FCFG1_O_FREQ_OFFSET);
+   // Extract the P0,P1,P2 params, and sign extend them via shifting up/down
+   int32_t paramP0 = ((((int32_t) fitParams) << (32 - FCFG1_FREQ_OFFSET_HPOSC_COMP_P0_W - FCFG1_FREQ_OFFSET_HPOSC_COMP_P0_S))
+                                             >> (32 - FCFG1_FREQ_OFFSET_HPOSC_COMP_P0_W));
+   int32_t paramP1 = ((((int32_t) fitParams) << (32 - FCFG1_FREQ_OFFSET_HPOSC_COMP_P1_W - FCFG1_FREQ_OFFSET_HPOSC_COMP_P1_S))
+                                             >> (32 - FCFG1_FREQ_OFFSET_HPOSC_COMP_P1_W));
+   int32_t paramP2 = ((((int32_t) fitParams) << (32 - FCFG1_FREQ_OFFSET_HPOSC_COMP_P2_W - FCFG1_FREQ_OFFSET_HPOSC_COMP_P2_S))
+                                             >> (32 - FCFG1_FREQ_OFFSET_HPOSC_COMP_P2_W));
+   int32_t paramP3 = ((((int32_t) HWREG(FCFG1_BASE + FCFG1_O_MISC_CONF_2))
+                                             << (32 - FCFG1_MISC_CONF_2_HPOSC_COMP_P3_W - FCFG1_MISC_CONF_2_HPOSC_COMP_P3_S))
+                                             >> (32 - FCFG1_MISC_CONF_2_HPOSC_COMP_P3_W));
+
+   // Now we can find the HPOSC freq offset, given as a signed variable d, expressed by:
+   //
+   //    F_HPOSC = F_nom * (1 + d/(2^22))    , where: F_HPOSC = HPOSC frequency
+   //                                                 F_nom = nominal clock source frequency (e.g. 48.000 MHz)
+   //                                                 d = describes relative freq offset
+
+   // We can estimate the d variable, using temperature compensation parameters:
+   //
+   //    d = P0 + P1*(t - T0) + P2*(t - T0)^2 + P3*(t - T0)^3, where: P0,P1,P2,P3 are curve fitting parameters from FCFG1
+   //                                                 t = current temperature (from temp sensor) in deg C
+   //                                                 T0 = 27 deg C (fixed temperature constant)
+   int32_t tempDelta = (tempDegC - 27);
+   int32_t tempDeltaX2 = tempDelta * tempDelta;
+   int32_t d = paramP0 + ((tempDelta*paramP1)>>3) + ((tempDeltaX2*paramP2)>>10) + ((tempDeltaX2*tempDelta*paramP3)>>18);
+
+   return ( d );
+}
+
+//*****************************************************************************
+//
+// Converts the relative frequency offset of HPOSC to the RF Core parameter format.
+//
+//*****************************************************************************
+int16_t
+OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert( int32_t HPOSC_RelFreqOffset )
+{
+   // The input argument, hereby referred to simply as "d", describes the frequency offset
+   // of the HPOSC relative to the nominal frequency in this way:
+   //
+   //    F_HPOSC = F_nom * (1 + d/(2^22))
+   //
+   // But for use by the radio, to compensate the frequency error, we need to find the
+   // frequency offset "rfcFreqOffset" defined in the following format:
+   //
+   //    F_nom = F_HPOSC * (1 + rfCoreFreqOffset/(2^22))
+   //
+   // To derive "rfCoreFreqOffset" from "d" we combine the two above equations and get:
+   //
+   //    (1 + rfCoreFreqOffset/(2^22)) = (1 + d/(2^22))^-1
+   //
+   // Which can be rewritten into:
+   //
+   //    rfCoreFreqOffset = -d*(2^22) / ((2^22) + d)
+   //
+   //               = -d * [ 1 / (1 + d/(2^22)) ]
+   //
+   // To avoid doing a 64-bit division due to the (1 + d/(2^22))^-1 expression,
+   // we can use Taylor series (Maclaurin series) to approximate it:
+   //
+   //       1 / (1 - x) ~= 1 + x + x^2 + x^3 + x^4 + ... etc      (Maclaurin series)
+   //
+   // In our case, we have x = - d/(2^22), and we only include up to the first
+   // order term of the series, as the second order term ((d^2)/(2^44)) is very small:
+   //
+   //       freqError ~= -d + d^2/(2^22)   (+ small approximation error)
+   //
+   // The approximation error is negligible for our use.
+
+   int32_t rfCoreFreqOffset = -HPOSC_RelFreqOffset + (( HPOSC_RelFreqOffset * HPOSC_RelFreqOffset ) >> 22 );
+
+   return ( rfCoreFreqOffset );
 }

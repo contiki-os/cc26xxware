@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_rfc_rat_h
-*  Revised:        2015-05-21 09:44:02 +0200 (Thu, 21 May 2015)
-*  Revision:       43546
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -78,6 +78,7 @@
 // Field:  [31:0] CNT
 //
 // Counter value. This is not writable while radio timer counter is enabled.
+#define RFC_RAT_RATCNT_CNT_W                                                32
 #define RFC_RAT_RATCNT_CNT_M                                        0xFFFFFFFF
 #define RFC_RAT_RATCNT_CNT_S                                                 0
 
@@ -90,6 +91,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH0VAL_VAL_W                                             32
 #define RFC_RAT_RATCH0VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH0VAL_VAL_S                                              0
 
@@ -102,6 +104,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH1VAL_VAL_W                                             32
 #define RFC_RAT_RATCH1VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH1VAL_VAL_S                                              0
 
@@ -114,6 +117,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH2VAL_VAL_W                                             32
 #define RFC_RAT_RATCH2VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH2VAL_VAL_S                                              0
 
@@ -126,6 +130,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH3VAL_VAL_W                                             32
 #define RFC_RAT_RATCH3VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH3VAL_VAL_S                                              0
 
@@ -138,6 +143,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH4VAL_VAL_W                                             32
 #define RFC_RAT_RATCH4VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH4VAL_VAL_S                                              0
 
@@ -150,6 +156,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH5VAL_VAL_W                                             32
 #define RFC_RAT_RATCH5VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH5VAL_VAL_S                                              0
 
@@ -162,6 +169,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH6VAL_VAL_W                                             32
 #define RFC_RAT_RATCH6VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH6VAL_VAL_S                                              0
 
@@ -174,6 +182,7 @@
 //
 // Capture/compare value. The system CPU can safely read this register, but it
 // is recommended to use the CPE API commands to configure it for compare mode.
+#define RFC_RAT_RATCH7VAL_VAL_W                                             32
 #define RFC_RAT_RATCH7VAL_VAL_M                                     0xFFFFFFFF
 #define RFC_RAT_RATCH7VAL_VAL_S                                              0
 

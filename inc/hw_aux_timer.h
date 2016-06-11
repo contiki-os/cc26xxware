@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aux_timer_h
-*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
-*  Revision:       43524
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -114,6 +114,7 @@
 // AUX_COMPB                Selects AUX_COMPB
 // AUX_COMPA                Selects AUX_COMPA
 // RTC_CH2_EV               Selects RTC_CH2_EV
+#define AUX_TIMER_T0CFG_TICK_SRC_W                                           5
 #define AUX_TIMER_T0CFG_TICK_SRC_M                                  0x00001F00
 #define AUX_TIMER_T0CFG_TICK_SRC_S                                           8
 #define AUX_TIMER_T0CFG_TICK_SRC_ADC_IRQ                            0x00001F00
@@ -151,6 +152,7 @@
 // Field:   [7:4] PRE
 //
 // Prescaler division ratio is 2^PRE
+#define AUX_TIMER_T0CFG_PRE_W                                                4
 #define AUX_TIMER_T0CFG_PRE_M                                       0x000000F0
 #define AUX_TIMER_T0CFG_PRE_S                                                4
 
@@ -237,6 +239,7 @@
 // AUX_COMPB                Selects AUX_COMPB
 // AUX_COMPA                Selects AUX_COMPA
 // RTC_CH2_EV               Selects RTC_CH2_EV
+#define AUX_TIMER_T1CFG_TICK_SRC_W                                           5
 #define AUX_TIMER_T1CFG_TICK_SRC_M                                  0x00001F00
 #define AUX_TIMER_T1CFG_TICK_SRC_S                                           8
 #define AUX_TIMER_T1CFG_TICK_SRC_ADC_IRQ                            0x00001F00
@@ -274,6 +277,7 @@
 // Field:   [7:4] PRE
 //
 // Prescaler division ratio is 2^PRE
+#define AUX_TIMER_T1CFG_PRE_W                                                4
 #define AUX_TIMER_T1CFG_PRE_M                                       0x000000F0
 #define AUX_TIMER_T1CFG_PRE_S                                                4
 
@@ -339,6 +343,7 @@
 //
 // If T0CFG.MODE=0,no prescaler is used, and VALUE equals 1, the TIMER0_EV
 // event line will be always set
+#define AUX_TIMER_T0TARGET_VALUE_W                                          16
 #define AUX_TIMER_T0TARGET_VALUE_M                                  0x0000FFFF
 #define AUX_TIMER_T0TARGET_VALUE_S                                           0
 
@@ -356,6 +361,7 @@
 //
 // If T1CFG.MODE=0,no prescaler is used, and VALUE equals 1, the TIMER1_EV
 // event line will be always set
+#define AUX_TIMER_T1TARGET_VALUE_W                                           8
 #define AUX_TIMER_T1TARGET_VALUE_M                                  0x000000FF
 #define AUX_TIMER_T1TARGET_VALUE_S                                           0
 

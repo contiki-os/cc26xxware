@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       startup_gcc.c
-*  Revised:        $Date: 2015-05-19 15:09:27 +0200 (ti, 19 mai 2015) $
-*  Revision:       $Revision: 15737 $
+*  Revised:        $Date: 2015-11-20 13:29:21 +0100 (fr, 20 nov 2015) $
+*  Revision:       $Revision: 16379 $
 *
 *  Description:    Startup code for CC26xx PG2 device family for use with GCC.
 *
@@ -123,8 +123,7 @@ extern void trimDevice(void);
 //*****************************************************************************
 //
 // The following are constructs created by the linker, indicating where the
-// the "data" and "bss" segments reside in memory.  The initializers for the
-// for the "data" segment resides immediately following the "text" segment.
+// the "data" and "bss" segments reside in memory.
 //
 //*****************************************************************************
 extern uint32_t _etext;
@@ -142,7 +141,7 @@ extern uint32_t _estack;
 //
 //*****************************************************************************
 __attribute__ ((section(".vectors"), used))
-void (* const gVectors[])(void) =
+void (* const g_pfnVectors[])(void) =
 {
     (void (*)(void))&_estack,               // The initial stack pointer 
     ResetISR,                               // The reset handler
@@ -212,7 +211,7 @@ void (* const gVectors[])(void) =
 void
 ResetISR(void)
 {
-	uint32_t *pui32Src, *pui32Dest;
+    uint32_t *pui32Src, *pui32Dest;
 
     //
     // Final trim of device

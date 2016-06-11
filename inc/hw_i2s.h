@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_i2s_h
-*  Revised:        2015-06-02 15:45:47 +0200 (Tue, 02 Jun 2015)
-*  Revision:       43703
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -159,6 +159,7 @@
 // INT                      Internal WCLK generator, from module PRCM/ClkCtrl
 // EXT                      External WCLK generator, from pad
 // NONE                     None ('0')
+#define I2S_AIFWCLKSRC_WCLK_SRC_W                                            2
 #define I2S_AIFWCLKSRC_WCLK_SRC_M                                   0x00000003
 #define I2S_AIFWCLKSRC_WCLK_SRC_S                                            0
 #define I2S_AIFWCLKSRC_WCLK_SRC_RESERVED                            0x00000003
@@ -177,6 +178,7 @@
 // enables and initializes AIF. Note that before doing so, all other
 // configuration must have been done, and AIFINPTR/AIFOUTPTR must have been
 // loaded.
+#define I2S_AIFDMACFG_END_FRAME_IDX_W                                        8
 #define I2S_AIFDMACFG_END_FRAME_IDX_M                               0x000000FF
 #define I2S_AIFDMACFG_END_FRAME_IDX_S                                        0
 
@@ -194,6 +196,7 @@
 // OUT                      Output mode
 // IN                       Input mode
 // DIS                      Not in use (disabled)
+#define I2S_AIFDIRCFG_AD2_W                                                  2
 #define I2S_AIFDIRCFG_AD2_M                                         0x00000300
 #define I2S_AIFDIRCFG_AD2_S                                                  8
 #define I2S_AIFDIRCFG_AD2_OUT                                       0x00000200
@@ -209,6 +212,7 @@
 // OUT                      Output mode
 // IN                       Input mode
 // DIS                      Not in use (disabled)
+#define I2S_AIFDIRCFG_AD1_W                                                  2
 #define I2S_AIFDIRCFG_AD1_M                                         0x00000030
 #define I2S_AIFDIRCFG_AD1_S                                                  4
 #define I2S_AIFDIRCFG_AD1_OUT                                       0x00000020
@@ -224,6 +228,7 @@
 // OUT                      Output mode
 // IN                       Input mode
 // DIS                      Not in use (disabled)
+#define I2S_AIFDIRCFG_AD0_W                                                  2
 #define I2S_AIFDIRCFG_AD0_M                                         0x00000003
 #define I2S_AIFDIRCFG_AD0_S                                                  0
 #define I2S_AIFDIRCFG_AD0_OUT                                       0x00000002
@@ -249,6 +254,7 @@
 // Note: When 0, MSB of the next word will be output in the idle period between
 // LSB of the previous word and the start of the next word. Otherwise logical 0
 // will be output until the data delay has expired.
+#define I2S_AIFFMTCFG_DATA_DELAY_W                                           8
 #define I2S_AIFFMTCFG_DATA_DELAY_M                                  0x0000FF00
 #define I2S_AIFFMTCFG_DATA_DELAY_S                                           8
 
@@ -302,6 +308,7 @@
 // Values below 8 and above 24 give undefined behavior. Data written to memory
 // is always aligned to 16 or 24 bits as defined by MEM_LEN_24. Bit widths that
 // differ from this alignment will either be truncated or zero padded.
+#define I2S_AIFFMTCFG_WORD_LEN_W                                             5
 #define I2S_AIFFMTCFG_WORD_LEN_M                                    0x0000001F
 #define I2S_AIFFMTCFG_WORD_LEN_S                                             0
 
@@ -330,6 +337,7 @@
 // If all bits are zero, no input words will be stored to memory, and the
 // output data lines will be constant '0'. This can be utilized when PWM debug
 // output is desired without any actively used output pins.
+#define I2S_AIFWMASK0_MASK_W                                                 8
 #define I2S_AIFWMASK0_MASK_M                                        0x000000FF
 #define I2S_AIFWMASK0_MASK_S                                                 0
 
@@ -358,6 +366,7 @@
 // If all bits are zero, no input words will be stored to memory, and the
 // output data lines will be constant '0'. This can be utilized when PWM debug
 // output is desired without any actively used output pins.
+#define I2S_AIFWMASK1_MASK_W                                                 8
 #define I2S_AIFWMASK1_MASK_M                                        0x000000FF
 #define I2S_AIFWMASK1_MASK_S                                                 0
 
@@ -386,6 +395,7 @@
 // If all bits are zero, no input words will be stored to memory, and the
 // output data lines will be constant '0'. This can be utilized when PWM debug
 // output is desired without any actively used output pins.
+#define I2S_AIFWMASK2_MASK_W                                                 8
 #define I2S_AIFWMASK2_MASK_M                                        0x000000FF
 #define I2S_AIFWMASK2_MASK_S                                                 0
 
@@ -405,6 +415,7 @@
 // ...
 // 0xFFFE: Width of the pulse (number of BCLK cycles, here 65534).
 // 0xFFFF: Constant high
+#define I2S_AIFPWMVALUE_PULSE_WIDTH_W                                       16
 #define I2S_AIFPWMVALUE_PULSE_WIDTH_M                               0x0000FFFF
 #define I2S_AIFPWMVALUE_PULSE_WIDTH_S                                        0
 
@@ -434,6 +445,7 @@
 // must be higher than address(first sample.
 // -  A DMA block cannot be aligned with the end of the address space, that
 // means a block cannot contain the address 0xFFFF.
+#define I2S_AIFINPTRNEXT_PTR_W                                              32
 #define I2S_AIFINPTRNEXT_PTR_M                                      0xFFFFFFFF
 #define I2S_AIFINPTRNEXT_PTR_S                                               0
 
@@ -446,6 +458,7 @@
 //
 // Value of the DMA input buffer pointer currently used by the DMA controller.
 // Incremented by 1 (byte) or 2 (word) for each AHB access.
+#define I2S_AIFINPTR_PTR_W                                                  32
 #define I2S_AIFINPTR_PTR_M                                          0xFFFFFFFF
 #define I2S_AIFINPTR_PTR_S                                                   0
 
@@ -476,6 +489,7 @@
 // must be higher than address(first sample.
 // -  A DMA block cannot be aligned with the end of the address space, that
 // means a block cannot contain the address 0xFFFF.
+#define I2S_AIFOUTPTRNEXT_PTR_W                                             32
 #define I2S_AIFOUTPTRNEXT_PTR_M                                     0xFFFFFFFF
 #define I2S_AIFOUTPTRNEXT_PTR_S                                              0
 
@@ -488,6 +502,7 @@
 //
 // Value of the DMA output buffer pointer currently used by the DMA controller
 // Incremented by 1 (byte) or 2 (word) for each AHB access.
+#define I2S_AIFOUTPTR_PTR_W                                                 32
 #define I2S_AIFOUTPTR_PTR_M                                         0xFFFFFFFF
 #define I2S_AIFOUTPTR_PTR_S                                                  0
 
@@ -543,6 +558,7 @@
 // number of BCLK periods and clk periods.
 // Note: When calculating the fractional part of the sample stamp, STMPXPER may
 // be less than this bit field.
+#define I2S_STMPXCNTCAPT0_CAPT_VALUE_W                                      16
 #define I2S_STMPXCNTCAPT0_CAPT_VALUE_M                              0x0000FFFF
 #define I2S_STMPXCNTCAPT0_CAPT_VALUE_S                                       0
 
@@ -557,6 +573,7 @@
 // the next value of the XOSC counter at the positive WCLK edge, had it not
 // been reset to 0).
 // The value is cleared when STMPCTL.STMP_EN = 0.
+#define I2S_STMPXPER_VALUE_W                                                16
 #define I2S_STMPXPER_VALUE_M                                        0x0000FFFF
 #define I2S_STMPXPER_VALUE_S                                                 0
 
@@ -573,6 +590,7 @@
 // samplestamp generator was enabled (not taking modification through
 // STMPWADD/STMPWSET into account).
 // The value is cleared when STMPCTL.STMP_EN = 0.
+#define I2S_STMPWCNTCAPT0_CAPT_VALUE_W                                      16
 #define I2S_STMPWCNTCAPT0_CAPT_VALUE_M                              0x0000FFFF
 #define I2S_STMPWCNTCAPT0_CAPT_VALUE_S                                       0
 
@@ -587,6 +605,7 @@
 // found for the size of the sample buffer. This is thus a modulo value for the
 // WCLK counter. This number must correspond to the size of the sample buffer
 // used by the system (that is the index of the last sample plus 1).
+#define I2S_STMPWPER_VALUE_W                                                16
 #define I2S_STMPWPER_VALUE_M                                        0x0000FFFF
 #define I2S_STMPWPER_VALUE_S                                                 0
 
@@ -610,6 +629,7 @@
 //
 // Note: To avoid false triggers, this bit field should be set higher than
 // STMPWPER.VALUE.
+#define I2S_STMPINTRIG_IN_START_WCNT_W                                      16
 #define I2S_STMPINTRIG_IN_START_WCNT_M                              0x0000FFFF
 #define I2S_STMPINTRIG_IN_START_WCNT_S                                       0
 
@@ -638,6 +658,7 @@
 //
 // Note: To avoid false triggers, this bit field should be set higher than
 // STMPWPER.VALUE.
+#define I2S_STMPOUTTRIG_OUT_START_WCNT_W                                    16
 #define I2S_STMPOUTTRIG_OUT_START_WCNT_M                            0x0000FFFF
 #define I2S_STMPOUTTRIG_OUT_START_WCNT_S                                     0
 
@@ -650,6 +671,7 @@
 //
 // WCLK counter modification: Sets the running WCLK counter equal to the
 // written value.
+#define I2S_STMPWSET_VALUE_W                                                16
 #define I2S_STMPWSET_VALUE_M                                        0x0000FFFF
 #define I2S_STMPWSET_VALUE_S                                                 0
 
@@ -665,6 +687,7 @@
 // operation, this will be taken into account.
 // To add a negative value, write "STMPWPER.VALUE - value".
 //
+#define I2S_STMPWADD_VALUE_INC_W                                            16
 #define I2S_STMPWADD_VALUE_INC_M                                    0x0000FFFF
 #define I2S_STMPWADD_VALUE_INC_S                                             0
 
@@ -681,6 +704,7 @@
 // value written.
 // The minimum value can be used to detect extra WCLK pulses (this registers
 // value will be significantly smaller than STMPXPER.VALUE).
+#define I2S_STMPXPERMIN_VALUE_W                                             16
 #define I2S_STMPXPERMIN_VALUE_M                                     0x0000FFFF
 #define I2S_STMPXPERMIN_VALUE_S                                              0
 
@@ -692,6 +716,7 @@
 // Field:  [15:0] CURR_VALUE
 //
 // Current value of the WCLK counter
+#define I2S_STMPWCNT_CURR_VALUE_W                                           16
 #define I2S_STMPWCNT_CURR_VALUE_M                                   0x0000FFFF
 #define I2S_STMPWCNT_CURR_VALUE_S                                            0
 
@@ -703,6 +728,7 @@
 // Field:  [15:0] CURR_VALUE
 //
 // Current value of the XOSC counter, latched when reading STMPWCNT.
+#define I2S_STMPXCNT_CURR_VALUE_W                                           16
 #define I2S_STMPXCNT_CURR_VALUE_M                                   0x0000FFFF
 #define I2S_STMPXCNT_CURR_VALUE_S                                            0
 
@@ -715,6 +741,7 @@
 //
 // Channel 1 is idle and can not be sampled from an external pulse as with
 // Channel 0 STMPXCNTCAPT0
+#define I2S_STMPXCNTCAPT1_CAPT_VALUE_W                                      16
 #define I2S_STMPXCNTCAPT1_CAPT_VALUE_M                              0x0000FFFF
 #define I2S_STMPXCNTCAPT1_CAPT_VALUE_S                                       0
 
@@ -727,6 +754,7 @@
 //
 // Channel 1 is idle and can not be sampled from an external event as with
 // Channel 0 STMPWCNTCAPT0
+#define I2S_STMPWCNTCAPT1_CAPT_VALUE_W                                      16
 #define I2S_STMPWCNTCAPT1_CAPT_VALUE_M                              0x0000FFFF
 #define I2S_STMPWCNTCAPT1_CAPT_VALUE_S                                       0
 

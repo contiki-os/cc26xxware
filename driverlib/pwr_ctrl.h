@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       pwr_ctrl.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2015-10-29 10:58:24 +0100 (Thu, 29 Oct 2015)
+*  Revision:       44880
 *
 *  Description:    Defines and prototypes for the System Power Control.
 *
@@ -130,8 +130,8 @@ extern "C"
 #define PWRCTRL_RST_VDD_BOD     0x00000003  // VDD Brown Out Detect
 #define PWRCTRL_RST_VDDR_BOD    0x00000004  // VDDR Brown Out Detect
 #define PWRCTRL_RST_CLK_LOSS    0x00000005  // Clock loss Reset
-#define PWRCTRL_RST_SW_PIN      0x00000006  // Clock loss Reset
-#define PWRCTRL_RST_WARM        0x00000007  // Warm Reset
+#define PWRCTRL_RST_SW_PIN      0x00000006  // SYSRESET or pin reset
+#define PWRCTRL_RST_WARM        0x00000007  // Reset via PRCM warm reset request
 
 //*****************************************************************************
 //
@@ -233,7 +233,12 @@ PowerCtrlSourceGet(void)
 
 //*****************************************************************************
 //
-//! \brief Get the last known reset source of the system.
+//! \brief OBSOLETE: Get the last known reset source of the system.
+//!
+//! Recommend using function \ref SysCtrlResetSourceGet() instead of this one.
+//! This function returns reset source but does not cover if waking up from shutdown.
+//! This function can be seen as a subset of function \ref SysCtrlResetSourceGet()
+//! and will be removed in a future release.
 //!
 //! \return Returns one of the known reset values.
 //! The possible reset sources are:
@@ -245,6 +250,8 @@ PowerCtrlSourceGet(void)
 //! - \ref PWRCTRL_RST_CLK_LOSS
 //! - \ref PWRCTRL_RST_SW_PIN
 //! - \ref PWRCTRL_RST_WARM
+//!
+//! \sa \ref SysCtrlResetSourceGet()
 //
 //*****************************************************************************
 __STATIC_INLINE uint32_t
@@ -253,8 +260,9 @@ PowerCtrlResetSourceGet(void)
     //
     //  Get the reset source.
     //
-    return (HWREG(AON_SYSCTL_BASE + AON_SYSCTL_O_RESETCTL) &
-            AON_SYSCTL_RESETCTL_RESET_SRC_M);
+    return (( HWREG( AON_SYSCTL_BASE + AON_SYSCTL_O_RESETCTL ) &
+        AON_SYSCTL_RESETCTL_RESET_SRC_M ) >>
+        AON_SYSCTL_RESETCTL_RESET_SRC_S ) ;
 }
 
 //*****************************************************************************

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_event_h
-*  Revised:        2015-05-21 09:44:02 +0200 (Thu, 21 May 2015)
-*  Revision:       43546
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -343,6 +343,7 @@
 // AON_GPIO_EDGE            Edge detect event from IOC. Configureded by the
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
+#define EVENT_CPUIRQSEL0_EV_W                                                7
 #define EVENT_CPUIRQSEL0_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL0_EV_S                                                0
 #define EVENT_CPUIRQSEL0_EV_AON_GPIO_EDGE                           0x00000004
@@ -357,6 +358,7 @@
 // Read only selection value
 // ENUMs:
 // I2C_IRQ                  Interrupt event from I2C
+#define EVENT_CPUIRQSEL1_EV_W                                                7
 #define EVENT_CPUIRQSEL1_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL1_EV_S                                                0
 #define EVENT_CPUIRQSEL1_EV_I2C_IRQ                                 0x00000009
@@ -375,6 +377,7 @@
 //                          RFC_DBELL:RFCPEIFG. Only interrupts selected
 //                          with CPE1 in RFC_DBELL:RFCPEIFG can trigger a
 //                          RFC_CPE_1 event
+#define EVENT_CPUIRQSEL2_EV_W                                                7
 #define EVENT_CPUIRQSEL2_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL2_EV_S                                                0
 #define EVENT_CPUIRQSEL2_EV_RFC_CPE_1                               0x0000001E
@@ -395,6 +398,7 @@
 // ENUMs:
 // AON_RTC_COMB             Event from AON_RTC, controlled by the
 //                          AON_RTC:CTL.COMB_EV_MASK setting
+#define EVENT_CPUIRQSEL4_EV_W                                                7
 #define EVENT_CPUIRQSEL4_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL4_EV_S                                                0
 #define EVENT_CPUIRQSEL4_EV_AON_RTC_COMB                            0x00000007
@@ -410,6 +414,7 @@
 // ENUMs:
 // UART0_COMB               UART0 combined interrupt, interrupt flags are
 //                          found here UART0:MIS
+#define EVENT_CPUIRQSEL5_EV_W                                                7
 #define EVENT_CPUIRQSEL5_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL5_EV_S                                                0
 #define EVENT_CPUIRQSEL5_EV_UART0_COMB                              0x00000024
@@ -430,6 +435,7 @@
 //                          AON_EVENT:MCUWUSEL
 //                          AUX domain wakeup control
 //                          AON_EVENT:AUXWUSEL
+#define EVENT_CPUIRQSEL6_EV_W                                                7
 #define EVENT_CPUIRQSEL6_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL6_EV_S                                                0
 #define EVENT_CPUIRQSEL6_EV_AUX_SWEV0                               0x0000001C
@@ -445,6 +451,7 @@
 // ENUMs:
 // SSI0_COMB                SSI0 combined interrupt, interrupt flags are found
 //                          here SSI0:MIS
+#define EVENT_CPUIRQSEL7_EV_W                                                7
 #define EVENT_CPUIRQSEL7_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL7_EV_S                                                0
 #define EVENT_CPUIRQSEL7_EV_SSI0_COMB                               0x00000022
@@ -460,6 +467,7 @@
 // ENUMs:
 // SSI1_COMB                SSI0 combined interrupt, interrupt flags are found
 //                          here SSI1:MIS
+#define EVENT_CPUIRQSEL8_EV_W                                                7
 #define EVENT_CPUIRQSEL8_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL8_EV_S                                                0
 #define EVENT_CPUIRQSEL8_EV_SSI1_COMB                               0x00000023
@@ -478,6 +486,7 @@
 //                          RFC_DBELL:RFCPEIFG. Only interrupts selected
 //                          with CPE0 in RFC_DBELL:RFCPEIFG can trigger a
 //                          RFC_CPE_0 event
+#define EVENT_CPUIRQSEL9_EV_W                                                7
 #define EVENT_CPUIRQSEL9_EV_M                                       0x0000007F
 #define EVENT_CPUIRQSEL9_EV_S                                                0
 #define EVENT_CPUIRQSEL9_EV_RFC_CPE_0                               0x0000001B
@@ -493,6 +502,7 @@
 // ENUMs:
 // RFC_HW_COMB              Combined RCF hardware interrupt, corresponding
 //                          flag is here RFC_DBELL:RFHWIFG
+#define EVENT_CPUIRQSEL10_EV_W                                               7
 #define EVENT_CPUIRQSEL10_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL10_EV_S                                               0
 #define EVENT_CPUIRQSEL10_EV_RFC_HW_COMB                            0x0000001A
@@ -508,6 +518,7 @@
 // ENUMs:
 // RFC_CMD_ACK              RFC Doorbell Command Acknowledgement Interrupt,
 //                          equvialent to RFC_DBELL:RFACKIFG.ACKFLAG
+#define EVENT_CPUIRQSEL11_EV_W                                               7
 #define EVENT_CPUIRQSEL11_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL11_EV_S                                               0
 #define EVENT_CPUIRQSEL11_EV_RFC_CMD_ACK                            0x00000019
@@ -522,6 +533,7 @@
 // Read only selection value
 // ENUMs:
 // I2S_IRQ                  Interrupt event from I2S
+#define EVENT_CPUIRQSEL12_EV_W                                               7
 #define EVENT_CPUIRQSEL12_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL12_EV_S                                               0
 #define EVENT_CPUIRQSEL12_EV_I2S_IRQ                                0x00000008
@@ -542,6 +554,7 @@
 //                          AON_EVENT:MCUWUSEL
 //                          AUX domain wakeup control
 //                          AON_EVENT:AUXWUSEL
+#define EVENT_CPUIRQSEL13_EV_W                                               7
 #define EVENT_CPUIRQSEL13_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL13_EV_S                                               0
 #define EVENT_CPUIRQSEL13_EV_AUX_SWEV1                              0x0000001D
@@ -557,6 +570,7 @@
 // ENUMs:
 // WDT_IRQ                  Watchdog interrupt event, controlled by
 //                          WDT:CTL.INTEN
+#define EVENT_CPUIRQSEL14_EV_W                                               7
 #define EVENT_CPUIRQSEL14_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL14_EV_S                                               0
 #define EVENT_CPUIRQSEL14_EV_WDT_IRQ                                0x00000018
@@ -571,6 +585,7 @@
 // Read only selection value
 // ENUMs:
 // GPT0A                    GPT0A interrupt event, controlled by GPT0:TAMR
+#define EVENT_CPUIRQSEL15_EV_W                                               7
 #define EVENT_CPUIRQSEL15_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL15_EV_S                                               0
 #define EVENT_CPUIRQSEL15_EV_GPT0A                                  0x00000010
@@ -585,6 +600,7 @@
 // Read only selection value
 // ENUMs:
 // GPT0B                    GPT0B interrupt event, controlled by GPT0:TBMR
+#define EVENT_CPUIRQSEL16_EV_W                                               7
 #define EVENT_CPUIRQSEL16_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL16_EV_S                                               0
 #define EVENT_CPUIRQSEL16_EV_GPT0B                                  0x00000011
@@ -599,6 +615,7 @@
 // Read only selection value
 // ENUMs:
 // GPT1A                    GPT1A interrupt event, controlled by GPT1:TAMR
+#define EVENT_CPUIRQSEL17_EV_W                                               7
 #define EVENT_CPUIRQSEL17_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL17_EV_S                                               0
 #define EVENT_CPUIRQSEL17_EV_GPT1A                                  0x00000012
@@ -613,6 +630,7 @@
 // Read only selection value
 // ENUMs:
 // GPT1B                    GPT1B interrupt event, controlled by GPT1:TBMR
+#define EVENT_CPUIRQSEL18_EV_W                                               7
 #define EVENT_CPUIRQSEL18_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL18_EV_S                                               0
 #define EVENT_CPUIRQSEL18_EV_GPT1B                                  0x00000013
@@ -627,6 +645,7 @@
 // Read only selection value
 // ENUMs:
 // GPT2A                    GPT2A interrupt event, controlled by GPT2:TAMR
+#define EVENT_CPUIRQSEL19_EV_W                                               7
 #define EVENT_CPUIRQSEL19_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL19_EV_S                                               0
 #define EVENT_CPUIRQSEL19_EV_GPT2A                                  0x0000000C
@@ -641,6 +660,7 @@
 // Read only selection value
 // ENUMs:
 // GPT2B                    GPT2B interrupt event, controlled by GPT2:TBMR
+#define EVENT_CPUIRQSEL20_EV_W                                               7
 #define EVENT_CPUIRQSEL20_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL20_EV_S                                               0
 #define EVENT_CPUIRQSEL20_EV_GPT2B                                  0x0000000D
@@ -655,6 +675,7 @@
 // Read only selection value
 // ENUMs:
 // GPT3A                    GPT3A interrupt event, controlled by GPT3:TAMR
+#define EVENT_CPUIRQSEL21_EV_W                                               7
 #define EVENT_CPUIRQSEL21_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL21_EV_S                                               0
 #define EVENT_CPUIRQSEL21_EV_GPT3A                                  0x0000000E
@@ -669,6 +690,7 @@
 // Read only selection value
 // ENUMs:
 // GPT3B                    GPT3B interrupt event, controlled by GPT3:TBMR
+#define EVENT_CPUIRQSEL22_EV_W                                               7
 #define EVENT_CPUIRQSEL22_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL22_EV_S                                               0
 #define EVENT_CPUIRQSEL22_EV_GPT3B                                  0x0000000F
@@ -686,6 +708,7 @@
 //                          corresponding flag is found here
 //                          CRYPTO:IRQSTAT.RESULT_AVAIL. Controlled by
 //                          CRYPTO:IRQSTAT.RESULT_AVAIL
+#define EVENT_CPUIRQSEL23_EV_W                                               7
 #define EVENT_CPUIRQSEL23_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL23_EV_S                                               0
 #define EVENT_CPUIRQSEL23_EV_CRYPTO_RESULT_AVAIL_IRQ                0x0000005D
@@ -701,6 +724,7 @@
 // ENUMs:
 // DMA_DONE_COMB            Combined DMA done, corresponding flags are here
 //                          UDMA0:REQDONE
+#define EVENT_CPUIRQSEL24_EV_W                                               7
 #define EVENT_CPUIRQSEL24_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL24_EV_S                                               0
 #define EVENT_CPUIRQSEL24_EV_DMA_DONE_COMB                          0x00000027
@@ -715,6 +739,7 @@
 // Read only selection value
 // ENUMs:
 // DMA_ERR                  DMA bus error, corresponds to UDMA0:ERROR.STATUS
+#define EVENT_CPUIRQSEL25_EV_W                                               7
 #define EVENT_CPUIRQSEL25_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL25_EV_S                                               0
 #define EVENT_CPUIRQSEL25_EV_DMA_ERR                                0x00000026
@@ -731,6 +756,7 @@
 // FLASH                    FLASH controller error event,  the status flags
 //                          are FLASH:FEDACSTAT.FSM_DONE and
 //                          FLASH:FEDACSTAT.RVF_INT
+#define EVENT_CPUIRQSEL26_EV_W                                               7
 #define EVENT_CPUIRQSEL26_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL26_EV_S                                               0
 #define EVENT_CPUIRQSEL26_EV_FLASH                                  0x00000015
@@ -745,6 +771,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV0                    Software event 0, triggered by SWEV.SWEV0
+#define EVENT_CPUIRQSEL27_EV_W                                               7
 #define EVENT_CPUIRQSEL27_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL27_EV_S                                               0
 #define EVENT_CPUIRQSEL27_EV_SWEV0                                  0x00000064
@@ -760,6 +787,7 @@
 // ENUMs:
 // AUX_COMB                 AUX combined event, the corresponding flag
 //                          register is here AUX_EVCTL:EVTOMCUFLAGS
+#define EVENT_CPUIRQSEL28_EV_W                                               7
 #define EVENT_CPUIRQSEL28_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL28_EV_S                                               0
 #define EVENT_CPUIRQSEL28_EV_AUX_COMB                               0x0000000B
@@ -776,6 +804,7 @@
 // AON_PROG0                AON programmable event 0. Event selected by
 //                          AON_EVENT  MCU event selector,
 //                          AON_EVENT:EVTOMCUSEL.AON_PROG0_EV
+#define EVENT_CPUIRQSEL29_EV_W                                               7
 #define EVENT_CPUIRQSEL29_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL29_EV_S                                               0
 #define EVENT_CPUIRQSEL29_EV_AON_PROG0                              0x00000001
@@ -829,6 +858,7 @@
 //                          AON_EVENT MCU event selector,
 //                          AON_EVENT:EVTOMCUSEL.AON_PROG1_EV
 // NONE                     Always inactive
+#define EVENT_CPUIRQSEL30_EV_W                                               7
 #define EVENT_CPUIRQSEL30_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL30_EV_S                                               0
 #define EVENT_CPUIRQSEL30_EV_ALWAYS_ACTIVE                          0x00000079
@@ -864,6 +894,7 @@
 // ENUMs:
 // AUX_COMPA                AUX Compare A event, corresponds to
 //                          AUX_EVCTL:EVTOMCUFLAGS.AUX_COMPA
+#define EVENT_CPUIRQSEL31_EV_W                                               7
 #define EVENT_CPUIRQSEL31_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL31_EV_S                                               0
 #define EVENT_CPUIRQSEL31_EV_AUX_COMPA                              0x0000006A
@@ -880,6 +911,7 @@
 // AUX_ADC_IRQ              AUX ADC interrupt event, corresponds to
 //                          AUX_EVCTL:EVTOMCUFLAGS.ADC_IRQ. Status flags
 //                          are found here AUX_EVCTL:EVTOMCUFLAGS
+#define EVENT_CPUIRQSEL32_EV_W                                               7
 #define EVENT_CPUIRQSEL32_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL32_EV_S                                               0
 #define EVENT_CPUIRQSEL32_EV_AUX_ADC_IRQ                            0x00000073
@@ -894,6 +926,7 @@
 // Read only selection value
 // ENUMs:
 // TRNG_IRQ                 TRNG Interrupt event, controlled by TRNG:IRQEN.EN
+#define EVENT_CPUIRQSEL33_EV_W                                               7
 #define EVENT_CPUIRQSEL33_EV_M                                      0x0000007F
 #define EVENT_CPUIRQSEL33_EV_S                                               0
 #define EVENT_CPUIRQSEL33_EV_TRNG_IRQ                               0x00000068
@@ -908,6 +941,7 @@
 // Read only selection value
 // ENUMs:
 // GPT0A_CMP                GPT0A compare event. Configured by GPT0:TAMR.TCACT
+#define EVENT_RFCSEL0_EV_W                                                   7
 #define EVENT_RFCSEL0_EV_M                                          0x0000007F
 #define EVENT_RFCSEL0_EV_S                                                   0
 #define EVENT_RFCSEL0_EV_GPT0A_CMP                                  0x0000003D
@@ -922,6 +956,7 @@
 // Read only selection value
 // ENUMs:
 // GPT0B_CMP                GPT0B compare event. Configured by GPT0:TBMR.TCACT
+#define EVENT_RFCSEL1_EV_W                                                   7
 #define EVENT_RFCSEL1_EV_M                                          0x0000007F
 #define EVENT_RFCSEL1_EV_S                                                   0
 #define EVENT_RFCSEL1_EV_GPT0B_CMP                                  0x0000003E
@@ -936,6 +971,7 @@
 // Read only selection value
 // ENUMs:
 // GPT1A_CMP                GPT1A compare event. Configured by GPT1:TAMR.TCACT
+#define EVENT_RFCSEL2_EV_W                                                   7
 #define EVENT_RFCSEL2_EV_M                                          0x0000007F
 #define EVENT_RFCSEL2_EV_S                                                   0
 #define EVENT_RFCSEL2_EV_GPT1A_CMP                                  0x0000003F
@@ -950,6 +986,7 @@
 // Read only selection value
 // ENUMs:
 // GPT1B_CMP                GPT1B compare event. Configured by GPT1:TBMR.TCACT
+#define EVENT_RFCSEL3_EV_W                                                   7
 #define EVENT_RFCSEL3_EV_M                                          0x0000007F
 #define EVENT_RFCSEL3_EV_S                                                   0
 #define EVENT_RFCSEL3_EV_GPT1B_CMP                                  0x00000040
@@ -964,6 +1001,7 @@
 // Read only selection value
 // ENUMs:
 // GPT2A_CMP                GPT2A compare event. Configured by GPT2:TAMR.TCACT
+#define EVENT_RFCSEL4_EV_W                                                   7
 #define EVENT_RFCSEL4_EV_M                                          0x0000007F
 #define EVENT_RFCSEL4_EV_S                                                   0
 #define EVENT_RFCSEL4_EV_GPT2A_CMP                                  0x00000041
@@ -978,6 +1016,7 @@
 // Read only selection value
 // ENUMs:
 // GPT2B_CMP                GPT2B compare event. Configured by GPT2:TBMR.TCACT
+#define EVENT_RFCSEL5_EV_W                                                   7
 #define EVENT_RFCSEL5_EV_M                                          0x0000007F
 #define EVENT_RFCSEL5_EV_S                                                   0
 #define EVENT_RFCSEL5_EV_GPT2B_CMP                                  0x00000042
@@ -992,6 +1031,7 @@
 // Read only selection value
 // ENUMs:
 // GPT3A_CMP                GPT3A compare event. Configured by GPT3:TAMR.TCACT
+#define EVENT_RFCSEL6_EV_W                                                   7
 #define EVENT_RFCSEL6_EV_M                                          0x0000007F
 #define EVENT_RFCSEL6_EV_S                                                   0
 #define EVENT_RFCSEL6_EV_GPT3A_CMP                                  0x00000043
@@ -1006,6 +1046,7 @@
 // Read only selection value
 // ENUMs:
 // GPT3B_CMP                GPT3B compare event. Configured by GPT3:TBMR.TCACT
+#define EVENT_RFCSEL7_EV_W                                                   7
 #define EVENT_RFCSEL7_EV_M                                          0x0000007F
 #define EVENT_RFCSEL7_EV_S                                                   0
 #define EVENT_RFCSEL7_EV_GPT3B_CMP                                  0x00000044
@@ -1021,6 +1062,7 @@
 // ENUMs:
 // AON_RTC_UPD              RTC periodic event controlled by
 //                          AON_RTC:CTL.RTC_UPD_EN
+#define EVENT_RFCSEL8_EV_W                                                   7
 #define EVENT_RFCSEL8_EV_M                                          0x0000007F
 #define EVENT_RFCSEL8_EV_S                                                   0
 #define EVENT_RFCSEL8_EV_AON_RTC_UPD                                0x00000077
@@ -1084,6 +1126,7 @@
 //                          AON_EVENT  MCU event selector,
 //                          AON_EVENT:EVTOMCUSEL.AON_PROG0_EV
 // NONE                     Always inactive
+#define EVENT_RFCSEL9_EV_W                                                   7
 #define EVENT_RFCSEL9_EV_M                                          0x0000007F
 #define EVENT_RFCSEL9_EV_S                                                   0
 #define EVENT_RFCSEL9_EV_ALWAYS_ACTIVE                              0x00000079
@@ -1196,6 +1239,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT0ACAPTSEL_EV_W                                              7
 #define EVENT_GPT0ACAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT0ACAPTSEL_EV_S                                              0
 #define EVENT_GPT0ACAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -1321,6 +1365,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT0BCAPTSEL_EV_W                                              7
 #define EVENT_GPT0BCAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT0BCAPTSEL_EV_S                                              0
 #define EVENT_GPT0BCAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -1446,6 +1491,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT1ACAPTSEL_EV_W                                              7
 #define EVENT_GPT1ACAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT1ACAPTSEL_EV_S                                              0
 #define EVENT_GPT1ACAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -1571,6 +1617,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT1BCAPTSEL_EV_W                                              7
 #define EVENT_GPT1BCAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT1BCAPTSEL_EV_S                                              0
 #define EVENT_GPT1BCAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -1696,6 +1743,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT2ACAPTSEL_EV_W                                              7
 #define EVENT_GPT2ACAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT2ACAPTSEL_EV_S                                              0
 #define EVENT_GPT2ACAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -1821,6 +1869,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT2BCAPTSEL_EV_W                                              7
 #define EVENT_GPT2BCAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT2BCAPTSEL_EV_S                                              0
 #define EVENT_GPT2BCAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -1873,6 +1922,7 @@
 // ENUMs:
 // UART0_RX_DMASREQ         UART0 RX DMA single request, controlled by
 //                          UART0:DMACTL.RXDMAE
+#define EVENT_UDMACH1SSEL_EV_W                                               7
 #define EVENT_UDMACH1SSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH1SSEL_EV_S                                               0
 #define EVENT_UDMACH1SSEL_EV_UART0_RX_DMASREQ                       0x00000031
@@ -1888,6 +1938,7 @@
 // ENUMs:
 // UART0_RX_DMABREQ         UART0 RX DMA burst request, controlled by
 //                          UART0:DMACTL.RXDMAE
+#define EVENT_UDMACH1BSEL_EV_W                                               7
 #define EVENT_UDMACH1BSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH1BSEL_EV_S                                               0
 #define EVENT_UDMACH1BSEL_EV_UART0_RX_DMABREQ                       0x00000030
@@ -1903,6 +1954,7 @@
 // ENUMs:
 // UART0_TX_DMASREQ         UART0 TX DMA single request, controlled by
 //                          UART0:DMACTL.TXDMAE
+#define EVENT_UDMACH2SSEL_EV_W                                               7
 #define EVENT_UDMACH2SSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH2SSEL_EV_S                                               0
 #define EVENT_UDMACH2SSEL_EV_UART0_TX_DMASREQ                       0x00000033
@@ -1918,6 +1970,7 @@
 // ENUMs:
 // UART0_TX_DMABREQ         UART0 TX DMA burst request, controlled by
 //                          UART0:DMACTL.TXDMAE
+#define EVENT_UDMACH2BSEL_EV_W                                               7
 #define EVENT_UDMACH2BSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH2BSEL_EV_S                                               0
 #define EVENT_UDMACH2BSEL_EV_UART0_TX_DMABREQ                       0x00000032
@@ -1933,6 +1986,7 @@
 // ENUMs:
 // SSI0_RX_DMASREQ          SSI0 RX DMA single request, controlled by
 //                          SSI0:DMACR.RXDMAE
+#define EVENT_UDMACH3SSEL_EV_W                                               7
 #define EVENT_UDMACH3SSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH3SSEL_EV_S                                               0
 #define EVENT_UDMACH3SSEL_EV_SSI0_RX_DMASREQ                        0x00000029
@@ -1948,6 +2002,7 @@
 // ENUMs:
 // SSI0_RX_DMABREQ          SSI0 RX DMA burst request , controlled by
 //                          SSI0:DMACR.RXDMAE
+#define EVENT_UDMACH3BSEL_EV_W                                               7
 #define EVENT_UDMACH3BSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH3BSEL_EV_S                                               0
 #define EVENT_UDMACH3BSEL_EV_SSI0_RX_DMABREQ                        0x00000028
@@ -1963,6 +2018,7 @@
 // ENUMs:
 // SSI0_TX_DMASREQ          SSI0 TX DMA single request, controlled by
 //                          SSI0:DMACR.TXDMAE
+#define EVENT_UDMACH4SSEL_EV_W                                               7
 #define EVENT_UDMACH4SSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH4SSEL_EV_S                                               0
 #define EVENT_UDMACH4SSEL_EV_SSI0_TX_DMASREQ                        0x0000002B
@@ -1978,6 +2034,7 @@
 // ENUMs:
 // SSI0_TX_DMABREQ          SSI0 TX DMA burst request , controlled by
 //                          SSI0:DMACR.TXDMAE
+#define EVENT_UDMACH4BSEL_EV_W                                               7
 #define EVENT_UDMACH4BSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH4BSEL_EV_S                                               0
 #define EVENT_UDMACH4BSEL_EV_SSI0_TX_DMABREQ                        0x0000002A
@@ -2013,6 +2070,7 @@
 // ENUMs:
 // AUX_DMASREQ              DMA single request event from AUX, configured by
 //                          AUX_EVCTL:DMACTL
+#define EVENT_UDMACH7SSEL_EV_W                                               7
 #define EVENT_UDMACH7SSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH7SSEL_EV_S                                               0
 #define EVENT_UDMACH7SSEL_EV_AUX_DMASREQ                            0x00000075
@@ -2028,6 +2086,7 @@
 // ENUMs:
 // AUX_DMABREQ              DMA burst request event from AUX, configured by
 //                          AUX_EVCTL:DMACTL
+#define EVENT_UDMACH7BSEL_EV_W                                               7
 #define EVENT_UDMACH7BSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH7BSEL_EV_S                                               0
 #define EVENT_UDMACH7BSEL_EV_AUX_DMABREQ                            0x00000076
@@ -2042,6 +2101,7 @@
 // Read only selection value
 // ENUMs:
 // AUX_SW_DMABREQ           AUX observation loopback
+#define EVENT_UDMACH8SSEL_EV_W                                               7
 #define EVENT_UDMACH8SSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH8SSEL_EV_S                                               0
 #define EVENT_UDMACH8SSEL_EV_AUX_SW_DMABREQ                         0x00000074
@@ -2056,6 +2116,7 @@
 // Read only selection value
 // ENUMs:
 // AUX_SW_DMABREQ           AUX observation loopback
+#define EVENT_UDMACH8BSEL_EV_W                                               7
 #define EVENT_UDMACH8BSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH8BSEL_EV_S                                               0
 #define EVENT_UDMACH8BSEL_EV_AUX_SW_DMABREQ                         0x00000074
@@ -2080,6 +2141,7 @@
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // TIE_LOW                  Not used tied to 0
 // NONE                     Always inactive
+#define EVENT_UDMACH9SSEL_EV_W                                               7
 #define EVENT_UDMACH9SSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH9SSEL_EV_S                                               0
 #define EVENT_UDMACH9SSEL_EV_ALWAYS_ACTIVE                          0x00000079
@@ -2113,6 +2175,7 @@
 // GPT0B_DMABREQ            GPT0B DMA trigger event. Configured by GPT0:DMAEV
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // NONE                     Always inactive
+#define EVENT_UDMACH9BSEL_EV_W                                               7
 #define EVENT_UDMACH9BSEL_EV_M                                      0x0000007F
 #define EVENT_UDMACH9BSEL_EV_S                                               0
 #define EVENT_UDMACH9BSEL_EV_ALWAYS_ACTIVE                          0x00000079
@@ -2146,6 +2209,7 @@
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // TIE_LOW                  Not used tied to 0
 // NONE                     Always inactive
+#define EVENT_UDMACH10SSEL_EV_W                                              7
 #define EVENT_UDMACH10SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH10SSEL_EV_S                                              0
 #define EVENT_UDMACH10SSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -2179,6 +2243,7 @@
 // GPT0B_DMABREQ            GPT0B DMA trigger event. Configured by GPT0:DMAEV
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // NONE                     Always inactive
+#define EVENT_UDMACH10BSEL_EV_W                                              7
 #define EVENT_UDMACH10BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH10BSEL_EV_S                                              0
 #define EVENT_UDMACH10BSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -2212,6 +2277,7 @@
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // TIE_LOW                  Not used tied to 0
 // NONE                     Always inactive
+#define EVENT_UDMACH11SSEL_EV_W                                              7
 #define EVENT_UDMACH11SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH11SSEL_EV_S                                              0
 #define EVENT_UDMACH11SSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -2245,6 +2311,7 @@
 // GPT0B_DMABREQ            GPT0B DMA trigger event. Configured by GPT0:DMAEV
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // NONE                     Always inactive
+#define EVENT_UDMACH11BSEL_EV_W                                              7
 #define EVENT_UDMACH11BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH11BSEL_EV_S                                              0
 #define EVENT_UDMACH11BSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -2278,6 +2345,7 @@
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // TIE_LOW                  Not used tied to 0
 // NONE                     Always inactive
+#define EVENT_UDMACH12SSEL_EV_W                                              7
 #define EVENT_UDMACH12SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH12SSEL_EV_S                                              0
 #define EVENT_UDMACH12SSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -2311,6 +2379,7 @@
 // GPT0B_DMABREQ            GPT0B DMA trigger event. Configured by GPT0:DMAEV
 // GPT0A_DMABREQ            GPT0A DMA trigger event. Configured by GPT0:DMAEV
 // NONE                     Always inactive
+#define EVENT_UDMACH12BSEL_EV_W                                              7
 #define EVENT_UDMACH12BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH12BSEL_EV_S                                              0
 #define EVENT_UDMACH12BSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -2336,6 +2405,7 @@
 // AON_PROG2                AON programmable event 2. Event selected by
 //                          AON_EVENT MCU event selector,
 //                          AON_EVENT:EVTOMCUSEL.AON_PROG2_EV
+#define EVENT_UDMACH13BSEL_EV_W                                              7
 #define EVENT_UDMACH13BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH13BSEL_EV_S                                              0
 #define EVENT_UDMACH13BSEL_EV_AON_PROG2                             0x00000003
@@ -2531,6 +2601,7 @@
 //                          AON_EVENT  MCU event selector,
 //                          AON_EVENT:EVTOMCUSEL.AON_PROG0_EV
 // NONE                     Always inactive
+#define EVENT_UDMACH14BSEL_EV_W                                              7
 #define EVENT_UDMACH14BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH14BSEL_EV_S                                              0
 #define EVENT_UDMACH14BSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -2642,6 +2713,7 @@
 // ENUMs:
 // AON_RTC_COMB             Event from AON_RTC, controlled by the
 //                          AON_RTC:CTL.COMB_EV_MASK setting
+#define EVENT_UDMACH15BSEL_EV_W                                              7
 #define EVENT_UDMACH15BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH15BSEL_EV_S                                              0
 #define EVENT_UDMACH15BSEL_EV_AON_RTC_COMB                          0x00000007
@@ -2657,6 +2729,7 @@
 // ENUMs:
 // SSI1_RX_DMASREQ          SSI1 RX DMA single request, controlled by
 //                          SSI0:DMACR.RXDMAE
+#define EVENT_UDMACH16SSEL_EV_W                                              7
 #define EVENT_UDMACH16SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH16SSEL_EV_S                                              0
 #define EVENT_UDMACH16SSEL_EV_SSI1_RX_DMASREQ                       0x0000002D
@@ -2672,6 +2745,7 @@
 // ENUMs:
 // SSI1_RX_DMABREQ          SSI1 RX DMA burst request , controlled by
 //                          SSI0:DMACR.RXDMAE
+#define EVENT_UDMACH16BSEL_EV_W                                              7
 #define EVENT_UDMACH16BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH16BSEL_EV_S                                              0
 #define EVENT_UDMACH16BSEL_EV_SSI1_RX_DMABREQ                       0x0000002C
@@ -2687,6 +2761,7 @@
 // ENUMs:
 // SSI1_TX_DMASREQ          SSI1 TX DMA single request, controlled by
 //                          SSI0:DMACR.TXDMAE
+#define EVENT_UDMACH17SSEL_EV_W                                              7
 #define EVENT_UDMACH17SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH17SSEL_EV_S                                              0
 #define EVENT_UDMACH17SSEL_EV_SSI1_TX_DMASREQ                       0x0000002F
@@ -2702,6 +2777,7 @@
 // ENUMs:
 // SSI1_TX_DMABREQ          SSI1 TX DMA burst request , controlled by
 //                          SSI0:DMACR.TXDMAE
+#define EVENT_UDMACH17BSEL_EV_W                                              7
 #define EVENT_UDMACH17BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH17BSEL_EV_S                                              0
 #define EVENT_UDMACH17BSEL_EV_SSI1_TX_DMABREQ                       0x0000002E
@@ -2716,6 +2792,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV0                    Software event 0, triggered by SWEV.SWEV0
+#define EVENT_UDMACH21SSEL_EV_W                                              7
 #define EVENT_UDMACH21SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH21SSEL_EV_S                                              0
 #define EVENT_UDMACH21SSEL_EV_SWEV0                                 0x00000064
@@ -2730,6 +2807,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV0                    Software event 0, triggered by SWEV.SWEV0
+#define EVENT_UDMACH21BSEL_EV_W                                              7
 #define EVENT_UDMACH21BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH21BSEL_EV_S                                              0
 #define EVENT_UDMACH21BSEL_EV_SWEV0                                 0x00000064
@@ -2744,6 +2822,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV1                    Software event 1, triggered by SWEV.SWEV1
+#define EVENT_UDMACH22SSEL_EV_W                                              7
 #define EVENT_UDMACH22SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH22SSEL_EV_S                                              0
 #define EVENT_UDMACH22SSEL_EV_SWEV1                                 0x00000065
@@ -2758,6 +2837,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV1                    Software event 1, triggered by SWEV.SWEV1
+#define EVENT_UDMACH22BSEL_EV_W                                              7
 #define EVENT_UDMACH22BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH22BSEL_EV_S                                              0
 #define EVENT_UDMACH22BSEL_EV_SWEV1                                 0x00000065
@@ -2772,6 +2852,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV2                    Software event 2, triggered by SWEV.SWEV2
+#define EVENT_UDMACH23SSEL_EV_W                                              7
 #define EVENT_UDMACH23SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH23SSEL_EV_S                                              0
 #define EVENT_UDMACH23SSEL_EV_SWEV2                                 0x00000066
@@ -2786,6 +2867,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV2                    Software event 2, triggered by SWEV.SWEV2
+#define EVENT_UDMACH23BSEL_EV_W                                              7
 #define EVENT_UDMACH23BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH23BSEL_EV_S                                              0
 #define EVENT_UDMACH23BSEL_EV_SWEV2                                 0x00000066
@@ -2800,6 +2882,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV3                    Software event 3, triggered by SWEV.SWEV3
+#define EVENT_UDMACH24SSEL_EV_W                                              7
 #define EVENT_UDMACH24SSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH24SSEL_EV_S                                              0
 #define EVENT_UDMACH24SSEL_EV_SWEV3                                 0x00000067
@@ -2814,6 +2897,7 @@
 // Read only selection value
 // ENUMs:
 // SWEV3                    Software event 3, triggered by SWEV.SWEV3
+#define EVENT_UDMACH24BSEL_EV_W                                              7
 #define EVENT_UDMACH24BSEL_EV_M                                     0x0000007F
 #define EVENT_UDMACH24BSEL_EV_S                                              0
 #define EVENT_UDMACH24BSEL_EV_SWEV3                                 0x00000067
@@ -2901,6 +2985,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT3ACAPTSEL_EV_W                                              7
 #define EVENT_GPT3ACAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT3ACAPTSEL_EV_S                                              0
 #define EVENT_GPT3ACAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -3024,6 +3109,7 @@
 //                          IOC:IOCFGn.EDGE_IRQ_EN and  IOC:IOCFGn.EDGE_DET
 //                          settings
 // NONE                     Always inactive
+#define EVENT_GPT3BCAPTSEL_EV_W                                              7
 #define EVENT_GPT3BCAPTSEL_EV_M                                     0x0000007F
 #define EVENT_GPT3BCAPTSEL_EV_S                                              0
 #define EVENT_GPT3BCAPTSEL_EV_ALWAYS_ACTIVE                         0x00000079
@@ -3083,6 +3169,7 @@
 // GPT2B                    GPT2B interrupt event, controlled by GPT2:TBMR
 // GPT2A                    GPT2A interrupt event, controlled by GPT2:TAMR
 // NONE                     Always inactive
+#define EVENT_AUXSEL0_EV_W                                                   7
 #define EVENT_AUXSEL0_EV_M                                          0x0000007F
 #define EVENT_AUXSEL0_EV_S                                                   0
 #define EVENT_AUXSEL0_EV_ALWAYS_ACTIVE                              0x00000079
@@ -3107,6 +3194,7 @@
 // ENUMs:
 // WDT_NMI                  Watchdog non maskable interrupt event, controlled
 //                          by WDT:CTL.INTTYPE
+#define EVENT_CM3NMISEL0_EV_W                                                7
 #define EVENT_CM3NMISEL0_EV_M                                       0x0000007F
 #define EVENT_CM3NMISEL0_EV_S                                                0
 #define EVENT_CM3NMISEL0_EV_WDT_NMI                                 0x00000063
@@ -3126,6 +3214,7 @@
 // RFC_IN_EV5               RFC RAT event 5, configured by RFC_RAT:RATEV.OEVT5
 // RFC_IN_EV4               RFC RAT event 4, configured by RFC_RAT:RATEV.OEVT4
 // NONE                     Always inactive
+#define EVENT_I2SSTMPSEL0_EV_W                                               7
 #define EVENT_I2SSTMPSEL0_EV_M                                      0x0000007F
 #define EVENT_I2SSTMPSEL0_EV_S                                               0
 #define EVENT_I2SSTMPSEL0_EV_ALWAYS_ACTIVE                          0x00000079
@@ -3147,6 +3236,7 @@
 // ALWAYS_ACTIVE            Always asserted
 // CPU_HALTED               CPU halted
 // NONE                     Always inactive
+#define EVENT_FRZSEL0_EV_W                                                   7
 #define EVENT_FRZSEL0_EV_M                                          0x0000007F
 #define EVENT_FRZSEL0_EV_S                                                   0
 #define EVENT_FRZSEL0_EV_ALWAYS_ACTIVE                              0x00000079

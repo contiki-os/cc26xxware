@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_cpu_itm_h
-*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
-*  Revision:       43498
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -167,6 +167,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM0_STIM0_W                                               32
 #define CPU_ITM_STIM0_STIM0_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM0_STIM0_S                                                0
 
@@ -183,6 +184,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM1_STIM1_W                                               32
 #define CPU_ITM_STIM1_STIM1_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM1_STIM1_S                                                0
 
@@ -199,6 +201,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM2_STIM2_W                                               32
 #define CPU_ITM_STIM2_STIM2_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM2_STIM2_S                                                0
 
@@ -215,6 +218,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM3_STIM3_W                                               32
 #define CPU_ITM_STIM3_STIM3_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM3_STIM3_S                                                0
 
@@ -231,6 +235,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM4_STIM4_W                                               32
 #define CPU_ITM_STIM4_STIM4_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM4_STIM4_S                                                0
 
@@ -247,6 +252,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM5_STIM5_W                                               32
 #define CPU_ITM_STIM5_STIM5_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM5_STIM5_S                                                0
 
@@ -263,6 +269,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM6_STIM6_W                                               32
 #define CPU_ITM_STIM6_STIM6_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM6_STIM6_S                                                0
 
@@ -279,6 +286,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM7_STIM7_W                                               32
 #define CPU_ITM_STIM7_STIM7_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM7_STIM7_S                                                0
 
@@ -295,6 +303,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM8_STIM8_W                                               32
 #define CPU_ITM_STIM8_STIM8_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM8_STIM8_S                                                0
 
@@ -311,6 +320,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM9_STIM9_W                                               32
 #define CPU_ITM_STIM9_STIM9_M                                       0xFFFFFFFF
 #define CPU_ITM_STIM9_STIM9_S                                                0
 
@@ -327,6 +337,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM10_STIM10_W                                             32
 #define CPU_ITM_STIM10_STIM10_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM10_STIM10_S                                              0
 
@@ -343,6 +354,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM11_STIM11_W                                             32
 #define CPU_ITM_STIM11_STIM11_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM11_STIM11_S                                              0
 
@@ -359,6 +371,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM12_STIM12_W                                             32
 #define CPU_ITM_STIM12_STIM12_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM12_STIM12_S                                              0
 
@@ -375,6 +388,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM13_STIM13_W                                             32
 #define CPU_ITM_STIM13_STIM13_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM13_STIM13_S                                              0
 
@@ -391,6 +405,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM14_STIM14_W                                             32
 #define CPU_ITM_STIM14_STIM14_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM14_STIM14_S                                              0
 
@@ -407,6 +422,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM15_STIM15_W                                             32
 #define CPU_ITM_STIM15_STIM15_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM15_STIM15_S                                              0
 
@@ -423,6 +439,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM16_STIM16_W                                             32
 #define CPU_ITM_STIM16_STIM16_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM16_STIM16_S                                              0
 
@@ -439,6 +456,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM17_STIM17_W                                             32
 #define CPU_ITM_STIM17_STIM17_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM17_STIM17_S                                              0
 
@@ -455,6 +473,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM18_STIM18_W                                             32
 #define CPU_ITM_STIM18_STIM18_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM18_STIM18_S                                              0
 
@@ -471,6 +490,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM19_STIM19_W                                             32
 #define CPU_ITM_STIM19_STIM19_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM19_STIM19_S                                              0
 
@@ -487,6 +507,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM20_STIM20_W                                             32
 #define CPU_ITM_STIM20_STIM20_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM20_STIM20_S                                              0
 
@@ -503,6 +524,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM21_STIM21_W                                             32
 #define CPU_ITM_STIM21_STIM21_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM21_STIM21_S                                              0
 
@@ -519,6 +541,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM22_STIM22_W                                             32
 #define CPU_ITM_STIM22_STIM22_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM22_STIM22_S                                              0
 
@@ -535,6 +558,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM23_STIM23_W                                             32
 #define CPU_ITM_STIM23_STIM23_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM23_STIM23_S                                              0
 
@@ -551,6 +575,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM24_STIM24_W                                             32
 #define CPU_ITM_STIM24_STIM24_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM24_STIM24_S                                              0
 
@@ -567,6 +592,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM25_STIM25_W                                             32
 #define CPU_ITM_STIM25_STIM25_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM25_STIM25_S                                              0
 
@@ -583,6 +609,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM26_STIM26_W                                             32
 #define CPU_ITM_STIM26_STIM26_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM26_STIM26_S                                              0
 
@@ -599,6 +626,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM27_STIM27_W                                             32
 #define CPU_ITM_STIM27_STIM27_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM27_STIM27_S                                              0
 
@@ -615,6 +643,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM28_STIM28_W                                             32
 #define CPU_ITM_STIM28_STIM28_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM28_STIM28_S                                              0
 
@@ -631,6 +660,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM29_STIM29_W                                             32
 #define CPU_ITM_STIM29_STIM29_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM29_STIM29_S                                              0
 
@@ -647,6 +677,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM30_STIM30_W                                             32
 #define CPU_ITM_STIM30_STIM30_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM30_STIM30_S                                              0
 
@@ -663,6 +694,7 @@
 // provide an atomic read-modify-write, so it's users responsibility to ensure
 // exclusive read-modify-write if this ITM port is used concurrently by
 // interrupts or other threads.
+#define CPU_ITM_STIM31_STIM31_W                                             32
 #define CPU_ITM_STIM31_STIM31_M                                     0xFFFFFFFF
 #define CPU_ITM_STIM31_STIM31_S                                              0
 
@@ -943,6 +975,7 @@
 //
 // 0: User access allowed to stimulus ports
 // 1: Privileged access only to stimulus ports
+#define CPU_ITM_TPR_PRIVMASK_W                                               4
 #define CPU_ITM_TPR_PRIVMASK_M                                      0x0000000F
 #define CPU_ITM_TPR_PRIVMASK_S                                               0
 
@@ -964,6 +997,7 @@
 // Trace Bus ID for CoreSight system. Optional identifier for multi-source
 // trace stream formatting. If multi-source trace is in use, this field must be
 // written with a non-zero value.
+#define CPU_ITM_TCR_ATBID_W                                                  7
 #define CPU_ITM_TCR_ATBID_M                                         0x007F0000
 #define CPU_ITM_TCR_ATBID_S                                                 16
 
@@ -975,6 +1009,7 @@
 // DIV16                    Divide by 16
 // DIV4                     Divide by 4
 // NOPRESCALING             No prescaling
+#define CPU_ITM_TCR_TSPRESCALE_W                                             2
 #define CPU_ITM_TCR_TSPRESCALE_M                                    0x00000300
 #define CPU_ITM_TCR_TSPRESCALE_S                                             8
 #define CPU_ITM_TCR_TSPRESCALE_DIV64                                0x00000300
@@ -1049,6 +1084,7 @@
 //
 // A privileged write of 0xC5ACCE55 enables more write access to Control
 // Registers TER, TPR and TCR. An invalid write removes write access.
+#define CPU_ITM_LAR_LOCK_ACCESS_W                                           32
 #define CPU_ITM_LAR_LOCK_ACCESS_M                                   0xFFFFFFFF
 #define CPU_ITM_LAR_LOCK_ACCESS_S                                            0
 

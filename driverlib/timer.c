@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       timer.c
-*  Revised:        2015-06-03 13:49:57 +0200 (Wed, 03 Jun 2015)
-*  Revision:       43724
+*  Revised:        2015-11-16 19:41:47 +0100 (Mon, 16 Nov 2015)
+*  Revision:       45094
 *
 *  Description:    Driver for the General Purpose Timer
 *
@@ -87,16 +87,16 @@ TimerIntNumberGet(uint32_t ui32Base)
     switch(ui32Base)
     {
     case GPT0_BASE :
-        ui32Int = INT_TIMER0A;
+        ui32Int = INT_GPT0A;
         break;
     case GPT1_BASE :
-        ui32Int = INT_TIMER1A;
+        ui32Int = INT_GPT1A;
         break;
     case GPT2_BASE :
-        ui32Int = INT_TIMER2A;
+        ui32Int = INT_GPT2A;
         break;
     case GPT3_BASE :
-        ui32Int = INT_TIMER3A;
+        ui32Int = INT_GPT3A;
         break;
     default :
         ui32Int = 0x0;
@@ -124,7 +124,6 @@ TimerConfigure(uint32_t ui32Base, uint32_t ui32Config)
            (ui32Config == TIMER_CFG_ONE_SHOT_UP) ||
            (ui32Config == TIMER_CFG_PERIODIC) ||
            (ui32Config == TIMER_CFG_PERIODIC_UP) ||
-           (ui32Config == TIMER_CFG_RTC) ||
            ((ui32Config & 0xFF000000) == TIMER_CFG_SPLIT_PAIR));
     ASSERT(((ui32Config & 0xFF000000) != TIMER_CFG_SPLIT_PAIR) ||
            ((((ui32Config & 0x000000FF) == TIMER_CFG_A_ONE_SHOT) ||

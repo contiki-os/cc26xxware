@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       flash.c
-*  Revised:        2015-04-22 15:39:25 +0200 (Wed, 22 Apr 2015)
-*  Revision:       43290
+*  Revised:        2015-11-02 14:35:00 +0100 (Mon, 02 Nov 2015)
+*  Revision:       44906
 *
 *  Description:    Driver for on chip Flash.
 *
@@ -374,7 +374,7 @@ FlashSectorErase(uint32_t ui32SectorAddress)
     //
     // Call ROM function
     //
-    FuncPointer = (uint32_t (*)(uint32_t)) (ROM_FLASHTABLE[5]);
+    FuncPointer = (uint32_t (*)(uint32_t)) (ROM_API_FLASH_TABLE[5]);
     ui32ErrorReturn = FuncPointer(ui32SectorAddress);
 
     //
@@ -409,7 +409,7 @@ FlashProgram(uint8_t *pui8DataBuffer, uint32_t ui32Address, uint32_t ui32Count)
     //
     // Call ROM function
     //
-    FuncPointer = (uint32_t (*)(uint8_t *, uint32_t, uint32_t)) (ROM_FLASHTABLE[6]);
+    FuncPointer = (uint32_t (*)(uint8_t *, uint32_t, uint32_t)) (ROM_API_FLASH_TABLE[6]);
     ui32ErrorReturn = FuncPointer( pui8DataBuffer, ui32Address, ui32Count);
 
     //

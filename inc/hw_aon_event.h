@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aon_event_h
-*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
-*  Revision:       43524
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -133,6 +133,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_MCUWUSEL_WU3_EV_W                                          6
 #define AON_EVENT_MCUWUSEL_WU3_EV_M                                 0x3F000000
 #define AON_EVENT_MCUWUSEL_WU3_EV_S                                         24
 #define AON_EVENT_MCUWUSEL_WU3_EV_NONE                              0x3F000000
@@ -265,6 +266,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_MCUWUSEL_WU2_EV_W                                          6
 #define AON_EVENT_MCUWUSEL_WU2_EV_M                                 0x003F0000
 #define AON_EVENT_MCUWUSEL_WU2_EV_S                                         16
 #define AON_EVENT_MCUWUSEL_WU2_EV_NONE                              0x003F0000
@@ -397,6 +399,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_MCUWUSEL_WU1_EV_W                                          6
 #define AON_EVENT_MCUWUSEL_WU1_EV_M                                 0x00003F00
 #define AON_EVENT_MCUWUSEL_WU1_EV_S                                          8
 #define AON_EVENT_MCUWUSEL_WU1_EV_NONE                              0x00003F00
@@ -529,6 +532,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_MCUWUSEL_WU0_EV_W                                          6
 #define AON_EVENT_MCUWUSEL_WU0_EV_M                                 0x0000003F
 #define AON_EVENT_MCUWUSEL_WU0_EV_S                                          0
 #define AON_EVENT_MCUWUSEL_WU0_EV_NONE                              0x0000003F
@@ -666,6 +670,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_AUXWUSEL_WU2_EV_W                                          6
 #define AON_EVENT_AUXWUSEL_WU2_EV_M                                 0x003F0000
 #define AON_EVENT_AUXWUSEL_WU2_EV_S                                         16
 #define AON_EVENT_AUXWUSEL_WU2_EV_NONE                              0x003F0000
@@ -798,6 +803,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_AUXWUSEL_WU1_EV_W                                          6
 #define AON_EVENT_AUXWUSEL_WU1_EV_M                                 0x00003F00
 #define AON_EVENT_AUXWUSEL_WU1_EV_S                                          8
 #define AON_EVENT_AUXWUSEL_WU1_EV_NONE                              0x00003F00
@@ -930,6 +936,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_AUXWUSEL_WU0_EV_W                                          6
 #define AON_EVENT_AUXWUSEL_WU0_EV_M                                 0x0000003F
 #define AON_EVENT_AUXWUSEL_WU0_EV_S                                          0
 #define AON_EVENT_AUXWUSEL_WU0_EV_NONE                              0x0000003F
@@ -1065,6 +1072,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_EVTOMCUSEL_AON_PROG2_EV_W                                  6
 #define AON_EVENT_EVTOMCUSEL_AON_PROG2_EV_M                         0x003F0000
 #define AON_EVENT_EVTOMCUSEL_AON_PROG2_EV_S                                 16
 #define AON_EVENT_EVTOMCUSEL_AON_PROG2_EV_NONE                      0x003F0000
@@ -1195,6 +1203,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_EVTOMCUSEL_AON_PROG1_EV_W                                  6
 #define AON_EVENT_EVTOMCUSEL_AON_PROG1_EV_M                         0x00003F00
 #define AON_EVENT_EVTOMCUSEL_AON_PROG1_EV_S                                  8
 #define AON_EVENT_EVTOMCUSEL_AON_PROG1_EV_NONE                      0x00003F00
@@ -1325,6 +1334,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_EVTOMCUSEL_AON_PROG0_EV_W                                  6
 #define AON_EVENT_EVTOMCUSEL_AON_PROG0_EV_M                         0x0000003F
 #define AON_EVENT_EVTOMCUSEL_AON_PROG0_EV_S                                  0
 #define AON_EVENT_EVTOMCUSEL_AON_PROG0_EV_NONE                      0x0000003F
@@ -1459,6 +1469,7 @@
 // PAD2                     Edge detect on PAD2
 // PAD1                     Edge detect on PAD1
 // PAD0                     Edge detect on PAD0
+#define AON_EVENT_RTCSEL_RTC_CH1_CAPT_EV_W                                   6
 #define AON_EVENT_RTCSEL_RTC_CH1_CAPT_EV_M                          0x0000003F
 #define AON_EVENT_RTCSEL_RTC_CH1_CAPT_EV_S                                   0
 #define AON_EVENT_RTCSEL_RTC_CH1_CAPT_EV_NONE                       0x0000003F

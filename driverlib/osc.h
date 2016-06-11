@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       osc.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2015-11-11 17:32:44 +0100 (Wed, 11 Nov 2015)
+*  Revision:       45043
 *
 *  Description:    Defines and prototypes for the system oscillator control.
 *
@@ -158,6 +158,52 @@ OSCXHfPowerModeSet(uint32_t ui32Mode)
 
 //*****************************************************************************
 //
+//! \brief Enables OSC clock loss event detection.
+//!
+//! Enables the clock loss event flag to be raised if a clock loss is detected.
+//!
+//! \note OSC clock loss event must be disabled before SCLK_LF clock source is
+//! changed (by calling \ref OSCClockSourceSet()) and remain disabled until the
+//! change is confirmed (by calling \ref OSCClockSourceGet()).
+//!
+//! \return None
+//!
+//! \sa \ref OSCClockLossEventDisable()
+//
+//*****************************************************************************
+__STATIC_INLINE void
+OSCClockLossEventEnable( void )
+{
+    DDI16BitfieldWrite( AUX_DDI0_OSC_BASE, DDI_0_OSC_O_CTL0,
+        DDI_0_OSC_CTL0_CLK_LOSS_EN_M,
+        DDI_0_OSC_CTL0_CLK_LOSS_EN_S, 1 );
+}
+
+//*****************************************************************************
+//
+//! \brief Disables OSC clock loss event detection.
+//!
+//! Disabling the OSC clock loss event does also clear the clock loss event flag.
+//!
+//! \note OSC clock loss event must be disabled before SCLK_LF clock source is
+//! changed (by calling \ref OSCClockSourceSet()) and remain disabled until the
+//! change is confirmed (by calling \ref OSCClockSourceGet()).
+//!
+//! \return None
+//!
+//! \sa \ref OSCClockLossEventEnable()
+//
+//*****************************************************************************
+__STATIC_INLINE void
+OSCClockLossEventDisable( void )
+{
+    DDI16BitfieldWrite( AUX_DDI0_OSC_BASE, DDI_0_OSC_O_CTL0,
+        DDI_0_OSC_CTL0_CLK_LOSS_EN_M,
+        DDI_0_OSC_CTL0_CLK_LOSS_EN_S, 0 );
+}
+
+//*****************************************************************************
+//
 //! \brief Configure the oscillator input to the a source clock.
 //!
 //! Use this function to set the oscillator source for one or more of the
@@ -175,6 +221,9 @@ OSCXHfPowerModeSet(uint32_t ui32Mode)
 //!
 //! \note If enabling \ref OSC_XOSC_LF it is not safe to go to powerdown/shutdown
 //! until the LF clock is running which can be checked using \ref OSCClockSourceGet().
+//!
+//! \note Clock loss reset generation must be disabled before SCLK_LF (\ref OSC_SRC_CLK_LF)
+//! clock source is changed and remain disabled until the change is confirmed.
 //!
 //! \param ui32SrcClk is the source clocks to configure.
 //! - \ref OSC_SRC_CLK_HF
@@ -370,6 +419,65 @@ bool OSCHF_AttemptToSwitchToXosc( void );
 //
 //*****************************************************************************
 void OSCHF_SwitchToRcOscTurnOffXosc( void );
+
+//*****************************************************************************
+//
+//! \brief Calculate the temperature dependent relative frequency offset of HPOSC
+//!
+//! The HPOSC (High Precision Oscillator) frequency will vary slightly with chip temperature.
+//! The frequency offset from the nominal value can be predicted based on
+//! second order linear interpolation using coefficients measured in chip
+//! production and stored as factory configuration parameters.
+//!
+//! This function calculates the relative frequency offset, defined as:
+//! <pre>
+//!     F_HPOSC = F_nom * (1 + d/(2^22))
+//! </pre>
+//! where
+//! -   F_HPOSC is the current HPOSC frequency.
+//! -   F_nom is the nominal oscillator frequency, assumed to be 48.000 MHz.
+//! -   d is the relative frequency offset (the value returned).
+//!
+//! By knowing the relative frequency offset it is then possible to compensate
+//! any timing related values accordingly.
+//!
+//! \param tempDegC is the chip temperature in degrees Celsius. Use the
+//! function \ref AONBatMonTemperatureGetDegC() to get current chip temperature.
+//!
+//! \return Returns the relative frequency offset parameter d.
+//!
+//! \sa OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert(), AONBatMonTemperatureGetDegC()
+//
+//*****************************************************************************
+extern int32_t OSC_HPOSCRelativeFrequencyOffsetGet( int32_t tempDegC );
+
+//*****************************************************************************
+//
+//! \brief Converts the relative frequency offset of HPOSC to the RF Core parameter format.
+//!
+//! The HPOSC (High Precision Oscillator) clock is used by the RF Core.
+//! To compensate for a frequency offset in the frequency of the clock source,
+//! a frequency offset parameter can be provided as part of the radio configuration
+//! override setting list to enable compensation of the RF synthesizer frequency,
+//! symbol timing, and radio timer to still achieve correct frequencies.
+//!
+//! The RF Core takes a relative frequency offset parameter defined differently
+//! compared to the relative frequency offset parameter returned from function
+//! \ref OSC_HPOSCRelativeFrequencyOffsetGet() and thus needs to be converted:
+//! <pre>
+//!     F_nom = F_HPOSC * (1 + RfCoreRelFreqOffset/(2^22))
+//! </pre>
+//! where
+//! -   F_nom is the nominal oscillator frequency, assumed to be 48.000 MHz.
+//! -   F_HPOSC is the current HPOSC frequency.
+//! -   RfCoreRelFreqOffset is the relative frequency offset in the "RF Core" format (the value returned).
+//!
+//! \return Returns the relative frequency offset in RF Core format.
+//!
+//! \sa OSC_HPOSCRelativeFrequencyOffsetGet()
+//
+//*****************************************************************************
+extern int16_t OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert( int32_t HPOSC_RelFreqOffset );
 
 
 //*****************************************************************************

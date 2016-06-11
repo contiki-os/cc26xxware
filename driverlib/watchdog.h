@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       wdt.h
-*  Revised:        2015-07-16 12:53:29 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44153
+*  Revised:        2015-11-16 19:41:47 +0100 (Mon, 16 Nov 2015)
+*  Revision:       45094
 *
 *  Description:    Defines and prototypes for the Watchdog Timer.
 *
@@ -124,6 +124,8 @@ WatchdogRunning(void)
 //! \brief Enables the watchdog timer.
 //!
 //! This function enables the watchdog timer counter and interrupt.
+//!
+//! Once enabled, the watchdog interrupt can only be disabled by a hardware reset.
 //!
 //! \note This function has no effect if the watchdog timer has been locked.
 //!
@@ -320,7 +322,7 @@ WatchdogValueGet(void)
 //!
 //! \note This function registers the standard watchdog interrupt handler. To
 //! register the NMI watchdog handler, use \ref IntRegister() to register the
-//! handler for the \b FAULT_NMI interrupt.
+//! handler for the \b INT_NMI_FAULT interrupt.
 //!
 //! \param pfnHandler is a pointer to the function to be called when the
 //! watchdog timer interrupt occurs.
@@ -337,12 +339,12 @@ WatchdogIntRegister(void (*pfnHandler)(void))
     //
     // Register the interrupt handler.
     //
-    IntRegister(INT_WATCHDOG, pfnHandler);
+    IntRegister(INT_WDT_IRQ, pfnHandler);
 
     //
     // Enable the watchdog timer interrupt.
     //
-    IntEnable(INT_WATCHDOG);
+    IntEnable(INT_WDT_IRQ);
 }
 
 //*****************************************************************************
@@ -356,7 +358,7 @@ WatchdogIntRegister(void (*pfnHandler)(void))
 //!
 //! \note This function registers the standard watchdog interrupt handler. To
 //! register the NMI watchdog handler, use \ref IntRegister() to register the
-//! handler for the \b FAULT_NMI interrupt.
+//! handler for the \b INT_NMI_FAULT interrupt.
 //!
 //! \return None
 //!
@@ -370,19 +372,19 @@ WatchdogIntUnregister(void)
     //
     // Disable the interrupt.
     //
-    IntDisable(INT_WATCHDOG);
+    IntDisable(INT_WDT_IRQ);
 
     //
     // Unregister the interrupt handler.
     //
-    IntUnregister(INT_WATCHDOG);
+    IntUnregister(INT_WDT_IRQ);
 }
 
 //*****************************************************************************
 //
 //! \brief Enables the watchdog timer.
 //!
-//! This function enables the watchdog timer by calling \ref WatchdogEnable().
+//! This function enables the watchdog timer interrupt by calling \ref WatchdogEnable().
 //!
 //! \return None
 //!
@@ -426,14 +428,20 @@ WatchdogIntStatus(void)
 //! The watchdog timer interrupt source is cleared, so that it no longer
 //! asserts.
 //!
-//! \note Because there is a write buffer in the System CPU, it may
-//! take several clock cycles before the interrupt source is actually cleared.
-//! Therefore, it is recommended that the interrupt source be cleared early in
-//! the interrupt handler (as opposed to the very last action) to avoid
-//! returning from the interrupt handler before the interrupt source is
-//! actually cleared. Failure to do so may result in the interrupt handler
-//! being immediately reentered (because the interrupt controller still sees
-//! the interrupt source asserted).
+//! \note Due to write buffers and synchronizers in the system it may take several
+//! clock cycles from a register write clearing an event in a module and until the
+//! event is actually cleared in the NVIC of the system CPU. It is recommended to
+//! clear the event source early in the interrupt service routine (ISR) to allow
+//! the event clear to propagate to the NVIC before returning from the ISR.
+//! At the same time, an early event clear allows new events of the same type to be
+//! pended instead of ignored if the event is cleared later in the ISR.
+//! It is the responsibility of the programmer to make sure that enough time has passed
+//! before returning from the ISR to avoid false re-triggering of the cleared event.
+//! A simple, although not necessarily optimal, way of clearing an event before
+//! returning from the ISR is:
+//! -# Write to clear event (interrupt source). (buffered write)
+//! -# Dummy read from the event source module. (making sure the write has propagated)
+//! -# Wait two system CPU clock cycles (user code or two NOPs). (allowing cleared event to propagate through any synchronizers)
 //!
 //! \return None
 //

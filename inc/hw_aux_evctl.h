@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_aux_evctl_h
-*  Revised:        2015-05-19 09:10:53 +0200 (Tue, 19 May 2015)
-*  Revision:       43524
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -168,6 +168,7 @@
 // AUX_COMPB                AUX_COMPB event
 // AUX_COMPA                AUX_COMPA event
 // AON_RTC_CH2              AON_RTC_CH2 event
+#define AUX_EVCTL_VECCFG0_VEC1_EV_W                                          5
 #define AUX_EVCTL_VECCFG0_VEC1_EV_M                                 0x00001F00
 #define AUX_EVCTL_VECCFG0_VEC1_EV_S                                          8
 #define AUX_EVCTL_VECCFG0_VEC1_EV_ADC_IRQ                           0x00001F00
@@ -273,6 +274,7 @@
 // AUX_COMPB                AUX_COMPB event
 // AUX_COMPA                AUX_COMPA event
 // AON_RTC_CH2              AON_RTC_CH2 event
+#define AUX_EVCTL_VECCFG0_VEC0_EV_W                                          5
 #define AUX_EVCTL_VECCFG0_VEC0_EV_M                                 0x0000001F
 #define AUX_EVCTL_VECCFG0_VEC0_EV_S                                          0
 #define AUX_EVCTL_VECCFG0_VEC0_EV_ADC_IRQ                           0x0000001F
@@ -385,6 +387,7 @@
 // AUX_COMPB                AUX_COMPB event
 // AUX_COMPA                AUX_COMPA event
 // AON_RTC_CH2              AON_RTC_CH2 event
+#define AUX_EVCTL_VECCFG1_VEC3_EV_W                                          5
 #define AUX_EVCTL_VECCFG1_VEC3_EV_M                                 0x00001F00
 #define AUX_EVCTL_VECCFG1_VEC3_EV_S                                          8
 #define AUX_EVCTL_VECCFG1_VEC3_EV_ADC_IRQ                           0x00001F00
@@ -492,6 +495,7 @@
 // AUX_COMPB                AUX_COMPB event
 // AUX_COMPA                AUX_COMPA event
 // AON_RTC_CH2              AON_RTC_CH2 event
+#define AUX_EVCTL_VECCFG1_VEC2_EV_W                                          5
 #define AUX_EVCTL_VECCFG1_VEC2_EV_M                                 0x0000001F
 #define AUX_EVCTL_VECCFG1_VEC2_EV_S                                          0
 #define AUX_EVCTL_VECCFG1_VEC2_EV_ADC_IRQ                           0x0000001F
@@ -568,6 +572,7 @@
 // AUX_COMPB                AUX_COMPB event
 // AUX_COMPA                AUX_COMPA event
 // AON_RTC_CH2              AON_RTC_CH2 event
+#define AUX_EVCTL_SCEWEVSEL_WEV7_EV_W                                        5
 #define AUX_EVCTL_SCEWEVSEL_WEV7_EV_M                               0x0000001F
 #define AUX_EVCTL_SCEWEVSEL_WEV7_EV_S                                        0
 #define AUX_EVCTL_SCEWEVSEL_WEV7_EV_ADC_IRQ                         0x0000001F

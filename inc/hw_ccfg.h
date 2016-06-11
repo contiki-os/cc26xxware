@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_ccfg_h
-*  Revised:        2015-06-19 13:49:23 +0200 (Fri, 19 Jun 2015)
-*  Revision:       43999
+*  Revised:        2016-01-12 15:03:57 +0100 (Tue, 12 Jan 2016)
+*  Revision:       45433
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -120,6 +120,7 @@
 // SCLK_LF when MODE_CONF.SCLK_LF_OPTION is set to EXTERNAL. The selected DIO
 // will be marked as reserved by the pin driver (TI-RTOS environment) and hence
 // not selectable for other usage.
+#define CCFG_EXT_LF_CLK_DIO_W                                                8
 #define CCFG_EXT_LF_CLK_DIO_M                                       0xFF000000
 #define CCFG_EXT_LF_CLK_DIO_S                                               24
 
@@ -129,6 +130,7 @@
 // written to AON_RTC:SUBSECINC.VALUEINC. Defined as follows:
 // EXT_LF_CLK.RTC_INCREMENT = 2^38/InputClockFrequency in Hertz (e.g.:
 // RTC_INCREMENT=0x800000 for InputClockFrequency=32768 Hz)
+#define CCFG_EXT_LF_CLK_RTC_INCREMENT_W                                     24
 #define CCFG_EXT_LF_CLK_RTC_INCREMENT_M                             0x00FFFFFF
 #define CCFG_EXT_LF_CLK_RTC_INCREMENT_S                                      0
 
@@ -151,6 +153,7 @@
 // NOTE! The DriverLib function SysCtrl_DCDC_VoltageConditionalControl() must
 // be called regularly to apply this field (handled automatically if using TI
 // RTOS!).
+#define CCFG_MODE_CONF_1_ALT_DCDC_VMIN_W                                     4
 #define CCFG_MODE_CONF_1_ALT_DCDC_VMIN_M                            0x00F00000
 #define CCFG_MODE_CONF_1_ALT_DCDC_VMIN_S                                    20
 
@@ -176,6 +179,7 @@
 // 4: 47mA
 // ...
 // 7: 59mA (max)
+#define CCFG_MODE_CONF_1_ALT_DCDC_IPEAK_W                                    3
 #define CCFG_MODE_CONF_1_ALT_DCDC_IPEAK_M                           0x00070000
 #define CCFG_MODE_CONF_1_ALT_DCDC_IPEAK_S                                   16
 
@@ -184,6 +188,7 @@
 // Signed delta value for IBIAS_INIT. Delta value only applies if
 // SIZE_AND_DIS_FLAGS.DIS_XOSC_OVR=0.
 // See FCFG1:AMPCOMP_CTRL1.IBIAS_INIT
+#define CCFG_MODE_CONF_1_DELTA_IBIAS_INIT_W                                  4
 #define CCFG_MODE_CONF_1_DELTA_IBIAS_INIT_M                         0x0000F000
 #define CCFG_MODE_CONF_1_DELTA_IBIAS_INIT_S                                 12
 
@@ -192,6 +197,7 @@
 // Signed delta value for IBIAS_OFFSET. Delta value only applies if
 // SIZE_AND_DIS_FLAGS.DIS_XOSC_OVR=0.
 // See FCFG1:AMPCOMP_CTRL1.IBIAS_OFFSET
+#define CCFG_MODE_CONF_1_DELTA_IBIAS_OFFSET_W                                4
 #define CCFG_MODE_CONF_1_DELTA_IBIAS_OFFSET_M                       0x00000F00
 #define CCFG_MODE_CONF_1_DELTA_IBIAS_OFFSET_S                                8
 
@@ -199,6 +205,7 @@
 //
 // Unsigned value of maximum XOSC startup time (worst case) in units of 100us.
 // Value only applies if SIZE_AND_DIS_FLAGS.DIS_XOSC_OVR=0.
+#define CCFG_MODE_CONF_1_XOSC_MAX_START_W                                    8
 #define CCFG_MODE_CONF_1_XOSC_MAX_START_M                           0x000000FF
 #define CCFG_MODE_CONF_1_XOSC_MAX_START_S                                    0
 
@@ -210,6 +217,7 @@
 // Field: [31:16] SIZE_OF_CCFG
 //
 // Total size of CCFG in bytes.
+#define CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_W                              16
 #define CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_M                      0xFFFF0000
 #define CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_S                              16
 
@@ -218,6 +226,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_W                             13
 #define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M                     0x0000FFF8
 #define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S                              3
 
@@ -284,6 +293,7 @@
 // 0x0 (0) : Delta = +1
 // ...
 // 0x7 (7) : Delta = +8
+#define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_W                               4
 #define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_M                      0xF0000000
 #define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_DELTA_S                              28
 
@@ -339,21 +349,47 @@
 // Field: [23:22] SCLK_LF_OPTION
 //
 // Select source for SCLK_LF.
-// 0: XOSC_HF_DLF.
-// 31.25kHz clock derived from 24MHz XOSC. Requires user to reconfigure RTC
-// tick speed for correct timing. Standby power mode is not supported when
-// using this clock source.
-// 1: EXTERNAL.
-// External low frequency clock on DIO defined in EXT_LF_CLK.DIO. The RTC tick
-// speed AON_RTC.SUBSECINC is updated to EXT_LF_CLK.RTC_INCREMENT. External
-// clock must always be running when the chip is in standby for VDDR recharge
-// timing.
-// 2: XOSC_LF.
-// 32.768kHz low frequency XOSC
-// 3: RCOSC_LF.
-// Low frequency RCOSC (default)
+// ENUMs:
+// RCOSC_LF                 Low frequency RCOSC (default)
+// XOSC_LF                  32.768kHz low frequency XOSC
+// EXTERNAL_LF              External low frequency clock on DIO defined by
+//                          EXT_LF_CLK.DIO. The RTC tick speed
+//                          AON_RTC:SUBSECINC is updated to
+//                          EXT_LF_CLK.RTC_INCREMENT (done in the
+//                          trimDevice() xxWare boot function). External
+//                          clock must always be running when the chip is
+//                          in standby for VDDR recharge timing.
+// XOSC_HF_DLF              31.25kHz clock derived from 24MHz XOSC (dividing
+//                          by 768 in HW). The RTC tick speed
+//                          [AON_RTC.SUBSECINC.*] is updated to 0x8637BD,
+//                          corresponding to a 31.25kHz clock (done in the
+//                          trimDevice() xxWare boot function). Standby
+//                          power mode is not supported when using this
+//                          clock source.
+#define CCFG_MODE_CONF_SCLK_LF_OPTION_W                                      2
 #define CCFG_MODE_CONF_SCLK_LF_OPTION_M                             0x00C00000
 #define CCFG_MODE_CONF_SCLK_LF_OPTION_S                                     22
+#define CCFG_MODE_CONF_SCLK_LF_OPTION_RCOSC_LF                      0x00C00000
+#define CCFG_MODE_CONF_SCLK_LF_OPTION_XOSC_LF                       0x00800000
+#define CCFG_MODE_CONF_SCLK_LF_OPTION_EXTERNAL_LF                   0x00400000
+#define CCFG_MODE_CONF_SCLK_LF_OPTION_XOSC_HF_DLF                   0x00000000
+
+// Field:    [21] VDDR_TRIM_SLEEP_TC
+//
+// 0x1: VDDR_TRIM_SLEEP_DELTA is not temperature compensated
+// 0x0: RTOS/driver temperature compensates VDDR_TRIM_SLEEP_DELTA every time
+// standby mode is entered. This improves low-temperature RCOSC_LF frequency
+// stability in standby mode.
+//
+// When temperature compensation is performed, the delta is calculates this
+// way:
+// Delta = max (delta, min(8, floor(62-temp)/8))
+// Here, delta is given by VDDR_TRIM_SLEEP_DELTA, and temp is the current
+// temperature in degrees C.
+#define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_TC                           0x00200000
+#define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_TC_BITN                              21
+#define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_TC_M                         0x00200000
+#define CCFG_MODE_CONF_VDDR_TRIM_SLEEP_TC_S                                 21
 
 // Field:    [20] RTC_COMP
 //
@@ -370,8 +406,16 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+// ENUMs:
+// 24M                      24 MHz XOSC_HF
+// 48M                      48 MHz XOSC_HF
+// HPOSC                    HPOSC
+#define CCFG_MODE_CONF_XOSC_FREQ_W                                           2
 #define CCFG_MODE_CONF_XOSC_FREQ_M                                  0x000C0000
 #define CCFG_MODE_CONF_XOSC_FREQ_S                                          18
+#define CCFG_MODE_CONF_XOSC_FREQ_24M                                0x000C0000
+#define CCFG_MODE_CONF_XOSC_FREQ_48M                                0x00080000
+#define CCFG_MODE_CONF_XOSC_FREQ_HPOSC                              0x00040000
 
 // Field:    [17] XOSC_CAP_MOD
 //
@@ -398,6 +442,7 @@
 //
 // Signed 8-bit value, directly modifying trimmed XOSC cap-array step value.
 // Enabled by XOSC_CAP_MOD.
+#define CCFG_MODE_CONF_XOSC_CAPARRAY_DELTA_W                                 8
 #define CCFG_MODE_CONF_XOSC_CAPARRAY_DELTA_M                        0x0000FF00
 #define CCFG_MODE_CONF_XOSC_CAPARRAY_DELTA_S                                 8
 
@@ -412,6 +457,7 @@
 // NOTE! If using the following functions this field must be configured (used
 // by TI RTOS):
 // SysCtrlSetRechargeBeforePowerDown() SysCtrlAdjustRechargeAfterPowerDown()
+#define CCFG_MODE_CONF_VDDR_CAP_W                                            8
 #define CCFG_MODE_CONF_VDDR_CAP_M                                   0x000000FF
 #define CCFG_MODE_CONF_VDDR_CAP_S                                            0
 
@@ -425,6 +471,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_0_VDDR_EXT_TP45_W                                     8
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TP45_M                            0xFF000000
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TP45_S                                    24
 
@@ -433,6 +480,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_0_VDDR_EXT_TP25_W                                     8
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TP25_M                            0x00FF0000
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TP25_S                                    16
 
@@ -441,6 +489,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_0_VDDR_EXT_TP5_W                                      8
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TP5_M                             0x0000FF00
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TP5_S                                      8
 
@@ -449,6 +498,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_0_VDDR_EXT_TM15_W                                     8
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TM15_M                            0x000000FF
 #define CCFG_VOLT_LOAD_0_VDDR_EXT_TM15_S                                     0
 
@@ -462,6 +512,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_1_VDDR_EXT_TP125_W                                    8
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP125_M                           0xFF000000
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP125_S                                   24
 
@@ -470,6 +521,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_1_VDDR_EXT_TP105_W                                    8
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP105_M                           0x00FF0000
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP105_S                                   16
 
@@ -478,6 +530,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_1_VDDR_EXT_TP85_W                                     8
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP85_M                            0x0000FF00
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP85_S                                     8
 
@@ -486,6 +539,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_VOLT_LOAD_1_VDDR_EXT_TP65_W                                     8
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP65_M                            0x000000FF
 #define CCFG_VOLT_LOAD_1_VDDR_EXT_TP65_S                                     0
 
@@ -499,6 +553,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_RTC_OFFSET_RTC_COMP_P0_W                                       16
 #define CCFG_RTC_OFFSET_RTC_COMP_P0_M                               0xFFFF0000
 #define CCFG_RTC_OFFSET_RTC_COMP_P0_S                                       16
 
@@ -507,6 +562,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_RTC_OFFSET_RTC_COMP_P1_W                                        8
 #define CCFG_RTC_OFFSET_RTC_COMP_P1_M                               0x0000FF00
 #define CCFG_RTC_OFFSET_RTC_COMP_P1_S                                        8
 
@@ -515,6 +571,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_RTC_OFFSET_RTC_COMP_P2_W                                        8
 #define CCFG_RTC_OFFSET_RTC_COMP_P2_M                               0x000000FF
 #define CCFG_RTC_OFFSET_RTC_COMP_P2_S                                        0
 
@@ -528,6 +585,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_FREQ_OFFSET_HF_COMP_P0_W                                       16
 #define CCFG_FREQ_OFFSET_HF_COMP_P0_M                               0xFFFF0000
 #define CCFG_FREQ_OFFSET_HF_COMP_P0_S                                       16
 
@@ -536,6 +594,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_FREQ_OFFSET_HF_COMP_P1_W                                        8
 #define CCFG_FREQ_OFFSET_HF_COMP_P1_M                               0x0000FF00
 #define CCFG_FREQ_OFFSET_HF_COMP_P1_S                                        8
 
@@ -544,6 +603,7 @@
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
+#define CCFG_FREQ_OFFSET_HF_COMP_P2_W                                        8
 #define CCFG_FREQ_OFFSET_HF_COMP_P2_M                               0x000000FF
 #define CCFG_FREQ_OFFSET_HF_COMP_P2_S                                        0
 
@@ -557,6 +617,7 @@
 // Bits[31:0] of the 64-bits custom IEEE MAC address.
 // If different from 0xFFFFFFFF then the value of this field is applied;
 // otherwise use value from FCFG.
+#define CCFG_IEEE_MAC_0_ADDR_W                                              32
 #define CCFG_IEEE_MAC_0_ADDR_M                                      0xFFFFFFFF
 #define CCFG_IEEE_MAC_0_ADDR_S                                               0
 
@@ -570,6 +631,7 @@
 // Bits[63:32] of the 64-bits custom IEEE MAC address.
 // If different from 0xFFFFFFFF then the value of this field is applied;
 // otherwise use value from FCFG.
+#define CCFG_IEEE_MAC_1_ADDR_W                                              32
 #define CCFG_IEEE_MAC_1_ADDR_M                                      0xFFFFFFFF
 #define CCFG_IEEE_MAC_1_ADDR_S                                               0
 
@@ -583,6 +645,7 @@
 // Bits[31:0] of the 64-bits custom IEEE BLE address.
 // If different from 0xFFFFFFFF then the value of this field is applied;
 // otherwise use value from FCFG.
+#define CCFG_IEEE_BLE_0_ADDR_W                                              32
 #define CCFG_IEEE_BLE_0_ADDR_M                                      0xFFFFFFFF
 #define CCFG_IEEE_BLE_0_ADDR_S                                               0
 
@@ -596,6 +659,7 @@
 // Bits[63:32] of the 64-bits custom IEEE BLE address.
 // If different from 0xFFFFFFFF then the value of this field is applied;
 // otherwise use value from FCFG.
+#define CCFG_IEEE_BLE_1_ADDR_W                                              32
 #define CCFG_IEEE_BLE_1_ADDR_M                                      0xFFFFFFFF
 #define CCFG_IEEE_BLE_1_ADDR_S                                               0
 
@@ -611,6 +675,7 @@
 // conditions for boot loader backdoor are met).
 // 0xC5: Boot loader is enabled.
 // Any other value: Boot loader is disabled.
+#define CCFG_BL_CONFIG_BOOTLOADER_ENABLE_W                                   8
 #define CCFG_BL_CONFIG_BOOTLOADER_ENABLE_M                          0xFF000000
 #define CCFG_BL_CONFIG_BOOTLOADER_ENABLE_S                                  24
 
@@ -629,6 +694,7 @@
 //
 // DIO number that is level checked if the boot loader backdoor is enabled by
 // the BL_ENABLE field.
+#define CCFG_BL_CONFIG_BL_PIN_NUMBER_W                                       8
 #define CCFG_BL_CONFIG_BL_PIN_NUMBER_M                              0x0000FF00
 #define CCFG_BL_CONFIG_BL_PIN_NUMBER_S                                       8
 
@@ -640,6 +706,7 @@
 //
 // NOTE! Boot loader must be enabled (see BOOTLOADER_ENABLE) if boot loader
 // backdoor is enabled.
+#define CCFG_BL_CONFIG_BL_ENABLE_W                                           8
 #define CCFG_BL_CONFIG_BL_ENABLE_M                                  0x000000FF
 #define CCFG_BL_CONFIG_BL_ENABLE_S                                           0
 
@@ -689,6 +756,7 @@
 // option with the unlock code.
 // All other values: Disable the functionality of unlocking the TI FA option
 // with the unlock code.
+#define CCFG_CCFG_TI_OPTIONS_TI_FA_ENABLE_W                                  8
 #define CCFG_CCFG_TI_OPTIONS_TI_FA_ENABLE_M                         0x000000FF
 #define CCFG_CCFG_TI_OPTIONS_TI_FA_ENABLE_S                                  0
 
@@ -704,6 +772,7 @@
 // boot FW.
 // Any other value: Main CPU DAP access will remain disabled out of
 // power-up/system-reset.
+#define CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE_W                                 8
 #define CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE_M                        0x00FF0000
 #define CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE_S                                16
 
@@ -714,6 +783,7 @@
 // if enabled by corresponding configuration value in FCFG1 defined by TI.
 // Any other value: PRCM TAP access will remain disabled out of
 // power-up/system-reset.
+#define CCFG_CCFG_TAP_DAP_0_PRCM_TAP_ENABLE_W                                8
 #define CCFG_CCFG_TAP_DAP_0_PRCM_TAP_ENABLE_M                       0x0000FF00
 #define CCFG_CCFG_TAP_DAP_0_PRCM_TAP_ENABLE_S                                8
 
@@ -724,6 +794,7 @@
 // if enabled by corresponding configuration value in FCFG1 defined by TI.
 // Any other value: TEST TAP access will remain disabled out of
 // power-up/system-reset.
+#define CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE_W                                8
 #define CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE_M                       0x000000FF
 #define CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE_S                                0
 
@@ -739,6 +810,7 @@
 // FW if enabled by corresponding configuration value in FCFG1 defined by TI.
 // Any other value: PBIST2 TAP access will remain disabled out of
 // power-up/system-reset.
+#define CCFG_CCFG_TAP_DAP_1_PBIST2_TAP_ENABLE_W                              8
 #define CCFG_CCFG_TAP_DAP_1_PBIST2_TAP_ENABLE_M                     0x00FF0000
 #define CCFG_CCFG_TAP_DAP_1_PBIST2_TAP_ENABLE_S                             16
 
@@ -749,6 +821,7 @@
 // FW if enabled by corresponding configuration value in FCFG1 defined by TI.
 // Any other value: PBIST1 TAP access will remain disabled out of
 // power-up/system-reset.
+#define CCFG_CCFG_TAP_DAP_1_PBIST1_TAP_ENABLE_W                              8
 #define CCFG_CCFG_TAP_DAP_1_PBIST1_TAP_ENABLE_M                     0x0000FF00
 #define CCFG_CCFG_TAP_DAP_1_PBIST1_TAP_ENABLE_S                              8
 
@@ -759,6 +832,7 @@
 // if enabled by corresponding configuration value in FCFG1 defined by TI.
 // Any other value: WUC TAP access will remain disabled out of
 // power-up/system-reset.
+#define CCFG_CCFG_TAP_DAP_1_WUC_TAP_ENABLE_W                                 8
 #define CCFG_CCFG_TAP_DAP_1_WUC_TAP_ENABLE_M                        0x000000FF
 #define CCFG_CCFG_TAP_DAP_1_WUC_TAP_ENABLE_S                                 0
 
@@ -772,6 +846,7 @@
 // This field must have a value of 0x00000000 in order for enabling the boot
 // sequence to transfer control to a flash image.
 // A non-zero value forces the boot sequence to call the boot loader.
+#define CCFG_IMAGE_VALID_CONF_IMAGE_VALID_W                                 32
 #define CCFG_IMAGE_VALID_CONF_IMAGE_VALID_M                         0xFFFFFFFF
 #define CCFG_IMAGE_VALID_CONF_IMAGE_VALID_S                                  0
 

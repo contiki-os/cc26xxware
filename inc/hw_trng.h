@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       hw_trng_h
-*  Revised:        2015-05-13 16:18:38 +0200 (Wed, 13 May 2015)
-*  Revision:       43498
+*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
+*  Revision:       45056
 *
 * Copyright (c) 2015, Texas Instruments Incorporated
 * All rights reserved.
@@ -117,6 +117,7 @@
 // Field:  [31:0] VALUE_31_0
 //
 // LSW of 64- bit random value. New value ready when IRQFLAGSTAT.RDY = 1.
+#define TRNG_OUT0_VALUE_31_0_W                                              32
 #define TRNG_OUT0_VALUE_31_0_M                                      0xFFFFFFFF
 #define TRNG_OUT0_VALUE_31_0_S                                               0
 
@@ -128,6 +129,7 @@
 // Field:  [31:0] VALUE_63_32
 //
 // MSW of 64-bit random value. New value ready when IRQFLAGSTAT.RDY = 1.
+#define TRNG_OUT1_VALUE_63_32_W                                             32
 #define TRNG_OUT1_VALUE_63_32_M                                     0xFFFFFFFF
 #define TRNG_OUT1_VALUE_63_32_S                                              0
 
@@ -239,6 +241,7 @@
 //
 // This field can only be modified while TRNG_EN is 0. If 1 an update will be
 // ignored.
+#define TRNG_CTL_STARTUP_CYCLES_W                                           16
 #define TRNG_CTL_STARTUP_CYCLES_M                                   0xFFFF0000
 #define TRNG_CTL_STARTUP_CYCLES_S                                           16
 
@@ -303,6 +306,7 @@
 // 0xFFFF: 65535*2^8 samples
 //
 // This field can only be modified while CTL.TRNG_EN is 0.
+#define TRNG_CFG0_MAX_REFILL_CYCLES_W                                       16
 #define TRNG_CFG0_MAX_REFILL_CYCLES_M                               0xFFFF0000
 #define TRNG_CFG0_MAX_REFILL_CYCLES_S                                       16
 
@@ -317,6 +321,7 @@
 // conditions) has a cycle time less than twice the sample period.
 //
 // This field can only be modified while CTL.TRNG_EN is '0'.
+#define TRNG_CFG0_SMPL_DIV_W                                                 4
 #define TRNG_CFG0_SMPL_DIV_M                                        0x00000F00
 #define TRNG_CFG0_SMPL_DIV_S                                                 8
 
@@ -340,6 +345,7 @@
 // 0x02: 2*2^6 samples
 // ...
 // 0xFF: 255*2^6 samples
+#define TRNG_CFG0_MIN_REFILL_CYCLES_W                                        8
 #define TRNG_CFG0_MIN_REFILL_CYCLES_M                               0x000000FF
 #define TRNG_CFG0_MIN_REFILL_CYCLES_S                                        0
 
@@ -352,6 +358,7 @@
 //
 // Read-only, indicates the number of '1' bits in ALARMSTOP register.
 // The maximum value equals the number of FROs.
+#define TRNG_ALARMCNT_SHUTDOWN_CNT_W                                         6
 #define TRNG_ALARMCNT_SHUTDOWN_CNT_M                                0x3F000000
 #define TRNG_ALARMCNT_SHUTDOWN_CNT_S                                        24
 
@@ -359,6 +366,7 @@
 //
 // Threshold setting for generating IRQFLAGSTAT.SHUTDOWN_OVF interrupt. The
 // interrupt is triggered when SHUTDOWN_CNT value exceeds this bit field.
+#define TRNG_ALARMCNT_SHUTDOWN_THR_W                                         5
 #define TRNG_ALARMCNT_SHUTDOWN_THR_M                                0x001F0000
 #define TRNG_ALARMCNT_SHUTDOWN_THR_S                                        16
 
@@ -369,6 +377,7 @@
 // samples length) is detected continuously for the number of samples defined
 // by this field's value. Reset value 0xFF should keep the number of 'alarm
 // events' to a manageable level.
+#define TRNG_ALARMCNT_ALARM_THR_W                                            8
 #define TRNG_ALARMCNT_ALARM_THR_M                                   0x000000FF
 #define TRNG_ALARMCNT_ALARM_THR_S                                            0
 
@@ -385,6 +394,7 @@
 //
 // Bits are automatically forced to '0' here (and cannot be written to '1')
 // while the corresponding bit in  ALARMSTOP.FRO_FLAGS has value '1'.
+#define TRNG_FROEN_FRO_MASK_W                                               24
 #define TRNG_FROEN_FRO_MASK_M                                       0x00FFFFFF
 #define TRNG_FROEN_FRO_MASK_S                                                0
 
@@ -400,6 +410,7 @@
 // while the corresponding FRO is turned off (by temporarily writing a '0' in
 // the corresponding
 // bit of the FROEN.FRO_MASK register).
+#define TRNG_FRODETUNE_FRO_MASK_W                                           24
 #define TRNG_FRODETUNE_FRO_MASK_M                                   0x00FFFFFF
 #define TRNG_FRODETUNE_FRO_MASK_S                                            0
 
@@ -412,6 +423,7 @@
 //
 // Logging bits for the 'alarm events' of individual FROs. A '1' in bit [n]
 // indicates FRO 'n' experienced an 'alarm event'.
+#define TRNG_ALARMMASK_FRO_MASK_W                                           24
 #define TRNG_ALARMMASK_FRO_MASK_M                                   0x00FFFFFF
 #define TRNG_ALARMMASK_FRO_MASK_S                                            0
 
@@ -426,6 +438,7 @@
 // indicates FRO 'n' experienced more than one 'alarm event' in quick
 // succession and has been turned off. A '1' in this field forces the
 // corresponding bit in FROEN.FRO_MASK to '0'.
+#define TRNG_ALARMSTOP_FRO_FLAGS_W                                          24
 #define TRNG_ALARMSTOP_FRO_FLAGS_M                                  0x00FFFFFF
 #define TRNG_ALARMSTOP_FRO_FLAGS_S                                           0
 
@@ -439,6 +452,7 @@
 // Bits [31:0] of the main entropy accumulation LFSR. Register can only be
 // accessed when CTL.TEST_MODE  = 1.
 // Register contents will be cleared to zero before access is enabled.
+#define TRNG_LFSR0_LFSR_31_0_W                                              32
 #define TRNG_LFSR0_LFSR_31_0_M                                      0xFFFFFFFF
 #define TRNG_LFSR0_LFSR_31_0_S                                               0
 
@@ -452,6 +466,7 @@
 // Bits [63:32] of the main entropy accumulation LFSR. Register can only be
 // accessed when CTL.TEST_MODE = 1.
 // Register contents will be cleared to zero before access is enabled.
+#define TRNG_LFSR1_LFSR_63_32_W                                             32
 #define TRNG_LFSR1_LFSR_63_32_M                                     0xFFFFFFFF
 #define TRNG_LFSR1_LFSR_63_32_S                                              0
 
@@ -465,6 +480,7 @@
 // Bits [80:64] of the main entropy accumulation LFSR. Register can only be
 // accessed when CTL.TEST_MODE = 1.
 // Register contents will be cleared to zero before access is enabled.
+#define TRNG_LFSR2_LFSR_80_64_W                                             17
 #define TRNG_LFSR2_LFSR_80_64_M                                     0x0001FFFF
 #define TRNG_LFSR2_LFSR_80_64_S                                              0
 
@@ -476,6 +492,7 @@
 // Field:  [11:6] NR_OF_FROS
 //
 // Number of FROs implemented in this TRNG, value 24 (decimal).
+#define TRNG_HWOPT_NR_OF_FROS_W                                              6
 #define TRNG_HWOPT_NR_OF_FROS_M                                     0x00000FC0
 #define TRNG_HWOPT_NR_OF_FROS_S                                              6
 
@@ -487,12 +504,14 @@
 // Field: [27:24] HW_MAJOR_VER
 //
 // 4 bits binary encoding of the major hardware revision number.
+#define TRNG_HWVER0_HW_MAJOR_VER_W                                           4
 #define TRNG_HWVER0_HW_MAJOR_VER_M                                  0x0F000000
 #define TRNG_HWVER0_HW_MAJOR_VER_S                                          24
 
 // Field: [23:20] HW_MINOR_VER
 //
 // 4 bits binary encoding of the minor hardware revision number.
+#define TRNG_HWVER0_HW_MINOR_VER_W                                           4
 #define TRNG_HWVER0_HW_MINOR_VER_M                                  0x00F00000
 #define TRNG_HWVER0_HW_MINOR_VER_S                                          20
 
@@ -500,18 +519,21 @@
 //
 // 4 bits binary encoding of the hardware patch level, initial release will
 // carry value zero.
+#define TRNG_HWVER0_HW_PATCH_LVL_W                                           4
 #define TRNG_HWVER0_HW_PATCH_LVL_M                                  0x000F0000
 #define TRNG_HWVER0_HW_PATCH_LVL_S                                          16
 
 // Field:  [15:8] EIP_NUM_COMPL
 //
 // Bit-by-bit logic complement of bits [7:0]. This TRNG gives 0xB4.
+#define TRNG_HWVER0_EIP_NUM_COMPL_W                                          8
 #define TRNG_HWVER0_EIP_NUM_COMPL_M                                 0x0000FF00
 #define TRNG_HWVER0_EIP_NUM_COMPL_S                                          8
 
 // Field:   [7:0] EIP_NUM
 //
 // 8 bits binary encoding of the module number. This TRNG gives 0x4B.
+#define TRNG_HWVER0_EIP_NUM_W                                                8
 #define TRNG_HWVER0_EIP_NUM_M                                       0x000000FF
 #define TRNG_HWVER0_EIP_NUM_S                                                0
 
@@ -546,6 +568,7 @@
 // Field:   [7:0] REV
 //
 // The revision number of this module is Rev 2.0.
+#define TRNG_HWVER1_REV_W                                                    8
 #define TRNG_HWVER1_REV_M                                           0x000000FF
 #define TRNG_HWVER1_REV_S                                                    0
 

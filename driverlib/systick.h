@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       systick.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2015-11-16 19:41:47 +0100 (Mon, 16 Nov 2015)
+*  Revision:       45094
 *
 *  Description:    Prototypes for the SysTick driver.
 *
@@ -140,7 +140,7 @@ SysTickIntRegister(void (*pfnHandler)(void))
     //
     // Register the interrupt handler, returning an error if an error occurs.
     //
-    IntRegister(FAULT_SYSTICK, pfnHandler);
+    IntRegister(INT_SYSTICK, pfnHandler);
 
     //
     // Enable the SysTick interrupt.
@@ -172,7 +172,7 @@ SysTickIntUnregister(void)
     //
     // Unregister the interrupt handler.
     //
-    IntUnregister(FAULT_SYSTICK);
+    IntUnregister(INT_SYSTICK);
 }
 
 //*****************************************************************************

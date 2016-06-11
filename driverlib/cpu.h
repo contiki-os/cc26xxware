@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       cpu.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-01-06 15:55:48 +0100 (Wed, 06 Jan 2016)
+*  Revision:       45385
 *
 *  Description:    Defines and prototypes for the CPU instruction wrapper
 *                  functions.
@@ -63,6 +63,8 @@ extern "C"
 #include <stdbool.h>
 #include <stdint.h>
 #include <inc/hw_types.h>
+#include <inc/hw_memmap.h>
+#include <inc/hw_cpu_scs.h>
 
 //*****************************************************************************
 //
@@ -139,7 +141,7 @@ extern uint32_t CPUcpsie(void);
 //! \return None
 //
 //*****************************************************************************
-#if defined(__IAR_SYSTEMS_ICC__) || defined(DOXYGEN)
+#if defined(__IAR_SYSTEMS_ICC__)
 __STATIC_INLINE void
 CPUwfi(void)
 {
@@ -158,7 +160,7 @@ CPUwfi(void)
     wfi;
     bx      lr
 }
-#elif defined(__TI_COMPILER_VERSION__)
+#elif defined(__TI_COMPILER_VERSION__) || defined(DOXYGEN)
 __STATIC_INLINE void
 CPUwfi(void)
 {
@@ -188,7 +190,7 @@ CPUwfi(void)
 //! \return None
 //
 //*****************************************************************************
-#if defined(__IAR_SYSTEMS_ICC__) || defined(DOXYGEN)
+#if defined(__IAR_SYSTEMS_ICC__)
 __STATIC_INLINE void
 CPUwfe(void)
 {
@@ -207,7 +209,7 @@ CPUwfe(void)
     wfe;
     bx      lr
 }
-#elif defined(__TI_COMPILER_VERSION__)
+#elif defined(__TI_COMPILER_VERSION__) || defined(DOXYGEN)
 __STATIC_INLINE void
 CPUwfe(void)
 {
@@ -237,7 +239,7 @@ CPUwfe(void)
 //! \return None
 //
 //*****************************************************************************
-#if defined(__IAR_SYSTEMS_ICC__) || defined(DOXYGEN)
+#if defined(__IAR_SYSTEMS_ICC__)
 __STATIC_INLINE void
 CPUsev(void)
 {
@@ -256,7 +258,7 @@ CPUsev(void)
     sev;
     bx      lr
 }
-#elif defined(__TI_COMPILER_VERSION__)
+#elif defined(__TI_COMPILER_VERSION__) || defined(DOXYGEN)
 __STATIC_INLINE void
 CPUsev(void)
 {
@@ -289,7 +291,7 @@ CPUsev(void)
 //! \return None
 //
 //*****************************************************************************
-#if defined(__IAR_SYSTEMS_ICC__) || defined(DOXYGEN)
+#if defined(__IAR_SYSTEMS_ICC__)
 __STATIC_INLINE void
 CPUbasepriSet(uint32_t ui32NewBasepri)
 {
@@ -308,7 +310,7 @@ CPUbasepriSet(uint32_t ui32NewBasepri)
     msr     BASEPRI, r0;
     bx      lr
 }
-#elif defined(__TI_COMPILER_VERSION__)
+#elif defined(__TI_COMPILER_VERSION__) || defined(DOXYGEN)
 __STATIC_INLINE void
 CPUbasepriSet(uint32_t ui32NewBasepri)
 {
@@ -360,6 +362,46 @@ extern uint32_t CPUbasepriGet(void);
 //
 //*****************************************************************************
 extern void CPUdelay(uint32_t ui32Count);
+
+//*****************************************************************************
+//
+//! \brief Disable CPU write buffering (recommended for debug purpose only).
+//!
+//! This function helps debugging "bus fault crashes".
+//! Disables write buffer use during default memory map accesses.
+//!
+//! This causes all bus faults to be precise bus faults but decreases the
+//! performance of the processor because the stores to memory have to complete
+//! before the next instruction can be executed.
+//!
+//! \return None
+//!
+//! \sa \ref CPU_WriteBufferEnable()
+//
+//*****************************************************************************
+__STATIC_INLINE void
+CPU_WriteBufferDisable( void )
+{
+    HWREGBITW( CPU_SCS_BASE + CPU_SCS_O_ACTLR, CPU_SCS_ACTLR_DISDEFWBUF_BITN ) = 1;
+}
+
+//*****************************************************************************
+//
+//! \brief Enable CPU write buffering (default setting).
+//!
+//! Re-enables write buffer during default memory map accesses if
+//! \ref CPU_WriteBufferDisable() has been used for bus fault debugging.
+//!
+//! \return None
+//!
+//! \sa \ref CPU_WriteBufferDisable()
+//
+//*****************************************************************************
+__STATIC_INLINE void
+CPU_WriteBufferEnable( void )
+{
+    HWREGBITW( CPU_SCS_BASE + CPU_SCS_O_ACTLR, CPU_SCS_ACTLR_DISDEFWBUF_BITN ) = 0;
+}
 
 //*****************************************************************************
 //

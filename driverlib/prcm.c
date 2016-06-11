@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       prcm.c
-*  Revised:        2015-05-11 10:13:03 +0200 (Mon, 11 May 2015)
-*  Revision:       43466
+*  Revised:        2015-09-09 11:55:59 +0200 (Wed, 09 Sep 2015)
+*  Revision:       44536
 *
 *  Description:    Driver for the PRCM.
 *
@@ -346,7 +346,6 @@ PRCMAudioClockConfigSet(uint32_t ui32ClkConfig, uint32_t ui32SampleRate)
 //! Configure the audio clock generation with manual setting of clock divider.
 //
 //*****************************************************************************
-
 void
 PRCMAudioClockConfigSetOverride(uint32_t ui32ClkConfig, uint32_t ui32MstDiv,
                         uint32_t ui32BitDiv, uint32_t ui32WordDiv)

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       chipinfo.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
+*  Revision:       46052
 *
 *  Description:    Collection of functions returning chip information.
 *
@@ -144,7 +144,9 @@ typedef enum {
    PACKAGE_Unknown   = -1, //!< -1 means that current chip type is unknown.
    PACKAGE_4x4       =  0, //!<  0 means that this is a 4x4mm chip.
    PACKAGE_5x5       =  1, //!<  1 means that this is a 5x5mm chip.
-   PACKAGE_7x7       =  2  //!<  2 means that this is a 7x7mm chip.
+   PACKAGE_7x7       =  2, //!<  2 means that this is a 7x7mm chip.
+   PACKAGE_WAFER     =  3, //!<  3 means that this is a wafer sale chip (naked die).
+   PACKAGE_WCSP      =  4  //!<  4 means that this is a WCSP chip (flip chip).
 } PackageType_t;
 
 //*****************************************************************************
@@ -199,6 +201,34 @@ ChipInfo_PackageTypeIs7x7( void )
    return ( ChipInfo_GetPackageType() == PACKAGE_7x7 );
 }
 
+//*****************************************************************************
+//
+//! \brief Returns true if this is a wafer sale chip (naked die).
+//!
+//! \return
+//! Returns \c true if this is a wafer sale chip, \c false otherwise.
+//
+//*****************************************************************************
+__STATIC_INLINE bool
+ChipInfo_PackageTypeIsWAFER( void )
+{
+   return ( ChipInfo_GetPackageType() == PACKAGE_WAFER );
+}
+
+//*****************************************************************************
+//
+//! \brief Returns true if this is a WCSP chip (flip chip).
+//!
+//! \return
+//! Returns \c true if this is a WCSP chip, \c false otherwise.
+//
+//*****************************************************************************
+__STATIC_INLINE bool
+ChipInfo_PackageTypeIsWCSP( void )
+{
+   return ( ChipInfo_GetPackageType() == PACKAGE_WCSP );
+}
+
 
 //*****************************************************************************
 //
@@ -249,7 +279,9 @@ typedef enum {
    FAMILY_Unknown       = -1, //!< -1 means that the chip's family member is unknown.
    FAMILY_CC26xx        =  0, //!<  0 means that the chip is a CC26xx family member.
    FAMILY_CC13xx        =  1, //!<  1 means that the chip is a CC13xx family member.
-   FAMILY_CC26xxLizard  =  2  //!<  2 means that the chip is a CC26xxLizard family member.
+   FAMILY_CC26xxLizard  =  2, //!<  2 means that the chip is a CC26xxLizard family member.
+   FAMILY_CC26xxAgama   =  3, //!<  3 means that the chip is a CC26xxAgama family member.
+   FAMILY_CC26xxR2      =  4  //!<  4 means that the chip is a CC26xxR2 family (new ROM contents).
 } ChipFamily_t;
 
 //*****************************************************************************
@@ -292,6 +324,20 @@ ChipInfo_ChipFamilyIsCC13xx( void )
 
 //*****************************************************************************
 //
+//! \brief Returns true if this chip is member of the CC26xxR2 family.
+//!
+//! \return
+//! Returns \c true if this chip is member of the CC26xxR2 family, \c false otherwise.
+//
+//*****************************************************************************
+__STATIC_INLINE bool
+ChipInfo_ChipFamilyIsCC26xxR2( void )
+{
+   return ( ChipInfo_GetChipFamily() == FAMILY_CC26xxR2 );
+}
+
+//*****************************************************************************
+//
 //! \brief Returns true if this chip is member of the CC26xxLizard family.
 //!
 //! \return
@@ -302,6 +348,20 @@ __STATIC_INLINE bool
 ChipInfo_ChipFamilyIsCC26xxLizard( void )
 {
    return ( ChipInfo_GetChipFamily() == FAMILY_CC26xxLizard );
+}
+
+//*****************************************************************************
+//
+//! \brief Returns true if this chip is member of the CC26xxAgama family.
+//!
+//! \return
+//! Returns \c true if this chip is member of the CC26xxAgama family, \c false otherwise.
+//
+//*****************************************************************************
+__STATIC_INLINE bool
+ChipInfo_ChipFamilyIsCC26xxAgama( void )
+{
+   return ( ChipInfo_GetChipFamily() == FAMILY_CC26xxAgama );
 }
 
 //*****************************************************************************
@@ -386,6 +446,20 @@ ChipInfo_HwRevisionIs_2_1( void )
 
 //*****************************************************************************
 //
+//! \brief Returns true if HW revision for this chip is 2.1 or greater.
+//!
+//! \return
+//! Returns \c true if HW revision for this chip is 2.1 or greater, \c false otherwise.
+//
+//*****************************************************************************
+__STATIC_INLINE bool
+ChipInfo_HwRevisionIs_GTEQ_2_1( void )
+{
+   return ( ChipInfo_GetHwRevision() >= HWREV_2_1 );
+}
+
+//*****************************************************************************
+//
 //! \brief Returns true if HW revision for this chip is 2.2.
 //!
 //! \return
@@ -410,6 +484,20 @@ __STATIC_INLINE bool
 ChipInfo_HwRevisionIs_GTEQ_2_2( void )
 {
    return ( ChipInfo_GetHwRevision() >= HWREV_2_2 );
+}
+
+//*****************************************************************************
+//
+//! \brief Returns true if HW revision for this chip is 2.3 or greater.
+//!
+//! \return
+//! Returns \c true if HW revision for this chip is 2.3 or greater, \c false otherwise.
+//
+//*****************************************************************************
+__STATIC_INLINE bool
+ChipInfo_HwRevisionIs_GTEQ_2_3( void )
+{
+   return ( ChipInfo_GetHwRevision() >= HWREV_2_3 );
 }
 
 

@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       udma.h
-*  Revised:        2015-08-03 10:40:26 +0200 (Mon, 03 Aug 2015)
-*  Revision:       44307
+*  Revised:        2015-11-17 09:50:14 +0100 (Tue, 17 Nov 2015)
+*  Revision:       45101
 *
 *  Description:    Defines and prototypes for the uDMA controller.
 *
@@ -294,8 +294,6 @@ tDMAControlTable;
 #define UDMA_CHAN_UART0_TX      2   // UART0 RX Data
 #define UDMA_CHAN_SSI0_RX       3   // SSI0 RX Data
 #define UDMA_CHAN_SSI0_TX       4   // SSI0 RX Data
-#define UDMA_CHAN_SPIS_RX       5   // SPIS RX Data
-#define UDMA_CHAN_SPIS_TX       6   // SPIS RX Data
 #define UDMA_CHAN_AUX_ADC       7   // AUX ADC event
 #define UDMA_CHAN_AUX_SW        8   // AUX Software event
 #define UDMA_CHAN_TIMER0_A      9   // Timer0 A event
@@ -962,9 +960,9 @@ extern uint32_t uDMAChannelModeGet(uint32_t ui32Base,
 //!
 //! \param ui32Base is the base address of the uDMA port.
 //! \param ui32IntChannel identifies which uDMA interrupt is to be registered.
-//! - \b INT_UDMA    : Register an interrupt handler to process interrupts
+//! - \b INT_DMA_DONE_COMB : Register an interrupt handler to process interrupts
 //!   from the uDMA software channel.
-//! - \b INT_UDMAERR : Register an interrupt handler to process uDMA error
+//! - \b INT_DMA_ERR : Register an interrupt handler to process uDMA error
 //!   interrupts.
 //! \param pfnHandler is a pointer to the function to be called when the
 //! interrupt is activated.
@@ -984,7 +982,7 @@ uDMAIntRegister(uint32_t ui32Base, uint32_t ui32IntChannel,
     //
     ASSERT(uDMABaseValid(ui32Base));
     ASSERT(pfnHandler);
-    ASSERT((ui32IntChannel == INT_UDMA) || (ui32IntChannel == INT_UDMAERR));
+    ASSERT((ui32IntChannel == INT_DMA_DONE_COMB) || (ui32IntChannel == INT_DMA_ERR));
 
     //
     // Register the interrupt handler.
@@ -1006,9 +1004,9 @@ uDMAIntRegister(uint32_t ui32Base, uint32_t ui32IntChannel,
 //!
 //! \param ui32Base is the base address of the uDMA port.
 //! \param ui32IntChannel identifies which uDMA interrupt to unregister.
-//! - \b INT_UDMA    : Register an interrupt handler to process interrupts
+//! - \b INT_DMA_DONE_COMB : Register an interrupt handler to process interrupts
 //!   from the uDMA software channel.
-//! - \b INT_UDMAERR : Register an interrupt handler to process uDMA error
+//! - \b INT_DMA_ERR : Register an interrupt handler to process uDMA error
 //!   interrupts.
 //!
 //! \return None
@@ -1024,7 +1022,7 @@ uDMAIntUnregister(uint32_t ui32Base, uint32_t ui32IntChannel)
     // Check the arguments.
     //
     ASSERT(uDMABaseValid(ui32Base));
-    ASSERT((ui32IntChannel == INT_UDMA) || (ui32IntChannel == INT_UDMAERR));
+    ASSERT((ui32IntChannel == INT_DMA_DONE_COMB) || (ui32IntChannel == INT_DMA_ERR));
 
     //
     // Disable the interrupt.
