@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       sys_ctrl.h
-*  Revised:        2015-11-09 11:32:42 +0100 (Mon, 09 Nov 2015)
-*  Revision:       45004
+*  Revised:        2016-05-18 11:09:10 +0200 (Wed, 18 May 2016)
+*  Revision:       46396
 *
 *  Description:    Defines and prototypes for the System Controller.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -104,9 +104,9 @@ extern "C"
 //*****************************************************************************
 #if !defined(DOXYGEN)
     #define SysCtrlPowerEverything          NOROM_SysCtrlPowerEverything
-    #define SysCtrlStandby                  NOROM_SysCtrlStandby
-    #define SysCtrlPowerdown                NOROM_SysCtrlPowerdown
-    #define SysCtrlShutdown                 NOROM_SysCtrlShutdown
+    #define SysCtrlSetRechargeBeforePowerDown NOROM_SysCtrlSetRechargeBeforePowerDown
+    #define SysCtrlAdjustRechargeAfterPowerDown NOROM_SysCtrlAdjustRechargeAfterPowerDown
+    #define SysCtrl_DCDC_VoltageConditionalControl NOROM_SysCtrl_DCDC_VoltageConditionalControl
     #define SysCtrlResetSourceGet           NOROM_SysCtrlResetSourceGet
 #endif
 
@@ -159,53 +159,6 @@ extern void SysCtrlPowerEverything(void);
 
 //*****************************************************************************
 //
-//! \brief Force the system into standby mode.
-//!
-//! \note The sequencing in this function is not necessarily how you would
-//! want to sequence the standby in a real application. There might be
-//! application specific prerequisites you would want to do before entering
-//! standby which deviate from this specific implementation.
-//!
-//! \return None
-//
-//*****************************************************************************
-extern void SysCtrlStandby(void);
-
-//*****************************************************************************
-//
-//! \brief Force the system into power down.
-//!
-//! \note The sequencing in this function is not necessarily how you would
-//! want to sequence the powerdown in a real application. There might be
-//! application specific prerequisites you would want to do before entering
-//! powerdown which deviate from this specific implementation.
-//!
-//! \return None
-//
-//*****************************************************************************
-extern void SysCtrlPowerdown(void);
-
-//*****************************************************************************
-//
-//! \brief Force the system into shutdown.
-//!
-//! \note It is solely the programmer's responsibility to properly configure an
-//! interrupt that will enable the device to wakeup from the shutdown mode,
-//! before calling this function. In shutdown the only possible wakeup action
-//! is an IO interrupt.
-//!
-//! \note The sequencing in this function is not necessarily how you would
-//! want to sequence the shutdown in a real application. There might be
-//! application specific prerequisites you would want to do before entering
-//! shutdown which deviate from this specific implementation.
-//!
-//! \return This function does \b not return.
-//
-//*****************************************************************************
-extern void SysCtrlShutdown(void);
-
-//*****************************************************************************
-//
 //! \brief Get the CPU core clock frequency.
 //!
 //! Use this function to get the current clock frequency for the CPU.
@@ -224,7 +177,6 @@ SysCtrlClockGet( void )
     //
     return( GET_MCU_CLOCK );
 }
-
 
 //*****************************************************************************
 //
@@ -302,8 +254,7 @@ SysCtrlAonUpdate(void)
 //! \return None
 //
 //*****************************************************************************
-void
-SysCtrlSetRechargeBeforePowerDown( uint32_t xoscPowerMode );
+extern void SysCtrlSetRechargeBeforePowerDown( uint32_t xoscPowerMode );
 
 
 //*****************************************************************************
@@ -320,15 +271,12 @@ SysCtrlSetRechargeBeforePowerDown( uint32_t xoscPowerMode );
 //! \note
 //! Special care must be taken to make sure that the AON registers read are
 //! updated after the wakeup. Writing to an AON register and then calling
-//! \ref SysCtrlAonSync() will handle this. Typically this must be done anyway,
-//! for example by calling \ref AONWUCAuxWakeupEvent() and then later on calling
-//! \ref SysCtrlAonSync() just before calling \ref SysCtrlSetRechargeBeforePowerDown().
+//! \ref SysCtrlAonSync() will handle this.
 //!
 //! \return None
 //
 //*****************************************************************************
-void
-SysCtrlAdjustRechargeAfterPowerDown( void );
+extern void SysCtrlAdjustRechargeAfterPowerDown( void );
 
 
 //*****************************************************************************
@@ -346,8 +294,7 @@ SysCtrlAdjustRechargeAfterPowerDown( void );
 //! \return None
 //
 //*****************************************************************************
-void
-SysCtrl_DCDC_VoltageConditionalControl( void );
+extern void SysCtrl_DCDC_VoltageConditionalControl( void );
 
 
 //*****************************************************************************
@@ -454,17 +401,17 @@ SysCtrlClockLossResetDisable(void)
         #undef  SysCtrlPowerEverything
         #define SysCtrlPowerEverything          ROM_SysCtrlPowerEverything
     #endif
-    #ifdef ROM_SysCtrlStandby
-        #undef  SysCtrlStandby
-        #define SysCtrlStandby                  ROM_SysCtrlStandby
+    #ifdef ROM_SysCtrlSetRechargeBeforePowerDown
+        #undef  SysCtrlSetRechargeBeforePowerDown
+        #define SysCtrlSetRechargeBeforePowerDown ROM_SysCtrlSetRechargeBeforePowerDown
     #endif
-    #ifdef ROM_SysCtrlPowerdown
-        #undef  SysCtrlPowerdown
-        #define SysCtrlPowerdown                ROM_SysCtrlPowerdown
+    #ifdef ROM_SysCtrlAdjustRechargeAfterPowerDown
+        #undef  SysCtrlAdjustRechargeAfterPowerDown
+        #define SysCtrlAdjustRechargeAfterPowerDown ROM_SysCtrlAdjustRechargeAfterPowerDown
     #endif
-    #ifdef ROM_SysCtrlShutdown
-        #undef  SysCtrlShutdown
-        #define SysCtrlShutdown                 ROM_SysCtrlShutdown
+    #ifdef ROM_SysCtrl_DCDC_VoltageConditionalControl
+        #undef  SysCtrl_DCDC_VoltageConditionalControl
+        #define SysCtrl_DCDC_VoltageConditionalControl ROM_SysCtrl_DCDC_VoltageConditionalControl
     #endif
     #ifdef ROM_SysCtrlResetSourceGet
         #undef  SysCtrlResetSourceGet

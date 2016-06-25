@@ -1,9 +1,9 @@
 /******************************************************************************
 *  Filename:       hw_ccfg_h
-*  Revised:        2016-01-12 15:03:57 +0100 (Tue, 12 Jan 2016)
-*  Revision:       45433
+*  Revised:        2016-03-14 09:20:59 +0100 (Mon, 14 Mar 2016)
+*  Revision:       45924
 *
-* Copyright (c) 2015, Texas Instruments Incorporated
+* Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -221,14 +221,26 @@
 #define CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_M                      0xFFFF0000
 #define CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_S                              16
 
-// Field:  [15:3] DISABLE_FLAGS
+// Field:  [15:4] DISABLE_FLAGS
 //
 // Reserved for future use. Software should not rely on the value of a
 // reserved. Writing any other value than the reset/default value may result in
 // undefined behavior.
-#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_W                             13
-#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M                     0x0000FFF8
-#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S                              3
+#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_W                             12
+#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M                     0x0000FFF0
+#define CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S                              4
+
+// Field:     [3] DIS_TCXO
+//
+// Disable TCXO.
+// 0: TCXO functionality enabled.
+// 1: TCXO functionality disabled.
+// Note:
+// An external TCXO is required if DIS_TCXO = 0.
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO                            0x00000008
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO_BITN                                3
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO_M                          0x00000008
+#define CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO_S                                   3
 
 // Field:     [2] DIS_GPRAM
 //

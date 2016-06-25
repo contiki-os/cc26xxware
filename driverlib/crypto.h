@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       crypto.h
-*  Revised:        2015-11-16 19:41:47 +0100 (Mon, 16 Nov 2015)
-*  Revision:       45094
+*  Revised:        2016-04-24 00:47:02 +0200 (Sun, 24 Apr 2016)
+*  Revision:       46129
 *
 *  Description:    AES header file.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -84,6 +84,8 @@ extern "C"
 //*****************************************************************************
 #if !defined(DOXYGEN)
     #define CRYPTOAesLoadKey                NOROM_CRYPTOAesLoadKey
+    #define CRYPTOAesCbc                    NOROM_CRYPTOAesCbc
+    #define CRYPTOAesCbcStatus              NOROM_CRYPTOAesCbcStatus
     #define CRYPTOAesEcb                    NOROM_CRYPTOAesEcb
     #define CRYPTOAesEcbStatus              NOROM_CRYPTOAesEcbStatus
     #define CRYPTOCcmAuthEncrypt            NOROM_CRYPTOCcmAuthEncrypt
@@ -115,8 +117,8 @@ extern "C"
 #define CRYPTO_KEY_ST_WR_ERR    0x40000000  // Key Store Write failed
 #define CRYPTO_KEY_ST_RD_ERR    0x20000000  // Key Store Read failed
 
-#define CRYPTO_INT_LEVEL        0x00000001  // Crypto Level interrupt enabled
-#define CRYPTO_INT_PULSE        0x00000000  // Crypto pulse interrupt enabled
+#define CRYPTO_IRQTYPE_LEVEL    0x00000001  // Crypto Level interrupt enabled
+#define CRYPTO_IRQTYPE_PULSE    0x00000000  // Crypto pulse interrupt enabled
 
 #define CRYPTO_DMA_CHAN0        0x00000001  // Crypto DMA Channel 0
 #define CRYPTO_DMA_CHAN1        0x00000002  // Crypto DMA Channel 1
@@ -159,7 +161,7 @@ extern "C"
 //
 // For 128 bit key all 8 Key Area locations from 0 to 8 are valid
 // However for 192 bit and 256 bit keys, only even Key Areas 0, 2, 4, 6
-// are valid. This is passes as a parameter to AesECBStart()
+// are valid.
 //
 //*****************************************************************************
 #define CRYPTO_KEY_AREA_0       0
@@ -181,6 +183,7 @@ extern "C"
 #define CRYPTO_AES_ECB          2
 #define CRYPTO_AES_CCM          3
 #define CRYPTO_AES_RNG          4
+#define CRYPTO_AES_CBC          5
 
 //*****************************************************************************
 //
@@ -226,6 +229,61 @@ extern "C"
 //*****************************************************************************
 extern uint32_t CRYPTOAesLoadKey(uint32_t *pui32AesKey,
                                  uint32_t ui32KeyLocation);
+
+//*****************************************************************************
+//
+//! \brief Start an AES-CBC operation (encryption or decryption).
+//!
+//! The function starts an AES CBC mode encypt or decrypt operation.
+//! End operation can be deteced by enabling interrupt or by polling
+//! CRYPTOAesCbcStatus(). Result of operation is returned by CRYPTOAesCbcStatus().
+//!
+//! \param pui32MsgIn is a pointer to the input data.
+//! \param pui32MsgOut is a pointer to the output data.
+//! \param ui32MsgLength is the length in bytes of the input data.
+//! \param pui32Nonce is a pointer to 16-byte Nonce.
+//! \param ui32KeyLocation is the location of the key in Key RAM.
+//! This parameter can have any of the following values:
+//! - \ref CRYPTO_KEY_AREA_0
+//! - \ref CRYPTO_KEY_AREA_1
+//! - \ref CRYPTO_KEY_AREA_2
+//! - \ref CRYPTO_KEY_AREA_3
+//! - \ref CRYPTO_KEY_AREA_4
+//! - \ref CRYPTO_KEY_AREA_5
+//! - \ref CRYPTO_KEY_AREA_6
+//! - \ref CRYPTO_KEY_AREA_7
+//! \param bEncrypt is set \c true to encrypt or set \c false to decrypt.
+//! \param bIntEnable is set \c true to enable Crypto interrupts or \c false to
+//! disable Crypto interrupt.
+//!
+//! \return Returns status of the AES-CBC operation:
+//! - \ref AES_SUCCESS
+//! - \ref AES_KEYSTORE_READ_ERROR
+//!
+//! \sa \ref CRYPTOAesCbcStatus()
+//
+//*****************************************************************************
+extern uint32_t CRYPTOAesCbc(uint32_t *pui32MsgIn, uint32_t *pui32MsgOut,
+                             uint32_t ui32MsgLength, uint32_t *pui32Nonce,
+                             uint32_t ui32KeyLocation, bool bEncrypt,
+                             bool bIntEnable);
+
+//*****************************************************************************
+//
+//! \brief Check the result of an AES CBC operation.
+//!
+//! This function should be called after \ref CRYPTOAesCbc() function to
+//! check if the AES CBC operation was successful.
+//!
+//! \return Returns the status of the AES CBC operation:
+//! - \ref AES_SUCCESS       : Successful.
+//! - \ref AES_DMA_BUS_ERROR : Failed.
+//! - \ref AES_DMA_BSY       : Operation is ongoing.
+//!
+//! \sa \ref CRYPTOAesCbc()
+//
+//*****************************************************************************
+extern uint32_t CRYPTOAesCbcStatus(void);
 
 //*****************************************************************************
 //
@@ -292,6 +350,29 @@ extern uint32_t CRYPTOAesEcbStatus(void);
 //*****************************************************************************
 __STATIC_INLINE void
 CRYPTOAesEcbFinish(void)
+{
+    //
+    // Result has already been copied to the output buffer by DMA.
+    // Disable master control/DMA clock and clear the operating mode.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_ALGSEL) = 0x00000000;
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESCTL) = 0x00000000;
+}
+
+//*****************************************************************************
+//
+//! \brief Finish the encryption operation by resetting the operation mode.
+//!
+//! This function should be called after \ref CRYPTOAesCbcStatus() has reported
+//! that the operation is finished successfully.
+//!
+//! \return None
+//!
+//! \sa \ref CRYPTOAesCbcStatus()
+//
+//*****************************************************************************
+__STATIC_INLINE void
+CRYPTOAesCbcFinish(void)
 {
     //
     // Result has already been copied to the output buffer by DMA.
@@ -539,7 +620,7 @@ CRYPTOIntEnable(uint32_t ui32IntFlags)
     //
     // Using level interrupt.
     //
-    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_INT_LEVEL;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_IRQTYPE_LEVEL;
 
     //
     // Enable the specified interrupts.
@@ -731,6 +812,14 @@ CRYPTOIntUnregister(void)
     #ifdef ROM_CRYPTOAesLoadKey
         #undef  CRYPTOAesLoadKey
         #define CRYPTOAesLoadKey                ROM_CRYPTOAesLoadKey
+    #endif
+    #ifdef ROM_CRYPTOAesCbc
+        #undef  CRYPTOAesCbc
+        #define CRYPTOAesCbc                    ROM_CRYPTOAesCbc
+    #endif
+    #ifdef ROM_CRYPTOAesCbcStatus
+        #undef  CRYPTOAesCbcStatus
+        #define CRYPTOAesCbcStatus              ROM_CRYPTOAesCbcStatus
     #endif
     #ifdef ROM_CRYPTOAesEcb
         #undef  CRYPTOAesEcb

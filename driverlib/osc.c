@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       osc.c
-*  Revised:        2015-11-18 16:59:03 +0100 (Wed, 18 Nov 2015)
-*  Revision:       45131
+*  Revised:        2016-05-27 10:06:10 +0200 (Fri, 27 May 2016)
+*  Revision:       46521
 *
 *  Description:    Driver for setting up the system Oscillators
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -54,8 +54,22 @@
     #define OSCClockSourceSet               NOROM_OSCClockSourceSet
     #undef  OSCClockSourceGet
     #define OSCClockSourceGet               NOROM_OSCClockSourceGet
-    #undef  OSCInterfaceEnable
-    #define OSCInterfaceEnable              NOROM_OSCInterfaceEnable
+    #undef  OSCHF_GetStartupTime
+    #define OSCHF_GetStartupTime            NOROM_OSCHF_GetStartupTime
+    #undef  OSCHF_TurnOnXosc
+    #define OSCHF_TurnOnXosc                NOROM_OSCHF_TurnOnXosc
+    #undef  OSCHF_AttemptToSwitchToXosc
+    #define OSCHF_AttemptToSwitchToXosc     NOROM_OSCHF_AttemptToSwitchToXosc
+    #undef  OSCHF_SwitchToRcOscTurnOffXosc
+    #define OSCHF_SwitchToRcOscTurnOffXosc  NOROM_OSCHF_SwitchToRcOscTurnOffXosc
+    #undef  OSCHF_DebugGetCrystalAmplitude
+    #define OSCHF_DebugGetCrystalAmplitude  NOROM_OSCHF_DebugGetCrystalAmplitude
+    #undef  OSCHF_DebugGetExpectedAverageCrystalAmplitude
+    #define OSCHF_DebugGetExpectedAverageCrystalAmplitude NOROM_OSCHF_DebugGetExpectedAverageCrystalAmplitude
+    #undef  OSC_HPOSCRelativeFrequencyOffsetGet
+    #define OSC_HPOSCRelativeFrequencyOffsetGet NOROM_OSC_HPOSCRelativeFrequencyOffsetGet
+    #undef  OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert
+    #define OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert NOROM_OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert
 #endif
 
 //*****************************************************************************
@@ -76,6 +90,7 @@ typedef struct {
 } OscHfGlobals_t;
 
 static OscHfGlobals_t oscHfGlobals;
+
 
 //*****************************************************************************
 //
@@ -169,30 +184,6 @@ OSCClockSourceGet(uint32_t ui32SrcClk)
     }
     return (ui32ClockSource);
 }
-
-//*****************************************************************************
-//
-// Enable System CPU access to the OSC_DIG module
-//
-//*****************************************************************************
-void
-OSCInterfaceEnable(void)
-{
-    //
-    // Force power on AUX to ensure CPU has access
-    //
-    AONWUCAuxWakeupEvent(AONWUC_AUX_WAKEUP);
-    while(!(AONWUCPowerStatusGet() & AONWUC_AUX_POWER_ON))
-    { }
-
-    //
-    // Enable the AUX domain OSC clock and wait for it to be ready
-    //
-    AUXWUCClockEnable(AUX_WUC_OSCCTRL_CLOCK);
-    while(AUXWUCClockStatus(AUX_WUC_OSCCTRL_CLOCK) != AUX_WUC_CLOCK_READY)
-    { }
-}
-
 
 //*****************************************************************************
 //
@@ -398,4 +389,62 @@ OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert( int32_t HPOSC_RelFreqOffs
    int32_t rfCoreFreqOffset = -HPOSC_RelFreqOffset + (( HPOSC_RelFreqOffset * HPOSC_RelFreqOffset ) >> 22 );
 
    return ( rfCoreFreqOffset );
+}
+
+//*****************************************************************************
+//
+// Get crystal amplitude (assuming crystal is running).
+//
+//*****************************************************************************
+uint32_t
+OSCHF_DebugGetCrystalAmplitude( void )
+{
+   uint32_t oscCfgRegCopy  ;
+   uint32_t startTime      ;
+   uint32_t deltaTime      ;
+   uint32_t ampValue       ;
+
+   //
+   // The specified method is as follows:
+   // 1. Set minimum interval between oscillator amplitude calibrations.
+   //    (Done by setting PER_M=0 and PER_E=1)
+   // 2. Wait approximately 4 milliseconds in order to measure over a
+   //    moderately large number of calibrations.
+   // 3. Read out the crystal amplitude value from the peek detector.
+   // 4. Restore original oscillator amplitude calibrations interval.
+   // 5. Return crystal amplitude value converted to millivolt.
+   //
+   oscCfgRegCopy = HWREG( AON_WUC_BASE + AON_WUC_O_OSCCFG );
+   HWREG( AON_WUC_BASE + AON_WUC_O_OSCCFG ) = ( 1 << AON_WUC_OSCCFG_PER_E_S );
+   startTime = AONRTCCurrentCompareValueGet();
+   do {
+      deltaTime = AONRTCCurrentCompareValueGet() - startTime;
+   } while ( deltaTime < ((uint32_t)( 0.004 * FACTOR_SEC_TO_COMP_VAL_FORMAT )));
+   ampValue = ( HWREG( AUX_DDI0_OSC_BASE + DDI_0_OSC_O_STAT1 ) &
+      DDI_0_OSC_STAT1_HPM_UPDATE_AMP_M ) >>
+      DDI_0_OSC_STAT1_HPM_UPDATE_AMP_S ;
+   HWREG( AON_WUC_BASE + AON_WUC_O_OSCCFG ) = oscCfgRegCopy;
+
+   return ( ampValue * 15 );
+}
+
+//*****************************************************************************
+//
+// Get the expected average crystal amplitude.
+//
+//*****************************************************************************
+uint32_t
+OSCHF_DebugGetExpectedAverageCrystalAmplitude( void )
+{
+   uint32_t ampCompTh1    ;
+   uint32_t highThreshold ;
+   uint32_t lowThreshold  ;
+
+   ampCompTh1 = HWREG( AUX_DDI0_OSC_BASE + DDI_0_OSC_O_AMPCOMPTH1 );
+   highThreshold = ( ampCompTh1 & DDI_0_OSC_AMPCOMPTH1_HPMRAMP3_HTH_M ) >>
+                                  DDI_0_OSC_AMPCOMPTH1_HPMRAMP3_HTH_S ;
+   lowThreshold  = ( ampCompTh1 & DDI_0_OSC_AMPCOMPTH1_HPMRAMP3_LTH_M ) >>
+                                  DDI_0_OSC_AMPCOMPTH1_HPMRAMP3_LTH_S ;
+
+   return ((( highThreshold + lowThreshold ) * 15 ) >> 1 );
 }

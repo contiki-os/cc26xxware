@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rf_ble_mailbox.h
-*  Revised:        2016-02-18 12:46:56 +0100 (Thu, 18 Feb 2016)
-*  Revision:       45712
+*  Revised:        $ $
+*  Revision:       $ $
 *
-*  Description:    Definitions for BLE mode radio interface
+*  Description:    Definitions for BLE interface
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -36,50 +36,11 @@
 *
 ******************************************************************************/
 
-#ifndef __BLE_MAILBOX_H
-#define __BLE_MAILBOX_H
+#ifndef _BLE_MAILBOX_H
+#define _BLE_MAILBOX_H
 
-#include <driverlib/rf_mailbox.h>
-
-/// \name CPE interrupt definitions for BLE
-/// Interrupt masks for the CPE interrupt in RDBELL. These are new names for interrupts in rf_mailbox.h,
-/// used for compartibility with previous versions with separate interrupt numbers.
+/// \name Radio operation status
 ///@{
-#define IRQN_BLE_TX_DONE            IRQN_TX_DONE
-#define IRQN_BLE_TX_ACK             IRQN_TX_ACK
-#define IRQN_BLE_TX_CTRL            IRQN_TX_CTRL
-#define IRQN_BLE_TX_CTRL_ACK        IRQN_TX_CTRL_ACK
-#define IRQN_BLE_TX_CTRL_ACK_ACK    IRQN_TX_CTRL_ACK_ACK
-#define IRQN_BLE_TX_RETRANS         IRQN_TX_RETRANS
-#define IRQN_BLE_TX_ENTRY_DONE      IRQN_TX_ENTRY_DONE
-#define IRQN_BLE_TX_BUFFER_CHANGED  IRQN_TX_BUFFER_CHANGED
-#define IRQN_BLE_RX_OK              IRQN_RX_OK
-#define IRQN_BLE_RX_NOK             IRQN_RX_NOK
-#define IRQN_BLE_RX_IGNORED         IRQN_RX_IGNORED
-#define IRQN_BLE_RX_EMPTY           IRQN_RX_EMPTY
-#define IRQN_BLE_RX_CTRL            IRQN_RX_CTRL
-#define IRQN_BLE_RX_CTRL_ACK        IRQN_RX_CTRL_ACK
-#define IRQN_BLE_RX_BUF_FULL        IRQN_RX_BUF_FULL
-#define IRQN_BLE_RX_ENTRY_DONE      IRQN_RX_ENTRY_DONE
-
-#define IRQ_BLE_TX_DONE             (1U << IRQN_BLE_TX_DONE)
-#define IRQ_BLE_TX_ACK              (1U << IRQN_BLE_TX_ACK)
-#define IRQ_BLE_TX_CTRL             (1U << IRQN_BLE_TX_CTRL)
-#define IRQ_BLE_TX_CTRL_ACK         (1U << IRQN_BLE_TX_CTRL_ACK)
-#define IRQ_BLE_TX_CTRL_ACK_ACK     (1U << IRQN_BLE_TX_CTRL_ACK_ACK)
-#define IRQ_BLE_TX_RETRANS          (1U << IRQN_BLE_TX_RETRANS)
-#define IRQ_BLE_TX_ENTRY_DONE       (1U << IRQN_BLE_TX_ENTRY_DONE)
-#define IRQ_BLE_TX_BUFFER_CHANGED   (1U << IRQN_BLE_TX_BUFFER_CHANGED)
-#define IRQ_BLE_RX_OK               (1U << IRQN_BLE_RX_OK)
-#define IRQ_BLE_RX_NOK              (1U << IRQN_BLE_RX_NOK)
-#define IRQ_BLE_RX_IGNORED          (1U << IRQN_BLE_RX_IGNORED)
-#define IRQ_BLE_RX_EMPTY            (1U << IRQN_BLE_RX_EMPTY)
-#define IRQ_BLE_RX_CTRL             (1U << IRQN_BLE_RX_CTRL)
-#define IRQ_BLE_RX_CTRL_ACK         (1U << IRQN_BLE_RX_CTRL_ACK)
-#define IRQ_BLE_RX_BUF_FULL         (1U << IRQN_BLE_RX_BUF_FULL)
-#define IRQ_BLE_RX_ENTRY_DONE       (1U << IRQN_BLE_RX_ENTRY_DONE)
-///@}
-
 /// \name Operation finished normally
 ///@{
 #define BLE_DONE_OK             0x1400  ///< Operation ended normally

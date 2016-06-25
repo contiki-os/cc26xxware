@@ -1,9 +1,9 @@
 /******************************************************************************
 *  Filename:       hw_ssi_h
-*  Revised:        2015-11-16 12:30:01 +0100 (Mon, 16 Nov 2015)
-*  Revision:       45078
+*  Revised:        2016-03-14 09:20:59 +0100 (Mon, 14 Mar 2016)
+*  Revision:       45924
 *
-* Copyright (c) 2015, Texas Instruments Incorporated
+* Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without

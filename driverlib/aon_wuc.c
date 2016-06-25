@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       aon_wuc.c
-*  Revised:        2015-04-28 11:13:22 +0200 (Tue, 28 Apr 2015)
-*  Revision:       43340
+*  Revised:        2016-03-04 16:49:38 +0100 (Fri, 04 Mar 2016)
+*  Revision:       45874
 *
 *  Description:    Driver for the AON Wake-Up Controller.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without

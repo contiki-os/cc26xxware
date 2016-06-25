@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       prcm.c
-*  Revised:        2015-09-09 11:55:59 +0200 (Wed, 09 Sep 2015)
-*  Revision:       44536
+*  Revised:        2016-03-04 16:49:38 +0100 (Fri, 04 Mar 2016)
+*  Revision:       45874
 *
 *  Description:    Driver for the PRCM.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without

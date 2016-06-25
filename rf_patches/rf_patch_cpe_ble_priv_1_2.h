@@ -71,9 +71,10 @@ extern "C"
 
 
 CPE_PATCH_TYPE patchImageBlePriv12[] = {
-   0x210005a1,
-   0x210005ed,
-   0x2100066d,
+   0x210005c5,
+   0x21000611,
+   0x21000691,
+   0x2100047d,
    0x4c17b5f0,
    0x18612140,
    0x280278c8,
@@ -100,6 +101,14 @@ CPE_PATCH_TYPE patchImageBlePriv12[] = {
    0xbd104780,
    0x21000254,
    0x0000398b,
+   0x4905b510,
+   0xb6724a05,
+   0x280178c8,
+   0x2001dc02,
+   0x1d127048,
+   0x4710b662,
+   0x21000294,
+   0x0000476d,
    0x4d53b5fe,
    0x462c4628,
    0x90003040,
@@ -190,9 +199,9 @@ CPE_PATCH_TYPE patchImageBlePriv12[] = {
    0x0000be03,
    0x0000b98d,
    0x0000ccc0,
-   0x21000555,
-   0x2100053f,
-   0x21000479,
+   0x21000579,
+   0x21000563,
+   0x2100049d,
    0x4e1ab5f8,
    0x6b314605,
    0x09cc4819,
@@ -236,12 +245,12 @@ CPE_PATCH_TYPE patchImageBlePriv12[] = {
    0x2100026b,
    0x40046058,
 };
-#define _NWORD_PATCHIMAGE_BLE_PRIV_1_2 164
+#define _NWORD_PATCHIMAGE_BLE_PRIV_1_2 173
 
 #define _NWORD_PATCHSYS_BLE_PRIV_1_2 0
 
-#define _IRQ_PATCH_0 0x21000411
-#define _IRQ_PATCH_1 0x21000451
+#define _IRQ_PATCH_0 0x21000415
+#define _IRQ_PATCH_1 0x21000455
 
 
 #ifndef _BLE_PRIV_1_2_SYSRAM_START
@@ -281,6 +290,7 @@ PATCH_FUN_SPEC void configureBlePriv12Patch(void)
    pPatchTab[1] = 0;
    pPatchTab[103] = 1;
    pPatchTab[60] = 2;
+   pPatchTab[48] = 3;
 
    pIrqPatch[1] = _IRQ_PATCH_0;
    pIrqPatch[9] = _IRQ_PATCH_1;

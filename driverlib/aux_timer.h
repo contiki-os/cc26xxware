@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       aux_timer.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-02-24 14:08:55 +0100 (Wed, 24 Feb 2016)
+*  Revision:       45767
 *
 *  Description:    Defines and prototypes for the AUX Timer
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -153,21 +153,21 @@ extern "C"
 //
 //*****************************************************************************
 #define AUX_TIMER_PRESCALE_DIV_1      0x00000000  // Prescale division ratio 1
-#define AUX_TIMER_PRESCALE_DIV_2      0x00000010  // Prescale division ratio 2
-#define AUX_TIMER_PRESCALE_DIV_4      0x00000020  // Prescale division ratio 4
-#define AUX_TIMER_PRESCALE_DIV_8      0x00000030  // Prescale division ratio 8
-#define AUX_TIMER_PRESCALE_DIV_16     0x00000040  // Prescale division ratio 16
-#define AUX_TIMER_PRESCALE_DIV_32     0x00000050  // Prescale division ratio 32
-#define AUX_TIMER_PRESCALE_DIV_64     0x00000060  // Prescale division ratio 64
-#define AUX_TIMER_PRESCALE_DIV_128    0x00000070  // Prescale division ratio 128
-#define AUX_TIMER_PRESCALE_DIV_256    0x00000080  // Prescale division ratio 256
-#define AUX_TIMER_PRESCALE_DIV_512    0x00000090  // Prescale division ratio 512
-#define AUX_TIMER_PRESCALE_DIV_1028   0x000000A0  // Prescale div. ratio 1028
-#define AUX_TIMER_PRESCALE_DIV_2048   0x000000B0  // Prescale div. ratio 2048
-#define AUX_TIMER_PRESCALE_DIV_4096   0x000000C0  // Prescale div. ratio 4096
-#define AUX_TIMER_PRESCALE_DIV_8192   0x000000D0  // Prescale div. ratio 8192
-#define AUX_TIMER_PRESCALE_DIV_16384  0x000000E0  // Prescale div. ratio 16384
-#define AUX_TIMER_PRESCALE_DIV_32768  0x000000F0  // Prescale div. ratio 32768
+#define AUX_TIMER_PRESCALE_DIV_2      0x00000001  // Prescale division ratio 2
+#define AUX_TIMER_PRESCALE_DIV_4      0x00000002  // Prescale division ratio 4
+#define AUX_TIMER_PRESCALE_DIV_8      0x00000003  // Prescale division ratio 8
+#define AUX_TIMER_PRESCALE_DIV_16     0x00000004  // Prescale division ratio 16
+#define AUX_TIMER_PRESCALE_DIV_32     0x00000005  // Prescale division ratio 32
+#define AUX_TIMER_PRESCALE_DIV_64     0x00000006  // Prescale division ratio 64
+#define AUX_TIMER_PRESCALE_DIV_128    0x00000007  // Prescale division ratio 128
+#define AUX_TIMER_PRESCALE_DIV_256    0x00000008  // Prescale division ratio 256
+#define AUX_TIMER_PRESCALE_DIV_512    0x00000009  // Prescale division ratio 512
+#define AUX_TIMER_PRESCALE_DIV_1028   0x0000000A  // Prescale div. ratio 1028
+#define AUX_TIMER_PRESCALE_DIV_2048   0x0000000B  // Prescale div. ratio 2048
+#define AUX_TIMER_PRESCALE_DIV_4096   0x0000000C  // Prescale div. ratio 4096
+#define AUX_TIMER_PRESCALE_DIV_8192   0x0000000D  // Prescale div. ratio 8192
+#define AUX_TIMER_PRESCALE_DIV_16384  0x0000000E  // Prescale div. ratio 16384
+#define AUX_TIMER_PRESCALE_DIV_32768  0x0000000F  // Prescale div. ratio 32768
 
 //*****************************************************************************
 //

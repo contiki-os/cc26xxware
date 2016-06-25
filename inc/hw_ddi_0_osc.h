@@ -1,9 +1,9 @@
 /******************************************************************************
 *  Filename:       hw_ddi_0_osc_h
-*  Revised:        2015-12-03 09:20:10 +0100 (Thu, 03 Dec 2015)
-*  Revision:       45256
+*  Revised:        2016-05-03 09:51:53 +0200 (Tue, 03 May 2016)
+*  Revision:       46239
 *
-* Copyright (c) 2015, Texas Instruments Incorporated
+* Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -163,11 +163,7 @@
 
 // Field:    [14] HPOSC_MODE_EN
 //
-// 0: HPOSC mode is not enabled.  The high frequency crystal is assumed to be
-// used as the synth reference clock.
-// 1: Enables 'HPOSC' mode.  When used the high frequency crystal clock is
-// assumed to be replaced with a HPOSC resonator. The synth reference clock
-// will come from the HPOSC.
+// Internal. Only to be used through TI provided API.
 #define DDI_0_OSC_CTL0_HPOSC_MODE_EN                                0x00004000
 #define DDI_0_OSC_CTL0_HPOSC_MODE_EN_M                              0x00004000
 #define DDI_0_OSC_CTL0_HPOSC_MODE_EN_S                                      14
@@ -859,18 +855,27 @@
 #define DDI_0_OSC_STAT1_RAMPSTATE_INITIALIZATION                    0x10000000
 #define DDI_0_OSC_STAT1_RAMPSTATE_RESET                             0x00000000
 
-// Field: [27:22] HMP_UPDATE_AMP
+// Field: [27:22] HPM_UPDATE_AMP
 //
 // OSC amplitude during HPM_UPDATE state.
-// The vaue is an unsigned interger. It is used for debug only.
-#define DDI_0_OSC_STAT1_HMP_UPDATE_AMP_W                                     6
-#define DDI_0_OSC_STAT1_HMP_UPDATE_AMP_M                            0x0FC00000
-#define DDI_0_OSC_STAT1_HMP_UPDATE_AMP_S                                    22
+// When amplitude compensation of XOSC_HF is enabled in high performance mode,
+// this value is the amplitude of the crystal oscillations measured by the
+// on-chip oscillator ADC, divided by 15 mV.  For example, a value of 0x20
+// would indicate that the crystal's amplitude is approximately 480 mV.  To
+// enable amplitude compensation, AON_WUC OSCCFG must be set to a non-zero
+// value.
+#define DDI_0_OSC_STAT1_HPM_UPDATE_AMP_W                                     6
+#define DDI_0_OSC_STAT1_HPM_UPDATE_AMP_M                            0x0FC00000
+#define DDI_0_OSC_STAT1_HPM_UPDATE_AMP_S                                    22
 
 // Field: [21:16] LPM_UPDATE_AMP
 //
 // OSC amplitude during LPM_UPDATE state
-// The vaue is an unsigned interger. It is used for debug only.
+// When amplitude compensation of XOSC_HF is enabled in low power  mode, this
+// value is the amplitude of the crystal oscillations measured by the on-chip
+// oscillator ADC, divided by 15 mV.  For example, a value of 0x20 would
+// indicate that the crystal's amplitude is approximately 480 mV.  To enable
+// amplitude compensation, AON_WUC OSCCFG must be set to a non-zero value.
 #define DDI_0_OSC_STAT1_LPM_UPDATE_AMP_W                                     6
 #define DDI_0_OSC_STAT1_LPM_UPDATE_AMP_M                            0x003F0000
 #define DDI_0_OSC_STAT1_LPM_UPDATE_AMP_S                                    16

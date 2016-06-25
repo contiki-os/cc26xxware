@@ -1,12 +1,12 @@
 /******************************************************************************
 *  Filename:       cpu.c
-*  Revised:        2016-01-06 15:55:48 +0100 (Wed, 06 Jan 2016)
-*  Revision:       45385
+*  Revised:        2016-05-30 10:10:45 +0200 (Mon, 30 May 2016)
+*  Revision:       46548
 *
 *  Description:    Instruction wrappers for special CPU instructions needed by
 *                  the drivers.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -361,7 +361,6 @@ CPUbasepriGet(void)
     return(ui32Ret);
 }
 #endif
-
 //*****************************************************************************
 //
 //! Provide a small delay

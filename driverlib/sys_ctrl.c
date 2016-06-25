@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       sys_ctrl.c
-*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
-*  Revision:       46052
+*  Revised:        2016-05-25 14:45:26 +0200 (Wed, 25 May 2016)
+*  Revision:       46492
 *
 *  Description:    Driver for the System Control.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -42,9 +42,8 @@
 // Driverlib headers
 #include <driverlib/aon_batmon.h>
 #include <driverlib/sys_ctrl.h>
+#include <driverlib/setup.h>
 
-// Prototype from setup.c
-int32_t SignExtendVddrTrimValue( uint32_t ui32VddrTrimVal );
 
 //*****************************************************************************
 //
@@ -55,12 +54,12 @@ int32_t SignExtendVddrTrimValue( uint32_t ui32VddrTrimVal );
 #if !defined(DOXYGEN)
     #undef  SysCtrlPowerEverything
     #define SysCtrlPowerEverything          NOROM_SysCtrlPowerEverything
-    #undef  SysCtrlStandby
-    #define SysCtrlStandby                  NOROM_SysCtrlStandby
-    #undef  SysCtrlPowerdown
-    #define SysCtrlPowerdown                NOROM_SysCtrlPowerdown
-    #undef  SysCtrlShutdown
-    #define SysCtrlShutdown                 NOROM_SysCtrlShutdown
+    #undef  SysCtrlSetRechargeBeforePowerDown
+    #define SysCtrlSetRechargeBeforePowerDown NOROM_SysCtrlSetRechargeBeforePowerDown
+    #undef  SysCtrlAdjustRechargeAfterPowerDown
+    #define SysCtrlAdjustRechargeAfterPowerDown NOROM_SysCtrlAdjustRechargeAfterPowerDown
+    #undef  SysCtrl_DCDC_VoltageConditionalControl
+    #define SysCtrl_DCDC_VoltageConditionalControl NOROM_SysCtrl_DCDC_VoltageConditionalControl
     #undef  SysCtrlResetSourceGet
     #define SysCtrlResetSourceGet           NOROM_SysCtrlResetSourceGet
 #endif
@@ -111,6 +110,7 @@ static const uint32_t g_pui32ModuleCG[] =
     PRCM_PERIPH_GPIO,
     PRCM_PERIPH_I2S
 };
+
 
 //*****************************************************************************
 //
@@ -211,118 +211,6 @@ SysCtrlPowerEverything(void)
 
 //*****************************************************************************
 //
-//! Force the system in to standby mode
-//
-//*****************************************************************************
-void SysCtrlStandby(void)
-{
-    //
-    // Enable the oscillator configuration interface
-    //
-    OSCInterfaceEnable();
-
-    //
-    // Ensure the low frequency clock source is sourced from a low frequency
-    // oscillator. The XTAL will provide the most accurate real time clock.
-    //
-    OSCClockSourceSet(OSC_SRC_CLK_LF,OSC_XOSC_LF);
-
-    //
-    // Enable the oscillator configuration interface
-    //
-    OSCInterfaceDisable();
-
-    //
-    // Execute the transition to standby
-    //
-    PowerCtrlStateSet(PWRCTRL_STANDBY);
-}
-
-//*****************************************************************************
-//
-//! Force the system in to power down.
-//
-//*****************************************************************************
-void
-SysCtrlPowerdown(void)
-{
-    //
-    // Make sure the oscillator interface is enabled
-    //
-    OSCInterfaceEnable();
-
-    //
-    // Source the LF clock from the low frequency XTAL_OSC.
-    // HF and MF are sourced from the high frequency RC_OSC.
-    //
-    OSCClockSourceSet(OSC_SRC_CLK_LF, OSC_XOSC_LF);
-    OSCClockSourceSet(OSC_SRC_CLK_MF | OSC_SRC_CLK_HF, OSC_RCOSC_HF);
-
-    //
-    // Check if already sourcing the HF clock from RC_OSC.
-    // If a switch of the clock source is not required, then the call to ROM
-    // will loop forever.
-    //
-    if(OSCClockSourceGet(OSC_SRC_CLK_HF) != OSC_RCOSC_HF)
-    {
-        OSCHfSourceSwitch();
-    }
-
-    //
-    // Disable the oscillator interface
-    //
-    OSCInterfaceDisable();
-
-    //
-    // Execute the transition to power down.
-    //
-    PowerCtrlStateSet(PWRCTRL_POWER_DOWN);
-}
-
-//*****************************************************************************
-//
-//! Force the system in to shutdown.
-//
-//*****************************************************************************
-void
-SysCtrlShutdown(void)
-{
-    //
-    // Make sure the oscillator interface is enabled
-    //
-    OSCInterfaceEnable();
-
-    //
-    // Source the LF clock from the low frequency RC_OSC.
-    // HF and MF are sourced from the high frequency RC_OSC.
-    //
-    OSCClockSourceSet(OSC_SRC_CLK_LF, OSC_RCOSC_LF);
-    OSCClockSourceSet(OSC_SRC_CLK_MF | OSC_SRC_CLK_HF, OSC_RCOSC_HF);
-
-    //
-    // Check if already sourcing the HF clock from RC_OSC.
-    // If a switch of the clock source is not required, then the call to ROM
-    // will loop forever.
-    //
-    if(OSCClockSourceGet(OSC_SRC_CLK_HF) != OSC_RCOSC_HF)
-    {
-        OSCHfSourceSwitch();
-    }
-
-    //
-    // Disable the oscillator interface
-    //
-    OSCInterfaceDisable();
-
-    //
-    // Execute transition to shutdown.
-    //
-    PowerCtrlStateSet(PWRCTRL_SHUTDOWN);
-}
-
-
-//*****************************************************************************
-//
 // SysCtrlSetRechargeBeforePowerDown( xoscPowerMode )
 //
 //*****************************************************************************
@@ -380,11 +268,11 @@ SysCtrlSetRechargeBeforePowerDown( uint32_t xoscPowerMode )
       if ( tcDelta > deltaVddrSleepTrim ) deltaVddrSleepTrim = tcDelta;
    }
    {
-      vddrTrimSleep = SignExtendVddrTrimValue((
+      vddrTrimSleep = SetupSignExtendVddrTrimValue((
          HWREG( FCFG1_BASE + FCFG1_O_LDO_TRIM ) &
          FCFG1_LDO_TRIM_VDDR_TRIM_SLEEP_M ) >>
          FCFG1_LDO_TRIM_VDDR_TRIM_SLEEP_S ) ;
-      vddrTrimActve = SignExtendVddrTrimValue((
+      vddrTrimActve = SetupSignExtendVddrTrimValue((
          HWREG( FCFG1_BASE + FCFG1_O_SHDW_ANA_TRIM ) &
          FCFG1_SHDW_ANA_TRIM_VDDR_TRIM_M ) >>
          FCFG1_SHDW_ANA_TRIM_VDDR_TRIM_S ) ;

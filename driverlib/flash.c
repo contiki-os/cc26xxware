@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       flash.c
-*  Revised:        2015-11-02 14:35:00 +0100 (Mon, 02 Nov 2015)
-*  Revision:       44906
+*  Revised:        2016-05-24 08:16:34 +0200 (Tue, 24 May 2016)
+*  Revision:       46447
 *
 *  Description:    Driver for on chip Flash.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@
 ******************************************************************************/
 
 #include <inc/hw_types.h>
+#include <inc/hw_ccfg.h>
 #include <driverlib/flash.h>
 #include <driverlib/rom.h>
 #include <driverlib/chipinfo.h>
@@ -67,6 +68,18 @@
     #undef  FlashDisableSectorsForWrite
     #define FlashDisableSectorsForWrite     NOROM_FlashDisableSectorsForWrite
 #endif
+
+
+//*****************************************************************************
+//
+// Defines for accesses to the security control in the customer configuration
+// area in flash top sector.
+//
+//*****************************************************************************
+#define CCFG_OFFSET_SECURITY   CCFG_O_BL_CONFIG
+#define CCFG_OFFSET_SECT_PROT  CCFG_O_CCFG_PROT_31_0
+#define CCFG_SIZE_SECURITY     0x00000014
+#define CCFG_SIZE_SECT_PROT    0x00000004
 
 //*****************************************************************************
 //

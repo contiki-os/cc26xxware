@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rfc.c
-*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
-*  Revision:       46052
+*  Revised:        2016-05-27 08:27:46 +0200 (Fri, 27 May 2016)
+*  Revision:       46517
 *
 *  Description:    Driver for the RF Core.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,32 @@
 ******************************************************************************/
 
 #include <driverlib/rfc.h>
+#include <string.h>
+
+//*****************************************************************************
+//
+// Handle support for DriverLib in ROM:
+// This section will undo prototype renaming made in the header file
+//
+//*****************************************************************************
+#if !defined(DOXYGEN)
+    #undef  RFCCpeIntGetAndClear
+    #define RFCCpeIntGetAndClear            NOROM_RFCCpeIntGetAndClear
+    #undef  RFCDoorbellSendTo
+    #define RFCDoorbellSendTo               NOROM_RFCDoorbellSendTo
+    #undef  RFCSynthPowerDown
+    #define RFCSynthPowerDown               NOROM_RFCSynthPowerDown
+    #undef  RFCRfTrimRead
+    #define RFCRfTrimRead                   NOROM_RFCRfTrimRead
+    #undef  RFCRfTrimSet
+    #define RFCRfTrimSet                    NOROM_RFCRfTrimSet
+    #undef  RFCRTrim
+    #define RFCRTrim                        NOROM_RFCRTrim
+    #undef  RFCCPEPatchReset
+    #define RFCCPEPatchReset                NOROM_RFCCPEPatchReset
+    #undef  RFCAdi3VcoLdoVoltageMode
+    #define RFCAdi3VcoLdoVoltageMode        NOROM_RFCAdi3VcoLdoVoltageMode
+#endif
 
 #define RFC_RESERVED0               0x40044108
 #define RFC_RESERVED1               0x40044114
@@ -47,19 +73,26 @@
 #define CONFIG_MISC_ADC_DIVIDER             27
 #define CONFIG_MISC_ADC_DIVIDER_BM  0xF8000000U
 
-// RTrim positions
-#define FCFG1_O_CONFIG_MISC_ADC_PO_TAIL_RES_TRIM_M 0x003C0000
-#define FCFG1_O_CONFIG_MISC_ADC_PO_TAIL_RES_TRIM_S 18
-#define FCFG1_O_CONFIG_MISC_ADC_DIV6_PO_TAIL_RES_TRIM_M 0x003C0000
-#define FCFG1_O_CONFIG_MISC_ADC_DIV6_PO_TAIL_RES_TRIM_S 18
-#define FCFG1_O_CONFIG_MISC_ADC_DIV10_PO_TAIL_RES_TRIM_M 0x003C0000
-#define FCFG1_O_CONFIG_MISC_ADC_DIV10_PO_TAIL_RES_TRIM_S 18
-#define FCFG1_O_CONFIG_MISC_ADC_DIV12_PO_TAIL_RES_TRIM_M 0x003C0000
-#define FCFG1_O_CONFIG_MISC_ADC_DIV12_PO_TAIL_RES_TRIM_S 18
-#define FCFG1_O_CONFIG_MISC_ADC_DIV15_PO_TAIL_RES_TRIM_M 0x003C0000
-#define FCFG1_O_CONFIG_MISC_ADC_DIV15_PO_TAIL_RES_TRIM_S 18
-#define FCFG1_O_CONFIG_MISC_ADC_DIV30_PO_TAIL_RES_TRIM_M 0x003C0000
-#define FCFG1_O_CONFIG_MISC_ADC_DIV30_PO_TAIL_RES_TRIM_S 18
+#define _CPERAM_START 0x21000000
+#define _PARSER_PATCH_TAB_OFFSET 0x0334
+#define _PATCH_TAB_OFFSET 0x033C
+#define _IRQPATCH_OFFSET 0x03AC
+#define _PATCH_VEC_OFFSET 0x0404
+
+static const uint16_t rfc_defaultIrqAddr[] =
+{
+   0x398b,
+   0x3805,
+   0x3825,
+   0x3839,
+   0x0acf,
+   0x3857,
+   0x38d7,
+   0x09dd,
+   0x5819,
+   0x0ab3,
+   0x38f7,
+};
 
 //*****************************************************************************
 //
@@ -146,7 +179,7 @@ void RFCRfTrimRead(rfc_radioOp_t *pOpSetup, rfTrim_t* pRfTrim)
 //*****************************************************************************
 void RFCRTrim(rfc_radioOp_t *pOpSetup)
 {
- // Function is left blank due to
+ // Function is left blank for compatibility with CC13xx.
 }
 
 
@@ -159,6 +192,38 @@ void RFCRfTrimSet(rfTrim_t* pRfTrim)
 {
     memcpy((void*)&HWREG(0x21000018), (void*)pRfTrim, sizeof(rfTrim_t));
 }
+
+
+//*****************************************************************************
+//
+// Reset previously patched CPE RAM to a state where it can be patched again
+//
+//*****************************************************************************
+void RFCCPEPatchReset(void)
+{
+    uint8_t *pPatchTab = (uint8_t *) (_CPERAM_START + _PARSER_PATCH_TAB_OFFSET);
+    uint32_t *pIrqPatch = (uint32_t *) (_CPERAM_START + _IRQPATCH_OFFSET);
+
+    memset(pPatchTab, 0xFF, _IRQPATCH_OFFSET - _PARSER_PATCH_TAB_OFFSET);
+
+	int i;
+    for (i = 0; i < sizeof(rfc_defaultIrqAddr)/sizeof(rfc_defaultIrqAddr[0]); i++)
+    {
+        pIrqPatch[i * 2 + 1] = rfc_defaultIrqAddr[i];
+    }
+}
+
+
+//*****************************************************************************
+//
+// Function to set VCOLDO reference to voltage mode
+//
+//*****************************************************************************
+void RFCAdi3VcoLdoVoltageMode(bool bEnable)
+{
+ // Function is left blank for compatibility with CC13xx.
+}
+
 
 
 //*****************************************************************************
@@ -180,6 +245,10 @@ void RFCRfTrimSet(rfTrim_t* pRfTrim)
     #define RFCRfTrimSet                    NOROM_RFCRfTrimSet
     #undef  RFCRTrim
     #define RFCRTrim                        NOROM_RFCRTrim
+    #undef  RFCCPEPatchReset
+    #define RFCCPEPatchReset                NOROM_RFCCPEPatchReset
+    #undef  RFCAdi3VcoLdoVoltageMode
+    #define RFCAdi3VcoLdoVoltageMode        NOROM_RFCAdi3VcoLdoVoltageMode
 #endif
 
 // See rfc.h for implementation

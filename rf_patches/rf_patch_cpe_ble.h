@@ -71,8 +71,9 @@ extern "C"
 
 
 CPE_PATCH_TYPE patchImageBle[] = {
-   0x21000475,
-   0x210004f5,
+   0x21000499,
+   0x21000519,
+   0x21000479,
    0x4c17b5f0,
    0x18612140,
    0x280278c8,
@@ -99,6 +100,14 @@ CPE_PATCH_TYPE patchImageBle[] = {
    0xbd104780,
    0x21000254,
    0x0000398b,
+   0x4905b510,
+   0xb6724a05,
+   0x280178c8,
+   0x2001dc02,
+   0x1d127048,
+   0x4710b662,
+   0x21000294,
+   0x0000476d,
    0x4e1ab5f8,
    0x6b314605,
    0x09cc4819,
@@ -142,12 +151,12 @@ CPE_PATCH_TYPE patchImageBle[] = {
    0x2100026b,
    0x40046058,
 };
-#define _NWORD_PATCHIMAGE_BLE 70
+#define _NWORD_PATCHIMAGE_BLE 79
 
 #define _NWORD_PATCHSYS_BLE 0
 
-#define _IRQ_PATCH_0 0x2100040d
-#define _IRQ_PATCH_1 0x2100044d
+#define _IRQ_PATCH_0 0x21000411
+#define _IRQ_PATCH_1 0x21000451
 
 
 #ifndef _BLE_SYSRAM_START
@@ -186,6 +195,7 @@ PATCH_FUN_SPEC void configureBlePatch(void)
 
    pPatchTab[103] = 0;
    pPatchTab[60] = 1;
+   pPatchTab[48] = 2;
 
    pIrqPatch[1] = _IRQ_PATCH_0;
    pIrqPatch[9] = _IRQ_PATCH_1;

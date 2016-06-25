@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       aon_wuc.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-02-24 14:08:55 +0100 (Wed, 24 Feb 2016)
+*  Revision:       45767
 *
 *  Description:    Defines and prototypes for the AUX Wakeup Controller
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without

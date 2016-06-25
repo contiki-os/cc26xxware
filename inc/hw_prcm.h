@@ -1,9 +1,9 @@
 /******************************************************************************
 *  Filename:       hw_prcm_h
-*  Revised:        2015-11-12 13:07:02 +0100 (Thu, 12 Nov 2015)
-*  Revision:       45056
+*  Revised:        2016-05-20 20:32:53 +0200 (Fri, 20 May 2016)
+*  Revision:       46429
 *
-* Copyright (c) 2015, Texas Instruments Incorporated
+* Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -207,6 +207,9 @@
 
 // Selected RFC Mode
 #define PRCM_O_RFCMODESEL                                           0x000001D0
+
+// Power Profiler Register
+#define PRCM_O_PWRPROFSTAT                                          0x000001E0
 
 // Memory Retention Control
 #define PRCM_O_RAMRETEN                                             0x00000224
@@ -1522,6 +1525,20 @@
 #define PRCM_RFCMODESEL_CURR_MODE2                                  0x00000002
 #define PRCM_RFCMODESEL_CURR_MODE1                                  0x00000001
 #define PRCM_RFCMODESEL_CURR_MODE0                                  0x00000000
+
+//*****************************************************************************
+//
+// Register: PRCM_O_PWRPROFSTAT
+//
+//*****************************************************************************
+// Field:   [7:0] VALUE
+//
+// SW can use these bits to timestamp the application. These bits are also
+// available through the testtap and can thus be used by the emulator to
+// profile in real time.
+#define PRCM_PWRPROFSTAT_VALUE_W                                             8
+#define PRCM_PWRPROFSTAT_VALUE_M                                    0x000000FF
+#define PRCM_PWRPROFSTAT_VALUE_S                                             0
 
 //*****************************************************************************
 //

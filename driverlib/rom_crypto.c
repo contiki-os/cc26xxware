@@ -6,7 +6,7 @@
 *  Description:    This is the implementation for the API to the AES, ECC and
 *                  SHA256 functions built into ROM on the CC26xx.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without

@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       osc.h
-*  Revised:        2015-11-11 17:32:44 +0100 (Wed, 11 Nov 2015)
-*  Revision:       45043
+*  Revised:        2016-05-25 12:28:57 +0200 (Wed, 25 May 2016)
+*  Revision:       46484
 *
 *  Description:    Defines and prototypes for the system oscillator control.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -61,12 +61,11 @@ extern "C"
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <inc/hw_aon_wuc.h>
 #include <inc/hw_types.h>
 #include <inc/hw_memmap.h>
 #include <inc/hw_ddi.h>
 #include <inc/hw_ddi_0_osc.h>
-#include <driverlib/aon_wuc.h>
-#include <driverlib/aux_wuc.h>
 #include <driverlib/rom.h>
 #include <driverlib/ddi.h>
 #include <driverlib/debug.h>
@@ -87,7 +86,14 @@ extern "C"
 #if !defined(DOXYGEN)
     #define OSCClockSourceSet               NOROM_OSCClockSourceSet
     #define OSCClockSourceGet               NOROM_OSCClockSourceGet
-    #define OSCInterfaceEnable              NOROM_OSCInterfaceEnable
+    #define OSCHF_GetStartupTime            NOROM_OSCHF_GetStartupTime
+    #define OSCHF_TurnOnXosc                NOROM_OSCHF_TurnOnXosc
+    #define OSCHF_AttemptToSwitchToXosc     NOROM_OSCHF_AttemptToSwitchToXosc
+    #define OSCHF_SwitchToRcOscTurnOffXosc  NOROM_OSCHF_SwitchToRcOscTurnOffXosc
+    #define OSCHF_DebugGetCrystalAmplitude  NOROM_OSCHF_DebugGetCrystalAmplitude
+    #define OSCHF_DebugGetExpectedAverageCrystalAmplitude NOROM_OSCHF_DebugGetExpectedAverageCrystalAmplitude
+    #define OSC_HPOSCRelativeFrequencyOffsetGet NOROM_OSC_HPOSCRelativeFrequencyOffsetGet
+    #define OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert NOROM_OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert
 #endif
 
 //*****************************************************************************
@@ -321,10 +327,15 @@ OSCHfSourceSwitch(void)
 
 //*****************************************************************************
 //
-//! \brief Enable System CPU access to the OSC_DIG module.
+//! \brief Deprecated: Empty function - original functionality is removed.
 //!
-//! Force power on AUX and enable clocks to allow System CPU access on the OSC_DIG
-//! interface.
+//! \deprecated Functionality has been moved to the startup code. The dummy function
+//! will be removed in the next major release of CC26xxWare/CC13xxWare.
+//!
+//! The original functionality was described as follows:
+//! Enable System CPU access to the OSC_DIG module.
+//! Force power on AUX and enable clocks to allow System CPU access on
+//! the OSC_DIG interface.
 //!
 //! \note Access to the OSC_DIG interface is a shared resource between the
 //! Sensor Controller and the CPU, so enabling or disabling this interface must
@@ -333,12 +344,20 @@ OSCHfSourceSwitch(void)
 //! \return None
 //
 //*****************************************************************************
-extern void OSCInterfaceEnable(void);
+__STATIC_INLINE void
+OSCInterfaceEnable(void)
+{
+}
 
 //*****************************************************************************
 //
-//! \brief Disable System CPU access to the OSC_DIG module.
+//! \brief Deprecated: Empty function - original functionality is removed.
 //!
+//! \deprecated Functionality has been moved to the startup code. The dummy function
+//! will be removed in the next major release of CC26xxWare/CC13xxWare.
+//!
+//! The original functionality was described as follows:
+//! Disable System CPU access to the OSC_DIG module.
 //! Release the "force power on" of AUX and disable clock to AUX.
 //!
 //! \note Access to the OSC_DIG interface is a shared resource between the
@@ -351,17 +370,7 @@ extern void OSCInterfaceEnable(void);
 __STATIC_INLINE void
 OSCInterfaceDisable(void)
 {
-    //
-    // Disable clock for OSC_DIG
-    //
-    AUXWUCClockDisable(AUX_WUC_OSCCTRL_CLOCK);
-
-    //
-    // Release the 'force power' on AUX
-    //
-    AONWUCAuxWakeupEvent(AONWUC_AUX_ALLOW_SLEEP);
 }
-
 
 //*****************************************************************************
 //
@@ -376,7 +385,7 @@ OSCInterfaceDisable(void)
 //! \return Time margin to use in microseconds.
 //
 //*****************************************************************************
-uint32_t OSCHF_GetStartupTime( uint32_t timeUntilWakeupInMs );
+extern uint32_t OSCHF_GetStartupTime( uint32_t timeUntilWakeupInMs );
 
 
 //*****************************************************************************
@@ -389,7 +398,7 @@ uint32_t OSCHF_GetStartupTime( uint32_t timeUntilWakeupInMs );
 //! \return None
 //
 //*****************************************************************************
-void OSCHF_TurnOnXosc( void );
+extern void OSCHF_TurnOnXosc( void );
 
 
 //*****************************************************************************
@@ -405,7 +414,7 @@ void OSCHF_TurnOnXosc( void );
 //! - \c false : Switching has not occurred.
 //
 //*****************************************************************************
-bool OSCHF_AttemptToSwitchToXosc( void );
+extern bool OSCHF_AttemptToSwitchToXosc( void );
 
 
 //*****************************************************************************
@@ -418,7 +427,44 @@ bool OSCHF_AttemptToSwitchToXosc( void );
 //! \return None
 //
 //*****************************************************************************
-void OSCHF_SwitchToRcOscTurnOffXosc( void );
+extern void OSCHF_SwitchToRcOscTurnOffXosc( void );
+
+//*****************************************************************************
+//
+//! \brief Get crystal amplitude (assuming crystal is running).
+//!
+//! \note This is a debug function only.
+//! It is hence not recommended to call this function in normal operation.
+//!
+//! This function uses an on-chip ADC and peak detector for reading the crystal
+//! amplitude. The measurement time is set to 4 milliseconds and this function
+//! does not return before the measurement is done.
+//!
+//! Expected value is \ref OSCHF_DebugGetExpectedAverageCrystalAmplitude +/- 50 millivolt.
+//!
+//! \return Returns crystal amplitude in millivolt.
+//!
+//! \sa OSCHF_DebugGetExpectedAverageCrystalAmplitude()
+//
+//*****************************************************************************
+extern uint32_t OSCHF_DebugGetCrystalAmplitude( void );
+
+//*****************************************************************************
+//
+//! \brief Get the expected average crystal amplitude.
+//!
+//! \note This is a debug function only.
+//! It is hence not recommended to call this function in normal operation.
+//!
+//! This function read the configured high and low thresholds and returns
+//! the mean value converted to millivolt.
+//!
+//! \return Returns expected average crystal amplitude in millivolt.
+//!
+//! \sa OSCHF_DebugGetCrystalAmplitude()
+//
+//*****************************************************************************
+extern uint32_t OSCHF_DebugGetExpectedAverageCrystalAmplitude( void );
 
 //*****************************************************************************
 //
@@ -496,9 +542,37 @@ extern int16_t OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert( int32_t HP
         #undef  OSCClockSourceGet
         #define OSCClockSourceGet               ROM_OSCClockSourceGet
     #endif
-    #ifdef ROM_OSCInterfaceEnable
-        #undef  OSCInterfaceEnable
-        #define OSCInterfaceEnable              ROM_OSCInterfaceEnable
+    #ifdef ROM_OSCHF_GetStartupTime
+        #undef  OSCHF_GetStartupTime
+        #define OSCHF_GetStartupTime            ROM_OSCHF_GetStartupTime
+    #endif
+    #ifdef ROM_OSCHF_TurnOnXosc
+        #undef  OSCHF_TurnOnXosc
+        #define OSCHF_TurnOnXosc                ROM_OSCHF_TurnOnXosc
+    #endif
+    #ifdef ROM_OSCHF_AttemptToSwitchToXosc
+        #undef  OSCHF_AttemptToSwitchToXosc
+        #define OSCHF_AttemptToSwitchToXosc     ROM_OSCHF_AttemptToSwitchToXosc
+    #endif
+    #ifdef ROM_OSCHF_SwitchToRcOscTurnOffXosc
+        #undef  OSCHF_SwitchToRcOscTurnOffXosc
+        #define OSCHF_SwitchToRcOscTurnOffXosc  ROM_OSCHF_SwitchToRcOscTurnOffXosc
+    #endif
+    #ifdef ROM_OSCHF_DebugGetCrystalAmplitude
+        #undef  OSCHF_DebugGetCrystalAmplitude
+        #define OSCHF_DebugGetCrystalAmplitude  ROM_OSCHF_DebugGetCrystalAmplitude
+    #endif
+    #ifdef ROM_OSCHF_DebugGetExpectedAverageCrystalAmplitude
+        #undef  OSCHF_DebugGetExpectedAverageCrystalAmplitude
+        #define OSCHF_DebugGetExpectedAverageCrystalAmplitude ROM_OSCHF_DebugGetExpectedAverageCrystalAmplitude
+    #endif
+    #ifdef ROM_OSC_HPOSCRelativeFrequencyOffsetGet
+        #undef  OSC_HPOSCRelativeFrequencyOffsetGet
+        #define OSC_HPOSCRelativeFrequencyOffsetGet ROM_OSC_HPOSCRelativeFrequencyOffsetGet
+    #endif
+    #ifdef ROM_OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert
+        #undef  OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert
+        #define OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert ROM_OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert
     #endif
 #endif
 

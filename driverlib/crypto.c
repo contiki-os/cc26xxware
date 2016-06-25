@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       crypto.c
-*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
-*  Revision:       46052
+*  Revised:        2016-05-27 09:37:54 +0200 (Fri, 27 May 2016)
+*  Revision:       46519
 *
 *  Description:    Driver for the Crypto module
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,10 @@
 #if !defined(DOXYGEN)
     #undef  CRYPTOAesLoadKey
     #define CRYPTOAesLoadKey                NOROM_CRYPTOAesLoadKey
+    #undef  CRYPTOAesCbc
+    #define CRYPTOAesCbc                    NOROM_CRYPTOAesCbc
+    #undef  CRYPTOAesCbcStatus
+    #define CRYPTOAesCbcStatus              NOROM_CRYPTOAesCbcStatus
     #undef  CRYPTOAesEcb
     #define CRYPTOAesEcb                    NOROM_CRYPTOAesEcb
     #undef  CRYPTOAesEcbStatus
@@ -75,6 +79,7 @@
 //
 //*****************************************************************************
 volatile uint32_t g_ui32CurrentAesOp = CRYPTO_AES_NONE;
+
 
 //*****************************************************************************
 //
@@ -111,9 +116,9 @@ CRYPTOAesLoadKey(uint32_t *pui32AesKey,
     //
     // Enable internal interrupts.
     //
-    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_INT_LEVEL;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_IRQTYPE_LEVEL;
     HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_IRQEN_DMA_IN_DONE |
-                                           CRYPTO_IRQEN_RESULT_AVAIL;
+                                          CRYPTO_IRQEN_RESULT_AVAIL;
 
     //
     // Configure master control module.
@@ -195,6 +200,150 @@ CRYPTOAesLoadKey(uint32_t *pui32AesKey,
 
 //*****************************************************************************
 //
+//! Start an AES-CBC operation (encryption or decryption).
+//
+//*****************************************************************************
+uint32_t
+CRYPTOAesCbc(uint32_t *pui32MsgIn, uint32_t *pui32MsgOut, uint32_t ui32MsgLength,
+             uint32_t *pui32Nonce, uint32_t ui32KeyLocation,
+             bool bEncrypt, bool bIntEnable)
+{
+    uint32_t ui32CtrlVal;
+
+    //
+    // Set current operating state of the Crypto module.
+    //
+    g_ui32CurrentAesOp = CRYPTO_AES_CBC;
+
+    //
+    // Enable internal interrupts.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_IRQTYPE_LEVEL;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_IRQEN_RESULT_AVAIL;
+
+    //
+    // Clear any outstanding interrupts.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQCLR) = (CRYPTO_IRQCLR_DMA_IN_DONE |
+                                            CRYPTO_IRQCLR_RESULT_AVAIL);
+
+    //
+    // Wait for interrupt lines from module to be cleared
+    //
+    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_IRQSTAT_DMA_IN_DONE | CRYPTO_IRQSTAT_RESULT_AVAIL));
+
+    //
+    // If using interrupts clear any pending interrupts and enable interrupts
+    // for the Crypto module.
+    //
+    if(bIntEnable)
+    {
+        IntPendClear(INT_CRYPTO_RESULT_AVAIL_IRQ);
+        IntEnable(INT_CRYPTO_RESULT_AVAIL_IRQ);
+    }
+
+    //
+    // Configure Master Control module.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_ALGSEL) = CRYPTO_ALGSEL_AES;
+
+    //
+    //
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_KEYREADAREA) = ui32KeyLocation;
+
+    //
+    //Wait until key is loaded to the AES module.
+    //
+    do
+    {
+        CPUdelay(1);
+    }
+    while((HWREG(CRYPTO_BASE + CRYPTO_O_KEYREADAREA) & CRYPTO_KEYREADAREA_BUSY));
+
+    //
+    // Check for Key store Read error.
+    //
+    if((HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT)& CRYPTO_KEY_ST_RD_ERR))
+    {
+        return (AES_KEYSTORE_READ_ERROR);
+    }
+
+    //
+    // Write initialization vector.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESIV0) = pui32Nonce[0];
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESIV1) = pui32Nonce[1];
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESIV2) = pui32Nonce[2];
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESIV3) = pui32Nonce[3];
+
+    //
+    // Configure AES engine for AES-CBC with 128-bit key size.
+    //
+    ui32CtrlVal  = (CRYPTO_AESCTL_SAVE_CONTEXT | CRYPTO_AESCTL_CBC);
+    if(bEncrypt)
+    {
+        ui32CtrlVal |= CRYPTO_AES128_ENCRYPT;
+    }
+    else
+    {
+        ui32CtrlVal |= CRYPTO_AES128_DECRYPT;
+    }
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESCTL) = ui32CtrlVal;
+
+    //
+    // Write the length of the crypto block (plain text).
+    // Low and high part (high part is assumed to be always 0).
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESDATALEN0) = ui32MsgLength;
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESDATALEN1) = 0;
+    HWREG(CRYPTO_BASE + CRYPTO_O_AESAUTHLEN)  = 0;
+
+    //
+    // Enable Crypto DMA channel 0.
+    //
+    HWREGBITW(CRYPTO_BASE + CRYPTO_O_DMACH0CTL, CRYPTO_DMACH0CTL_EN_BITN) = 1;
+
+    //
+    // Base address of the input data in ext. memory.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_DMACH0EXTADDR) = (uint32_t)pui32MsgIn;
+
+    //
+    // Input data length in bytes, equal to the message.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_DMACH0LEN) = ui32MsgLength;
+
+    //
+    // Enable Crypto DMA channel 1.
+    //
+    HWREGBITW(CRYPTO_BASE + CRYPTO_O_DMACH1CTL, CRYPTO_DMACH1CTL_EN_BITN) = 1;
+
+    //
+    // Set up the address and length of the output data.
+    //
+    HWREG(CRYPTO_BASE + CRYPTO_O_DMACH1EXTADDR) = (uint32_t)pui32MsgOut;
+    HWREG(CRYPTO_BASE + CRYPTO_O_DMACH1LEN) = ui32MsgLength;
+
+    //
+    // Return success
+    //
+    return AES_SUCCESS;
+}
+
+//*****************************************************************************
+//
+//! Check the result of an AES CBC operation
+//
+//*****************************************************************************
+uint32_t
+CRYPTOAesCbcStatus(void)
+{
+    return(CRYPTOAesEcbStatus());
+}
+
+//*****************************************************************************
+//
 //! Start an AES-ECB operation (encryption or decryption).
 //
 //*****************************************************************************
@@ -211,7 +360,7 @@ CRYPTOAesEcb(uint32_t *pui32MsgIn, uint32_t *pui32MsgOut,
     //
     // Enable internal interrupts.
     //
-    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_INT_LEVEL;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_IRQTYPE_LEVEL;
     HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_IRQEN_RESULT_AVAIL;
 
     //
@@ -223,7 +372,7 @@ CRYPTOAesEcb(uint32_t *pui32MsgIn, uint32_t *pui32MsgOut,
     //
     // Wait for interrupt lines from module to be cleared
     //
-    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_DMA_IN_DONE | CRYPTO_IRQCLR_RESULT_AVAIL));
+    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_IRQSTAT_DMA_IN_DONE | CRYPTO_IRQSTAT_RESULT_AVAIL));
 
     //
     // If using interrupts clear any pending interrupts and enable interrupts
@@ -394,9 +543,9 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
     //
     // Enable internal interrupts.
     //
-    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_INT_LEVEL;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_IRQTYPE_LEVEL;
     HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_IRQEN_DMA_IN_DONE |
-                                           CRYPTO_IRQCLR_RESULT_AVAIL;
+                                          CRYPTO_IRQEN_RESULT_AVAIL;
 
     //
     // Configure master control module for AES operation.
@@ -513,7 +662,7 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
         {
             CPUdelay(1);
         }
-        while(!(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & CRYPTO_DMA_IN_DONE));
+        while(!(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & CRYPTO_IRQSTAT_DMA_IN_DONE));
 
         //
         // Check for DMA errors.
@@ -533,7 +682,7 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
     //
     // Wait for interrupt lines from module to be cleared
     //
-    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_DMA_IN_DONE | CRYPTO_IRQCLR_RESULT_AVAIL));
+    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_IRQSTAT_DMA_IN_DONE | CRYPTO_IRQSTAT_RESULT_AVAIL));
 
     //
     // Disable CRYPTO_IRQEN_DMA_IN_DONE interrupt as we only
@@ -554,7 +703,7 @@ CRYPTOCcmAuthEncrypt(bool bEncrypt, uint32_t ui32AuthLength ,
     //
     // Enable interrupts locally.
     //
-    HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_RESULT_RDY;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_IRQEN_RESULT_AVAIL;
 
     //
     // Perform encryption if requested.
@@ -726,9 +875,9 @@ CRYPTOCcmInvAuthDecrypt(bool bDecrypt, uint32_t ui32AuthLength,
     //
     // Enable internal interrupts.
     //
-    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_INT_LEVEL;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_IRQTYPE_LEVEL;
     HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_IRQEN_DMA_IN_DONE |
-                                           CRYPTO_IRQCLR_RESULT_AVAIL;
+                                          CRYPTO_IRQEN_RESULT_AVAIL;
 
     //
     // Configure master control module for AES operation.
@@ -846,7 +995,7 @@ CRYPTOCcmInvAuthDecrypt(bool bDecrypt, uint32_t ui32AuthLength,
         {
             CPUdelay(1);
         }
-        while(!(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & CRYPTO_DMA_IN_DONE));
+        while(!(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & CRYPTO_IRQSTAT_DMA_IN_DONE));
 
         //
         // Check for DMA errors.
@@ -866,7 +1015,7 @@ CRYPTOCcmInvAuthDecrypt(bool bDecrypt, uint32_t ui32AuthLength,
     //
     // Wait for interrupt lines from module to be cleared
     //
-    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_DMA_IN_DONE | CRYPTO_IRQCLR_RESULT_AVAIL));
+    while(HWREG(CRYPTO_BASE + CRYPTO_O_IRQSTAT) & (CRYPTO_IRQSTAT_DMA_IN_DONE | CRYPTO_IRQSTAT_RESULT_AVAIL));
 
     //
     // Disable CRYPTO_IRQEN_DMA_IN_DONE interrupt as we only
@@ -886,7 +1035,7 @@ CRYPTOCcmInvAuthDecrypt(bool bDecrypt, uint32_t ui32AuthLength,
     //
     // Enable internal interrupts.
     //
-    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_INT_LEVEL;
+    HWREG(CRYPTO_BASE + CRYPTO_O_IRQTYPE) = CRYPTO_IRQTYPE_LEVEL;
     HWREG(CRYPTO_BASE + CRYPTO_O_IRQEN) = CRYPTO_IRQEN_RESULT_AVAIL;
 
     //

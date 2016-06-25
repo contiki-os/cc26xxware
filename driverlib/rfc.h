@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rfc.h
-*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
-*  Revision:       46052
+*  Revised:        2016-05-02 14:44:23 +0200 (Mon, 02 May 2016)
+*  Revision:       46231
 *
 *  Description:    Defines and prototypes for the RF Core.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,8 @@ extern "C"
 #include <driverlib/rf_common_cmd.h>
 #include <driverlib/rf_prop_cmd.h>
 #include <inc/hw_fcfg1.h>
+#include <inc/hw_adi_3_refsys.h>
+#include <inc/hw_adi.h>
 
 typedef struct {
    uint32_t configIfAdc;
@@ -94,6 +96,8 @@ typedef struct {
     #define RFCRfTrimRead                   NOROM_RFCRfTrimRead
     #define RFCRfTrimSet                    NOROM_RFCRfTrimSet
     #define RFCRTrim                        NOROM_RFCRTrim
+    #define RFCCPEPatchReset                NOROM_RFCCPEPatchReset
+    #define RFCAdi3VcoLdoVoltageMode        NOROM_RFCAdi3VcoLdoVoltageMode
 #endif
 
 //*****************************************************************************
@@ -362,6 +366,22 @@ extern void RFCRTrim(rfc_radioOp_t *pOpSetup);
 
 //*****************************************************************************
 //
+//! Reset previously patched CPE RAM to a state where it can be patched again
+//
+//*****************************************************************************
+extern void RFCCPEPatchReset(void);
+
+
+//*****************************************************************************
+//
+//! Function to set VCOLDO reference to voltage mode
+//
+//*****************************************************************************
+extern void RFCAdi3VcoLdoVoltageMode(bool bEnable);
+
+
+//*****************************************************************************
+//
 // Support for DriverLib in ROM:
 // Redirect to implementation in ROM when available.
 //
@@ -391,6 +411,14 @@ extern void RFCRTrim(rfc_radioOp_t *pOpSetup);
     #ifdef ROM_RFCRTrim
         #undef  RFCRTrim
         #define RFCRTrim                        ROM_RFCRTrim
+    #endif
+    #ifdef ROM_RFCCPEPatchReset
+        #undef  RFCCPEPatchReset
+        #define RFCCPEPatchReset                ROM_RFCCPEPatchReset
+    #endif
+    #ifdef ROM_RFCAdi3VcoLdoVoltageMode
+        #undef  RFCAdi3VcoLdoVoltageMode
+        #define RFCAdi3VcoLdoVoltageMode        ROM_RFCAdi3VcoLdoVoltageMode
     #endif
 #endif
 

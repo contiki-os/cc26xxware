@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       pwr_ctrl.h
-*  Revised:        2015-10-29 10:58:24 +0100 (Thu, 29 Oct 2015)
-*  Revision:       44880
+*  Revised:        2016-04-05 15:29:01 +0200 (Tue, 05 Apr 2016)
+*  Revision:       45999
 *
 *  Description:    Defines and prototypes for the System Power Control.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -73,9 +73,7 @@ extern "C"
 #include <driverlib/osc.h>
 #include <driverlib/cpu.h>
 #include <driverlib/prcm.h>
-#include <driverlib/aon_wuc.h>
 #include <driverlib/aon_ioc.h>
-#include <driverlib/aux_wuc.h>
 #include <driverlib/adi.h>
 
 //*****************************************************************************
@@ -92,7 +90,6 @@ extern "C"
 //
 //*****************************************************************************
 #if !defined(DOXYGEN)
-    #define PowerCtrlStateSet               NOROM_PowerCtrlStateSet
     #define PowerCtrlSourceSet              NOROM_PowerCtrlSourceSet
 #endif
 
@@ -138,38 +135,6 @@ extern "C"
 // API Functions and prototypes
 //
 //*****************************************************************************
-
-//*****************************************************************************
-//
-//! \brief Force the system into low power modes.
-//!
-//! The device has 4 main power states where \ref PWRCTRL_ACTIVE is the default
-//! state. If the CPU is running the system is considered to be in the active
-//! state. The three other states are:
-//! - \ref PWRCTRL_STANDBY
-//! - \ref PWRCTRL_POWER_DOWN
-//! - \ref PWRCTRL_SHUTDOWN
-//!
-//! \note This code does not guarantee free operation of the Sensor Controller.
-//! It is only guaranteed to flip the switches to force the desired low power
-//! mode on the device.
-//!
-//! \note It is solely the programmers responsibility to properly configure an
-//! interrupt that will enable the device to wakeup before configuring the
-//! power mode. If not properly implemented the behavior is undefined.
-//!
-//! \note This function will be deprecated in future releases.
-//!
-//! \param ui32Powerstate defines the next power state for the system.
-//! - \ref PWRCTRL_ACTIVE (default)
-//! - \ref PWRCTRL_STANDBY
-//! - \ref PWRCTRL_POWER_DOWN
-//! - \ref PWRCTRL_SHUTDOWN
-//!
-//! \return None
-//
-//*****************************************************************************
-extern void PowerCtrlStateSet(uint32_t ui32Powerstate);
 
 //*****************************************************************************
 //
@@ -229,7 +194,6 @@ PowerCtrlSourceGet(void)
         return (PWRCTRL_PWRSRC_GLDO);
     }
 }
-
 
 //*****************************************************************************
 //
@@ -322,10 +286,6 @@ PowerCtrlIOFreezeDisable(void)
 //*****************************************************************************
 #if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
-    #ifdef ROM_PowerCtrlStateSet
-        #undef  PowerCtrlStateSet
-        #define PowerCtrlStateSet               ROM_PowerCtrlStateSet
-    #endif
     #ifdef ROM_PowerCtrlSourceSet
         #undef  PowerCtrlSourceSet
         #define PowerCtrlSourceSet              ROM_PowerCtrlSourceSet

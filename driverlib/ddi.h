@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       ddi.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-05-09 12:05:02 +0200 (Mon, 09 May 2016)
+*  Revision:       46315
 *
 *  Description:    Defines and prototypes for the DDI master interface.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -82,6 +82,7 @@ extern "C"
 //
 //*****************************************************************************
 #if !defined(DOXYGEN)
+    #define DDI32RegWrite                   NOROM_DDI32RegWrite
     #define DDI16BitWrite                   NOROM_DDI16BitWrite
     #define DDI16BitfieldWrite              NOROM_DDI16BitfieldWrite
     #define DDI16BitRead                    NOROM_DDI16BitRead
@@ -209,43 +210,6 @@ DDIBaseValid(uint32_t ui32Base)
 }
 #endif
 
-
-//*****************************************************************************
-//
-//! \brief Write a 32 bit value to a register in the DDI slave.
-//!
-//! This function will write a value to a register in the analog
-//! domain.
-//!
-//! \note This operation is write only for the specified register. No
-//! conservation of the previous value of the register will be kept (i.e. this
-//! is NOT read-modify-write on the register).
-//!
-//! \note Both the AUX module and the clock for the AUX SMPH module must be
-//! enabled before calling this function.
-//!
-//! \param ui32Base is DDI base address.
-//! \param ui32Reg is the register to write.
-//! \param ui32Val is the 32 bit value to write to the register.
-//!
-//! \return None
-//
-//*****************************************************************************
-__STATIC_INLINE void
-DDI32RegWrite(uint32_t ui32Base, uint32_t ui32Reg,
-              uint32_t ui32Val)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(DDIBaseValid(ui32Base));
-    ASSERT(ui32Reg < DDI_SLAVE_REGS);
-
-    //
-    // Write the value to the register.
-    //
-    AuxAdiDdiSafeWrite(ui32Base + ui32Reg, ui32Val, 4);
-}
 
 //*****************************************************************************
 //
@@ -472,6 +436,29 @@ DDI16SetValBit(uint32_t ui32Base, uint32_t ui32Reg, bool bWriteHigh,
 
 //*****************************************************************************
 //
+//! \brief Write a 32 bit value to a register in the DDI slave.
+//!
+//! This function will write a value to a register in the analog
+//! domain.
+//!
+//! \note This operation is write only for the specified register. No
+//! conservation of the previous value of the register will be kept (i.e. this
+//! is NOT read-modify-write on the register).
+//!
+//! \note Both the AUX module and the clock for the AUX SMPH module must be
+//! enabled before calling this function.
+//!
+//! \param ui32Base is DDI base address.
+//! \param ui32Reg is the register to write.
+//! \param ui32Val is the 32 bit value to write to the register.
+//!
+//! \return None
+//
+//*****************************************************************************
+extern void DDI32RegWrite(uint32_t ui32Base, uint32_t ui32Reg, uint32_t ui32Val);
+
+//*****************************************************************************
+//
 //! \brief Write a single bit using a 16-bit maskable write.
 //!
 //! A '1' is written to the bit if \c ui32WrData is non-zero, else a '0' is written.
@@ -562,6 +549,10 @@ extern uint16_t DDI16BitfieldRead(uint32_t ui32Base, uint32_t ui32Reg,
 //*****************************************************************************
 #if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
     #include <driverlib/rom.h>
+    #ifdef ROM_DDI32RegWrite
+        #undef  DDI32RegWrite
+        #define DDI32RegWrite                   ROM_DDI32RegWrite
+    #endif
     #ifdef ROM_DDI16BitWrite
         #undef  DDI16BitWrite
         #define DDI16BitWrite                   ROM_DDI16BitWrite

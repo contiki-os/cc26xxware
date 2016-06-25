@@ -6,7 +6,7 @@
 *  Description:    Provides macros for ensuring that a specfic release of
 *                  DriverLib is used.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -42,4 +42,4 @@
 
 
 /// Declare the current DriverLib release
-DRIVERLIB_DECLARE_RELEASE(0, 45566);
+DRIVERLIB_DECLARE_RELEASE(0, 46593);

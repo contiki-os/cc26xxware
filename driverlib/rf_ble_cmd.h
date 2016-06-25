@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rf_ble_cmd.h
-*  Revised:        2016-02-18 12:46:56 +0100 (Thu, 18 Feb 2016)
-*  Revision:       45712
+*  Revised:        $ $
+*  Revision:       $ $
 *
-*  Description:    CC26xx API for Bluetooth Low Energy commands
+*  Description:    CC26xx/CC13xx API for Bluetooth Low Energy commands
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -105,12 +105,12 @@ struct __RFC_STRUCT rfc_bleRadioOp_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -128,6 +128,7 @@ struct __RFC_STRUCT rfc_bleRadioOp_s {
 //! \addtogroup CMD_BLE_SLAVE
 //! @{
 #define CMD_BLE_SLAVE                                           0x1801
+//! BLE Slave Command
 struct __RFC_STRUCT rfc_CMD_BLE_SLAVE_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1801
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -145,12 +146,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_SLAVE_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -168,6 +169,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_SLAVE_s {
 //! \addtogroup CMD_BLE_MASTER
 //! @{
 #define CMD_BLE_MASTER                                          0x1802
+//! BLE Master Command
 struct __RFC_STRUCT rfc_CMD_BLE_MASTER_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1802
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -185,12 +187,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_MASTER_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -208,6 +210,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_MASTER_s {
 //! \addtogroup CMD_BLE_ADV
 //! @{
 #define CMD_BLE_ADV                                             0x1803
+//! BLE Connectable Undirected Advertiser Command
 struct __RFC_STRUCT rfc_CMD_BLE_ADV_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1803
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -225,12 +228,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -248,6 +251,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_s {
 //! \addtogroup CMD_BLE_ADV_DIR
 //! @{
 #define CMD_BLE_ADV_DIR                                         0x1804
+//! BLE Connectable Directed Advertiser Command
 struct __RFC_STRUCT rfc_CMD_BLE_ADV_DIR_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1804
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -265,12 +269,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_DIR_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -288,6 +292,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_DIR_s {
 //! \addtogroup CMD_BLE_ADV_NC
 //! @{
 #define CMD_BLE_ADV_NC                                          0x1805
+//! BLE Non-Connectable Advertiser Command
 struct __RFC_STRUCT rfc_CMD_BLE_ADV_NC_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1805
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -305,12 +310,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_NC_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -328,6 +333,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_NC_s {
 //! \addtogroup CMD_BLE_ADV_SCAN
 //! @{
 #define CMD_BLE_ADV_SCAN                                        0x1806
+//! BLE Scannable Undirected Advertiser Command
 struct __RFC_STRUCT rfc_CMD_BLE_ADV_SCAN_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1806
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -345,12 +351,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_SCAN_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -368,6 +374,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_ADV_SCAN_s {
 //! \addtogroup CMD_BLE_SCANNER
 //! @{
 #define CMD_BLE_SCANNER                                         0x1807
+//! BLE Scanner Command
 struct __RFC_STRUCT rfc_CMD_BLE_SCANNER_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1807
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -385,12 +392,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_SCANNER_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -408,6 +415,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_SCANNER_s {
 //! \addtogroup CMD_BLE_INITIATOR
 //! @{
 #define CMD_BLE_INITIATOR                                       0x1808
+//! BLE Initiator Command
 struct __RFC_STRUCT rfc_CMD_BLE_INITIATOR_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1808
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -425,12 +433,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_INITIATOR_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -448,6 +456,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_INITIATOR_s {
 //! \addtogroup CMD_BLE_GENERIC_RX
 //! @{
 #define CMD_BLE_GENERIC_RX                                      0x1809
+//! BLE Generic Receiver Command
 struct __RFC_STRUCT rfc_CMD_BLE_GENERIC_RX_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1809
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -465,12 +474,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_GENERIC_RX_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -488,6 +497,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_GENERIC_RX_s {
 //! \addtogroup CMD_BLE_TX_TEST
 //! @{
 #define CMD_BLE_TX_TEST                                         0x180A
+//! BLE PHY Test Transmitter Command
 struct __RFC_STRUCT rfc_CMD_BLE_TX_TEST_s {
    uint16_t commandNo;                  //!<        The command ID number 0x180A
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -505,12 +515,12 @@ struct __RFC_STRUCT rfc_CMD_BLE_TX_TEST_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    uint8_t channel;                     //!< \brief Channel to use<br>
-                                        //!<        0&ndash;39: BLE advertising/data channel number
-                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz
-                                        //!<        255: Use existing frequency
+                                        //!<        0&ndash;39: BLE advertising/data channel number<br>
+                                        //!<        60&ndash;207: Custom frequency; (2300 + <code>channel</code>) MHz<br>
+                                        //!<        255: Use existing frequency<br>
                                         //!<        Others: <i>Reserved</i>
    struct {
       uint8_t init:7;                   //!< \brief If <code>bOverride</code> = 1 or custom frequency is used:<br>
@@ -528,6 +538,7 @@ struct __RFC_STRUCT rfc_CMD_BLE_TX_TEST_s {
 //! \addtogroup CMD_BLE_ADV_PAYLOAD
 //! @{
 #define CMD_BLE_ADV_PAYLOAD                                     0x1001
+//! BLE Update Advertising Payload Command
 struct __RFC_STRUCT rfc_CMD_BLE_ADV_PAYLOAD_s {
    uint16_t commandNo;                  //!<        The command ID number 0x1001
    uint8_t payloadType;                 //!< \brief 0: Advertising data<br>
@@ -697,11 +708,17 @@ struct __RFC_STRUCT rfc_bleAdvPar_s {
       uint8_t bAppendTimestamp:1;       //!<        If 1, append a timestamp to the packet in the Rx queue
    } rxConfig;                          //!<        Configuration bits for the receive queue entries
    struct {
-      uint8_t advFilterPolicy:2;        //!< \brief The advertiser filter policy, as defined in Volume 2, Part E, Section 7.8.5 of
-                                        //!<        the Bluetooth 4.0 spec
+      uint8_t advFilterPolicy:2;        //!< \brief Advertiser filter policy<br>
+                                        //!<        0: Process scan and connect requests from all devices<br>
+                                        //!<        1: Process connect requests from all devices and only scan requests from
+                                        //!<        devices that are in the white list<br>
+                                        //!<        2: Process scan requests from all devices and only connect requests from
+                                        //!<        devices that are in the white list<br>
+                                        //!<        3: Process scan and connect requests only from devices in the white list
       uint8_t deviceAddrType:1;         //!<        The type of the device address &ndash; public (0) or random (1)
       uint8_t peerAddrType:1;           //!<        Directed advertiser: The type of the peer address &ndash; public (0) or random (1)
-      uint8_t bStrictLenFilter:1;       //!<        1: Discard messages with illegal length
+      uint8_t bStrictLenFilter:1;       //!< \brief 0: Accept any packet with a valid advertising packet length<br>
+                                        //!<        1: Discard messages with illegal length for the given packet type
       uint8_t :2;
       uint8_t rpaMode:1;                //!< \brief Resolvable private address mode<br>
                                         //!<        0: Normal operation<br>
@@ -746,15 +763,19 @@ struct __RFC_STRUCT rfc_bleScannerPar_s {
       uint8_t bAppendTimestamp:1;       //!<        If 1, append a timestamp to the packet in the Rx queue
    } rxConfig;                          //!<        Configuration bits for the receive queue entries
    struct {
-      uint8_t scanFilterPolicy:1;       //!< \brief The advertiser filter policy, as defined in Volume 2, Part E, Section 7.8.10 of
-                                        //!<        the Bluetooth 4.0 spec
+      uint8_t scanFilterPolicy:1;       //!< \brief Scanning filter policy<br>
+                                        //!<        0: Accept all advertisement packets<br>
+                                        //!<        1: Accept only advertisement packets from devices where the advertiser's address
+                                        //!<        is in the White list.
       uint8_t bActiveScan:1;            //!< \brief 0: Passive scan<br>
                                         //!<        1: Active scan
       uint8_t deviceAddrType:1;         //!<        The type of the device address &ndash; public (0) or random (1)
       uint8_t :1;
-      uint8_t bStrictLenFilter:1;       //!<        1: Discard messages with illegal length
+      uint8_t bStrictLenFilter:1;       //!< \brief 0: Accept any packet with a valid advertising packet length<br>
+                                        //!<        1: Discard messages with illegal length for the given packet type
       uint8_t bAutoWlIgnore:1;          //!<        1: Automatically set ignore bit in white list
-      uint8_t bEndOnRpt:1;              //!<        1: End scanner operation after each reported ADV*_IND and potentially SCAN_RSP
+      uint8_t bEndOnRpt:1;              //!< \brief 0: Continue scanner operation after each reporting ADV*_IND or sending SCAN_RSP<br>
+                                        //!<        1: End scanner operation after each reported ADV*_IND and potentially SCAN_RSP
       uint8_t rpaMode:1;                //!< \brief Resolvable private address mode<br>
                                         //!<        0: Normal operation<br>
                                         //!<        1: Use white list for a received RPA regardless of filter policy
@@ -814,14 +835,15 @@ struct __RFC_STRUCT rfc_bleInitiatorPar_s {
       uint8_t bAppendTimestamp:1;       //!<        If 1, append a timestamp to the packet in the Rx queue
    } rxConfig;                          //!<        Configuration bits for the receive queue entries
    struct {
-      uint8_t bUseWhiteList:1;          //!< \brief Initiator filter policy, cf. Volume 2, Part E, Section 7.8.10 of the
-                                        //!<        Bluetooth 4.0 spec:<br>
+      uint8_t bUseWhiteList:1;          //!< \brief Initiator filter policy<br>
                                         //!<        0: Use specific peer address<br>
                                         //!<        1: Use white list
-      uint8_t bDynamicWinOffset:1;      //!<        1: Use dynamic WinOffset insertion
+      uint8_t bDynamicWinOffset:1;      //!< \brief 0: No dynamic WinOffset insertion<br>
+                                        //!<        1: Use dynamic WinOffset insertion
       uint8_t deviceAddrType:1;         //!<        The type of the device address &ndash; public (0) or random (1)
       uint8_t peerAddrType:1;           //!<        The type of the peer address &ndash; public (0) or random (1)
-      uint8_t bStrictLenFilter:1;       //!<        1: Discard messages with illegal length
+      uint8_t bStrictLenFilter:1;       //!< \brief 0: Accept any packet with a valid advertising packet length<br>
+                                        //!<        1: Discard messages with illegal length for the given packet type
    } initConfig;
    uint8_t __dummy0;
    uint8_t connectReqLen;               //!<        Size of connect request data
@@ -930,7 +952,7 @@ struct __RFC_STRUCT rfc_bleTxTestPar_s {
 
 //! \addtogroup bleMasterSlaveOutput
 //! @{
-//! Output structure for master and slave (CMD_BLE_MASTER/CMD_BLE_SLAVE)
+//! Output structure for master and slave (CMD_BLE_MASTER and CMD_BLE_SLAVE)
 
 struct __RFC_STRUCT rfc_bleMasterSlaveOutput_s {
    uint8_t nTx;                         //!< \brief Total number of packets (including auto-empty and retransmissions) that have been

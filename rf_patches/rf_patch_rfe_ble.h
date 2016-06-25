@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rf_patch_rfe_ble.h
-*  Revised:        2015-10-30 10:00:00 +0100 (fr, 30 Oct 2015)
-*  Revision:       
+*  Revised:        $Date$
+*  Revision:       $Revision$
 *
-*  Description:    RF Core rfe patch file for CC26xx Bluetooth Low Energy
+*  Description: 
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015-2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *
 ******************************************************************************/
+
 
 #ifndef _RF_PATCH_RFE_BLE_H
 #define _RF_PATCH_RFE_BLE_H
@@ -149,17 +150,17 @@ RFE_PATCH_TYPE patchBleRfe[315] = {
    0xa0547100,
    0x80f0b064,
    0x40b52200,
+   0xc122c111,
+   0xc0516456,
+   0xc0e29101,
+   0x82603182,
+   0x91320002,
+   0xc300b110,
+   0x645368c8,
    0x90b01240,
-   0xc2f0b032,
-   0xc11168c0,
-   0x6456c122,
-   0x68c5c0b0,
-   0x9101c051,
-   0x3182c0e2,
-   0x00028260,
-   0xb1109132,
-   0x68cfc230,
-   0x12800000,
+   0xc300b032,
+   0xc24068ce,
+   0x128068d0,
    0xb03290b0,
    0x64537000,
    0xc122c101,
@@ -329,7 +330,7 @@ RFE_PATCH_TYPE patchBleRfe[315] = {
    0xb110913e,
    0x920f9165,
    0x14f98159,
-   0x18ac10bc,
+   0x10bc18ab,
    0x225080f0,
    0x221041c7,
    0x620c462c,

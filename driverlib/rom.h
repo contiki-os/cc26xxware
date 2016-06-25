@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rom.h
-*  Revised:        2015-12-15 10:40:56 +0100 (Tue, 15 Dec 2015)
-*  Revision:       45307
+*  Revised:        2016-03-18 11:09:07 +0100 (Fri, 18 Mar 2016)
+*  Revision:       45947
 *
 *  Description:    Prototypes for the ROM utility functions.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -254,7 +254,6 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define ROM_API_IOC_TABLE       ((uint32_t*) (ROM_API_TABLE[13]))
 #define ROM_API_PRCM_TABLE      ((uint32_t*) (ROM_API_TABLE[14]))
 #define ROM_API_SMPH_TABLE      ((uint32_t*) (ROM_API_TABLE[15]))
-#define ROM_API_SPIS_TABLE      ((uint32_t*) (ROM_API_TABLE[16]))
 #define ROM_API_SSI_TABLE       ((uint32_t*) (ROM_API_TABLE[17]))
 #define ROM_API_TIMER_TABLE     ((uint32_t*) (ROM_API_TABLE[18]))
 #define ROM_API_TRNG_TABLE      ((uint32_t*) (ROM_API_TABLE[19]))
@@ -310,28 +309,6 @@ extern void SafeHapiAuxAdiSelect( FPTR_VOID_UINT8_T fPtr, uint8_t ut8Signal );
 #define ROM_AUXTDCMeasurementDone \
     ((uint32_t (*)(uint32_t ui32Base)) \
     ROM_API_AUX_TDC_TABLE[1])
-
-
-// AUX_TIMER FUNCTIONS
-#define ROM_AUXTimerConfigure \
-    ((void (*)(uint32_t ui32Timer, uint32_t ui32Config)) \
-    ROM_API_AUX_TIMER_TABLE[0])
-
-#define ROM_AUXTimerStart \
-    ((void (*)(uint32_t ui32Timer)) \
-    ROM_API_AUX_TIMER_TABLE[1])
-
-#define ROM_AUXTimerStop \
-    ((void (*)(uint32_t ui32Timer)) \
-    ROM_API_AUX_TIMER_TABLE[2])
-
-#define ROM_AUXTimerPrescaleSet \
-    ((void (*)(uint32_t ui32Timer, uint32_t ui32PrescaleDiv)) \
-    ROM_API_AUX_TIMER_TABLE[3])
-
-#define ROM_AUXTimerPrescaleGet \
-    ((uint32_t (*)(uint32_t ui32Timer)) \
-    ROM_API_AUX_TIMER_TABLE[4])
 
 
 // AUX_WUC FUNCTIONS

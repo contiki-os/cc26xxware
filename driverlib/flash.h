@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       flash.h
-*  Revised:        2015-09-21 15:19:36 +0200 (Mon, 21 Sep 2015)
-*  Revision:       44629
+*  Revised:        2016-05-24 08:08:50 +0200 (Tue, 24 May 2016)
+*  Revision:       46446
 *
 *  Description:    Defines and prototypes for the Flash driver.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -235,16 +235,6 @@ typedef volatile uint8_t tFwpWriteByte;
 //
 //*****************************************************************************
 #define FLASH_CMD_EXEC         0x15
-
-//*****************************************************************************
-//
-// Defines for accesses to the customer configuration area in flash top sector
-//
-//*****************************************************************************
-#define CCFG_OFFSET_SECURITY   0x00000FD8
-#define CCFG_OFFSET_SECT_PROT  0x00000FF0
-#define CCFG_SIZE_SECURITY     0x00000014
-#define CCFG_SIZE_SECT_PROT    0x00000004
 
 //*****************************************************************************
 //

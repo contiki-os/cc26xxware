@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rf_prop_cmd.h
-*  Revised:        2016-04-07 15:04:05 +0200 (Thu, 07 Apr 2016)
-*  Revision:       46052
+*  Revised:        $ $
+*  Revision:       $ $
 *
 *  Description:    CC26xx API for Proprietary mode commands
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -70,6 +70,7 @@ typedef struct __RFC_STRUCT rfc_propRxStatus_s rfc_propRxStatus_t;
 //! \addtogroup CMD_PROP_TX
 //! @{
 #define CMD_PROP_TX                                             0x3801
+//! Proprietary Mode Transmit Command
 struct __RFC_STRUCT rfc_CMD_PROP_TX_s {
    uint16_t commandNo;                  //!<        The command ID number 0x3801
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -87,7 +88,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_TX_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    struct {
       uint8_t bFsOff:1;                 //!< \brief 0: Keep frequency synth on after command<br>
@@ -108,6 +109,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_TX_s {
 //! \addtogroup CMD_PROP_RX
 //! @{
 #define CMD_PROP_RX                                             0x3802
+//! Proprietary Mode Receive Command
 struct __RFC_STRUCT rfc_CMD_PROP_RX_s {
    uint16_t commandNo;                  //!<        The command ID number 0x3802
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -125,7 +127,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RX_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    struct {
       uint8_t bFsOff:1;                 //!< \brief 0: Keep frequency synth on after command<br>
@@ -146,15 +148,15 @@ struct __RFC_STRUCT rfc_CMD_PROP_RX_s {
                                         //!<        1: Receive packet and mark it as ignored on address mismatch
    } pktConf;
    struct {
-      uint8_t bAutoFlushIgnored:1;      //!<        If 1, automatically discard ignored packets from Rx queue
-      uint8_t bAutoFlushCrcErr:1;       //!<        If 1, automatically discard packets with CRC error from Rx queue
+      uint8_t bAutoFlushIgnored:1;      //!<        If 1, automatically discard ignored packets from RX queue
+      uint8_t bAutoFlushCrcErr:1;       //!<        If 1, automatically discard packets with CRC error from RX queue
       uint8_t :1;
       uint8_t bIncludeHdr:1;            //!<        If 1, include the received header or length byte in the stored packet; otherwise discard it
       uint8_t bIncludeCrc:1;            //!<        If 1, include the received CRC field in the stored packet; otherwise discard it
-      uint8_t bAppendRssi:1;            //!<        If 1, append an RSSI byte to the packet in the Rx queue
-      uint8_t bAppendTimestamp:1;       //!<        If 1, append a timestamp to the packet in the Rx queue
-      uint8_t bAppendStatus:1;          //!<        If 1, append a status byte to the packet in the Rx queue
-   } rxConf;                            //!<        Rx configuration
+      uint8_t bAppendRssi:1;            //!<        If 1, append an RSSI byte to the packet in the RX queue
+      uint8_t bAppendTimestamp:1;       //!<        If 1, append a timestamp to the packet in the RX queue
+      uint8_t bAppendStatus:1;          //!<        If 1, append a status byte to the packet in the RX queue
+   } rxConf;                            //!<        RX configuration
    uint32_t syncWord;                   //!<        Sync word to listen for
    uint8_t maxPktLen;                   //!< \brief Packet length for fixed length, maximum packet length for variable length<br>
                                         //!<        0: Unlimited or unknown length
@@ -179,6 +181,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RX_s {
 //! \addtogroup CMD_PROP_TX_ADV
 //! @{
 #define CMD_PROP_TX_ADV                                         0x3803
+//! Proprietary Mode Advanced Transmit Command
 struct __RFC_STRUCT rfc_CMD_PROP_TX_ADV_s {
    uint16_t commandNo;                  //!<        The command ID number 0x3803
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -196,7 +199,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_TX_ADV_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    struct {
       uint8_t bFsOff:1;                 //!< \brief 0: Keep frequency synth on after command<br>
@@ -214,12 +217,12 @@ struct __RFC_STRUCT rfc_CMD_PROP_TX_ADV_s {
    struct {
       uint8_t bExtTxTrig:1;             //!< \brief 0: Start packet on a fixed time from the command start trigger<br>
                                         //!<        1: Start packet on an external trigger (input event to RAT)
-      uint8_t inputMode:2;              //!< \brief Input mode if external trigger is used for Tx start<br>
+      uint8_t inputMode:2;              //!< \brief Input mode if external trigger is used for TX start<br>
                                         //!<        0: Rising edge<br>
                                         //!<        1: Falling edge<br>
                                         //!<        2: Both edges<br>
                                         //!<        3: <i>Reserved</i>
-      uint8_t source:5;                 //!<        RAT input event number used for capture if external trigger is used for Tx start
+      uint8_t source:5;                 //!<        RAT input event number used for capture if external trigger is used for TX start
    } startConf;
    struct {
       uint8_t triggerType:4;            //!<        The type of trigger
@@ -234,7 +237,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_TX_ADV_s {
                                         //!<        configured in the setup will be sent. Otherwise, the preamble will be repeated until
                                         //!<        this trigger is observed.
    uint32_t syncWord;                   //!<        Sync word to transmit
-   uint8_t* pPkt;                       //!<        Pointer to packet, or Tx queue for unlimited length
+   uint8_t* pPkt;                       //!<        Pointer to packet, or TX queue for unlimited length
 };
 
 //! @}
@@ -242,6 +245,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_TX_ADV_s {
 //! \addtogroup CMD_PROP_RX_ADV
 //! @{
 #define CMD_PROP_RX_ADV                                         0x3804
+//! Proprietary Mode Advanced Receive Command
 struct __RFC_STRUCT rfc_CMD_PROP_RX_ADV_s {
    uint16_t commandNo;                  //!<        The command ID number 0x3804
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -259,7 +263,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RX_ADV_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    struct {
       uint8_t bFsOff:1;                 //!< \brief 0: Keep frequency synth on after command<br>
@@ -280,15 +284,15 @@ struct __RFC_STRUCT rfc_CMD_PROP_RX_ADV_s {
                                         //!<        1: Receive packet and mark it as ignored on address mismatch
    } pktConf;
    struct {
-      uint8_t bAutoFlushIgnored:1;      //!<        If 1, automatically discard ignored packets from Rx queue
-      uint8_t bAutoFlushCrcErr:1;       //!<        If 1, automatically discard packets with CRC error from Rx queue
+      uint8_t bAutoFlushIgnored:1;      //!<        If 1, automatically discard ignored packets from RX queue
+      uint8_t bAutoFlushCrcErr:1;       //!<        If 1, automatically discard packets with CRC error from RX queue
       uint8_t :1;
       uint8_t bIncludeHdr:1;            //!<        If 1, include the received header or length byte in the stored packet; otherwise discard it
       uint8_t bIncludeCrc:1;            //!<        If 1, include the received CRC field in the stored packet; otherwise discard it
-      uint8_t bAppendRssi:1;            //!<        If 1, append an RSSI byte to the packet in the Rx queue
-      uint8_t bAppendTimestamp:1;       //!<        If 1, append a timestamp to the packet in the Rx queue
-      uint8_t bAppendStatus:1;          //!<        If 1, append a status byte to the packet in the Rx queue
-   } rxConf;                            //!<        Rx configuration
+      uint8_t bAppendRssi:1;            //!<        If 1, append an RSSI byte to the packet in the RX queue
+      uint8_t bAppendTimestamp:1;       //!<        If 1, append a timestamp to the packet in the RX queue
+      uint8_t bAppendStatus:1;          //!<        If 1, append a status byte to the packet in the RX queue
+   } rxConf;                            //!<        RX configuration
    uint32_t syncWord0;                  //!<        Sync word to listen for
    uint32_t syncWord1;                  //!<        Alternative sync word if non-zero
    uint16_t maxPktLen;                  //!< \brief Packet length for fixed length, maximum packet length for variable length<br>
@@ -327,6 +331,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RX_ADV_s {
 //! \addtogroup CMD_PROP_RADIO_SETUP
 //! @{
 #define CMD_PROP_RADIO_SETUP                                    0x3806
+//! Proprietary Mode Radio Setup Command
 struct __RFC_STRUCT rfc_CMD_PROP_RADIO_SETUP_s {
    uint16_t commandNo;                  //!<        The command ID number 0x3806
    uint16_t status;                     //!< \brief An integer telling the status of the command. This value is
@@ -344,7 +349,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RADIO_SETUP_s {
    } startTrigger;                      //!<        Identification of the trigger that starts the operation
    struct {
       uint8_t rule:4;                   //!<        Condition for running next command: Rule for how to proceed
-      uint8_t nSkip:4;                  //!<        Number of skips if the rule involves skipping
+      uint8_t nSkip:4;                  //!<        Number of skips + 1 if the rule involves skipping. 0: same, 1: next, 2: skip next, ...
    } condition;
    struct {
       uint16_t modType:3;               //!< \brief 0: FSK<br>
@@ -356,7 +361,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RADIO_SETUP_s {
       uint32_t preScale:4;              //!<        Prescaler value
       uint32_t :4;
       uint32_t rateWord:21;             //!<        Rate word
-   } symbolRate;
+   } symbolRate;                        //!<        Symbol rate setting
    uint8_t rxBw;                        //!<        Receiver bandwidth
    struct {
       uint8_t nPreamBytes:6;            //!< \brief 0&ndash;30: Number of preamble bytes<br>
@@ -386,8 +391,8 @@ struct __RFC_STRUCT rfc_CMD_PROP_RADIO_SETUP_s {
       uint16_t frontEndMode:3;          //!< \brief 0x00: Differential mode<br>
                                         //!<        0x01: Single-ended mode RFP<br>
                                         //!<        0x02: Single-ended mode RFN<br>
-                                        //!<        0x05 Single-ended mode RFP with external frontend control on RF pins<br>
-                                        //!<        0x06 Single-ended mode RFN with external frontend control on RF pins<br>
+                                        //!<        0x05 Single-ended mode RFP with external frontend control on RF pins (RFN and RXTX)<br>
+                                        //!<        0x06 Single-ended mode RFN with external frontend control on RF pins (RFP and RXTX)<br>
                                         //!<        Others: <i>Reserved</i>
       uint16_t biasMode:1;              //!< \brief 0: Internal bias<br>
                                         //!<        1: External bias
@@ -410,6 +415,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RADIO_SETUP_s {
 //! \addtogroup CMD_PROP_SET_LEN
 //! @{
 #define CMD_PROP_SET_LEN                                        0x3401
+//! Set Packet Length Command
 struct __RFC_STRUCT rfc_CMD_PROP_SET_LEN_s {
    uint16_t commandNo;                  //!<        The command ID number 0x3401
    uint16_t rxLen;                      //!<        Payload length to use
@@ -420,6 +426,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_SET_LEN_s {
 //! \addtogroup CMD_PROP_RESTART_RX
 //! @{
 #define CMD_PROP_RESTART_RX                                     0x3402
+//! Restart Packet  Command
 struct __RFC_STRUCT rfc_CMD_PROP_RESTART_RX_s {
    uint16_t commandNo;                  //!<        The command ID number 0x3402
 };
@@ -428,7 +435,7 @@ struct __RFC_STRUCT rfc_CMD_PROP_RESTART_RX_s {
 
 //! \addtogroup propRxOutput
 //! @{
-//! Output structure for Rx operations
+//! Output structure for RX operations
 
 struct __RFC_STRUCT rfc_propRxOutput_s {
    uint16_t nRxOk;                      //!<        Number of packets that have been received with payload, CRC OK and not ignored

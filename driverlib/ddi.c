@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       ddi.c
-*  Revised:        2015-01-13 16:59:55 +0100 (Tue, 13 Jan 2015)
-*  Revision:       42365
+*  Revised:        2016-05-09 12:05:02 +0200 (Mon, 09 May 2016)
+*  Revision:       46315
 *
 *  Description:    Driver for the DDI master interface
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,8 @@
 //
 //*****************************************************************************
 #if !defined(DOXYGEN)
+    #undef  DDI32RegWrite
+    #define DDI32RegWrite                   NOROM_DDI32RegWrite
     #undef  DDI16BitWrite
     #define DDI16BitWrite                   NOROM_DDI16BitWrite
     #undef  DDI16BitfieldWrite
@@ -54,6 +56,27 @@
     #undef  DDI16BitfieldRead
     #define DDI16BitfieldRead               NOROM_DDI16BitfieldRead
 #endif
+
+//*****************************************************************************
+//
+//! Write a 32 bit value to a register in the DDI slave.
+//
+//*****************************************************************************
+void
+DDI32RegWrite(uint32_t ui32Base, uint32_t ui32Reg,
+              uint32_t ui32Val)
+{
+    //
+    // Check the arguments.
+    //
+    ASSERT(DDIBaseValid(ui32Base));
+    ASSERT(ui32Reg < DDI_SLAVE_REGS);
+
+    //
+    // Write the value to the register.
+    //
+    AuxAdiDdiSafeWrite(ui32Base + ui32Reg, ui32Val, 4);
+}
 
 //*****************************************************************************
 //

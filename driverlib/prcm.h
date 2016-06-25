@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       prcm.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-05-23 14:56:47 +0200 (Mon, 23 May 2016)
+*  Revision:       46439
 *
 *  Description:    Defines and prototypes for the PRCM
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without

@@ -1,12 +1,12 @@
 /******************************************************************************
 *  Filename:       aon_batmon.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-05-27 12:47:19 +0200 (Fri, 27 May 2016)
+*  Revision:       46535
 *
 *  Description:    Defines and prototypes for the AON Battery and Temperature
 *                  Monitor
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,23 @@ extern "C"
 #include <inc/hw_memmap.h>
 #include <inc/hw_aon_batmon.h>
 #include <driverlib/debug.h>
+
+//*****************************************************************************
+//
+// Support for DriverLib in ROM:
+// This section renames all functions that are not "static inline", so that
+// calling these functions will default to implementation in flash. At the end
+// of this file a second renaming will change the defaults to implementation in
+// ROM for available functions.
+//
+// To force use of the implementation in flash, e.g. for debugging:
+// - Globally: Define DRIVERLIB_NOROM at project level
+// - Per function: Use prefix "NOROM_" when calling the function
+//
+//*****************************************************************************
+#if !defined(DOXYGEN)
+    #define AONBatMonTemperatureGetDegC     NOROM_AONBatMonTemperatureGetDegC
+#endif
 
 
 //*****************************************************************************
@@ -150,8 +167,7 @@ AONBatMonDisable(void)
 //! \sa AONBatMonNewTempMeasureReady()
 //
 //*****************************************************************************
-int32_t
-AONBatMonTemperatureGetDegC( void );
+extern int32_t AONBatMonTemperatureGetDegC( void );
 
 //*****************************************************************************
 //
@@ -273,6 +289,20 @@ AONBatMonNewTempMeasureReady(void)
     //
     return (bStatus);
 }
+
+//*****************************************************************************
+//
+// Support for DriverLib in ROM:
+// Redirect to implementation in ROM when available.
+//
+//*****************************************************************************
+#if !defined(DRIVERLIB_NOROM) && !defined(DOXYGEN)
+    #include <driverlib/rom.h>
+    #ifdef ROM_AONBatMonTemperatureGetDegC
+        #undef  AONBatMonTemperatureGetDegC
+        #define AONBatMonTemperatureGetDegC     ROM_AONBatMonTemperatureGetDegC
+    #endif
+#endif
 
 //*****************************************************************************
 //

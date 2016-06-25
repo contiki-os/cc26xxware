@@ -1,9 +1,9 @@
 /******************************************************************************
 *  Filename:       hw_adi_2_refsys_h
-*  Revised:        2015-12-03 09:20:10 +0100 (Thu, 03 Dec 2015)
-*  Revision:       45256
+*  Revised:        2016-03-14 09:20:59 +0100 (Mon, 14 Mar 2016)
+*  Revision:       45924
 *
-* Copyright (c) 2015, Texas Instruments Incorporated
+* Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -64,13 +64,13 @@
 // Internal
 #define ADI_2_REFSYS_O_SOCLDOCTL5                                   0x00000007
 
-// HPOSC Control 0
+// Internal
 #define ADI_2_REFSYS_O_HPOSCCTL0                                    0x0000000A
 
-// HPOSC Control 1
+// Internal
 #define ADI_2_REFSYS_O_HPOSCCTL1                                    0x0000000B
 
-// HPOSC Control 2
+// Internal
 #define ADI_2_REFSYS_O_HPOSCCTL2                                    0x0000000C
 
 //*****************************************************************************
@@ -243,23 +243,19 @@
 //*****************************************************************************
 // Field:     [7] FILTER_EN
 //
-// Enable HPOSC Bias filter
-//
-// Enable 1 kHz low pass filter  in the HPOSC bias.
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL0_FILTER_EN                            0x00000080
 #define ADI_2_REFSYS_HPOSCCTL0_FILTER_EN_M                          0x00000080
 #define ADI_2_REFSYS_HPOSCCTL0_FILTER_EN_S                                   7
 
 // Field:   [6:5] BIAS_RECHARGE_DLY
 //
-// When HPOSCCTL2.BIAS_HOLD_MODE_EN = 1, low-power sample and hold mode for
-// HPOSC bias is enabled. This field sets the recharge delay for this sample
-// and hold mode by counting number of 48 MHz clock edges.
+// Internal. Only to be used through TI provided API.
 // ENUMs:
-// MIN_DLY_X8               5461 us
-// MIN_DLY_X4               2731 us
-// MIN_DLY_X2               1365 us
-// MIN_DLY_X1               682 us
+// MIN_DLY_X8               Internal. Only to be used through TI provided API.
+// MIN_DLY_X4               Internal. Only to be used through TI provided API.
+// MIN_DLY_X2               Internal. Only to be used through TI provided API.
+// MIN_DLY_X1               Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL0_BIAS_RECHARGE_DLY_W                           2
 #define ADI_2_REFSYS_HPOSCCTL0_BIAS_RECHARGE_DLY_M                  0x00000060
 #define ADI_2_REFSYS_HPOSCCTL0_BIAS_RECHARGE_DLY_S                           5
@@ -270,12 +266,12 @@
 
 // Field:   [4:3] TUNE_CAP
 //
-// Cap to shift HPOSC center frequency.
+// Internal. Only to be used through TI provided API.
 // ENUMs:
-// SHIFT_M108               -108 ppm shift
-// SHIFT_M70                -70 ppm shift
-// SHIFT_M35                -35 ppm shift
-// SHIFT_0                  0 ppm shift
+// SHIFT_M108               Internal. Only to be used through TI provided API.
+// SHIFT_M70                Internal. Only to be used through TI provided API.
+// SHIFT_M35                Internal. Only to be used through TI provided API.
+// SHIFT_0                  Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL0_TUNE_CAP_W                                    2
 #define ADI_2_REFSYS_HPOSCCTL0_TUNE_CAP_M                           0x00000018
 #define ADI_2_REFSYS_HPOSCCTL0_TUNE_CAP_S                                    3
@@ -286,22 +282,17 @@
 
 // Field:   [2:1] SERIES_CAP
 //
-// Cap to set HPOSC into proper mode.  Set 1 time in factory.
-//
-// 00:  1.4 pF Cs1/Cs2
-// 01: 1.1 pF Cs1/Cs2
-// 10: 2.1 pF Cs1/Cs2
-// 11:  1.8 pF Cs1/Cs2
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL0_SERIES_CAP_W                                  2
 #define ADI_2_REFSYS_HPOSCCTL0_SERIES_CAP_M                         0x00000006
 #define ADI_2_REFSYS_HPOSCCTL0_SERIES_CAP_S                                  1
 
 // Field:     [0] DIV3_BYPASS
 //
-// Bypass for divide by 3 in divider.
+// Internal. Only to be used through TI provided API.
 // ENUMs:
-// HPOSC_2520MHZ            Divide by 17.5 for use with 2520 MHz HPOSC
-// HPOSC_840MHZ             Divide by 52.5 for use with 840 MHz HPOSC
+// HPOSC_2520MHZ            Internal. Only to be used through TI provided API.
+// HPOSC_840MHZ             Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL0_DIV3_BYPASS                          0x00000001
 #define ADI_2_REFSYS_HPOSCCTL0_DIV3_BYPASS_M                        0x00000001
 #define ADI_2_REFSYS_HPOSCCTL0_DIV3_BYPASS_S                                 0
@@ -315,35 +306,21 @@
 //*****************************************************************************
 // Field:     [5] BIAS_DIS
 //
-// Disable dummy bias current.
-//
-// 0: Dummy bias current on (Default)
-// 1: Dummy bias current off
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL1_BIAS_DIS                             0x00000020
 #define ADI_2_REFSYS_HPOSCCTL1_BIAS_DIS_M                           0x00000020
 #define ADI_2_REFSYS_HPOSCCTL1_BIAS_DIS_S                                    5
 
 // Field:     [4] PWRDET_EN
 //
-// Enable signal for HPOSC power detector.
-//
-// 0:  HPOSC power detector disabled.
-// 1:  HPOSC power detector enabled.
-//
-// When enabled, Power detector VMAX and VMIN referred to in
-// HPOSCCTL2.ATEST_SEL can be selected.
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL1_PWRDET_EN                            0x00000010
 #define ADI_2_REFSYS_HPOSCCTL1_PWRDET_EN_M                          0x00000010
 #define ADI_2_REFSYS_HPOSCCTL1_PWRDET_EN_S                                   4
 
 // Field:   [3:0] BIAS_RES_SET
 //
-// Adjust the HPOSC bias resistor to set the current in the HPOSC core. Two's
-// complement encoding.
-//
-// 0x8: Highest resistance, lowest current
-// 0x0: Default
-// 0x7: Lowest resistance, maximum current
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL1_BIAS_RES_SET_W                                4
 #define ADI_2_REFSYS_HPOSCCTL1_BIAS_RES_SET_M                       0x0000000F
 #define ADI_2_REFSYS_HPOSCCTL1_BIAS_RES_SET_S                                0
@@ -355,49 +332,28 @@
 //*****************************************************************************
 // Field:     [7] BIAS_HOLD_MODE_EN
 //
-// Enable signal for bias sample and hold mode.  Should give some power savings
-// at expense of increased phase noise or spurs.
-//
-// 0: Disabled hold mode
-// 1: Enabled hold mode
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL2_BIAS_HOLD_MODE_EN                    0x00000080
 #define ADI_2_REFSYS_HPOSCCTL2_BIAS_HOLD_MODE_EN_M                  0x00000080
 #define ADI_2_REFSYS_HPOSCCTL2_BIAS_HOLD_MODE_EN_S                           7
 
 // Field:     [6] TESTMUX_EN
 //
-// Enable signal for HPOSC test mux.
-//
-// 0:  HPOSC test mux disabled.
-// 1:  HPOSC test mux enabled.
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL2_TESTMUX_EN                           0x00000040
 #define ADI_2_REFSYS_HPOSCCTL2_TESTMUX_EN_M                         0x00000040
 #define ADI_2_REFSYS_HPOSCCTL2_TESTMUX_EN_S                                  6
 
 // Field:   [5:4] ATEST_SEL
 //
-// ATEST Selection Control
-//
-// 00:  Output test bias current
-// 01:  Former connction for HPOSC BGAP.  Not currently used.
-// 10:  Power detector VMAX
-// 11: Power detector VMIN
-//
-// Must also set TESTMUX_EN high to get test outputs.
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL2_ATEST_SEL_W                                   2
 #define ADI_2_REFSYS_HPOSCCTL2_ATEST_SEL_M                          0x00000030
 #define ADI_2_REFSYS_HPOSCCTL2_ATEST_SEL_S                                   4
 
 // Field:   [3:0] CURRMIRR_RATIO
 //
-// Set current mirror ratio in HPOSC.  Controls amount of current flowing in
-// HPOSC oscillator core.  May need to increase from nominal if nominal setting
-// does not result in oscillation. Two's complement encoding.
-//
-// 0x8:  Minimum current (~0 uA)
-// 0x9:  50 uA
-// 0x0:  400 uA
-// 0x7:  Maximum current (~750 uA)
+// Internal. Only to be used through TI provided API.
 #define ADI_2_REFSYS_HPOSCCTL2_CURRMIRR_RATIO_W                              4
 #define ADI_2_REFSYS_HPOSCCTL2_CURRMIRR_RATIO_M                     0x0000000F
 #define ADI_2_REFSYS_HPOSCCTL2_CURRMIRR_RATIO_S                              0

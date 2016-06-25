@@ -1,7 +1,7 @@
 /******************************************************************************
-*  Filename:       ccfg.c 
-*  Revised:        $Date: 2016-01-14 13:41:44 +0100 (to, 14 jan 2016) $
-*  Revision:       $Revision: 16602 $
+*  Filename:       ccfg.c
+*  Revised:        $Date: 2016-03-14 10:46:32 +0100 (ma, 14 mar 2016) $
+*  Revision:       $Revision: 16862 $
 *
 *  Description:    Customer Configuration for CC26xx device family (HW rev 2).
 *
@@ -305,13 +305,21 @@
 #define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM           0x1        // Cache is enabled and GPRAM is disabled (unavailable)
 #endif
 
+//#####################################
+// Select TCXO
+//#####################################
+#ifndef SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO
+#define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO            0x1    // Disable TCXO
+// #define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO         0x0    // Enable TXCO
+#endif
+
 //*****************************************************************************
 //
 // CCFG values that should not be modified.
 //
 //*****************************************************************************
 #define SET_CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG        0x0058
-#define SET_CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS       0x3FFF
+#define SET_CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS       (CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M >> CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S)
 
 #define SET_CCFG_MODE_CONF_VDDR_EXT_LOAD                0x1
 #define SET_CCFG_MODE_CONF_RTC_COMP                     0x1
@@ -341,7 +349,7 @@
 // DO NOT EDIT!
 //
 //*****************************************************************************
-#define DEFAULT_CCFG_O_EXT_LF_CLK        ( \
+#define DEFAULT_CCFG_EXT_LF_CLK          ( \
 	 ( ((uint32_t)( SET_CCFG_EXT_LF_CLK_DIO           << CCFG_EXT_LF_CLK_DIO_S           )) | ~CCFG_EXT_LF_CLK_DIO_M           ) & \
 	 ( ((uint32_t)( SET_CCFG_EXT_LF_CLK_RTC_INCREMENT << CCFG_EXT_LF_CLK_RTC_INCREMENT_S )) | ~CCFG_EXT_LF_CLK_RTC_INCREMENT_M ) )
      
@@ -356,6 +364,7 @@
 #define DEFAULT_CCFG_SIZE_AND_DIS_FLAGS  ( \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG         << CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_S         )) | ~CCFG_SIZE_AND_DIS_FLAGS_SIZE_OF_CCFG_M         ) & \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS        << CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_S        )) | ~CCFG_SIZE_AND_DIS_FLAGS_DISABLE_FLAGS_M        ) & \
+	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO             << CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO_S             )) | ~CCFG_SIZE_AND_DIS_FLAGS_DIS_TCXO_M             ) & \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM            << CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM_S            )) | ~CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM_M            ) & \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING << CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING_S )) | ~CCFG_SIZE_AND_DIS_FLAGS_DIS_ALT_DCDC_SETTING_M ) & \
 	 ( ((uint32_t)( SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR         << CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR_S         )) | ~CCFG_SIZE_AND_DIS_FLAGS_DIS_XOSC_OVR_M         ) )
@@ -448,7 +457,7 @@ const ccfg_t __ccfg =
 const ccfg_t __ccfg __attribute__((section(".ccfg"))) __attribute__((used)) =
 #endif
 {                                     // Mapped to address
-    DEFAULT_CCFG_O_EXT_LF_CLK       , // 0x50003FA8 (0x50003xxx maps to last
+    DEFAULT_CCFG_EXT_LF_CLK         , // 0x50003FA8 (0x50003xxx maps to last
     DEFAULT_CCFG_MODE_CONF_1        , // 0x50003FAC  sector in FLASH.
     DEFAULT_CCFG_SIZE_AND_DIS_FLAGS , // 0x50003FB0  Independent of FLASH size)
     DEFAULT_CCFG_MODE_CONF          , // 0x50003FB4

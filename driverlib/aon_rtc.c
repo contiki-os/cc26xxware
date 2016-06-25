@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       aon_rtc.c
-*  Revised:        2015-06-24 13:36:23 +0200 (Wed, 24 Jun 2015)
-*  Revision:       44023
+*  Revised:        2016-02-29 13:43:37 +0100 (Mon, 29 Feb 2016)
+*  Revision:       45791
 *
 *  Description:    Driver for the AON RTC.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ AONRTCCurrentCompareValueGet( void )
 
     //
     // Reading SEC both before and after SUBSEC in order to detect if SEC incremented while reading SUBSEC
-    // If SEC incremented, we can’t be sure which SEC the SUBSEC belongs to, so repeating the sequence then.
+    // If SEC incremented, we can't be sure which SEC the SUBSEC belongs to, so repeating the sequence then.
     //
     do {
         ui32CurrentSec    = HWREG( AON_RTC_BASE + AON_RTC_O_SEC    );
@@ -94,7 +94,7 @@ AONRTCCurrent64BitValueGet( void )
 
     //
     // Reading SEC both before and after SUBSEC in order to detect if SEC incremented while reading SUBSEC
-    // If SEC incremented, we can’t be sure which SEC the SUBSEC belongs to, so repeating the sequence then.
+    // If SEC incremented, we can't be sure which SEC the SUBSEC belongs to, so repeating the sequence then.
     //
     do {
         currentRtc.secAndSubSec[ 1 ] = HWREG( AON_RTC_BASE + AON_RTC_O_SEC    );

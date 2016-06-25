@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       aon_event.h
-*  Revised:        2015-07-16 12:12:04 +0200 (Thu, 16 Jul 2015)
-*  Revision:       44151
+*  Revised:        2016-03-11 19:08:58 +0100 (Fri, 11 Mar 2016)
+*  Revision:       45917
 *
 *  Description:    Defines and prototypes for the AON Event fabric.
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without

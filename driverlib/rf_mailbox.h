@@ -1,11 +1,11 @@
 /******************************************************************************
 *  Filename:       rf_mailbox.h
-*  Revised:        2016-02-18 12:46:56 +0100 (Thu, 18 Feb 2016)
-*  Revision:       45712
+*  Revised:        $ $
+*  Revision:       $ $
 *
 *  Description:    Definitions for interface between system and radio CPU
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -36,8 +36,8 @@
 *
 ******************************************************************************/
 
-#ifndef __MAILBOX_H
-#define __MAILBOX_H
+#ifndef _MAILBOX_H
+#define _MAILBOX_H
 
 #include <stdint.h>
 #include <string.h>
@@ -50,6 +50,7 @@
 #define RF_MODE_IEEE_15_4        0x02
 #define RF_MODE_PROPRIETARY_2_4  0x03
 #define RF_MODE_PROPRIETARY      RF_MODE_PROPRIETARY_2_4
+#define RF_MODE_MULTIPLE         0x05
 ///@}
 
 
@@ -81,7 +82,6 @@ typedef struct {
 #define IRQN_TX_RETRANS             9           ///< Packet retransmitted
 #define IRQN_TX_ENTRY_DONE          10          ///< Tx queue data entry state changed to Finished
 #define IRQN_TX_BUFFER_CHANGED      11          ///< A buffer change is complete
-#define IRQN_BG_COMMAND_SUSPENDED   12          ///< A background level radio operation command has been suspended
 #define IRQN_RX_OK                  16          ///< Packet received with CRC OK, payload, and not to be ignored
 #define IRQN_RX_NOK                 17          ///< Packet received with CRC error
 #define IRQN_RX_IGNORED             18          ///< Packet received with CRC OK, but to be ignored
@@ -93,6 +93,7 @@ typedef struct {
 #define IRQN_RX_DATA_WRITTEN        24          ///< Data written to partial read Rx buffer
 #define IRQN_RX_N_DATA_WRITTEN      25          ///< Specified number of bytes written to partial read Rx buffer
 #define IRQN_RX_ABORTED             26          ///< Packet reception stopped before packet was done
+#define IRQN_RX_COLLISION_DETECTED  27          ///< A collision was indicated during packet reception
 #define IRQN_SYNTH_NO_LOCK          28          ///< The synth has gone out of lock after calibration
 #define IRQN_MODULES_UNLOCKED       29          ///< As part of the boot process, the CM0 has opened access to RF core modules and memories
 #define IRQN_BOOT_DONE              30          ///< The RF core CPU boot is finished
@@ -114,8 +115,6 @@ typedef struct {
 #define IRQ_TX_ENTRY_DONE           (1U << IRQN_TX_ENTRY_DONE)
 #define IRQ_TX_BUFFER_CHANGED       (1U << IRQN_TX_BUFFER_CHANGED)
 
-#define IRQ_BG_COMMAND_SUSPENDED    (1U << IRQN_BG_COMMAND_SUSPENDED)
-
 #define IRQ_RX_OK                   (1U << IRQN_RX_OK)
 #define IRQ_RX_NOK                  (1U << IRQN_RX_NOK)
 #define IRQ_RX_IGNORED              (1U << IRQN_RX_IGNORED)
@@ -127,7 +126,7 @@ typedef struct {
 #define IRQ_RX_DATA_WRITTEN         (1U << IRQN_RX_DATA_WRITTEN)
 #define IRQ_RX_N_DATA_WRITTEN       (1U << IRQN_RX_N_DATA_WRITTEN)
 #define IRQ_RX_ABORTED              (1U << IRQN_RX_ABORTED)
-
+#define IRQ_RX_COLLISION_DETECTED   (1U << IRQN_RX_COLLISION_DETECTED)
 #define IRQ_SYNTH_NO_LOCK           (1U << IRQN_SYNTH_NO_LOCK)
 #define IRQ_MODULES_UNLOCKED        (1U << IRQN_MODULES_UNLOCKED)
 #define IRQ_BOOT_DONE               (1U << IRQN_BOOT_DONE)
@@ -313,7 +312,6 @@ typedef struct {
 #define MCE_RFE_OVERRIDE(bMceRam, mceRomBank, mceMode, bRfeRam, rfeRomBank, rfeMode) \
    (7 | ((!!(bMceRam)) << 8) | (((mceRomBank) & 0x07) << 9) | ((!!(bRfeRam)) << 12) | (((rfeRomBank) & 0x07) << 13) | \
     (((mceMode) & 0x00FF) << 16) | (((rfeMode) & 0x00FF) << 24))
-#define HPOSC_OVERRIDE(freqOffset) (0x000B | ((freqOffset) << 16))
 #define NEW_OVERRIDE_SEGMENT(address) (((((uintptr_t)(address)) & 0x03FFFFFC) << 6) | 0x000F | \
    (((((uintptr_t)(address) >> 24) == 0x20) ? 0x01 : \
      (((uintptr_t)(address) >> 24) == 0x21) ? 0x02 : \

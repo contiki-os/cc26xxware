@@ -5,7 +5,7 @@
 *
 *  Description:    Driver for the AON Battery and Temperature Monitor
 *
-*  Copyright (c) 2015, Texas Instruments Incorporated
+*  Copyright (c) 2015 - 2016, Texas Instruments Incorporated
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,17 @@
 
 #include <driverlib/aon_batmon.h>
 #include <inc/hw_fcfg1.h>
+
+//*****************************************************************************
+//
+// Handle support for DriverLib in ROM:
+// This section will undo prototype renaming made in the header file
+//
+//*****************************************************************************
+#if !defined(DOXYGEN)
+    #undef  AONBatMonTemperatureGetDegC
+    #define AONBatMonTemperatureGetDegC     NOROM_AONBatMonTemperatureGetDegC
+#endif
 
 //*****************************************************************************
 //

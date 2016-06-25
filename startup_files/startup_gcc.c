@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       startup_gcc.c
-*  Revised:        $Date: 2015-11-20 13:29:21 +0100 (fr, 20 nov 2015) $
-*  Revision:       $Revision: 16379 $
+*  Revised:        $Date: 2016-05-19 11:08:26 +0200 (to, 19 mai 2016) $
+*  Revision:       $Revision: 17109 $
 *
 *  Description:    Startup code for CC26xx PG2 device family for use with GCC.
 *
@@ -47,6 +47,7 @@
 #endif
 
 #include <inc/hw_types.h>
+#include <driverlib/setup.h>
 
 
 //*****************************************************************************
@@ -113,12 +114,6 @@ void AUXCompAIntHandler(void) WEAK_ALIAS(IntDefaultHandler);
 void AUXADCIntHandler(void) WEAK_ALIAS(IntDefaultHandler);
 void TRNGIntHandler(void) WEAK_ALIAS(IntDefaultHandler);
 
-//*****************************************************************************
-//
-//! The entry point for the device trim fxn.
-//
-//*****************************************************************************
-extern void trimDevice(void);
 
 //*****************************************************************************
 //
@@ -216,7 +211,7 @@ ResetISR(void)
     //
     // Final trim of device
     //
-    trimDevice();
+    SetupTrimDevice();
     
     //
     // Copy the data segment initializers from flash to SRAM.
