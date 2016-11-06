@@ -1,9 +1,9 @@
 /******************************************************************************
-*  Filename:       rf_patch_cpe_ble_priv_1_2.h
-*  Revised:        $Date: 2016-06-08 15:37:47 +0200 (on, 08 jun 2016) $
-*  Revision:       $Revision: 17221 $
+*  Filename:       rf_patch_cpe_genfsk.h
+*  Revised:        $Date$
+*  Revision:       $Revision$
 *
-*  Description:    RF Core patch file for CC26xx Bluetooth Low Energy with privacy 1.2 support
+*  Description: RF core patch for CC26XX Generic FSK
 *
 *  Copyright (c) 2015, Texas Instruments Incorporated
 *  All rights reserved.
@@ -36,8 +36,8 @@
 *
 ******************************************************************************/
 
-#ifndef _RF_PATCH_CPE_BLE_PRIV_1_2_H
-#define _RF_PATCH_CPE_BLE_PRIV_1_2_H
+#ifndef _RF_PATCH_CPE_GENFSK_H
+#define _RF_PATCH_CPE_GENFSK_H
 
 //*****************************************************************************
 //
@@ -70,11 +70,9 @@ extern "C"
 #endif
 
 
-CPE_PATCH_TYPE patchImageBlePriv12[] = {
-   0x210005c5,
-   0x21000611,
-   0x21000691,
-   0x2100047d,
+CPE_PATCH_TYPE patchImageGenfsk[] = {
+   0x21000475,
+   0x210004f5,
    0x4c17b5f0,
    0x18612140,
    0x280278c8,
@@ -101,107 +99,6 @@ CPE_PATCH_TYPE patchImageBlePriv12[] = {
    0xbd104780,
    0x21000254,
    0x0000398b,
-   0x4905b510,
-   0xb6724a05,
-   0x280178c8,
-   0x2001dc02,
-   0x1d127048,
-   0x4710b662,
-   0x21000294,
-   0x0000476d,
-   0x4d53b5fe,
-   0x462c4628,
-   0x90003040,
-   0x7e014627,
-   0x78383760,
-   0xd0022900,
-   0xd10707c0,
-   0x09c1e050,
-   0x07c0d04e,
-   0x7d20d14c,
-   0xd5490640,
-   0x31724629,
-   0x20064a48,
-   0x98004790,
-   0x28007e00,
-   0x7d20d007,
-   0xd5010640,
-   0xe0002003,
-   0x26132001,
-   0x6f68e008,
-   0x28010f80,
-   0x2006d002,
-   0xe0014606,
-   0x26072003,
-   0x02312201,
-   0x1a890412,
-   0x02008a7a,
-   0x43020412,
-   0x35806f6b,
-   0x68a89501,
-   0x47a84d37,
-   0x2e062201,
-   0x2e07d002,
-   0xe007d002,
-   0xe00543c0,
-   0x70797839,
-   0x70394311,
-   0x61089901,
-   0xda012800,
-   0x55022039,
-   0x7e809800,
-   0xd0022800,
-   0x201e2106,
-   0x6a61e002,
-   0x201f1f89,
-   0x6ca162a1,
-   0x64e04788,
-   0xbdfe2000,
-   0x47804826,
-   0x4822bdfe,
-   0x78413060,
-   0xd0022900,
-   0x21007001,
-   0x48217041,
-   0x470038b0,
-   0x4e1cb5f8,
-   0x4635481f,
-   0x7fec3540,
-   0x09e14637,
-   0x6db1d01a,
-   0xd0172901,
-   0x29007f69,
-   0x07a1d002,
-   0xe011d502,
-   0xd10f07e1,
-   0x06497d39,
-   0x2103d50c,
-   0x77e94321,
-   0x6f314780,
-   0x29010f89,
-   0x2100d002,
-   0x76793720,
-   0xbdf877ec,
-   0xbdf84780,
-   0x31404909,
-   0x28157508,
-   0x281bd008,
-   0x281dd008,
-   0x490ad008,
-   0x18400080,
-   0x47706980,
-   0x47704808,
-   0x47704808,
-   0x47704808,
-   0x21000144,
-   0x0000b8af,
-   0x0000a001,
-   0x0000be03,
-   0x0000b98d,
-   0x0000ccc0,
-   0x21000579,
-   0x21000563,
-   0x2100049d,
    0x4e1ab5f8,
    0x6b314605,
    0x09cc4819,
@@ -245,73 +142,71 @@ CPE_PATCH_TYPE patchImageBlePriv12[] = {
    0x2100026b,
    0x40046058,
 };
-#define _NWORD_PATCHIMAGE_BLE_PRIV_1_2 173
+#define _NWORD_PATCHIMAGE_GENFSK 70
 
-#define _NWORD_PATCHSYS_BLE_PRIV_1_2 0
+#define _NWORD_PATCHSYS_GENFSK 0
 
-#define _IRQ_PATCH_0 0x21000415
-#define _IRQ_PATCH_1 0x21000455
+#define _IRQ_PATCH_0 0x2100040d
+#define _IRQ_PATCH_1 0x2100044d
 
 
-#ifndef _BLE_PRIV_1_2_SYSRAM_START
-#define _BLE_PRIV_1_2_SYSRAM_START 0x20000000
+#ifndef _GENFSK_SYSRAM_START
+#define _GENFSK_SYSRAM_START 0x20000000
 #endif
 
-#ifndef _BLE_PRIV_1_2_CPERAM_START
-#define _BLE_PRIV_1_2_CPERAM_START 0x21000000
+#ifndef _GENFSK_CPERAM_START
+#define _GENFSK_CPERAM_START 0x21000000
 #endif
 
-#define _BLE_PRIV_1_2_SYS_PATCH_FIXED_ADDR 0x20000000
+#define _GENFSK_SYS_PATCH_FIXED_ADDR 0x20000000
 
-#define _BLE_PRIV_1_2_PARSER_PATCH_TAB_OFFSET 0x0334
-#define _BLE_PRIV_1_2_PATCH_TAB_OFFSET 0x033C
-#define _BLE_PRIV_1_2_IRQPATCH_OFFSET 0x03AC
-#define _BLE_PRIV_1_2_PATCH_VEC_OFFSET 0x0404
+#define _GENFSK_PARSER_PATCH_TAB_OFFSET 0x0334
+#define _GENFSK_PATCH_TAB_OFFSET 0x033C
+#define _GENFSK_IRQPATCH_OFFSET 0x03AC
+#define _GENFSK_PATCH_VEC_OFFSET 0x0404
 
-PATCH_FUN_SPEC void enterBlePriv12CpePatch(void)
+PATCH_FUN_SPEC void enterGenfskCpePatch(void)
 {
-   uint32_t *pPatchVec = (uint32_t *) (_BLE_PRIV_1_2_CPERAM_START + _BLE_PRIV_1_2_PATCH_VEC_OFFSET);
+   uint32_t *pPatchVec = (uint32_t *) (_GENFSK_CPERAM_START + _GENFSK_PATCH_VEC_OFFSET);
 
-#if (_NWORD_PATCHIMAGE_BLE_PRIV_1_2 > 0)
-   memcpy(pPatchVec, patchImageBlePriv12, sizeof(patchImageBlePriv12));
+#if (_NWORD_PATCHIMAGE_GENFSK > 0)
+   memcpy(pPatchVec, patchImageGenfsk, sizeof(patchImageGenfsk));
 #endif
 }
 
-PATCH_FUN_SPEC void enterBlePriv12SysPatch(void)
+PATCH_FUN_SPEC void enterGenfskSysPatch(void)
 {
 }
 
-PATCH_FUN_SPEC void configureBlePriv12Patch(void)
+PATCH_FUN_SPEC void configureGenfskPatch(void)
 {
-   uint8_t *pPatchTab = (uint8_t *) (_BLE_PRIV_1_2_CPERAM_START + _BLE_PRIV_1_2_PATCH_TAB_OFFSET);
-   uint32_t *pIrqPatch = (uint32_t *) (_BLE_PRIV_1_2_CPERAM_START + _BLE_PRIV_1_2_IRQPATCH_OFFSET);
+   uint8_t *pPatchTab = (uint8_t *) (_GENFSK_CPERAM_START + _GENFSK_PATCH_TAB_OFFSET);
+   uint32_t *pIrqPatch = (uint32_t *) (_GENFSK_CPERAM_START + _GENFSK_IRQPATCH_OFFSET);
 
 
-   pPatchTab[1] = 0;
-   pPatchTab[103] = 1;
-   pPatchTab[60] = 2;
-   pPatchTab[48] = 3;
+   pPatchTab[103] = 0;
+   pPatchTab[60] = 1;
 
    pIrqPatch[1] = _IRQ_PATCH_0;
    pIrqPatch[9] = _IRQ_PATCH_1;
 }
 
-PATCH_FUN_SPEC void applyBlePriv12Patch(void)
+PATCH_FUN_SPEC void applyGenfskPatch(void)
 {
-   enterBlePriv12SysPatch();
-   enterBlePriv12CpePatch();
-   configureBlePriv12Patch();
+   enterGenfskSysPatch();
+   enterGenfskCpePatch();
+   configureGenfskPatch();
 }
 
-PATCH_FUN_SPEC void refreshBlePriv12Patch(void)
+PATCH_FUN_SPEC void refreshGenfskPatch(void)
 {
-   enterBlePriv12CpePatch();
-   configureBlePriv12Patch();
+   enterGenfskCpePatch();
+   configureGenfskPatch();
 }
 
-PATCH_FUN_SPEC void rf_patch_cpe_ble_priv_1_2(void)
+PATCH_FUN_SPEC void rf_patch_cpe_genfsk(void)
 {
-   applyBlePriv12Patch();
+   applyGenfskPatch();
 }
 
 #undef _IRQ_PATCH_0
@@ -326,5 +221,5 @@ PATCH_FUN_SPEC void rf_patch_cpe_ble_priv_1_2(void)
 }
 #endif
 
-#endif //  _RF_PATCH_CPE_BLE_PRIV_1_2_H
+#endif //  _RF_PATCH_CPE_GENFSK_H
 

@@ -1,9 +1,9 @@
 /******************************************************************************
 *  Filename:       rf_patch_rfe_ble.h
-*  Revised:        $Date$
-*  Revision:       $Revision$
+*  Revised:        $Date: 2016-08-15 12:50:56 +0200 (ma, 15 aug 2016) $
+*  Revision:       $Revision: 17270 $
 *
-*  Description: 
+*  Description: RF core patch for CC26XX BLE
 *
 *  Copyright (c) 2015-2016, Texas Instruments Incorporated
 *  All rights reserved.

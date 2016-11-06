@@ -62,6 +62,7 @@ typedef struct __RFC_STRUCT rfc_CMD_PROP_RX_s rfc_CMD_PROP_RX_t;
 typedef struct __RFC_STRUCT rfc_CMD_PROP_TX_ADV_s rfc_CMD_PROP_TX_ADV_t;
 typedef struct __RFC_STRUCT rfc_CMD_PROP_RX_ADV_s rfc_CMD_PROP_RX_ADV_t;
 typedef struct __RFC_STRUCT rfc_CMD_PROP_RADIO_SETUP_s rfc_CMD_PROP_RADIO_SETUP_t;
+typedef struct __RFC_STRUCT rfc_CMD_PROP_RADIO_DIV_SETUP_s rfc_CMD_PROP_RADIO_DIV_SETUP_t;
 typedef struct __RFC_STRUCT rfc_CMD_PROP_SET_LEN_s rfc_CMD_PROP_SET_LEN_t;
 typedef struct __RFC_STRUCT rfc_CMD_PROP_RESTART_RX_s rfc_CMD_PROP_RESTART_RX_t;
 typedef struct __RFC_STRUCT rfc_propRxOutput_s rfc_propRxOutput_t;
@@ -408,6 +409,16 @@ struct __RFC_STRUCT rfc_CMD_PROP_RADIO_SETUP_s {
    } config;                            //!<        Configuration options
    uint16_t txPower;                    //!<        Transmit power
    uint32_t* pRegOverride;              //!<        Pointer to a list of hardware and configuration registers to override. If NULL, no override is used.
+};
+
+//! @}
+
+//! \addtogroup CMD_PROP_RADIO_DIV_SETUP
+//! @{
+#define CMD_PROP_RADIO_DIV_SETUP                                0x3807
+//! Define only for compatibility with CC13XX family. Command will result in error if sent.
+struct __RFC_STRUCT rfc_CMD_PROP_RADIO_DIV_SETUP_s {
+   uint8_t dummy0;
 };
 
 //! @}

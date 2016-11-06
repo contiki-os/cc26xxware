@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       rf_patch_cpe_ble.h
-*  Revised:        $Date$
-*  Revision:       $Revision$
+*  Revised:        $Date: 2016-06-08 15:37:47 +0200 (on, 08 jun 2016) $
+*  Revision:       $Revision: 17221 $
 *
 *  Description:    RF Core patch file for CC26xx
 *
