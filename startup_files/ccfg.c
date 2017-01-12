@@ -205,8 +205,8 @@
 #endif
 
 #ifndef SET_CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE
-// #define SET_CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE       0x00       // Access disabled
-#define SET_CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE          0xC5       // Access enabled if also enabled in FCFG
+#define SET_CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE       0x00       // Access disabled
+// #define SET_CCFG_CCFG_TAP_DAP_0_CPU_DAP_ENABLE          0xC5       // Access enabled if also enabled in FCFG
 #endif
 
 #ifndef SET_CCFG_CCFG_TAP_DAP_0_PRCM_TAP_ENABLE
@@ -215,8 +215,8 @@
 #endif
 
 #ifndef SET_CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE
-// #define SET_CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE      0x00       // Access disabled
-#define SET_CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE         0xC5       // Access enabled if also enabled in FCFG
+#define SET_CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE      0x00       // Access disabled
+// #define SET_CCFG_CCFG_TAP_DAP_0_TEST_TAP_ENABLE         0xC5       // Access enabled if also enabled in FCFG
 #endif
 
 #ifndef SET_CCFG_CCFG_TAP_DAP_1_PBIST2_TAP_ENABLE
